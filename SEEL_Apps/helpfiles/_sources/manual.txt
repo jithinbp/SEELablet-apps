@@ -1,0 +1,54 @@
+.. SEELablet documentation master file, created by
+   sphinx-quickstart on Tue Apr 14 11:25:49 2015.
+   You can adapt this file completely to your liking, but it should at least
+   contain the root `toctree` directive.
+
+Getting Started with the SEELablet
+==================================
+
+.. figure:: ../images/cover.jpg
+	:width: 600px
+	:align: center
+	:alt: alternate text
+	:figclass: align-center
+
+
+Introduction
+-------------
+A cost effective, multi-pronged, workbench for science and electronics experiments.
+
+.. toctree::
+   :maxdepth: 4
+
+   introduction
+
+Graphical Apps
+--------------
+
+.. toctree::
+   :maxdepth: 2
+
+   experiments
+
+Python Library
+--------------
+.. toctree::
+   :maxdepth: 2
+
+   interface
+
+Advanced Modules
+----------------
+
+.. toctree::
+   :maxdepth: 2
+
+   SPI_class
+   I2C_class
+   NRF24L01_class
+   NRF_NODE
+   experiment
+   Apps
+
+
+

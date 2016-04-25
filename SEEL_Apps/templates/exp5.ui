@@ -1,0 +1,677 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="windowModality">
+   <enum>Qt::NonModal</enum>
+  </property>
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>849</width>
+    <height>479</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Experiments</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true"> QPushButton{ background-image: url(:/images/bt_01_off.png);}
+ QPushButton:pressed {background-image:url(:/images/bt_01_on.png);}
+QFrame{background-color: rgb(21, 107, 113);}
+
+ QDockWidget {
+     border: 1px solid lightgray;
+ }
+
+ QDockWidget::title {
+     text-align: left; /* align the text to the left */
+     background: lightgray;
+     padding-left: 5px;
+	height:6px;
+ }
+
+ QDockWidget::close-button, QDockWidget::float-button {
+     border: 1px solid transparent;
+     background: darkgray;
+     padding: 0px;
+ }
+
+ QDockWidget::close-button:hover, QDockWidget::float-button:hover {
+     background: gray;
+ }
+
+ QDockWidget::close-button:pressed, QDockWidget::float-button:pressed {
+     padding: 1px -1px -1px 1px;
+ }
+
+QProgressBar {	border: 1px solid black;		text-align: top;
+				padding: 1px;
+				border-bottom-right-radius: 7px;
+				border-bottom-left-radius: 7px;
+				background: QLinearGradient( x1: 0, y1: 0, x2: 0, y2: 1,
+				stop: 0 #fff,
+				stop: 0.4999 #eee,
+				stop: 0.5 #ddd,
+				stop: 1 #eee );
+				width: 15px;
+				}
+
+QProgressBar::chunk {
+				background: QLinearGradient( x1: 0, y1: 0, x2: 0, y2: 1,
+				stop: 0 #78d,
+				stop: 0.4999 #46a,
+				stop: 0.5 #45a,
+				stop: 1 #238 );
+				border-bottom-right-radius: 7px;
+				border-bottom-left-radius: 7px;
+				border: 1px solid black;
+				}
+			
+
+border-color: rgb(29, 122, 162);
+</string>
+  </property>
+  <property name="documentMode">
+   <bool>false</bool>
+  </property>
+  <property name="dockOptions">
+   <set>QMainWindow::AllowTabbedDocks|QMainWindow::AnimatedDocks</set>
+  </property>
+  <property name="unifiedTitleAndToolBarOnMac">
+   <bool>false</bool>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <property name="sizePolicy">
+    <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+     <horstretch>0</horstretch>
+     <verstretch>0</verstretch>
+    </sizepolicy>
+   </property>
+   <layout class="QHBoxLayout" name="horizontalLayout_2">
+    <property name="spacing">
+     <number>0</number>
+    </property>
+    <property name="margin">
+     <number>0</number>
+    </property>
+    <item>
+     <widget class="QScrollArea" name="scrollArea">
+      <property name="styleSheet">
+       <string notr="true"/>
+      </property>
+      <property name="widgetResizable">
+       <bool>true</bool>
+      </property>
+      <widget class="QWidget" name="scrollAreaWidgetContents_2">
+       <property name="geometry">
+        <rect>
+         <x>0</x>
+         <y>0</y>
+         <width>847</width>
+         <height>452</height>
+        </rect>
+       </property>
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <layout class="QVBoxLayout" name="verticalLayout">
+        <property name="spacing">
+         <number>0</number>
+        </property>
+        <property name="margin">
+         <number>0</number>
+        </property>
+        <item>
+         <widget class="QSplitter" name="graph_splitter">
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QMenuBar" name="menuBar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>849</width>
+     <height>25</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menuVoltmeters_2">
+    <property name="title">
+     <string>Voltmeters</string>
+    </property>
+    <addaction name="actionCH1meter"/>
+    <addaction name="actionCH2meter"/>
+    <addaction name="actionCH3meter"/>
+    <addaction name="actionCH4meter"/>
+    <addaction name="actionAll_of_Them"/>
+   </widget>
+   <widget class="QMenu" name="menuAmplifiers_2">
+    <property name="title">
+     <string>Amplifiers</string>
+    </property>
+    <addaction name="actionCH1"/>
+    <addaction name="actionCH5"/>
+   </widget>
+   <widget class="QMenu" name="menuWaveform_Generators_2">
+    <property name="title">
+     <string>Waveform Generators</string>
+    </property>
+    <addaction name="actionSineWave"/>
+   </widget>
+   <widget class="QMenu" name="menuIV_sources">
+    <property name="title">
+     <string>IV sources</string>
+    </property>
+    <addaction name="actionPVS_1"/>
+    <addaction name="actionPVS_2"/>
+    <addaction name="actionPVS_3"/>
+    <addaction name="actionPCS"/>
+   </widget>
+   <widget class="QMenu" name="menuTiming">
+    <property name="title">
+     <string>Timing</string>
+    </property>
+    <addaction name="actionFrequency"/>
+    <addaction name="actionPulse_Width"/>
+    <addaction name="actionDuty_Cycle"/>
+    <addaction name="actionHigh_Frequency"/>
+   </widget>
+   <widget class="QMenu" name="menuConsole">
+    <property name="title">
+     <string>Console!</string>
+    </property>
+    <addaction name="actionInsert_Console"/>
+   </widget>
+   <widget class="QMenu" name="menuHelp">
+    <property name="title">
+     <string>help!</string>
+    </property>
+    <addaction name="actionShow_help_window"/>
+    <addaction name="actionProgrammer_s_manual"/>
+    <addaction name="actionImage_map_testing"/>
+   </widget>
+   <addaction name="menuVoltmeters_2"/>
+   <addaction name="menuAmplifiers_2"/>
+   <addaction name="menuWaveform_Generators_2"/>
+   <addaction name="menuIV_sources"/>
+   <addaction name="menuTiming"/>
+   <addaction name="menuConsole"/>
+   <addaction name="menuHelp"/>
+  </widget>
+  <action name="actionInsert_Console">
+   <property name="text">
+    <string>Insert Console</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Alt+Shift+C</string>
+   </property>
+  </action>
+  <action name="actionCH1">
+   <property name="text">
+    <string>CH2</string>
+   </property>
+  </action>
+  <action name="actionCH5">
+   <property name="text">
+    <string>CH1,CH3-CH7,V+,I2V</string>
+   </property>
+  </action>
+  <action name="actionCH2meter">
+   <property name="text">
+    <string>CH2meter</string>
+   </property>
+  </action>
+  <action name="actionCH3meter">
+   <property name="text">
+    <string>CH3meter</string>
+   </property>
+  </action>
+  <action name="actionCH4meter">
+   <property name="text">
+    <string>CH4meter</string>
+   </property>
+  </action>
+  <action name="actionCH1meter">
+   <property name="text">
+    <string>CH1meter</string>
+   </property>
+  </action>
+  <action name="actionAll_of_Them">
+   <property name="text">
+    <string>All</string>
+   </property>
+  </action>
+  <action name="actionFrequency">
+   <property name="text">
+    <string>Frequency</string>
+   </property>
+  </action>
+  <action name="actionPulse_Width">
+   <property name="text">
+    <string>Pulse Width</string>
+   </property>
+  </action>
+  <action name="actionDuty_Cycle">
+   <property name="text">
+    <string>Duty Cycle</string>
+   </property>
+  </action>
+  <action name="actionHigh_Frequency">
+   <property name="text">
+    <string>High Frequency</string>
+   </property>
+  </action>
+  <action name="actionSineWave">
+   <property name="text">
+    <string>set sine wave frequency</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Alt+Shift+S</string>
+   </property>
+  </action>
+  <action name="actionPVS_1">
+   <property name="text">
+    <string>PVS 1</string>
+   </property>
+  </action>
+  <action name="actionPVS_2">
+   <property name="text">
+    <string>PVS 2</string>
+   </property>
+  </action>
+  <action name="actionPVS_3">
+   <property name="text">
+    <string>PVS 3</string>
+   </property>
+  </action>
+  <action name="actionPCS">
+   <property name="text">
+    <string>PCS</string>
+   </property>
+  </action>
+  <action name="actionShow_help_window">
+   <property name="text">
+    <string>show help window</string>
+   </property>
+  </action>
+  <action name="actionProgrammer_s_manual">
+   <property name="text">
+    <string>full programmer's manual</string>
+   </property>
+  </action>
+  <action name="actionImage_map_testing">
+   <property name="text">
+    <string>image map (testing)</string>
+   </property>
+  </action>
+ </widget>
+ <resources>
+  <include location="jui.rc"/>
+ </resources>
+ <connections>
+  <connection>
+   <sender>actionInsert_Console</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>addConsole()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>445</x>
+     <y>248</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionCH1</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>widget_ch1()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>410</x>
+     <y>239</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionCH5</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>widget_ch5()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>410</x>
+     <y>239</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionCH2meter</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>widget_volt2()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>410</x>
+     <y>239</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionCH3meter</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>widget_volt3()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>410</x>
+     <y>239</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionCH4meter</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>widget_volt4()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>410</x>
+     <y>239</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionCH1meter</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>widget_volt1()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>410</x>
+     <y>239</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionAll_of_Them</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>widget_voltAll()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>410</x>
+     <y>239</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionSineWave</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>widget_sine()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>410</x>
+     <y>239</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionFrequency</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>widget_freq()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>410</x>
+     <y>239</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionHigh_Frequency</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>widget_high_freq()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>410</x>
+     <y>239</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionPulse_Width</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>widget_pulse()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>410</x>
+     <y>239</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionDuty_Cycle</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>widget_dutycycle()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>410</x>
+     <y>239</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionPVS_1</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>widget_pvs1()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>410</x>
+     <y>239</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionPVS_2</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>widget_pvs2()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>410</x>
+     <y>239</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionPVS_3</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>widget_pvs3()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>410</x>
+     <y>239</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionPCS</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>widget_pcs()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>410</x>
+     <y>239</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionShow_help_window</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>showHelp()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>424</x>
+     <y>239</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionProgrammer_s_manual</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>showFullHelp()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>424</x>
+     <y>239</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionImage_map_testing</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>showImageMap()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>424</x>
+     <y>239</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+ <slots>
+  <slot>add_a_widget()</slot>
+  <slot>addConsole()</slot>
+  <slot>size(int,int)</slot>
+  <slot>widget_ch1()</slot>
+  <slot>widget_ch2()</slot>
+  <slot>widget_ch3()</slot>
+  <slot>widget_ch4()</slot>
+  <slot>widget_ch5()</slot>
+  <slot>widget_sine()</slot>
+  <slot>widget_volt1()</slot>
+  <slot>widget_volt2()</slot>
+  <slot>widget_volt3()</slot>
+  <slot>widget_volt4()</slot>
+  <slot>widget_volt5()</slot>
+  <slot>widget_voltAll()</slot>
+  <slot>widget_inductance()</slot>
+  <slot>widget_freq()</slot>
+  <slot>widget_high_freq()</slot>
+  <slot>widget_f2ftime()</slot>
+  <slot>widget_r2rtime()</slot>
+  <slot>widget_pulse()</slot>
+  <slot>widget_dutycycle()</slot>
+  <slot>widget_pvs1()</slot>
+  <slot>widget_pvs2()</slot>
+  <slot>widget_pvs3()</slot>
+  <slot>widget_pcs()</slot>
+  <slot>showHelp()</slot>
+  <slot>showFullHelp()</slot>
+  <slot>showImageMap()</slot>
+ </slots>
+</ui>

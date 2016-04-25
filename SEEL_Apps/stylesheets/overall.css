@@ -1,0 +1,168 @@
+/*---------------analogScope.ui-----------------*/
+
+#centralwidget{
+border-top-left-radius: 5px;
+border-top-right-radius: 5px;
+border: 1px solid black;
+background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+stop: 0 #6af, stop: 0.1 #689);
+}
+
+#centralwidget QLabel {
+color: black;
+font-weight: bold;
+}
+/* ------------Overall-----------  */
+
+QTabWidget {
+background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+stop: 0 #abe, stop: 0.7 #aba);
+
+}
+
+QTabBar::tab{
+color: #000;
+border-top-left-radius: 5px;
+border-bottom-left-radius: 5px;
+padding-top: 15px;padding-bottom:15px;
+background: qradialgradient(cx: 0.3, cy: -0.4,
+fx: 0.3, fy: -0.4,
+radius: 1.2, stop: 0 #fff, stop: 1 #aaa);
+width: 30px;
+font-size: 13px;
+}
+QTabBar::tab:selected {
+color: #000;
+border-top-left-radius: 20px;
+border-bottom-left-radius: 5px;
+background: qradialgradient(cx: 0.3, cy: -0.4,
+fx: 0.3, fy: -0.4,
+radius: 1.35, stop: 0 #fcc, stop: 1 #ccf);
+}
+
+QPushButton {
+color: #333;
+border: 2px solid #555;
+border-radius: 11px;
+padding: 5px;
+background: qradialgradient(cx: 0.3, cy: -0.4,
+fx: 0.3, fy: -0.4,
+radius: 1.35, stop: 0 #fff, stop: 1 #888);
+min-width: 80px;
+}
+
+QPushButton:pressed {
+background: qradialgradient(cx: 0.4, cy: -0.1,
+fx: 0.4, fy: -0.1,
+radius: 1.35, stop: 0 #fff, stop: 1 #ddd);
+}
+
+QFrame.PeripheralCollection{
+border-top-left-radius: 5px;
+border-top-right-radius: 5px;
+border: 1px solid black;
+background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+stop: 0 #6af, stop: 0.1 #689);
+}
+QFrame.PeripheralCollection QLabel {
+color: white;
+font-weight: bold;
+}
+
+
+
+QFrame.PeripheralCollectionInner {
+background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+stop: 0 #abe, stop: 0.7 #aba);
+border: none;
+border-top: 1px solid black;
+}
+
+QFrame.PeripheralCollectionInner QLabel{
+color: black;
+}
+
+QWidget.PeripheralCollectionInner {
+background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+stop: 0 #abe, stop: 0.7 #aba);
+border: none;
+border-top: 1px solid black;
+}
+QTextBrowser{
+background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+stop: 0 #cdf, stop: 0.7 #cdc);
+}
+
+
+QWidget.PeripheralCollectionInner {
+background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+stop: 0 #abe, stop: 0.7 #aba);
+border: none;
+border-top: 1px solid black;
+}
+
+QWidget.PeripheralCollectionInner QLabel{
+color: black;
+}
+
+QWebView,QScrollAreaWidgetContents{background-color: rgb(21, 107, 113);}
+
+/*---------------digitalScope.ui-----------------*/
+QProgressBar:horizontal {
+border: 2px solid gray;
+border-radius: 6px;
+background: white;
+padding: 0px;
+text-align: center;
+}
+QProgressBar::chunk:horizontal {
+background: qlineargradient(x1: 0, y1: 0.5, x2: 1, y2: 0.5, stop: 0 #467, stop:1 white);
+margin-right: 2px; /* space */
+width: 5px;
+}
+
+/*------------Set stylesheets by name --------*/
+
+
+#message_label{
+color: rgb(255, 255, 255);
+}
+#scrollLayout, #scroll2layout{
+background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+stop: 0 #abe, stop: 0.7 #aba);
+}
+
+#SCF1,#SCF2,#tab_4
+{
+background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+stop: 0 #abe, stop: 0.7 #aba);
+}
+
+
+
+/*sensors.ui
+ * 
+ * QTextEdit {color: rgb(0, 0, 0);}
+QLineEdit {color: rgb(0, 0, 0);}
+QLineEdit:selected {color: rgb(0, 0, 0);}
+QSpinBox{color: rgb(0, 0, 0);}
+QCheckBox{color:rgb(255,255,255);}
+
+
+wireless
+* 
+* 
+
+
+#scrollLayout, #scroll2layout{
+background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+stop: 0 #abe, stop: 0.7 #aba);
+
+}
+*/
+
+
+
+
+
+

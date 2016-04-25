@@ -1,0 +1,170 @@
+Python module for accessing the device
+=======================================
+
+Connecting to the device
+------------------------
+::
+
+	>>> from SEEL import interface
+	>>> I = interface.connect()	#Returns None if device isn't found
+	# An example function that measures voltage present at the specified analog input
+	>>> print I.get_average_voltage('CH1')
+
+.. blockdiag::
+
+	blockdiag{
+
+	default_shape = roundedbox;  // default value is 'box'
+	// set default colors
+	default_node_color = lightblue;
+	default_group_color = "#7777FF";
+	default_linecolor = blue;
+	default_fontsize = 16;
+
+	I [label = 'Python'];
+	X [label = 'Graphical Apps'];
+	Y [label = 'Scripts'];
+
+	B [style = dashed, label= 'USB'];
+	C [label = 'vLabtool'];
+	D [label = 'Real World'];
+	
+	I -> B [dir = both, thick];
+	B -> C [dir = both];
+
+	group{
+		color = "#77FF77";
+		orientation = portrait;
+		C -> D [dir = both, thick];
+		
+	}
+	group{
+		color = "#FF7777";
+		I,X,Y;
+	}
+
+	}
+
+Sub-Instance I2C of the Interface library contains methods to access devices connected to the I2C port.
+-------------------------------------------------------------------------------------------------------
+
+Simple example::
+
+	>>> I.I2C.start(ADDRESS,0) #writing mode . reading mode=1
+	>>> I.I2C.send(0x01)
+	>>> I.I2C.stop()
+
+Bulk Write::
+
+	>>> I.I2C.writeBulk(ADDRESS,[Byte 1,Byte 2....])
+
+.. blockdiag::
+
+	blockdiag {
+		// Set node metrix
+		// set default shape
+
+		default_shape = roundedbox;  // default value is 'box'
+
+		// set default colors
+		default_node_color = lightblue;
+		default_group_color = "#7777FF";
+		default_linecolor = blue;
+		default_fontsize = 16;
+		
+		A [label = "Python"];
+		B [label = "SEELablet"];
+		C [label = "I2C Slave"];
+		D [shape = "dots"];
+		E [label = "I2C Slave #127"];
+
+		A -> B [label = "USB", dir=both,thick];
+		B -> C [label = "SCL\nSDA" , dir=both];
+		B -> D,E [dir=both];
+
+		group {
+			color = "#77FF77";
+			label = "I2C add-ons";
+			C,D,E;
+		}
+	}
+
+.. seealso::  :py:meth:`~I2C_class.I2C` for complete documentation
+
+
+
+Sub-Instance SPI of the Interface library contains methods to access devices connected to the SPI port.
+-------------------------------------------------------------------------------------------------------
+
+example::
+	>>> I=Interface()
+	>>> I.SPI.start('CS1')
+	>>> I.SPI.send16(0xAAFF)
+	>>> print I.SPI.send16(0xFFFF)
+	some number
+
+.. blockdiag::
+
+	blockdiag {
+		// Set node metrix
+		// set default shape
+		default_shape = roundedbox;  // default value is 'box'
+
+		// set default colors
+		default_node_color = lightblue;
+		default_group_color = "#7777FF";
+		default_linecolor = blue;
+		default_fontsize = 16;
+		
+		A [label = "Python"];
+		B [label = "SEELablet"];
+		C [label = "SPI Slave #1"];
+		D [label = "SPI Slave #2"];
+
+		A -> B [label = "USB", dir=both,thick];
+		B -> C [label = "CS1" , dir=both];
+		B -> D [label = "CS2" , dir=both];
+
+		group {
+			color = "#77FF77";
+			label = "SPI Add-ons\nSCK,SDO,SDI,CS";
+			C,D;
+		}
+	}
+
+.. seealso:: :py:meth:`~SPI_class.SPI` for complete documentation
+
+Methods to access wireless sensor nodes
+---------------------------------------
+
+Example::
+		>>> I=interface.Interface()
+		#Start listening to any nodes being switched on.
+		>>> I.NRF.start_token_manager()
+		#Wait for at least one node to register itself
+		>>> while 1:
+		>>> 	lst = I.NRF.get_nodelist()
+		>>> 	print lst
+		>>> 	time.sleep(0.5)
+		>>> 	if(len(lst)>0):break
+		>>> I.NRF.stop_token_manager()	# Registrations closed!
+		# lst = dictionary with node addresses as keys,
+		# and I2C sensors as values
+		>>> LINK = I.newRadioLink(address=lst.keys()[0])
+		#SEELablet automatically transmits data to LINK's address, 
+		#and retrieves preliminary info.
+		>>> print LINK.I2C_scan()
+
+	see :ref:`nrf_video`
+
+.. seealso:: :py:meth:`~NRF24L01_class.NRF24L01` for complete documentation
+
+
+
+
+Function reference
+------------------
+
+
+.. automodule:: interface
+    :members:
