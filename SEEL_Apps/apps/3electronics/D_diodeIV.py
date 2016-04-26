@@ -55,7 +55,7 @@ class AppWindow(QtGui.QMainWindow, diodeIV.Ui_MainWindow,utilitiesClass):
 		self.curves.append( self.addCurve(self.plot ,'%.3f'%(self.plotnum),[255,255,255])  )
 
 		self.V = self.startV.value()
-		self.I.set_pvs1(self.V) 
+		self.I.set_pv1(self.V) 
 		time.sleep(0.2)
 
 		P=self.plot.getPlotItem()
@@ -65,7 +65,7 @@ class AppWindow(QtGui.QMainWindow, diodeIV.Ui_MainWindow,utilitiesClass):
 		self.looptimer.start(20)
 
 	def acquire(self):
-		V=self.I.set_pvs1(self.V)
+		V=self.I.set_pv1(self.V)
 		VC =  self.I.get_average_voltage('CH1',samples=20)
 		self.X.append(VC)
 		self.Y.append((V-VC)/1.e3) # list( ( np.linspace(V,V+self.stepV.value(),1000)-VC)/1.e3)

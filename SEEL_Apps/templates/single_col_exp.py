@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'single_col_exp.ui'
 #
-# Created: Sun Apr 17 13:03:12 2016
+# Created: Tue Apr 26 16:05:34 2016
 #      by: PyQt4 UI code generator 4.11.3
 #
 # WARNING! All changes made in this file will be lost!
@@ -149,6 +149,9 @@ class Ui_MainWindow(object):
         self.helpLayout.setSpacing(0)
         self.helpLayout.setMargin(0)
         self.helpLayout.setObjectName(_fromUtf8("helpLayout"))
+        self.pushButton_2 = QtGui.QPushButton(self.tab_2)
+        self.pushButton_2.setObjectName(_fromUtf8("pushButton_2"))
+        self.helpLayout.addWidget(self.pushButton_2)
         self.tabWidget.addTab(self.tab_2, _fromUtf8(""))
         self.tab_3 = QtGui.QWidget()
         self.tab_3.setObjectName(_fromUtf8("tab_3"))
@@ -274,8 +277,6 @@ class Ui_MainWindow(object):
 
         self.retranslateUi(MainWindow)
         self.tabWidget.setCurrentIndex(0)
-        QtCore.QObject.connect(self.actionIPython_Console, QtCore.SIGNAL(_fromUtf8("triggered()")), MainWindow.addConsole)
-        QtCore.QObject.connect(self.actionIPython, QtCore.SIGNAL(_fromUtf8("triggered()")), MainWindow.ipythonHelp)
         QtCore.QObject.connect(self.actionReset_Device, QtCore.SIGNAL(_fromUtf8("triggered()")), MainWindow.resetDevice)
         QtCore.QObject.connect(self.pushButton, QtCore.SIGNAL(_fromUtf8("clicked()")), MainWindow.selectDevice)
         QtCore.QObject.connect(self.actionAbout_device, QtCore.SIGNAL(_fromUtf8("triggered()")), MainWindow.launchAboutDevice)
@@ -284,11 +285,12 @@ class Ui_MainWindow(object):
         QtCore.QObject.connect(self.actionBasic, QtCore.SIGNAL(_fromUtf8("triggered()")), MainWindow.loadBasicExperiments)
         QtCore.QObject.connect(self.actionAdvanced, QtCore.SIGNAL(_fromUtf8("triggered()")), MainWindow.loadAdvancedExperiments)
         QtCore.QObject.connect(self.actionStart, QtCore.SIGNAL(_fromUtf8("triggered()")), MainWindow.startRemoteServer)
+        QtCore.QObject.connect(self.pushButton_2, QtCore.SIGNAL(_fromUtf8("clicked()")), MainWindow.returnToApps)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateUi(self, MainWindow):
         MainWindow.setWindowTitle(_translate("MainWindow", "SEELablet: Control Panel", None))
-        self.SCF1.setProperty("class", _translate("MainWindow", "PeripheralCollectionInner", None))
+        self.SCF1.setProperty("class", _translate("MainWindow", "PeripheralCollectionInner Off", None))
         self.hintText.setHtml(_translate("MainWindow", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
 "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
 "p, li { white-space: pre-wrap; }\n"
@@ -296,6 +298,7 @@ class Ui_MainWindow(object):
 "<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:11pt;\"><br /></p></body></html>", None))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab), _translate("MainWindow", "Experiments ", None))
         self.tabWidget.setTabToolTip(self.tabWidget.indexOf(self.tab), _translate("MainWindow", "Icons for launching experiments", None))
+        self.pushButton_2.setText(_translate("MainWindow", "<<< Return To Application List", None))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_2), _translate("MainWindow", "Help", None))
         self.tabWidget.setTabToolTip(self.tabWidget.indexOf(self.tab_2), _translate("MainWindow", "Help window: This tab will automatically load the helpfile relevant to the last experiment you launched", None))
         self.SCF2.setProperty("class", _translate("MainWindow", "PeripheralCollectionInner", None))

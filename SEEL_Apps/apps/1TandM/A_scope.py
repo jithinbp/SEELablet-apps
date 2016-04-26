@@ -51,19 +51,11 @@ class AppWindow(QtGui.QMainWindow, analogScope.Ui_MainWindow,utilitiesClass):
 		self.setWindowTitle(self.I.H.version_string+' : '+params.get('name','').replace('\n',' ') )
 		self.plot=self.add2DPlot(self.plot_area,enableMenu=False)
 	
-		#cross hair
-		self.vLine = pg.InfiniteLine(angle=90, movable=True)
-		#self.vLine.setPen(color=(135,44,64,150), width=3)
-		self.plot.addItem(self.vLine, ignoreBounds=False)
-
-		#self.midLine = pg.InfiniteLine(angle=0, movable=False)
-		#self.plot.addItem(self.midLine, ignoreBounds=False)
-
-		self.proxy = pg.SignalProxy(self.vLine.scene().sigMouseMoved, rateLimit=60, slot=self.readCursor)
 		self.plot2 = self.enableRightAxis(self.plot)#pg.ViewBox(enableMenu=False)
 
 		self.plot.getPlotItem().setMouseEnabled(True,False)
 		self.plot2.setMouseEnabled(True,False)
+
 		#self.plot.getViewBox().setMouseMode(pg.ViewBox.RectMode)
 		self.plot.hideButtons()
 
@@ -110,8 +102,18 @@ class AppWindow(QtGui.QMainWindow, analogScope.Ui_MainWindow,utilitiesClass):
 		self.curve4 = self.addCurve(self.plot,name='CH4'); self.curve4.setPen(color=self.trace_colors[3], width=2)
 		self.curve_lis = self.addCurve(self.plot); self.curve_lis.setPen(color=(255,255,255), width=2)
 		self.legend.addItem(self.curve2,'CH2')
+		
+		#cross hair
+
+		self.vLine = pg.InfiniteLine(angle=90, movable=False)
+		self.hLine = pg.InfiniteLine(angle=0, movable=False)
+		self.plot.addItem(self.vLine, ignoreBounds=True)
+		self.plot.addItem(self.hLine, ignoreBounds=True)
+		self.vb = self.plot.getPlotItem().vb
+		self.proxy = pg.SignalProxy(self.plot.scene().sigMouseMoved, rateLimit=60, slot=self.mouseMoved)
 
 		self.fourierMode = False
+		self.plot.setTitle('')
 
 		self.curveF=[]
 		for a in range(2):
@@ -137,8 +139,6 @@ class AppWindow(QtGui.QMainWindow, analogScope.Ui_MainWindow,utilitiesClass):
 		self.trigger_level = 0
 		self.trigtext = pg.TextItem(html=self.trigger_text('CH1'), anchor=(1.2,0.5), border='w', fill=(0, 0, 255, 100),angle=0)
 		self.plot.addItem(self.trigtext)
-		self.plot.showGrid(True,False,0.4)
-		self.scope_type=0
 		self.plot_area.addWidget(self.plot)
 		self.CH1_REMAPS.addItems(self.I.allAnalogChannels)
 		self.showgrid()
@@ -152,6 +152,23 @@ class AppWindow(QtGui.QMainWindow, analogScope.Ui_MainWindow,utilitiesClass):
 		self.timer.singleShot(500,self.start_capture)
 
 
+	def mouseMoved(self,evt):
+		pos = evt[0]  ## using signal proxy turns original arguments into a tuple
+		if self.plot.sceneBoundingRect().contains(pos):
+			mousePoint = self.vb.mapSceneToView(pos)
+			#index = int(mousePoint.x())
+			index = int(mousePoint.x()*1e6/self.I.timebase)
+			if index > 0 and index < self.I.samples:
+				coords="FPS:%.1f , <span style='color: white'>%0.1f uS</span>: "%(self.fps,self.I.achans[0].xaxis[index])
+				for a in range(4):
+					if self.channel_states[a]:
+						c=self.trace_colors[a]
+						coords+="<span style='color: rgb%s'>%0.3fV</span>," %(c, self.I.achans[a].yaxis[index])
+				self.coord_label.setText(coords)
+				self.plot.plotItem.titleLabel.setText(coords)
+			self.vLine.setPos(mousePoint.x())
+			self.hLine.setPos(mousePoint.y())
+
 		
 	def updateViews(self,*args):
 			self.plot2.setGeometry(self.plot.getViewBox().sceneBoundingRect())
@@ -161,6 +178,10 @@ class AppWindow(QtGui.QMainWindow, analogScope.Ui_MainWindow,utilitiesClass):
 		return '<div style="text-align: center"><span style="color: #FFF; font-size: 8pt;">'+c+'</span></div>'		
 
 	def showgrid(self):
+		self.plot.getAxis('left').setGrid(170)
+		self.plot.getAxis('bottom').setGrid(170)
+		#self.plot.showGrid(True,True,0.7)
+		#self.plot2.showGrid(True,False,0.7)
 		return
 
 	def setFourier(self,val):
@@ -190,8 +211,7 @@ class AppWindow(QtGui.QMainWindow, analogScope.Ui_MainWindow,utilitiesClass):
 			return
 
 		try:
-			temperature=self.I.get_temperature()
-			self.plot.setTitle('%0.2f fps, 	%0.1f ^C' % (self.fps,temperature ) )
+			#self.plot.setTitle('%0.2f fps, 	%0.1f ^C' % (self.fps,self.I.get_temperature() ) )
 			self.channels_in_buffer=self.active_channels
 
 			a = self.CH1_ENABLE.isChecked()
@@ -298,9 +318,6 @@ class AppWindow(QtGui.QMainWindow, analogScope.Ui_MainWindow,utilitiesClass):
 				pos+=1
 
 			
-		self.readCursor()			
-
-
 		now = time.time()
 		dt = now - self.lastTime
 		self.lastTime = now
@@ -313,18 +330,6 @@ class AppWindow(QtGui.QMainWindow, analogScope.Ui_MainWindow,utilitiesClass):
 		self.timer.singleShot(100,self.start_capture)
 
 
-	def readCursor(self):
-		pos=self.vLine.getPos()
-		index = int(pos[0]*1e6)/self.I.timebase
-		if index > 0 and index < self.I.samples:
-			coords="<span style='color: white'>%0.1f uS</span>: "%(self.I.achans[0].xaxis[index])
-			for a in range(4):
-				if self.channel_states[a]:
-					c=self.trace_colors[a]
-					coords+="<span style='color: rgb%s'>%0.3fV</span>," %(c, self.I.achans[a].yaxis[index])
-			self.coord_label.setText(coords)
-		else:
-			self.coord_label.setText("")
 
 	def fitData(self,xReal,yReal,curve):
 		if self.fit_type_box.currentIndex()==0: #sine wave
@@ -403,9 +408,7 @@ class AppWindow(QtGui.QMainWindow, analogScope.Ui_MainWindow,utilitiesClass):
 		else:
 				return 'fit failed'
 
-	def setOffsetAndGainLabels(self):
-		pass
-	
+
 	def setGainCH1(self,g):
 		self.I.set_gain(self.chan1remap,g)
 		if not self.Liss_show.isChecked():
@@ -413,7 +416,9 @@ class AppWindow(QtGui.QMainWindow, analogScope.Ui_MainWindow,utilitiesClass):
 			R = [chan.calPoly10(0),chan.calPoly10(1023)]
 			R[0]=R[0]*.9;R[1]=R[1]*.9
 			self.plot.setYRange(min(R),max(R))
-			self.setOffsetAndGainLabels()
+			
+			#RHalf = min(abs(R[0]),abs(R[1]))*0.9   #Make vertical axes symmetric. Post calibration voltage ranges are not symmetric usually.
+			#self.plot.setYRange(-1*RHalf,RHalf)    #Not sure how to handle unipolar channels . TODO
 		
 	def setGainCH2(self,g):
 		self.I.set_gain('CH2',g)
@@ -422,19 +427,10 @@ class AppWindow(QtGui.QMainWindow, analogScope.Ui_MainWindow,utilitiesClass):
 			R = [chan.calPoly10(0),chan.calPoly10(1023)]
 			R[0]=R[0]*.9;R[1]=R[1]*.9
 			self.plot2.setYRange(min(R),max(R))
-			self.setOffsetAndGainLabels()
+			
+			#RHalf = min(abs(R[0]),abs(R[1]))*0.9  #Make vertical axes symmetric. Post calibration voltage ranges are not symmetric usually.
+			#self.plot.setYRange(-1*RHalf,RHalf)
 
-	def setOffset(self,off):
-		chan = self.I.analogInputSources[self.chan1remap]
-		print ('no offset on ',chan)
-
-	def setOffsetCH1(self,g):
-		cnum=0
-		self.setOffsetAndGainLabels()
-
-	def setOffsetCH2(self,g):
-		cnum=1
-		self.setOffsetAndGainLabels()
 
 
 	def setTimeBase(self,g):

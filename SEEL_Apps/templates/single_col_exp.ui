@@ -143,7 +143,7 @@
                <string notr="true"/>
               </property>
               <property name="class" stdset="0">
-               <string>PeripheralCollectionInner</string>
+               <string>PeripheralCollectionInner Off</string>
               </property>
               <layout class="QGridLayout" name="gridLayout_5" columnstretch="1">
                <property name="margin">
@@ -280,6 +280,13 @@ p, li { white-space: pre-wrap; }
         <property name="margin">
          <number>0</number>
         </property>
+        <item>
+         <widget class="QPushButton" name="pushButton_2">
+          <property name="text">
+           <string>&lt;&lt;&lt; Return To Application List</string>
+          </property>
+         </widget>
+        </item>
        </layout>
       </widget>
       <widget class="QWidget" name="tab_3">
@@ -564,38 +571,6 @@ p, li { white-space: pre-wrap; }
  <resources/>
  <connections>
   <connection>
-   <sender>actionIPython_Console</sender>
-   <signal>triggered()</signal>
-   <receiver>MainWindow</receiver>
-   <slot>addConsole()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>-1</x>
-     <y>-1</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>349</x>
-     <y>282</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>actionIPython</sender>
-   <signal>triggered()</signal>
-   <receiver>MainWindow</receiver>
-   <slot>ipythonHelp()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>-1</x>
-     <y>-1</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>349</x>
-     <y>282</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
    <sender>actionReset_Device</sender>
    <signal>triggered()</signal>
    <receiver>MainWindow</receiver>
@@ -723,6 +698,22 @@ p, li { white-space: pre-wrap; }
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>pushButton_2</sender>
+   <signal>clicked()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>returnToApps()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>259</x>
+     <y>345</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>455</x>
+     <y>303</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>run_exp()</slot>
@@ -746,5 +737,6 @@ p, li { white-space: pre-wrap; }
   <slot>loadBasicExperiments()</slot>
   <slot>loadAdvancedExperiments()</slot>
   <slot>startRemoteServer()</slot>
+  <slot>returnToApps()</slot>
  </slots>
 </ui>
