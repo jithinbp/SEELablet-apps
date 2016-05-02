@@ -1,7 +1,7 @@
 SEELablet
 =========
 
-Packages for the SEELablet. A collection of measurement equipment with a built in PC.
+Qt based QUI Experiments for the SEELablet( A collection of measurement equipment with a built in PC )
 
 Copyright 2015 Jithin B.P
 

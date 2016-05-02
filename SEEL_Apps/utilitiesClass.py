@@ -311,7 +311,6 @@ class utilitiesClass():
 		def setValue(self,val):
 			retval = self.func(val)
 			if isinstance(retval,numbers.Number):
-				print(retval)
 				self.value.setText('%s'%(self.applySIPrefix(retval*self.scale,self.units) ))
 			else: self.value.setText(str(retval))
 			#self.value.setText('%.2f %s '%(retval*self.scale,self.units))

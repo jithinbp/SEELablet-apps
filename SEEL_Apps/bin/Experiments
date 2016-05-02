@@ -55,7 +55,7 @@ class MyMainWindow(QtGui.QMainWindow, single_col_exp.Ui_MainWindow,utilitiesClas
 
 		self.updateSplash(10,'Connecting to Device...')
 		if  args.PortName: self.I = interface.Interface(port = args.PortName)  #Not using connect method because it returns None if unconnected,
-		else: self.I = interface.Interface(verbose=True)                       #and I need to pass the methods of interface to various control widgets regardless
+		else: self.I = interface.Interface(verbose=False)                       #and I need to pass the methods of interface to various control widgets regardless
 		self.hexid=''
 		try:
 			if not self.I.connected:
@@ -254,14 +254,13 @@ class MyMainWindow(QtGui.QMainWindow, single_col_exp.Ui_MainWindow,utilitiesClas
 			inst.setGeometry(300, 50,size.width(), size.height())
 
 			#Load help HTML if found
-			if fname.split('.')[1]=='apps':
+			sections = fname.split('.')
+			if sections[1]=='apps':
+				print ('filename',sections)
+				fname = string.join(sections[:-1],'.')+'.html'
 				try:
-					HF = FILE.params.get('helpfile','introduction.html')
-					print(HF)
-					if 'http' in HF:
-						helpurl = HF
-					else:
-						helpurl = pkg_resources.resource_filename('SEEL_Apps',os.path.join('helpfiles',HF))
+					print (sections[-1]+'.html')
+					helpurl = pkg_resources.resource_filename('SEEL_Apps.html',sections[-1]+'.html')
 					print('url',helpurl)
 					self.helpView.setUrl(QtCore.QUrl(helpurl))          
 					self.tabWidget.setCurrentIndex(1)
@@ -423,10 +422,10 @@ class MyMainWindow(QtGui.QMainWindow, single_col_exp.Ui_MainWindow,utilitiesClas
 			self.remoteThread = remote.CherryPyThread(self.remote)
 			#thread.finished.connect(app.exit)
 			self.remoteThread.start()
-			QtGui.QMessageBox.about(self,'Server Ready',"Try accessing localhost:8080/get_voltage('CH1') from your web browser.\n Do not access the device from multiple locations simultaneously.")
+			QtGui.QMessageBox.about(self,'Server Ready','''Try accessing <span style="font-weight:bold;">localhost:8080/get_voltage('CH1')</span> from your web browser.<br> Do not access the device from multiple locations simultaneously.''')
 			
 		except:
-			pass
+			QtGui.QMessageBox.about(self,'Unable to Launch Server',"Is CherryPy web server installed?")
 
 if __name__ == "__main__":
     app = QtGui.QApplication(sys.argv)
