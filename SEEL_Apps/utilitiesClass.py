@@ -425,7 +425,7 @@ class utilitiesClass():
 
 		def loadSineTable(self):
 			if self.I:
-				from SEEL.utilityApps import loadSineTable
+				from SEEL_Apps.utilityApps import loadSineTable
 				inst = loadSineTable.AppWindow(self,I=self.I)
 				inst.show()
 			else:
