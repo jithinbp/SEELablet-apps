@@ -1,3 +1,4 @@
+from __future__ import print_function
 from PyQt4 import QtCore
 import string,json,base64
 import numpy as np
@@ -49,10 +50,10 @@ class CherryPyClass():
 		
 		method = self.methods.get(fn_name)[0]
 		if method == None :
-			print 'no such command :',fn_name
+			print ('no such command :',fn_name)
 			return 'no such command : %s'%fn_name
 		else:
-			print method,total_args
+			print (method,total_args)
 			#while self.hw_lock and self.active: pass
 			#self.hw_lock=True
 			result=method(*total_args)		
