@@ -1,1 +1,1 @@
-title='Electronics & Electrical'
+title='Electronics'

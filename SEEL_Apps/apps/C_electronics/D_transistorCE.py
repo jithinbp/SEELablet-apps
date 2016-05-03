@@ -66,6 +66,7 @@ class AppWindow(QtGui.QMainWindow, transistorCE.Ui_MainWindow,utilitiesClass):
 		P=self.plot.getPlotItem()
 		P.enableAutoRange(True,True)
 		self.plot.setXRange(self.V,self.stopV.value())
+		self.plot.setYRange(0,10e-3)
 
 		self.looptimer.start(20)
 

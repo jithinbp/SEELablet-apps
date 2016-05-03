@@ -29,10 +29,14 @@ class utilitiesClass():
 	plots3D={}
 	plots2D={}
 	axisItems=[]
-	curves=[]
 	total_plot_areas=0
 	funcList=[]
 	gl=None
+	black_trace_colors=[(0,255,20),(255,0,0),(255,255,100),(10,255,255)]
+	white_trace_colors=[(0,255,20),(255,0,0),(255,255,100),(10,255,255)]
+	black_trace_colors+=[QtGui.QColor(random.randint(50,255),random.randint(50,255),random.randint(50,255)) for a in range(50)]
+	white_trace_colors+=[QtGui.QColor(random.randint(50,200),random.randint(50,200),random.randint(50,200)) for a in range(50)]
+	
 	properties={'colorScheme':'black'}
 	def __init__(self):
 		pass
@@ -49,30 +53,44 @@ class utilitiesClass():
 
 	def setColorSchemeWhite(self):
 		self.properties['colorScheme']='white'
-		for curve in self.curves:
-			curve.setShadowPen(color=(0,0,0,100), width=3)
 		for plot in self.plots2D:
 			try:
 				plot.setBackground((252,252,245, 255))
-				for a in ['left','bottom','right']:
-					try:
-						axis = plot.getAxis(a)
-						axis.setPen('k')
-					except:
-						pass
 			except:
 				pass
+
+			for a in ['left','bottom','right']:
+				try:
+					axis = plot.getAxis(a)
+					axis.setPen('k')
+				except:
+					pass
+			n=0
+			for c in self.plots2D[plot]: #Change curve colors to match white background
+				c.setPen(color=self.white_trace_colors[n], width=3)
+				n+=1
+				if(n==54):break
+
+
 
 	def setColorSchemeBlack(self):
 		self.properties['colorScheme']='black'
 		for plot in self.plots2D:
-			plot.setBackground((0,0,0,255))
+			try:
+				plot.setBackground((0,0,0,255))
+			except:
+				pass
 			for a in ['left','bottom','right']:
 				try:
 					axis = plot.getAxis(a)
 					axis.setPen('w')
 				except:
 					pass
+				n=0
+				for c in self.plots2D[plot]: #Change curve colors to match black background
+					c.setPen(color=self.black_trace_colors[n], width=3)
+					n+=1
+					if(n==54):break
 
 
 		
@@ -116,7 +134,7 @@ class utilitiesClass():
 		if(len(name)):curve = pg.PlotDataItem(name=name)#pg.PlotCurveItem(name=name)
 		else:curve = pg.PlotCurveItem(**kwargs)
 		plot.addItem(curve)
-		curve.setPen(kwargs.get('pen',{'col':(255,255,255),'width':1}))
+		curve.setPen(kwargs.get('pen',{'col':self.black_trace_colors[len(self.plots2D[plot])],'width':1}))
 		#self.curves.append(curve)
 		self.plots2D[plot].append(curve)
 		return curve
@@ -380,7 +398,7 @@ class utilitiesClass():
 			self.clicked.connect(self.func)
 			self.setMinimumHeight(70)
 			self.setMaximumWidth(170)
-			self.setStyleSheet("border-image: url(%s) 0 0 0 0 stretch stretch;color:white;"%(pkg_resources.resource_filename(basepackage+'.images', _fromUtf8(tmp.params.get('image','') ))))
+			self.setStyleSheet("border-image: url(%s) 0 0 0 0 stretch stretch;color:white;"%(pkg_resources.resource_filename('SEEL_Apps.icons', _fromUtf8(tmp.params.get('image','') ))))
 
 		def enterEvent(self, event):
 			self.mouseHover.emit(self.hintText)

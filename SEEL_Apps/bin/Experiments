@@ -216,7 +216,6 @@ class MyMainWindow(QtGui.QMainWindow, single_col_exp.Ui_MainWindow,utilitiesClas
 			self.col=0;self.row+=1
 			line = QtGui.QFrame();	line.setFrameShape(QtGui.QFrame.HLine);	line.setFrameShadow(QtGui.QFrame.Sunken); self.ExperimentLayout.addWidget(line,self.row,0,1,self.colLimit)
 			self.col=0;self.row+=1
-
 			apps = [name for _, name,isDir in pkgutil.iter_modules([os.path.dirname(sublib.__file__)]) if isDir==False]
 			for app in apps:
 				if(self.col==self.colLimit):
