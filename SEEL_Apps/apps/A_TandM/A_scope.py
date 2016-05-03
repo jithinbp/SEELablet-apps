@@ -79,13 +79,13 @@ class AppWindow(QtGui.QMainWindow, analogScope.Ui_MainWindow,utilitiesClass):
 		g=1.75
 		self.timebase = g
 		self.lastTime=time.time()
+		self.highresMode = False
 
 		self.trace_colors=[(0,255,20),(255,0,0),(255,255,100),(10,255,255)]
 
 		self.plot.setLabel('bottom', 'Time -->>', units='S')
 		self.LlabelStyle = {'color': 'rgb%s'%(str(self.trace_colors[0])), 'font-size': '11pt'}
 		self.plot.setLabel('left','CH1', units='V',**self.LlabelStyle)
-		self.legend = self.plot.addLegend(offset=(-10,30))
 
 		
 		labelStyle = {'color': 'rgb%s'%(str(self.trace_colors[1])), 'font-size': '13pt'}
@@ -101,7 +101,9 @@ class AppWindow(QtGui.QMainWindow, analogScope.Ui_MainWindow,utilitiesClass):
 		self.curve3 = self.addCurve(self.plot,name='CH3'); self.curve3.setPen(color=self.trace_colors[2], width=2)
 		self.curve4 = self.addCurve(self.plot,name='CH4'); self.curve4.setPen(color=self.trace_colors[3], width=2)
 		self.curve_lis = self.addCurve(self.plot); self.curve_lis.setPen(color=(255,255,255), width=2)
-		self.legend.addItem(self.curve2,'CH2')
+
+		self.legend = self.plot.addLegend(offset=(-10,30))
+		self.legend.addItem(self.curve1,'Chan 1');self.legend.addItem(self.curve2,'Chan 2');self.legend.addItem(self.curve3,'CH3');self.legend.addItem(self.curve4,'MIC')
 		
 		#cross hair
 
@@ -234,7 +236,7 @@ class AppWindow(QtGui.QMainWindow, analogScope.Ui_MainWindow,utilitiesClass):
 			self.channel_states[3]=d
 			
 			if self.active_channels:
-				if self.highresBox.isChecked():
+				if self.highresMode and self.active_channels == 1:
 					self.I.configure_trigger(self.trigger_channel,self.triggerChannelName,self.trigger_level,resolution=12,prescaler=self.prescalerValue)
 					self.I.capture_highres_traces(self.chan1remap,self.samples,self.timebase,trigger=self.triggerBox.isChecked())
 				else:
@@ -431,6 +433,11 @@ class AppWindow(QtGui.QMainWindow, analogScope.Ui_MainWindow,utilitiesClass):
 			#RHalf = min(abs(R[0]),abs(R[1]))*0.9  #Make vertical axes symmetric. Post calibration voltage ranges are not symmetric usually.
 			#self.plot.setYRange(-1*RHalf,RHalf)
 
+	def enable12(self):
+		self.highresMode = True
+
+	def disable12(self):
+		self.highresMode = False
 
 
 	def setTimeBase(self,g):
@@ -466,7 +473,7 @@ class AppWindow(QtGui.QMainWindow, analogScope.Ui_MainWindow,utilitiesClass):
 		
 		self.trigger_level=levelInVolts
 		self.arrow.setPos(0,levelInVolts) #TODO
-		self.trigger_level_box.setValue(levelInVolts)
+		self.trigger_level_label.setText('%.3f V'%levelInVolts)
 
 	def setTriggerChannel(self,val):
 		self.trigtext.setHtml(self.trigger_text(self.I.achans[val].name))
@@ -474,7 +481,8 @@ class AppWindow(QtGui.QMainWindow, analogScope.Ui_MainWindow,utilitiesClass):
 		self.trigger_channel = val
 		c=self.trace_colors[val]
 		s='QFrame{background-color:rgba'+str(c)[:-1]+',50);}'
-		self.sender().parentWidget().setStyleSheet(s)
+		#self.sender().parentWidget().setStyleSheet(s)
+		self.trigger_frame.setStyleSheet(s)
 		self.arrow.setParentItem(None)
 		if val==0:
 			self.plot.addItem(self.arrow)
@@ -525,6 +533,7 @@ class AppWindow(QtGui.QMainWindow, analogScope.Ui_MainWindow,utilitiesClass):
 				print (xlen)
 
 			self.plot.setLimits(yMax=max(R),yMin=min(R),xMin=0,xMax=xlen)
+			self.time_label.setText('%.3f mS'%(xlen*1e3))
 			self.plot.setXRange(0,xlen)
 
 	def enableXY(self,state):
