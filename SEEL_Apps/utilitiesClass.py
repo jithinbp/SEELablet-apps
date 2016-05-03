@@ -390,15 +390,16 @@ class utilitiesClass():
 			genName = tmp.params.get('name',name)
 			self.setText(genName)
 			self.hintText = tmp.params.get('hint','No summary available')
+			imgloc = pkg_resources.resource_filename('SEEL_Apps.icons', _fromUtf8(tmp.params.get('image','') )) 
 			self.hintText = '''
-			<p><strong>%s</strong>.</p>
-			%s
-			'''%(genName.replace('\n',' '), self.hintText)
+			<img src="%s" align="left" width="120" style="margin: 0 20"/><strong>%s</strong><br>%s
+			'''%(imgloc,genName.replace('\n',' '),self.hintText)
 			self.func = launchfunc			
 			self.clicked.connect(self.func)
-			self.setMinimumHeight(70)
 			self.setMaximumWidth(170)
-			self.setStyleSheet("border-image: url(%s) 0 0 0 0 stretch stretch;color:white;"%(pkg_resources.resource_filename('SEEL_Apps.icons', _fromUtf8(tmp.params.get('image','') ))))
+			#self.setStyleSheet("border-image: url(%s) 0 0 0 0 stretch stretch;color:white;"%(pkg_resources.resource_filename('SEEL_Apps.icons', _fromUtf8(tmp.params.get('image','') ))))
+			self.setStyleSheet("color:black;background: qradialgradient(cx: 0.3, cy: -0.4,fx: 0.3, fy: -0.4,radius: 1.35, stop: 0 #fff, stop: 1 #bbb);")
+			self.setMinimumHeight(50)#70)
 
 		def enterEvent(self, event):
 			self.mouseHover.emit(self.hintText)

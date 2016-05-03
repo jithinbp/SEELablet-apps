@@ -20,7 +20,7 @@ import time
 
 params = {
 'image' : 'ipython.jpg',
-'name' :''
+'name' :'IPython Console'
 }
 
 class AppWindow(QtGui.QMainWindow, ipy.Ui_MainWindow):
