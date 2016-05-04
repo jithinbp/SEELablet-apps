@@ -55,7 +55,7 @@ class AppWindow(QtGui.QMainWindow, transistorCE.Ui_MainWindow,utilitiesClass):
 		self.X=[];self.Y=[]
 		self.base_voltage = self.baseV.value()
 
-		self.curves.append( self.addCurve(self.plot ,'%.3f'%(self.base_voltage),[255,255,255])  )
+		self.curves.append( self.addCurve(self.plot ,'%.3f'%(self.base_voltage))  )
 
 		self.I.set_pv3(self.base_voltage) # set base current. PV3+200K resistor
 

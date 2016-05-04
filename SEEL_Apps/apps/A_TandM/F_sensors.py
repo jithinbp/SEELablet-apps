@@ -90,17 +90,16 @@ class AppWindow(QtGui.QMainWindow, sensorTemplate.Ui_MainWindow,utilitiesClass):
 			if bridge.NUMPLOTS:
 				if hasattr(bridge,'name'):	label = bridge.name
 				else: label =''
-				cols=[self.random_color() for a in bridge.PLOTNAMES]
 				if not self.active_device_counter:
 					if len(label):self.plot.setLabel('left', label)
-					curves=[self.addCurve(self.plot,'%s[%s]'%(label[:10],bridge.PLOTNAMES[a]),cols[a]) for a in range(bridge.NUMPLOTS)]
+					curves=[self.addCurve(self.plot,'%s[%s]'%(label[:10],bridge.PLOTNAMES[a])) for a in range(bridge.NUMPLOTS)]
 				else:
 					if label:
 						colStr = lambda col: hex(col[0])[2:]+hex(col[1])[2:]+hex(col[2])[2:]
 						newplt = self.addAxis(self.plot,label=label,color='#'+colStr(cols[0].getRgb()))
 					else: newplt = self.addAxis(self.plot)
 					self.right_axes.append(newplt)
-					curves=[self.addCurve(newplt ,'%s[%s]'%(label[:10],bridge.PLOTNAMES[a]),cols[a]) for a in range(bridge.NUMPLOTS)]
+					curves=[self.addCurve(newplt ,'%s[%s]'%(label[:10],bridge.PLOTNAMES[a])) for a in range(bridge.NUMPLOTS)]
 					for a in range(bridge.NUMPLOTS):
 						self.plotLegend.addItem(curves[a],'%s[%s]'%(label[:10],bridge.PLOTNAMES[a]))
 				

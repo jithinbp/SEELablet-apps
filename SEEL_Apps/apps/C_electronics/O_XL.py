@@ -62,8 +62,8 @@ class AppWindow(QtGui.QMainWindow, template_xl.Ui_MainWindow,utilitiesClass):
 		self.setTimeGap(20)
 		self.timer = QtCore.QTimer()
 
-		self.curveCH1 = self.addCurve(self.plot1,'VL(CH1-CH2)',(255,255,255))
-		self.curveCH2 = self.addCurve(self.p2,'Current',(0,255,255))
+		self.curveCH1 = self.addCurve(self.plot1,'VL(CH1-CH2)')
+		self.curveCH2 = self.addCurve(self.p2,'Current')
 		self.WidgetLayout.setAlignment(QtCore.Qt.AlignLeft)
 
 		a1={'TITLE':'Wave 1','MIN':0,'MAX':5000,'FUNC':self.I.set_sine1,'TYPE':'dial','UNITS':'Hz','TOOLTIP':'Frequency of waveform generator #1','LINK':self.updateLabels}

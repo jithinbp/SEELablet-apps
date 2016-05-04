@@ -52,8 +52,7 @@ class AppWindow(QtGui.QMainWindow, digitalScope.Ui_MainWindow,utilitiesClass):
 
 		self.setWindowTitle(self.I.H.version_string+' : '+params.get('name','').replace('\n',' ') )
 
-		self.plot=pg.PlotWidget(enableMenu=False)
-		self.plot.setTitle('Logic Analyzer' )
+		self.plot=self.add2DPlot(self.plot_area,enableMenu=False)
 		
 		self.LA1_chan.addItems(self.I.digital_channel_names)
 
@@ -88,10 +87,10 @@ class AppWindow(QtGui.QMainWindow, digitalScope.Ui_MainWindow,utilitiesClass):
 
 
 
-		self.curve1 = self.plot.plot(name='1'); self.curve1.setPen(color=self.trace_colors[0], width=1)
-		self.curve2 = self.plot.plot(name='2'); self.curve2.setPen(color=self.trace_colors[1], width=1)
-		self.curve3 = self.plot.plot(name='3'); self.curve3.setPen(color=self.trace_colors[2], width=1)
-		self.curve4 = self.plot.plot(name='4'); self.curve4.setPen(color=self.trace_colors[3], width=1)
+		self.curve1 = self.addCurve(self.plot,name='1'); #self.curve1.setPen(color=self.trace_colors[0], width=1)
+		self.curve2 = self.addCurve(self.plot,name='2'); #self.curve2.setPen(color=self.trace_colors[1], width=1)
+		self.curve3 = self.addCurve(self.plot,name='3'); #self.curve3.setPen(color=self.trace_colors[2], width=1)
+		self.curve4 = self.addCurve(self.plot,name='4'); #self.curve4.setPen(color=self.trace_colors[3], width=1)
 		#self.I.sqr4_continuous(1000,.5,0.1,.5,0.3,.3,0.5,.1)
 
 		self.region = pg.LinearRegionItem([0,0])
@@ -102,8 +101,6 @@ class AppWindow(QtGui.QMainWindow, digitalScope.Ui_MainWindow,utilitiesClass):
 				item = QtGui.QTableWidgetItem();self.timingResults.setItem(x, 0, item);item.setFlags(QtCore.Qt.ItemIsSelectable|QtCore.Qt.ItemIsEnabled)
 				item = QtGui.QTableWidgetItem();self.timingResults.setItem(x, 1, item);item.setFlags(QtCore.Qt.ItemIsSelectable|QtCore.Qt.ItemIsEnabled)
 
-		self.plot.showGrid(True,False,0.4)
-		self.plot_area.addWidget(self.plot)
 		self.showgrid()
 		self.setActiveDigitalChannels(1)
 		self.set_digital_scope_time(0)

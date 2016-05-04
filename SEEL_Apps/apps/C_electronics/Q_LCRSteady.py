@@ -59,11 +59,11 @@ class AppWindow(QtGui.QMainWindow, template_xl.Ui_MainWindow,utilitiesClass):
 		self.setTimeGap(20)
 		self.timer = QtCore.QTimer()
 
-		self.curveVL = self.addCurve(self.plot1,'VL(CH1-CH2)',(255,255,255))
-		self.curveVC = self.addCurve(self.plot1,'VC(CH2-CH3)',(255,255,0))
-		self.curveVLC = self.addCurve(self.plot1,'VLC(VL + VC)',(255,0,0))
-		self.curveVR = self.addCurve(self.plot1,'VR(CH3)',(0,255,0))
-		self.curveI = self.addCurve(self.p2,'Current',(0,255,255))
+		self.curveVL = self.addCurve(self.plot1,'VL(CH1-CH2)')
+		self.curveVC = self.addCurve(self.plot1,'VC(CH2-CH3)')
+		self.curveVLC = self.addCurve(self.plot1,'VLC(VL + VC)')
+		self.curveVR = self.addCurve(self.plot1,'VR(CH3)')
+		self.curveI = self.addCurve(self.p2,'Current')
 		self.p1legend.addItem(self.curveI,'current')
 
 

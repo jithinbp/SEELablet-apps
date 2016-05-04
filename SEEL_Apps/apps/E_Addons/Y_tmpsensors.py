@@ -97,22 +97,22 @@ class AppWindow(QtGui.QMainWindow, sensorTemplate.Ui_MainWindow,utilitiesClass):
 			else: label =''
 			cols=[self.random_color() for a in cls.PLOTNAMES]
 			if cls.ADDRESS==0x68: #accelerometer, gyro. split plots
-				curvesA=[self.addCurve(self.plot,'%s[%s]'%(label[:10],cls.PLOTNAMES[a]),cols[a]) for a in range(4)]
+				curvesA=[self.addCurve(self.plot,'%s[%s]'%(label[:10],cls.PLOTNAMES[a])) for a in range(4)]
 				newplt = self.addAxis(self.plot)
 				self.right_axes.append(newplt)
-				curvesB=[self.addCurve(newplt ,'%s[%s]'%(label[:10],cls.PLOTNAMES[a]),cols[a]) for a in range(4,7)]
+				curvesB=[self.addCurve(newplt ,'%s[%s]'%(label[:10],cls.PLOTNAMES[a])) for a in range(4,7)]
 				curves = curvesA+curvesB
 			else:
 				if not self.active_device_counter:
 					if len(label):self.plot.setLabel('left', label)
-					curves=[self.addCurve(self.plot,'%s[%s]'%(label[:10],cls.PLOTNAMES[a]),cols[a]) for a in range(cls.NUMPLOTS)]
+					curves=[self.addCurve(self.plot,'%s[%s]'%(label[:10],cls.PLOTNAMES[a])) for a in range(cls.NUMPLOTS)]
 				else:
 					if label:
 						colStr = lambda col: hex(col[0])[2:]+hex(col[1])[2:]+hex(col[2])[2:]
 						newplt = self.addAxis(self.plot,label=label,color='#'+colStr(cols[0].getRgb()))
 					else: newplt = self.addAxis(self.plot)
 					self.right_axes.append(newplt)
-					curves=[self.addCurve(newplt ,'%s[%s]'%(label[:10],cls.PLOTNAMES[a]),cols[a]) for a in range(cls.NUMPLOTS)]
+					curves=[self.addCurve(newplt ,'%s[%s]'%(label[:10],cls.PLOTNAMES[a])) for a in range(cls.NUMPLOTS)]
 					for a in range(cls.NUMPLOTS):
 						self.plotLegend.addItem(curves[a],'%s[%s]'%(label[:10],cls.PLOTNAMES[a]))
 			

@@ -104,6 +104,10 @@ class utilitiesClass():
 		plot=pg.PlotWidget(**args)
 		plot.setMinimumHeight(250)
 		plot_area.addWidget(plot)
+		
+		plot.getAxis('left').setGrid(170)
+		plot.getAxis('bottom').setGrid(170)
+
 		plot.viewBoxes=[]
 		self.plots2D[plot]=[]
 		if self.properties['colorScheme']=='white':
@@ -128,13 +132,16 @@ class utilitiesClass():
 		return plot3d
 
 
-	def addCurve(self,plot,name='',col=(255,255,255),**kwargs):
+	def addCurve(self,plot,name='',**kwargs):
 		#if(len(name)):curve = plot.plot(name=name)
 		#else:curve = plot.plot()
 		if(len(name)):curve = pg.PlotDataItem(name=name)#pg.PlotCurveItem(name=name)
 		else:curve = pg.PlotCurveItem(**kwargs)
 		plot.addItem(curve)
-		curve.setPen(kwargs.get('pen',{'col':self.black_trace_colors[len(self.plots2D[plot])],'width':1}))
+		if self.properties['colorScheme']=='white':
+			curve.setPen(kwargs.get('pen',{'col':self.white_trace_colors[len(self.plots2D[plot])],'width':1}))
+		elif self.properties['colorScheme']=='black':
+			curve.setPen(kwargs.get('pen',{'col':self.black_trace_colors[len(self.plots2D[plot])],'width':1}))
 		#self.curves.append(curve)
 		self.plots2D[plot].append(curve)
 		return curve
@@ -440,6 +447,7 @@ class utilitiesClass():
 			super(utilitiesClass.sineWidget, self).__init__()
 			self.setupUi(self)
 			self.I = I
+			self.modes = ['sine','tria']
 
 
 		def loadSineTable(self):
@@ -451,11 +459,11 @@ class utilitiesClass():
 				print (self.setWindowTitle('Device Not Connected!'))
 
 		def setSINE1(self,val):
-			f=self.I.set_sine1(val)
+			f=self.I.set_w1(val)
 			self.WAVE1_FREQ.setText('%.2f'%(f))
 
 		def setSINE2(self,val):
-			f=self.I.set_sine2(val)
+			f=self.I.set_w2(val)
 			self.WAVE2_FREQ.setText('%.2f'%(f))
 
 		def setSinePhase(self):
@@ -465,6 +473,11 @@ class utilitiesClass():
 			f=self.I.set_waves(freq1,phase,freq2)
 			self.WAVE1_FREQ.setText('%.2f'%(f))
 			self.WAVE2_FREQ.setText('%.2f'%(f))
+
+		def setW1Type(self,val):
+			self.I.load_equation('W1',self.modes[val])
+		def setW2Type(self,val):
+			self.I.load_equation('W2',self.modes[val])
 
 
 	class sensorIcon(QtGui.QFrame,sensorWidget.Ui_Form):

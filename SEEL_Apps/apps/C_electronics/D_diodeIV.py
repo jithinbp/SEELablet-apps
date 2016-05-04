@@ -52,7 +52,7 @@ class AppWindow(QtGui.QMainWindow, diodeIV.Ui_MainWindow,utilitiesClass):
 		self.looptimer.stop()
 		self.X=[];self.Y=[]
 		self.plotnum+=1
-		self.curves.append( self.addCurve(self.plot ,'%.3f'%(self.plotnum),[255,255,255])  )
+		self.curves.append( self.addCurve(self.plot ,'%.3f'%(self.plotnum))  )
 
 		self.V = self.startV.value()
 		self.I.set_pv1(self.V) 

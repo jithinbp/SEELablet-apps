@@ -46,7 +46,7 @@ class AppWindow(QtGui.QMainWindow, dsm501.Ui_MainWindow,utilitiesClass):
 		self.timer2.timeout.connect(self.updateProgress)
 		self.timer2.start(500)
 		
-		self.curve = self.addCurve(self.plot1,'Concentration',(255,255,255))
+		self.curve = self.addCurve(self.plot1,'Concentration')
 		self.resultsTable.setRowCount(self.total_samples)
 		self.resultsTable.setColumnCount(3)
 		self.resultsTable.setHorizontalHeaderLabels(['time','Occupancy','Concentration'])

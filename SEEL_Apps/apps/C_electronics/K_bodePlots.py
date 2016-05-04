@@ -45,8 +45,8 @@ class AppWindow(QtGui.QMainWindow, template_bandpass.Ui_MainWindow,utilitiesClas
 
 		self.plot1=self.add2DPlot(self.plot_area)
 		self.plot2=self.add2DPlot(self.plot_area)
-		self.curve1 = self.addCurve(self.plot1,'INPUT',(255,255,255))
-		self.curve2 = self.addCurve(self.plot1,'OUTPUT',(0,255,255))
+		self.curve1 = self.addCurve(self.plot1,'INPUT')
+		self.curve2 = self.addCurve(self.plot1,'OUTPUT')
 		self.p2=self.enableRightAxis(self.plot2)
 		self.plot2.getAxis('right').setLabel('Phase', color='#00ffff')
 		self.plot2.getAxis('left').setLabel('Amplitude', color='#ffffff')
@@ -54,9 +54,9 @@ class AppWindow(QtGui.QMainWindow, template_bandpass.Ui_MainWindow,utilitiesClas
 		for a in [self.plot1,self.plot2]:a.getAxis('bottom').setLabel('Frequency', color='#ffffff')
 		self.p2.setYRange(-360,360)
 		self.curvePhase=self.addCurve(self.p2)#pg.PlotCurveItem()
-		self.curvePhase.setPen(color=(0,255,255), width=1)
+		#self.curvePhase.setPen(color=(0,255,255), width=1)
 		self.curveAmp = self.plot2.plot()
-		self.curveAmp.setPen(color=(255,255,255), width=1)
+		#self.curveAmp.setPen(color=(255,255,255), width=1)
 
 		#labelStyle = {'color': 'rgb(255,255,255)', 'font-size': '11pt'}
 		#self.plot.setLabel('left','Current -->', units='A',**labelStyle)

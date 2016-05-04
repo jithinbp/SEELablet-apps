@@ -53,8 +53,8 @@ class AppWindow(QtGui.QMainWindow, template_xc.Ui_MainWindow,utilitiesClass):
 
 		self.p2.setYRange(-8.5,8.5)
 
-		self.curveCH1 = self.addCurve(self.plot1,'VC(CH1-CH2)',(255,255,255))
-		self.curveCH2 = self.addCurve(self.p2,'VR(CH2)',(0,255,255))
+		self.curveCH1 = self.addCurve(self.plot1,'VC(CH1-CH2)')
+		self.curveCH2 = self.addCurve(self.p2,'VR(CH2)')
 		self.p1legend.addItem(self.curveCH2,'VR(CH2)')
 
 		#setting up plot 2
@@ -64,7 +64,7 @@ class AppWindow(QtGui.QMainWindow, template_xc.Ui_MainWindow,utilitiesClass):
 		self.plot2.setYRange(-8.5,8.5)
 		self.plot2.setXRange(-8.5,8.5)
 		self.plot2.addLegend()
-		self.curveXY = self.addCurve(self.plot2,'Vc vs Vr',(255,255,255))
+		self.curveXY = self.addCurve(self.plot2,'Vc vs Vr')
 
 		from SEEL.analyticsClass import analyticsClass
 		self.CC = analyticsClass()

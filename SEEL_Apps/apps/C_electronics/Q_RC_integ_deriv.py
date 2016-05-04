@@ -52,8 +52,8 @@ class AppWindow(QtGui.QMainWindow, template_graph.Ui_MainWindow,utilitiesClass):
 		self.samples=2000
 		self.timer = QtCore.QTimer()
 
-		self.curveCH1 = self.addCurve(self.plot1,'INPUT(CH1)',(255,255,255))
-		self.curveCH2 = self.addCurve(self.plot1,'OUTPUT(CH2)',(0,255,255))
+		self.curveCH1 = self.addCurve(self.plot1,'INPUT(CH1)')
+		self.curveCH2 = self.addCurve(self.plot1,'OUTPUT(CH2)')
 		self.WidgetLayout.setAlignment(QtCore.Qt.AlignLeft)
 
 		#a1={'TITLE':'Triangle\n(W1)','MIN':10,'MAX':5000,'FUNC':self.I.set_sine1,'TYPE':'dial','UNITS':'Hz','TOOLTIP':'Frequency of waveform generator #1','LINK':self.updateLabels}

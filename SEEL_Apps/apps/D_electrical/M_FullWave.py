@@ -56,9 +56,9 @@ class AppWindow(QtGui.QMainWindow, template_graph.Ui_MainWindow,utilitiesClass):
 		self.tg=2
 		self.timer = QtCore.QTimer()
 
-		self.curveCH1 = self.addCurve(self.plot1,'INPUT 1(CH1)',(255,255,255))
-		self.curveCH2 = self.addCurve(self.plot1,'INPUT 2(CH2)',(0,255,255))
-		self.curveCH3 = self.addCurve(self.plot1,'OUTPUT(CH3)',(0,255,0))
+		self.curveCH1 = self.addCurve(self.plot1,'INPUT 1(CH1)')
+		self.curveCH2 = self.addCurve(self.plot1,'INPUT 2(CH2)')
+		self.curveCH3 = self.addCurve(self.plot1,'OUTPUT(CH3)')
 
 		self.WidgetLayout.setAlignment(QtCore.Qt.AlignLeft)        
 
