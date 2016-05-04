@@ -377,6 +377,7 @@ class utilitiesClass():
 			self.title.setText(self.name)
 			self.func = args.get('FUNC',None)
 			self.units = args.get('UNITS','')
+			self.pushButton.setText(args.get('LABEL','Read'))
 			self.optionBox.addItems(args.get('OPTIONS',[]))
 			if 'TOOLTIP' in args:self.widgetFrameOuter.setToolTip(args.get('TOOLTIP',''))
 

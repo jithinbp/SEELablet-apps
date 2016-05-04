@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'sineWidget.ui'
 #
-# Created: Wed May  4 11:04:56 2016
+# Created: Wed May  4 12:48:03 2016
 #      by: PyQt4 UI code generator 4.11.3
 #
 # WARNING! All changes made in this file will be lost!
@@ -176,15 +176,15 @@ class Ui_Form(object):
     def retranslateUi(self, Form):
         Form.setWindowTitle(_translate("Form", "Form", None))
         self.frame_4.setProperty("class", _translate("Form", "PeripheralCollection", None))
-        self.label_3.setText(_translate("Form", " Waveform Generators", None))
+        self.label_3.setText(_translate("Form", "Arbitrary Waveform Generators", None))
         self.commandLinkButton.setToolTip(_translate("Form", "Edit the waveform table by setting a new function", None))
         self.commandLinkButton.setText(_translate("Form", "Edit", None))
         self.Frame_3.setProperty("class", _translate("Form", "PeripheralCollectionInner", None))
         self.label_30.setText(_translate("Form", "phase", None))
         self.WAVE2_FREQ.setText(_translate("Form", "10Hz to 5KHz", None))
-        self.label_29.setText(_translate("Form", "Wave 2", None))
+        self.label_29.setText(_translate("Form", "W2", None))
         self.WAVE1_FREQ.setText(_translate("Form", "10Hz to 5KHz", None))
-        self.label_17.setText(_translate("Form", "Wave 1", None))
+        self.label_17.setText(_translate("Form", "W1", None))
         self.comboBox.setItemText(0, _translate("Form", "sine", None))
         self.comboBox.setItemText(1, _translate("Form", "tria", None))
         self.comboBox_2.setItemText(0, _translate("Form", "sine", None))

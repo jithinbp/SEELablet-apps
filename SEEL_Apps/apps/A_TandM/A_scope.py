@@ -166,7 +166,7 @@ class AppWindow(QtGui.QMainWindow, analogScope.Ui_MainWindow,utilitiesClass):
 					if self.channel_states[a]:
 						c=self.trace_colors[a]
 						coords+="<span style='color: rgb%s'>%0.3fV</span>," %(c, self.I.achans[a].yaxis[index])
-				self.coord_label.setText(coords)
+				#self.coord_label.setText(coords)
 				self.plot.plotItem.titleLabel.setText(coords)
 			self.vLine.setPos(mousePoint.x())
 			self.hLine.setPos(mousePoint.y())
@@ -467,13 +467,12 @@ class AppWindow(QtGui.QMainWindow, analogScope.Ui_MainWindow,utilitiesClass):
 		else:self.triggerChannelName='CH2'
 		
 		chan = self.I.analogInputSources[self.triggerChannelName]
-
 		if chan.inverted:val=1000-val
 		levelInVolts=chan.calPoly10(val*1023/1000.)
 		
 		self.trigger_level=levelInVolts
 		self.arrow.setPos(0,levelInVolts) #TODO
-		self.trigger_level_label.setText('%.3f V'%levelInVolts)
+		self.trigger_level_label.setText('Level : %.3f V'%levelInVolts)
 
 	def setTriggerChannel(self,val):
 		self.trigtext.setHtml(self.trigger_text(self.I.achans[val].name))
