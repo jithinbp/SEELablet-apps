@@ -121,7 +121,7 @@
          <property name="class" stdset="0">
           <string>PeripheralCollection</string>
          </property>
-         <layout class="QVBoxLayout" name="verticalLayout_2" stretch="1,1,1,0,1,1,1,2">
+         <layout class="QVBoxLayout" name="verticalLayout_2" stretch="1,1,0,1,1,1,2">
           <property name="spacing">
            <number>3</number>
           </property>
@@ -140,19 +140,6 @@
           <property name="bottomMargin">
            <number>2</number>
           </property>
-          <item>
-           <spacer name="verticalSpacer_2">
-            <property name="orientation">
-             <enum>Qt::Vertical</enum>
-            </property>
-            <property name="sizeHint" stdset="0">
-             <size>
-              <width>20</width>
-              <height>1</height>
-             </size>
-            </property>
-           </spacer>
-          </item>
           <item>
            <widget class="QLabel" name="label_3">
             <property name="font">
@@ -1091,12 +1078,12 @@
              </property>
              <item>
               <property name="text">
-               <string>CH1</string>
+               <string>Chan 1</string>
               </property>
              </item>
              <item>
               <property name="text">
-               <string>CH2</string>
+               <string>Chan 2</string>
               </property>
              </item>
              <item>
@@ -1124,12 +1111,12 @@
              </property>
              <item>
               <property name="text">
-               <string>CH1</string>
+               <string>Chan 1</string>
               </property>
              </item>
              <item>
               <property name="text">
-               <string>CH2</string>
+               <string>Chan 2</string>
               </property>
              </item>
              <item>
@@ -1238,6 +1225,35 @@
             </widget>
            </item>
            <item>
+            <widget class="QLabel" name="coord_label">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>250</width>
+               <height>16777215</height>
+              </size>
+             </property>
+             <property name="font">
+              <font>
+               <pointsize>9</pointsize>
+               <weight>75</weight>
+               <bold>true</bold>
+              </font>
+             </property>
+             <property name="text">
+              <string>.</string>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+             </property>
+            </widget>
+           </item>
+           <item>
             <widget class="QCheckBox" name="freezeButton">
              <property name="sizePolicy">
               <sizepolicy hsizetype="Minimum" vsizetype="Maximum">
@@ -1278,30 +1294,9 @@
     <property name="title">
      <string>Options</string>
     </property>
-    <widget class="QMenu" name="menuHigh_res_mode">
-     <property name="title">
-      <string>High res mode</string>
-     </property>
-     <addaction name="actionEnable_12_bit"/>
-     <addaction name="actionDisable_12_bit"/>
-    </widget>
-    <addaction name="menuHigh_res_mode"/>
    </widget>
    <addaction name="menuOptions"/>
   </widget>
-  <action name="actionEnable_12_bit">
-   <property name="text">
-    <string>enable 12-bit</string>
-   </property>
-   <property name="toolTip">
-    <string>enable 12-bit acquisition. Only works in single channel mode</string>
-   </property>
-  </action>
-  <action name="actionDisable_12_bit">
-   <property name="text">
-    <string>disable 12-bit</string>
-   </property>
-  </action>
  </widget>
  <resources/>
  <connections>
@@ -1414,38 +1409,6 @@
     <hint type="destinationlabel">
      <x>645</x>
      <y>549</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>actionEnable_12_bit</sender>
-   <signal>triggered()</signal>
-   <receiver>MainWindow</receiver>
-   <slot>enable12()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>-1</x>
-     <y>-1</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>465</x>
-     <y>274</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>actionDisable_12_bit</sender>
-   <signal>triggered()</signal>
-   <receiver>MainWindow</receiver>
-   <slot>disable12()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>-1</x>
-     <y>-1</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>465</x>
-     <y>274</y>
     </hint>
    </hints>
   </connection>

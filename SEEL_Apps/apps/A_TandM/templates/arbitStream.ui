@@ -137,12 +137,12 @@ color: rgb(255, 255, 255);</string>
          </item>
          <item>
           <property name="text">
-           <string>get_freq('Fin')</string>
+           <string>get_freq('CNTR')</string>
           </property>
          </item>
          <item>
           <property name="text">
-           <string>get_high_freq('Fin')</string>
+           <string>get_high_freq('CNTR')</string>
           </property>
          </item>
          <item>

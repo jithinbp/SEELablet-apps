@@ -60,8 +60,8 @@ class AppWindow(QtGui.QMainWindow, diodeIV.Ui_MainWindow,utilitiesClass):
 
 		P=self.plot.getPlotItem()
 		P.enableAutoRange(True,True)
-		self.plot.setXRange(self.V,self.stopV.value())
-		self.plot.setYRange(0,10e-3)
+		self.plot.setXRange(0,2)
+		self.plot.setYRange(0,4e-3)
 
 		self.looptimer.start(20)
 
@@ -86,9 +86,11 @@ class AppWindow(QtGui.QMainWindow, diodeIV.Ui_MainWindow,utilitiesClass):
 		c = self.tracesBox.currentIndex()
 		if c>-1:
 			self.tracesBox.removeItem(c)
-			self.plot.removeItem(self.curves[c]);self.plot.removeItem(self.curveLabels[c]);
+			self.removeCurve(self.plot,self.curves[c]);
+			self.plot.removeItem(self.curveLabels[c]);
 			self.curves.pop(c);self.curveLabels.pop(c);
-
+			if len(self.curves)==0: # reset counter for plot numbers
+				self.plotnum=0
 
 	def __del__(self):
 		self.looptimer.stop()

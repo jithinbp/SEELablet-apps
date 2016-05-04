@@ -37,7 +37,7 @@ class AppWindow(QtGui.QMainWindow, ipy.Ui_MainWindow):
 
 		self.showSplash();self.updateSplash(10,'Importing iPython Widgets...')
 		try:
-			from SEEL.iPythonEmbed import QIPythonWidget
+			from SEEL_Apps.iPythonEmbed import QIPythonWidget
 			self.updateSplash(10,'Creating Dock Widget...')
 		except:
 			self.splash.finish(self);

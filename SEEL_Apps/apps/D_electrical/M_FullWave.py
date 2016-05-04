@@ -93,7 +93,7 @@ class AppWindow(QtGui.QMainWindow, template_graph.Ui_MainWindow,utilitiesClass):
 		self.timer.singleShot(100,self.run)
 
 	def setSineWaves(self,freq):
-		return self.I.set_sine_phase(freq,180)
+		return self.I.set_waves(freq,180)
 
 	def updateLabels(self,value,units=''):
 		self.sineSection.WAVE1_FREQ.setText('%.3f %s '%(value,units))

@@ -133,18 +133,24 @@ class utilitiesClass():
 
 
 	def addCurve(self,plot,name='',**kwargs):
-		#if(len(name)):curve = plot.plot(name=name)
-		#else:curve = plot.plot()
 		if(len(name)):curve = pg.PlotDataItem(name=name)#pg.PlotCurveItem(name=name)
 		else:curve = pg.PlotCurveItem(**kwargs)
 		plot.addItem(curve)
 		if self.properties['colorScheme']=='white':
-			curve.setPen(kwargs.get('pen',{'col':self.white_trace_colors[len(self.plots2D[plot])],'width':1}))
+			curve.setPen(kwargs.get('pen',{'color':self.white_trace_colors[len(self.plots2D[plot])],'width':1}))
 		elif self.properties['colorScheme']=='black':
-			curve.setPen(kwargs.get('pen',{'col':self.black_trace_colors[len(self.plots2D[plot])],'width':1}))
-		#self.curves.append(curve)
+			curve.setPen(kwargs.get('pen',{'color':self.black_trace_colors[len(self.plots2D[plot])],'width':1}))
+		#print (self.black_trace_colors[len(self.plots2D[plot])] , len(self.plots2D[plot]) )
 		self.plots2D[plot].append(curve)
 		return curve
+
+	def removeCurve(self,plot,curve):
+		plot.removeItem(curve)
+		try:
+			self.plots2D[plot].pop(self.plots2D[plot].index(curve))
+		except:
+			pass
+
 
 	def rebuildLegend(self,plot):
 		return plot.addLegend(offset=(-10,30))

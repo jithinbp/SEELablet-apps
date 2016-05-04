@@ -83,7 +83,7 @@ class AppWindow(QtGui.QMainWindow, analogScope.Ui_MainWindow,utilitiesClass):
 
 		self.trace_colors=[(0,255,20),(255,0,0),(255,255,100),(10,255,255)]
 
-		self.plot.setLabel('bottom', 'Time -->>', units='S')
+		self.plot.setLabel('bottom', 'Time', units='S')
 		self.LlabelStyle = {'color': 'rgb%s'%(str(self.trace_colors[0])), 'font-size': '11pt'}
 		self.plot.setLabel('left','CH1', units='V',**self.LlabelStyle)
 
@@ -107,12 +107,13 @@ class AppWindow(QtGui.QMainWindow, analogScope.Ui_MainWindow,utilitiesClass):
 		
 		#cross hair
 
-		self.vLine = pg.InfiniteLine(angle=90, movable=False)
-		self.hLine = pg.InfiniteLine(angle=0, movable=False)
+		self.vLine = pg.InfiniteLine(angle=90, movable=False,pen=[100,100,200,200])
 		self.plot.addItem(self.vLine, ignoreBounds=True)
+		self.hLine = pg.InfiniteLine(angle=0, movable=False,pen=[100,100,200,200])
 		self.plot.addItem(self.hLine, ignoreBounds=True)
 		self.vb = self.plot.getPlotItem().vb
-		self.proxy = pg.SignalProxy(self.plot.scene().sigMouseMoved, rateLimit=60, slot=self.mouseMoved)
+		self.proxy = pg.SignalProxy(self.plot.scene().sigMouseClicked, rateLimit=60, slot=self.mouseClicked)
+		self.mousePoint=None
 
 		self.fourierMode = False
 		self.plot.setTitle('')
@@ -154,22 +155,12 @@ class AppWindow(QtGui.QMainWindow, analogScope.Ui_MainWindow,utilitiesClass):
 		self.timer.singleShot(500,self.start_capture)
 
 
-	def mouseMoved(self,evt):
-		pos = evt[0]  ## using signal proxy turns original arguments into a tuple
+	def mouseClicked(self,evt):
+		pos = evt[0].scenePos()  ## using signal proxy turns original arguments into a tuple
 		if self.plot.sceneBoundingRect().contains(pos):
-			mousePoint = self.vb.mapSceneToView(pos)
-			#index = int(mousePoint.x())
-			index = int(mousePoint.x()*1e6/self.I.timebase)
-			if index > 0 and index < self.I.samples:
-				coords="FPS:%.1f , <span style='color: white'>%0.1f uS</span>: "%(self.fps,self.I.achans[0].xaxis[index])
-				for a in range(4):
-					if self.channel_states[a]:
-						c=self.trace_colors[a]
-						coords+="<span style='color: rgb%s'>%0.3fV</span>," %(c, self.I.achans[a].yaxis[index])
-				#self.coord_label.setText(coords)
-				self.plot.plotItem.titleLabel.setText(coords)
-			self.vLine.setPos(mousePoint.x())
-			self.hLine.setPos(mousePoint.y())
+			self.mousePoint = self.vb.mapSceneToView(pos)
+			self.vLine.setPos(self.mousePoint.x())
+			self.hLine.setPos(self.mousePoint.y())
 
 		
 	def updateViews(self,*args):
@@ -236,12 +227,12 @@ class AppWindow(QtGui.QMainWindow, analogScope.Ui_MainWindow,utilitiesClass):
 			self.channel_states[3]=d
 			
 			if self.active_channels:
-				if self.highresMode and self.active_channels == 1:
-					self.I.configure_trigger(self.trigger_channel,self.triggerChannelName,self.trigger_level,resolution=12,prescaler=self.prescalerValue)
-					self.I.capture_highres_traces(self.chan1remap,self.samples,self.timebase,trigger=self.triggerBox.isChecked())
-				else:
-					self.I.configure_trigger(self.trigger_channel,self.triggerChannelName,self.trigger_level,resolution=10,prescaler=self.prescalerValue)
-					self.I.capture_traces(self.active_channels,self.samples,self.timebase,self.chan1remap,self.ch123sa,trigger=self.triggerBox.isChecked())
+				#if self.highresMode and self.active_channels == 1:
+				#	self.I.configure_trigger(self.trigger_channel,self.triggerChannelName,self.trigger_level,resolution=12,prescaler=self.prescalerValue)
+				#	self.I.capture_highres_traces(self.chan1remap,self.samples,self.timebase,trigger=self.triggerBox.isChecked())
+				#else:
+				self.I.configure_trigger(self.trigger_channel,self.triggerChannelName,self.trigger_level,resolution=10,prescaler=self.prescalerValue)
+				self.I.capture_traces(self.active_channels,self.samples,self.timebase,self.chan1remap,self.ch123sa,trigger=self.triggerBox.isChecked())
 		except:
 			pass
 
@@ -300,8 +291,8 @@ class AppWindow(QtGui.QMainWindow, analogScope.Ui_MainWindow,utilitiesClass):
 			chans = ['CH1','CH2','CH3','CH4']
 			lissx = self.Liss_x.currentText()
 			lissy = self.Liss_y.currentText()
-			self.liss_x = chans.index(lissx)
-			self.liss_y = chans.index(lissy)
+			self.liss_x = self.Liss_x.currentIndex()
+			self.liss_y = self.Liss_y.currentIndex()
 			la=self.I.achans[self.liss_x].get_yaxis()
 			lb=self.I.achans[self.liss_y].get_yaxis()
 			if(self.liss_x<self.active_channels and self.liss_y<self.active_channels and len(la)==len(lb)):
@@ -329,6 +320,18 @@ class AppWindow(QtGui.QMainWindow, analogScope.Ui_MainWindow,utilitiesClass):
 			s = np.clip(dt*3., 0, 1)
 			self.fps = self.fps * (1-s) + (1.0/dt) * s
 		
+		if self.mousePoint:
+			index = int(self.mousePoint.x()*1e6/self.I.timebase)
+			if index > 0 and index < self.I.samples:
+				coords="%.1f FPS, <span style='color: white'>%0.1f uS</span>: "%(self.fps,self.I.achans[0].xaxis[index])
+				for a in range(4):
+					if self.channel_states[a]:
+						c=self.trace_colors[a]
+						coords+="<span style='color: rgb%s'>%0.3fV</span>," %(c, self.I.achans[a].yaxis[index])
+				#self.coord_label.setText(coords)
+				self.plot.plotItem.titleLabel.setText(coords)
+
+
 		self.timer.singleShot(100,self.start_capture)
 
 
@@ -433,12 +436,6 @@ class AppWindow(QtGui.QMainWindow, analogScope.Ui_MainWindow,utilitiesClass):
 			#RHalf = min(abs(R[0]),abs(R[1]))*0.9  #Make vertical axes symmetric. Post calibration voltage ranges are not symmetric usually.
 			#self.plot.setYRange(-1*RHalf,RHalf)
 
-	def enable12(self):
-		self.highresMode = True
-
-	def disable12(self):
-		self.highresMode = False
-
 
 	def setTimeBase(self,g):
 		timebases = [1.75,2,4,8,16,32,128,256,512,1024,2048]
@@ -539,53 +536,35 @@ class AppWindow(QtGui.QMainWindow, analogScope.Ui_MainWindow,utilitiesClass):
 		self.autoRange()
 		
 	def plot_liss(self):
-		chans = ['CH1','CH2']
 		lissx = self.Liss_x.currentText()
 		lissy = self.Liss_y.currentText()
-		self.liss_x = chans.index(lissx)
-		self.liss_y = chans.index(lissy)
+		self.liss_x = self.Liss_x.currentIndex()
+		self.liss_y = self.Liss_y.currentIndex()
+		if not (self.channel_states[self.liss_x] and self.channel_states[self.liss_y]):
+			QtGui.QMessageBox.about(self, 'Error : Insufficient Data',  'Please enable the selected channels in the oscilloscope')
+			return
 		self.liss_win = pg.GraphicsWindow(title="Basic plotting examples")
 		self.liss_win.setWindowTitle('pyqtgraph example: Plotting')
-		self.p1 = self.liss_win.addPlot(title="Lissajous: x:%s , y:%s"%(lissx,lissy), x=self.I.achans[self.liss_x].get_yaxis(),y=self.I.achans[self.liss_y].get_yaxis())
-		if(self.liss_win.windowState() & QtCore.Qt.WindowActive):
-			print ('opened')
+		self.p1 = self.liss_win.addPlot(title="Lissajous: x : %s vs y : %s"%(lissx,lissy),x=self.I.achans[self.liss_x].get_yaxis(),y=self.I.achans[self.liss_y].get_yaxis())
+		self.p1.setLabel('left',lissy);self.p1.setLabel('bottom',lissx)
+		self.p1.getAxis('left').setGrid(170)
+		self.p1.getAxis('bottom').setGrid(170)
 
-	def liss_animate(self,val):
-		if val and self.liss_ready and self.Liss_show.isChecked():
-			self.freezeButton.setChecked(True)
-			self.liss_animate_arrow1=pg.CurveArrow(self.curve_lis)
-			if(self.liss_x==0):
-				self.liss_animate_arrow2=pg.CurveArrow(self.curve1)
-			elif(self.liss_x==1):
-				self.liss_animate_arrow2=pg.CurveArrow(self.curve2)
-			elif(self.liss_x==2):
-				self.liss_animate_arrow2=pg.CurveArrow(self.curve3)
-			elif(self.liss_x==3):
-				self.liss_animate_arrow2=pg.CurveArrow(self.curve4)
-			if(self.liss_y==0):
-				self.liss_animate_arrow3=pg.CurveArrow(self.curve1)
-			elif(self.liss_y==1):
-				self.liss_animate_arrow3=pg.CurveArrow(self.curve2)
-			elif(self.liss_y==2):
-				self.liss_animate_arrow3=pg.CurveArrow(self.curve3)
-			elif(self.liss_y==3):
-				self.liss_animate_arrow3=pg.CurveArrow(self.curve4)
-			self.plot.addItem(self.liss_animate_arrow1)
-			self.plot.addItem(self.liss_animate_arrow2)
-			self.plot.addItem(self.liss_animate_arrow3)
-			self.liss_anim1 = self.liss_animate_arrow1.makeAnimation(loop=-1)
-			self.liss_anim2 = self.liss_animate_arrow2.makeAnimation(loop=-1)
-			self.liss_anim3 = self.liss_animate_arrow3.makeAnimation(loop=-1)
-			self.liss_anim1.start();self.liss_anim2.start();self.liss_anim3.start()
-		else:
-			self.freezeButton.setChecked(False)
-			try:
-				self.liss_anim1.stop();self.liss_anim2.stop();self.liss_anim3.stop()
-				self.plot.removeItem(self.liss_animate_arrow1)
-				self.plot.removeItem(self.liss_animate_arrow2)
-				self.plot.removeItem(self.liss_animate_arrow3)
-			except:
-				pass
+		self.lissvLine = pg.InfiniteLine(angle=90, movable=False,pen=[100,100,200,200])
+		self.p1.addItem(self.lissvLine, ignoreBounds=True)
+		self.lisshLine = pg.InfiniteLine(angle=0, movable=False,pen=[100,100,200,200])
+		self.p1.addItem(self.lisshLine, ignoreBounds=True)
+		self.vb = self.p1.vb
+		self.lissproxy = pg.SignalProxy(self.p1.scene().sigMouseClicked, rateLimit=60, slot=self.lissMouseClicked)
+
+	def lissMouseClicked(self,evt):
+		pos = evt[0].scenePos()  ## using signal proxy turns original arguments into a tuple
+		if self.p1.sceneBoundingRect().contains(pos):
+			mousePoint = self.vb.mapSceneToView(pos)
+			self.lissvLine.setPos(mousePoint.x())
+			self.lisshLine.setPos(mousePoint.y())
+
+
 
 
 	def closeEvent(self, event):

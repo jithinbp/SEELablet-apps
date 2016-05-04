@@ -64,14 +64,14 @@ class AppWindow(QtGui.QMainWindow, template_graph.Ui_MainWindow,utilitiesClass):
 		self.WidgetLayout.addWidget(self.dialIcon(**a1))
 		self.WidgetLayout.addWidget(self.dialIcon(**a2))
 
-		self.WidgetLayout.addWidget(self.experimentIcon('SEEL_Apps.apps.5miscellaneous','outputs',self.launchOutputs))
+		self.WidgetLayout.addWidget(self.experimentIcon('SEEL_Apps.apps.F_miscellaneous','outputs',self.launchOutputs))
 		self.running=True
 		self.timer.singleShot(100,self.run)
 
 
 	def launchOutputs(self):
 		if self.I:
-			from SEEL.controls import outputs
+			from SEEL_Apps.apps.F_miscellaneous import outputs
 			inst = outputs.AppWindow(self,I=self.I)
 			inst.show()
 			size = inst.geometry()

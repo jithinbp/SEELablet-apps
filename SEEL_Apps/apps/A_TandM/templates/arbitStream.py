@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'arbitStream.ui'
 #
-# Created: Fri Apr  8 17:47:18 2016
+# Created: Thu May  5 00:09:30 2016
 #      by: PyQt4 UI code generator 4.11.3
 #
 # WARNING! All changes made in this file will be lost!
@@ -149,8 +149,8 @@ class Ui_MainWindow(object):
         self.pushButton.setText(_translate("MainWindow", "Stream Now", None))
         self.pushButton_2.setText(_translate("MainWindow", "Set Averaging", None))
         self.cmdlist.setItemText(0, _translate("MainWindow", "get_average_voltage(\'CH1\')", None))
-        self.cmdlist.setItemText(1, _translate("MainWindow", "get_freq(\'Fin\')", None))
-        self.cmdlist.setItemText(2, _translate("MainWindow", "get_high_freq(\'Fin\')", None))
+        self.cmdlist.setItemText(1, _translate("MainWindow", "get_freq(\'CNTR\')", None))
+        self.cmdlist.setItemText(2, _translate("MainWindow", "get_high_freq(\'CNTR\')", None))
         self.cmdlist.setItemText(3, _translate("MainWindow", "DutyCycle(\'ID1\')[1]", None))
         self.cmdlist.setItemText(4, _translate("MainWindow", "MeasureInterval(\'ID1\',\'ID2\',\'rising\',\'rising\')", None))
         self.msg.setText(_translate("MainWindow", ">", None))
