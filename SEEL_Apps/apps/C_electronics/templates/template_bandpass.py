@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'template_bandpass.ui'
 #
-# Created: Thu May  5 13:42:38 2016
+# Created: Thu May  5 23:57:20 2016
 #      by: PyQt4 UI code generator 4.11.3
 #
 # WARNING! All changes made in this file will be lost!

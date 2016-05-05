@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'analogScope.ui'
 #
-# Created: Thu May  5 14:15:04 2016
+# Created: Thu May  5 23:48:54 2016
 #      by: PyQt4 UI code generator 4.11.3
 #
 # WARNING! All changes made in this file will be lost!
@@ -203,7 +203,7 @@ class Ui_MainWindow(object):
         self.frame_2.setFrameShadow(QtGui.QFrame.Raised)
         self.frame_2.setObjectName(_fromUtf8("frame_2"))
         self.label_49 = QtGui.QLabel(self.frame_2)
-        self.label_49.setGeometry(QtCore.QRect(5, 5, 42, 19))
+        self.label_49.setGeometry(QtCore.QRect(5, 5, 66, 19))
         sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Maximum, QtGui.QSizePolicy.Preferred)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -225,7 +225,7 @@ class Ui_MainWindow(object):
         self.time_label.setAlignment(QtCore.Qt.AlignCenter)
         self.time_label.setObjectName(_fromUtf8("time_label"))
         self.dial = QtGui.QDial(self.frame_2)
-        self.dial.setGeometry(QtCore.QRect(20, 5, 81, 91))
+        self.dial.setGeometry(QtCore.QRect(20, 10, 81, 91))
         self.dial.setMaximum(9)
         self.dial.setPageStep(1)
         self.dial.setObjectName(_fromUtf8("dial"))
@@ -534,7 +534,7 @@ class Ui_MainWindow(object):
         self.comboBox_7.setItemText(6, _translate("MainWindow", "+/-1V", None))
         self.comboBox_7.setItemText(7, _translate("MainWindow", "+/-500mV", None))
         self.frame_2.setProperty("class", _translate("MainWindow", "PeripheralCollectionInner", None))
-        self.label_49.setText(_translate("MainWindow", "TIME", None))
+        self.label_49.setText(_translate("MainWindow", "TIMEBASE", None))
         self.trigger_frame.setProperty("class", _translate("MainWindow", "PeripheralCollectionInner", None))
         self.trigger_level_label.setText(_translate("MainWindow", "Level : 0 mV", None))
         self.dial_11.setToolTip(_translate("MainWindow", "Scroll to change trigger level", None))

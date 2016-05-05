@@ -503,8 +503,9 @@ p, li { white-space: pre-wrap; }
    </widget>
    <widget class="QMenu" name="menuHelp">
     <property name="title">
-     <string>Help</string>
+     <string>import</string>
     </property>
+    <addaction name="actionExperiments"/>
    </widget>
    <widget class="QMenu" name="menuLevel">
     <property name="title">
@@ -565,6 +566,11 @@ p, li { white-space: pre-wrap; }
   <action name="actionStop">
    <property name="text">
     <string>stop</string>
+   </property>
+  </action>
+  <action name="actionExperiments">
+   <property name="text">
+    <string>Experiment Package</string>
    </property>
   </action>
  </widget>
@@ -705,12 +711,28 @@ p, li { white-space: pre-wrap; }
    <slot>returnToApps()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>259</x>
-     <y>345</y>
+     <x>128</x>
+     <y>358</y>
     </hint>
     <hint type="destinationlabel">
      <x>455</x>
      <y>303</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionExperiments</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>importExperimentFolder()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>216</x>
+     <y>333</y>
     </hint>
    </hints>
   </connection>
@@ -738,5 +760,7 @@ p, li { white-space: pre-wrap; }
   <slot>loadAdvancedExperiments()</slot>
   <slot>startRemoteServer()</slot>
   <slot>returnToApps()</slot>
+  <slot>importExperimentFolder()</slot>
+  <slot>importExperimentFile()</slot>
  </slots>
 </ui>

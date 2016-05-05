@@ -134,7 +134,7 @@
                 <item>
                  <widget class="QLabel" name="tgLabel">
                   <property name="text">
-                   <string>-mS</string>
+                   <string>time: mS</string>
                   </property>
                  </widget>
                 </item>

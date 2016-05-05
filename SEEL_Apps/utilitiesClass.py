@@ -397,7 +397,7 @@ class utilitiesClass():
 
 	class experimentIcon(QtGui.QPushButton):
 		mouseHover = QtCore.pyqtSignal(str)
-		def __init__(self,basepackage,name,launchfunc):
+		def __init__(self,basepackage,name,launchfunc,*args):
 			super(utilitiesClass.experimentIcon, self).__init__()
 			self.setMouseTracking(True)
 			self.name = name
@@ -405,7 +405,8 @@ class utilitiesClass():
 			genName = tmp.params.get('name',name)
 			self.setText(genName)
 			self.hintText = tmp.params.get('hint','No summary available')
-			imgloc = pkg_resources.resource_filename('SEEL_Apps.icons', _fromUtf8(tmp.params.get('image','') )) 
+			if 'local' in args: imgloc = pkg_resources.resource_filename(basepackage+'.icons', _fromUtf8(tmp.params.get('image','') )) 
+			else: imgloc = pkg_resources.resource_filename('SEEL_Apps.icons', _fromUtf8(tmp.params.get('image','') )) 
 			self.hintText = '''
 			<img src="%s" align="left" width="120" style="margin: 0 20"/><strong>%s</strong><br>%s
 			'''%(imgloc,genName.replace('\n',' '),self.hintText)
@@ -421,6 +422,8 @@ class utilitiesClass():
 
 		def leaveEvent(self, event):
 			self.mouseHover.emit('')
+
+
 
 	class experimentListItem(QtGui.QPushButton):
 		mouseHover = QtCore.pyqtSignal(str)
@@ -619,7 +622,7 @@ class utilitiesClass():
 
 	def loadPro(self):
 		from os.path import expanduser
-		filename = QtGui.QFileDialog.getOpenFileName(self,  "Load a calibration folder", expanduser("./"), 'INI(*.ini)')
+		filename = QtGui.QFileDialog.getOpenFileName(self,  "Load a Profile", expanduser("./"), 'INI(*.ini)')
 		print (filename)
 		if filename :
 			saveProfile.guirestore(self, QtCore.QSettings(filename, QtCore.QSettings.IniFormat))

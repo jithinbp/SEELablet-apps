@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'single_col_exp.ui'
 #
-# Created: Tue Apr 26 16:05:34 2016
+# Created: Thu May  5 23:45:16 2016
 #      by: PyQt4 UI code generator 4.11.3
 #
 # WARNING! All changes made in this file will be lost!
@@ -261,6 +261,8 @@ class Ui_MainWindow(object):
         self.actionStart.setObjectName(_fromUtf8("actionStart"))
         self.actionStop = QtGui.QAction(MainWindow)
         self.actionStop.setObjectName(_fromUtf8("actionStop"))
+        self.actionExperiments = QtGui.QAction(MainWindow)
+        self.actionExperiments.setObjectName(_fromUtf8("actionExperiments"))
         self.menuColor_scheme.addAction(self.actionWhite)
         self.menuColor_scheme.addAction(self.actionBlack)
         self.menuRemote_server.addAction(self.actionStart)
@@ -269,6 +271,7 @@ class Ui_MainWindow(object):
         self.menuUtilities.addAction(self.actionAbout_device)
         self.menuUtilities.addAction(self.menuColor_scheme.menuAction())
         self.menuUtilities.addAction(self.menuRemote_server.menuAction())
+        self.menuHelp.addAction(self.actionExperiments)
         self.menuLevel.addAction(self.actionBasic)
         self.menuLevel.addAction(self.actionAdvanced)
         self.menubar.addAction(self.menuUtilities.menuAction())
@@ -286,6 +289,7 @@ class Ui_MainWindow(object):
         QtCore.QObject.connect(self.actionAdvanced, QtCore.SIGNAL(_fromUtf8("triggered()")), MainWindow.loadAdvancedExperiments)
         QtCore.QObject.connect(self.actionStart, QtCore.SIGNAL(_fromUtf8("triggered()")), MainWindow.startRemoteServer)
         QtCore.QObject.connect(self.pushButton_2, QtCore.SIGNAL(_fromUtf8("clicked()")), MainWindow.returnToApps)
+        QtCore.QObject.connect(self.actionExperiments, QtCore.SIGNAL(_fromUtf8("triggered()")), MainWindow.importExperimentFolder)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateUi(self, MainWindow):
@@ -310,7 +314,7 @@ class Ui_MainWindow(object):
         self.menuUtilities.setTitle(_translate("MainWindow", "Utilities", None))
         self.menuColor_scheme.setTitle(_translate("MainWindow", "color scheme", None))
         self.menuRemote_server.setTitle(_translate("MainWindow", "remote server", None))
-        self.menuHelp.setTitle(_translate("MainWindow", "Help", None))
+        self.menuHelp.setTitle(_translate("MainWindow", "import", None))
         self.menuLevel.setTitle(_translate("MainWindow", "level", None))
         self.actionIPython_Console.setText(_translate("MainWindow", "iPython Console", None))
         self.actionIPython.setText(_translate("MainWindow", "iPython Console", None))
@@ -322,4 +326,5 @@ class Ui_MainWindow(object):
         self.actionAdvanced.setText(_translate("MainWindow", "Advanced", None))
         self.actionStart.setText(_translate("MainWindow", "start", None))
         self.actionStop.setText(_translate("MainWindow", "stop", None))
+        self.actionExperiments.setText(_translate("MainWindow", "Experiment Package", None))
 

@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'template_transient.ui'
 #
-# Created: Thu May  5 13:42:37 2016
+# Created: Thu May  5 23:57:19 2016
 #      by: PyQt4 UI code generator 4.11.3
 #
 # WARNING! All changes made in this file will be lost!
@@ -186,7 +186,7 @@ class Ui_MainWindow(object):
         self.frame.setProperty("class", _translate("MainWindow", "PeripheralCollectionInner", None))
         self.pushButton_4.setText(_translate("MainWindow", "0 -> 5 V", None))
         self.pushButton.setText(_translate("MainWindow", "5 -> 0 V", None))
-        self.tgLabel.setText(_translate("MainWindow", "-mS", None))
+        self.tgLabel.setText(_translate("MainWindow", "time: mS", None))
         self.pushButton_5.setText(_translate("MainWindow", "Fit selected region", None))
         self.pushButton_6.setText(_translate("MainWindow", "Show Fit Params", None))
         self.pushButton_7.setText(_translate("MainWindow", "Save Data", None))

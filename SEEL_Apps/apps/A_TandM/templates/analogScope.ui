@@ -531,7 +531,7 @@
                  <rect>
                   <x>5</x>
                   <y>5</y>
-                  <width>42</width>
+                  <width>66</width>
                   <height>19</height>
                  </rect>
                 </property>
@@ -550,7 +550,7 @@
                  </font>
                 </property>
                 <property name="text">
-                 <string>TIME</string>
+                 <string>TIMEBASE</string>
                 </property>
                </widget>
                <widget class="QLabel" name="time_label">
@@ -578,7 +578,7 @@
                 <property name="geometry">
                  <rect>
                   <x>20</x>
-                  <y>5</y>
+                  <y>10</y>
                   <width>81</width>
                   <height>91</height>
                  </rect>
