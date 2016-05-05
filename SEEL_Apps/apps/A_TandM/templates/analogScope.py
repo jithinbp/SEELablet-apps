@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'analogScope.ui'
 #
-# Created: Wed May  4 23:34:31 2016
+# Created: Thu May  5 12:10:53 2016
 #      by: PyQt4 UI code generator 4.11.3
 #
 # WARNING! All changes made in this file will be lost!
@@ -464,17 +464,13 @@ class Ui_MainWindow(object):
         self.freezeButton.setMaximumSize(QtCore.QSize(100, 10))
         self.freezeButton.setObjectName(_fromUtf8("freezeButton"))
         self.horizontalLayout.addWidget(self.freezeButton)
+        self.pushButton_2 = QtGui.QPushButton(self.frame_9)
+        self.pushButton_2.setObjectName(_fromUtf8("pushButton_2"))
+        self.horizontalLayout.addWidget(self.pushButton_2)
         self.verticalLayout.addWidget(self.frame_9)
         self.verticalLayout_3.addLayout(self.verticalLayout)
         self.gridLayout.addLayout(self.verticalLayout_3, 0, 0, 1, 1)
         MainWindow.setCentralWidget(self.centralwidget)
-        self.menubar = QtGui.QMenuBar(MainWindow)
-        self.menubar.setGeometry(QtCore.QRect(0, 0, 932, 25))
-        self.menubar.setObjectName(_fromUtf8("menubar"))
-        self.menuOptions = QtGui.QMenu(self.menubar)
-        self.menuOptions.setObjectName(_fromUtf8("menuOptions"))
-        MainWindow.setMenuBar(self.menubar)
-        self.menubar.addAction(self.menuOptions.menuAction())
 
         self.retranslateUi(MainWindow)
         self.fit_select_box.setCurrentIndex(4)
@@ -490,6 +486,7 @@ class Ui_MainWindow(object):
         QtCore.QObject.connect(self.dial, QtCore.SIGNAL(_fromUtf8("valueChanged(int)")), MainWindow.setTimeBase)
         QtCore.QObject.connect(self.trigger_select_box, QtCore.SIGNAL(_fromUtf8("currentIndexChanged(int)")), MainWindow.setTriggerChannel)
         QtCore.QObject.connect(self.dial_11, QtCore.SIGNAL(_fromUtf8("valueChanged(int)")), MainWindow.setTriggerLevel)
+        QtCore.QObject.connect(self.pushButton_2, QtCore.SIGNAL(_fromUtf8("clicked()")), MainWindow.saveData)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateUi(self, MainWindow):
@@ -563,5 +560,5 @@ class Ui_MainWindow(object):
         self.message_label.setText(_translate("MainWindow", "Msg:", None))
         self.coord_label.setText(_translate("MainWindow", ".", None))
         self.freezeButton.setText(_translate("MainWindow", "FREEZE", None))
-        self.menuOptions.setTitle(_translate("MainWindow", "Options", None))
+        self.pushButton_2.setText(_translate("MainWindow", "Save Data", None))
 

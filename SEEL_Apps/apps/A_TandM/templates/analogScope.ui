@@ -1272,6 +1272,13 @@
              </property>
             </widget>
            </item>
+           <item>
+            <widget class="QPushButton" name="pushButton_2">
+             <property name="text">
+              <string>Save Data</string>
+             </property>
+            </widget>
+           </item>
           </layout>
          </widget>
         </item>
@@ -1280,22 +1287,6 @@
      </layout>
     </item>
    </layout>
-  </widget>
-  <widget class="QMenuBar" name="menubar">
-   <property name="geometry">
-    <rect>
-     <x>0</x>
-     <y>0</y>
-     <width>932</width>
-     <height>25</height>
-    </rect>
-   </property>
-   <widget class="QMenu" name="menuOptions">
-    <property name="title">
-     <string>Options</string>
-    </property>
-   </widget>
-   <addaction name="menuOptions"/>
   </widget>
  </widget>
  <resources/>
@@ -1308,7 +1299,7 @@
    <hints>
     <hint type="sourcelabel">
      <x>914</x>
-     <y>477</y>
+     <y>436</y>
     </hint>
     <hint type="destinationlabel">
      <x>867</x>
@@ -1324,7 +1315,7 @@
    <hints>
     <hint type="sourcelabel">
      <x>851</x>
-     <y>98</y>
+     <y>59</y>
     </hint>
     <hint type="destinationlabel">
      <x>0</x>
@@ -1340,7 +1331,7 @@
    <hints>
     <hint type="sourcelabel">
      <x>914</x>
-     <y>98</y>
+     <y>59</y>
     </hint>
     <hint type="destinationlabel">
      <x>0</x>
@@ -1356,7 +1347,7 @@
    <hints>
     <hint type="sourcelabel">
      <x>914</x>
-     <y>447</y>
+     <y>406</y>
     </hint>
     <hint type="destinationlabel">
      <x>867</x>
@@ -1372,7 +1363,7 @@
    <hints>
     <hint type="sourcelabel">
      <x>854</x>
-     <y>138</y>
+     <y>99</y>
     </hint>
     <hint type="destinationlabel">
      <x>748</x>
@@ -1387,8 +1378,8 @@
    <slot>setFourier(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>804</x>
-     <y>406</y>
+     <x>799</x>
+     <y>368</y>
     </hint>
     <hint type="destinationlabel">
      <x>891</x>
@@ -1403,8 +1394,8 @@
    <slot>setTimeBase(int)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>775</x>
-     <y>290</y>
+     <x>735</x>
+     <y>256</y>
     </hint>
     <hint type="destinationlabel">
      <x>645</x>
@@ -1419,8 +1410,8 @@
    <slot>setTriggerChannel(int)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>847</x>
-     <y>276</y>
+     <x>821</x>
+     <y>237</y>
     </hint>
     <hint type="destinationlabel">
      <x>867</x>
@@ -1436,7 +1427,7 @@
    <hints>
     <hint type="sourcelabel">
      <x>878</x>
-     <y>258</y>
+     <y>237</y>
     </hint>
     <hint type="destinationlabel">
      <x>867</x>
@@ -1444,9 +1435,24 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>pushButton_2</sender>
+   <signal>clicked()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>saveData()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>895</x>
+     <y>530</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>940</x>
+     <y>508</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
-  <slot>dump_to_file()</slot>
   <slot>byebye()</slot>
   <slot>setGainCH1(int)</slot>
   <slot>setGainCH2(int)</slot>
@@ -1497,5 +1503,6 @@
   <slot>setFourier(bool)</slot>
   <slot>enable12()</slot>
   <slot>disable12()</slot>
+  <slot>saveData()</slot>
  </slots>
 </ui>

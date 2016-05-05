@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'aboutDevice.ui'
 #
-# Created: Thu May  5 12:01:58 2016
+# Created: Thu May  5 12:06:30 2016
 #      by: PyQt4 UI code generator 4.11.3
 #
 # WARNING! All changes made in this file will be lost!
@@ -64,6 +64,7 @@ class Ui_MainWindow(object):
         self.line_3.setObjectName(_fromUtf8("line_3"))
         self.horizontalLayout.addWidget(self.line_3)
         self.headerBox = QtGui.QCheckBox(self.frame)
+        self.headerBox.setChecked(True)
         self.headerBox.setObjectName(_fromUtf8("headerBox"))
         self.horizontalLayout.addWidget(self.headerBox)
         self.line_2 = QtGui.QFrame(self.frame)
@@ -77,6 +78,7 @@ class Ui_MainWindow(object):
         self.delims = QtGui.QComboBox(self.frame)
         self.delims.setMaximumSize(QtCore.QSize(200, 16777215))
         self.delims.setObjectName(_fromUtf8("delims"))
+        self.delims.addItem(_fromUtf8(""))
         self.delims.addItem(_fromUtf8(""))
         self.delims.addItem(_fromUtf8(""))
         self.delims.addItem(_fromUtf8(""))
@@ -103,7 +105,8 @@ class Ui_MainWindow(object):
         self.headerBox.setText(_translate("MainWindow", "Include Headers", None))
         self.label.setText(_translate("MainWindow", "Separator:", None))
         self.delims.setItemText(0, _translate("MainWindow", "space", None))
-        self.delims.setItemText(1, _translate("MainWindow", "comma", None))
-        self.delims.setItemText(2, _translate("MainWindow", "semicolon", None))
+        self.delims.setItemText(1, _translate("MainWindow", "tab", None))
+        self.delims.setItemText(2, _translate("MainWindow", "comma", None))
+        self.delims.setItemText(3, _translate("MainWindow", "semicolon", None))
         self.pushButton_2.setText(_translate("MainWindow", "Save to file", None))
 

@@ -283,6 +283,8 @@ class AppWindow(QtGui.QMainWindow, digitalScope.Ui_MainWindow,utilitiesClass):
 			for a in t2:
 				i=self.timingResults.item(pos,1);i.setText(applySIPrefix(a));	pos+=1
 		
+	def saveData(self):
+		self.saveDataWindow([self.curve1,self.curve2,self.curve3,self.curve4])
 
 	def closeEvent(self, event):
 		self.timer.stop()

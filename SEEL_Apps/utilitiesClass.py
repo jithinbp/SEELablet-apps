@@ -596,10 +596,9 @@ class utilitiesClass():
 							rowdata.append('')
 					writer.writerow(rowdata)
 
-	def saveDataWidget(self,curveList):
+	def saveDataWindow(self,curveList):
 		from utilityApps import spreadsheet
 		info = spreadsheet.AppWindow(self)
-		info.show()
 		colnum=0;labels=[]
 		for a in curveList:
 			x,y = a.getData()
@@ -609,6 +608,7 @@ class utilitiesClass():
 				info.setColumn(colnum,y);colnum+=1
 				labels.append('%s(X)'%(name));labels.append('%s(Y))'%(name));
 		info.table.setHorizontalHeaderLabels(labels)
+		info.show()
 
 
 

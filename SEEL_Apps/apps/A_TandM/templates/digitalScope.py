@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'digitalScope.ui'
 #
-# Created: Thu May  5 00:04:53 2016
+# Created: Thu May  5 12:10:56 2016
 #      by: PyQt4 UI code generator 4.11.3
 #
 # WARNING! All changes made in this file will be lost!
@@ -375,6 +375,10 @@ class Ui_MainWindow(object):
         self.freezeButton.setMaximumSize(QtCore.QSize(100, 10))
         self.freezeButton.setObjectName(_fromUtf8("freezeButton"))
         self.horizontalLayout.addWidget(self.freezeButton)
+        self.pushButton_4 = QtGui.QPushButton(self.frame_9)
+        self.pushButton_4.setMaximumSize(QtCore.QSize(100, 16777215))
+        self.pushButton_4.setObjectName(_fromUtf8("pushButton_4"))
+        self.horizontalLayout.addWidget(self.pushButton_4)
         self.verticalLayout.addWidget(self.frame_9)
         MainWindow.setCentralWidget(self.centralwidget)
         self.actionSave_as = QtGui.QAction(MainWindow)
@@ -398,6 +402,7 @@ class Ui_MainWindow(object):
         QtCore.QObject.connect(self.pushButton, QtCore.SIGNAL(_fromUtf8("clicked()")), MainWindow.capture)
         QtCore.QObject.connect(self.pushButton_3, QtCore.SIGNAL(_fromUtf8("clicked()")), MainWindow.showData)
         QtCore.QObject.connect(self.pushButton_2, QtCore.SIGNAL(_fromUtf8("clicked()")), MainWindow.plotData)
+        QtCore.QObject.connect(self.pushButton_4, QtCore.SIGNAL(_fromUtf8("clicked()")), MainWindow.saveData)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateUi(self, MainWindow):
@@ -476,5 +481,6 @@ class Ui_MainWindow(object):
         self.message_label.setText(_translate("MainWindow", "Msg:", None))
         self.coord_label.setText(_translate("MainWindow", "TextLabel", None))
         self.freezeButton.setText(_translate("MainWindow", "FREEZE", None))
+        self.pushButton_4.setText(_translate("MainWindow", "Save Data", None))
         self.actionSave_as.setText(_translate("MainWindow", "Save as", None))
 

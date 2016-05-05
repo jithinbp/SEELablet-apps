@@ -61,7 +61,7 @@ class AppWindow(QtGui.QMainWindow, aboutDevice.Ui_MainWindow):
 			with open(unicode(path), 'wb') as stream:
 				headers = []
 				for column in range(self.table.columnCount()):headers.append(self.table.horizontalHeaderItem(column).text())
-				delim = [' ',',',';']
+				delim = [' ','\t',',',';']
 				writer = csv.writer(stream, delimiter = delim[self.delims.currentIndex()])
 				if self.headerBox.isChecked():writer.writerow(headers)
 				#writer.writeheader()

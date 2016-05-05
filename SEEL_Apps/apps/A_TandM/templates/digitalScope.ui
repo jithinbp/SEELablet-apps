@@ -971,6 +971,19 @@
          </property>
         </widget>
        </item>
+       <item>
+        <widget class="QPushButton" name="pushButton_4">
+         <property name="maximumSize">
+          <size>
+           <width>100</width>
+           <height>16777215</height>
+          </size>
+         </property>
+         <property name="text">
+          <string>Save Data</string>
+         </property>
+        </widget>
+       </item>
       </layout>
      </widget>
     </item>
@@ -991,8 +1004,8 @@
    <slot>setActiveDigitalChannels(QString)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>759</x>
-     <y>105</y>
+     <x>762</x>
+     <y>85</y>
     </hint>
     <hint type="destinationlabel">
      <x>888</x>
@@ -1007,8 +1020,8 @@
    <slot>set_dchan_mode_ch3(int)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>833</x>
-     <y>291</y>
+     <x>872</x>
+     <y>266</y>
     </hint>
     <hint type="destinationlabel">
      <x>888</x>
@@ -1023,8 +1036,8 @@
    <slot>set_dchan_mode_ch2(int)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>833</x>
-     <y>267</y>
+     <x>872</x>
+     <y>242</y>
     </hint>
     <hint type="destinationlabel">
      <x>888</x>
@@ -1039,8 +1052,8 @@
    <slot>set_dchan_mode_ch1(int)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>869</x>
-     <y>244</y>
+     <x>872</x>
+     <y>219</y>
     </hint>
     <hint type="destinationlabel">
      <x>888</x>
@@ -1055,8 +1068,8 @@
    <slot>set_dchan_mode_ch4(int)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>833</x>
-     <y>312</y>
+     <x>872</x>
+     <y>290</y>
     </hint>
     <hint type="destinationlabel">
      <x>888</x>
@@ -1071,8 +1084,8 @@
    <slot>measure_interval()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>693</x>
-     <y>370</y>
+     <x>872</x>
+     <y>414</y>
     </hint>
     <hint type="destinationlabel">
      <x>272</x>
@@ -1087,8 +1100,8 @@
    <slot>capture()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>692</x>
-     <y>65</y>
+     <x>695</x>
+     <y>40</y>
     </hint>
     <hint type="destinationlabel">
      <x>814</x>
@@ -1103,8 +1116,8 @@
    <slot>showData()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>845</x>
-     <y>52</y>
+     <x>890</x>
+     <y>40</y>
     </hint>
     <hint type="destinationlabel">
      <x>900</x>
@@ -1119,12 +1132,28 @@
    <slot>plotData()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>772</x>
-     <y>51</y>
+     <x>795</x>
+     <y>40</y>
     </hint>
     <hint type="destinationlabel">
      <x>763</x>
      <y>-13</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_4</sender>
+   <signal>clicked()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>saveData()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>864</x>
+     <y>536</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>901</x>
+     <y>538</y>
     </hint>
    </hints>
   </connection>
@@ -1180,5 +1209,6 @@
   <slot>capture()</slot>
   <slot>showData()</slot>
   <slot>plotData()</slot>
+  <slot>saveData()</slot>
  </slots>
 </ui>
