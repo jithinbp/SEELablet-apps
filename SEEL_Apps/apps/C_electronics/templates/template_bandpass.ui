@@ -65,7 +65,7 @@
          <property name="minimumSize">
           <size>
            <width>0</width>
-           <height>150</height>
+           <height>80</height>
           </size>
          </property>
          <property name="frameShape">
@@ -78,6 +78,12 @@
           <string>PeripheralCollectionInner</string>
          </property>
          <layout class="QGridLayout" name="gridLayout">
+          <property name="margin">
+           <number>0</number>
+          </property>
+          <property name="spacing">
+           <number>2</number>
+          </property>
           <item row="4" column="0">
            <widget class="QLabel" name="label_6">
             <property name="text">
@@ -220,6 +226,19 @@
             </property>
            </widget>
           </item>
+          <item row="4" column="4">
+           <widget class="QPushButton" name="pushButton_3">
+            <property name="minimumSize">
+             <size>
+              <width>94</width>
+              <height>30</height>
+             </size>
+            </property>
+            <property name="text">
+             <string>Save Plots</string>
+            </property>
+           </widget>
+          </item>
          </layout>
         </widget>
        </item>
@@ -263,8 +282,8 @@
               <rect>
                <x>0</x>
                <y>0</y>
-               <width>796</width>
-               <height>412</height>
+               <width>794</width>
+               <height>465</height>
               </rect>
              </property>
              <layout class="QGridLayout" name="gridLayout_4">
@@ -310,8 +329,8 @@
    <slot>run()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>793</x>
-     <y>120</y>
+     <x>801</x>
+     <y>93</y>
     </hint>
     <hint type="destinationlabel">
      <x>741</x>
@@ -326,8 +345,8 @@
    <slot>delete_curve()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>792</x>
-     <y>77</y>
+     <x>796</x>
+     <y>59</y>
     </hint>
     <hint type="destinationlabel">
      <x>741</x>
@@ -335,9 +354,26 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>pushButton_3</sender>
+   <signal>clicked()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>savePlots()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>725</x>
+     <y>113</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>719</x>
+     <y>-2</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>run()</slot>
   <slot>delete_curve()</slot>
+  <slot>savePlots()</slot>
  </slots>
 </ui>

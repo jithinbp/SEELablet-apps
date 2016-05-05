@@ -63,7 +63,7 @@ class AppWindow(QtGui.QMainWindow, template_xl.Ui_MainWindow,utilitiesClass):
 		self.timer = QtCore.QTimer()
 
 		self.curveCH1 = self.addCurve(self.plot1,'VL(CH1-CH2)')
-		self.curveCH2 = self.addCurve(self.p2,'Current')
+		self.curveCH2 = self.addCurve(self.p2,'Current',pen=[0,255,255])
 		self.WidgetLayout.setAlignment(QtCore.Qt.AlignLeft)
 
 		a1={'TITLE':'Wave 1','MIN':0,'MAX':5000,'FUNC':self.I.set_sine1,'TYPE':'dial','UNITS':'Hz','TOOLTIP':'Frequency of waveform generator #1','LINK':self.updateLabels}
@@ -82,6 +82,7 @@ class AppWindow(QtGui.QMainWindow, template_xl.Ui_MainWindow,utilitiesClass):
 		self.currentRow=0		
 		self.plotAButton.setText('F vs XL')
 		self.plotBButton.setParent(None)#Text('F vs 1/XL')
+		self.splitter.setSizes([10,1000])
 
 	def updateLabels(self,value,units=''):
 		self.fdial.value.setText('%.3f %s '%(value,units))
@@ -169,6 +170,9 @@ class AppWindow(QtGui.QMainWindow, template_xl.Ui_MainWindow,utilitiesClass):
 
 	def saveFile(self):
 		self.saveToCSV(self.resultsTable)
+
+	def savePlot(self):
+		self.saveDataWindow([self.curveCH1,self.curveCH2])
 
 	def setTimebase(self,T):
 		self.tgs = [0.5,1,2,4,6,8,10,25,50,100]

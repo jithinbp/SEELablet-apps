@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'template_graph.ui'
 #
-# Created: Fri Apr  8 17:47:17 2016
+# Created: Thu May  5 13:42:37 2016
 #      by: PyQt4 UI code generator 4.11.3
 #
 # WARNING! All changes made in this file will be lost!
@@ -50,11 +50,18 @@ class Ui_MainWindow(object):
         self.frame.setFrameShape(QtGui.QFrame.StyledPanel)
         self.frame.setFrameShadow(QtGui.QFrame.Raised)
         self.frame.setObjectName(_fromUtf8("frame"))
-        self.verticalLayout = QtGui.QVBoxLayout(self.frame)
-        self.verticalLayout.setObjectName(_fromUtf8("verticalLayout"))
+        self.horizontalLayout = QtGui.QHBoxLayout(self.frame)
+        self.horizontalLayout.setSpacing(0)
+        self.horizontalLayout.setMargin(0)
+        self.horizontalLayout.setObjectName(_fromUtf8("horizontalLayout"))
         self.WidgetLayout = QtGui.QHBoxLayout()
+        self.WidgetLayout.setContentsMargins(-1, 5, -1, -1)
         self.WidgetLayout.setObjectName(_fromUtf8("WidgetLayout"))
-        self.verticalLayout.addLayout(self.WidgetLayout)
+        self.horizontalLayout.addLayout(self.WidgetLayout)
+        self.pushButton = QtGui.QPushButton(self.frame)
+        self.pushButton.setMaximumSize(QtCore.QSize(80, 16777215))
+        self.pushButton.setObjectName(_fromUtf8("pushButton"))
+        self.horizontalLayout.addWidget(self.pushButton)
         self.verticalLayout_3.addWidget(self.frame)
         self.frame_2 = QtGui.QFrame(self.widgetFrameOuter)
         sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Preferred, QtGui.QSizePolicy.Preferred)
@@ -74,7 +81,7 @@ class Ui_MainWindow(object):
         self.scrollArea.setWidgetResizable(True)
         self.scrollArea.setObjectName(_fromUtf8("scrollArea"))
         self.scrollAreaWidgetContents = QtGui.QWidget()
-        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 824, 453))
+        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 822, 470))
         self.scrollAreaWidgetContents.setObjectName(_fromUtf8("scrollAreaWidgetContents"))
         self.gridLayout_4 = QtGui.QGridLayout(self.scrollAreaWidgetContents)
         self.gridLayout_4.setMargin(2)
@@ -88,16 +95,14 @@ class Ui_MainWindow(object):
         self.verticalLayout_3.addWidget(self.frame_2)
         self.gridLayout_3.addWidget(self.widgetFrameOuter, 0, 0, 1, 1)
         MainWindow.setCentralWidget(self.centralwidget)
-        self.menubar = QtGui.QMenuBar(MainWindow)
-        self.menubar.setGeometry(QtCore.QRect(0, 0, 832, 25))
-        self.menubar.setObjectName(_fromUtf8("menubar"))
-        MainWindow.setMenuBar(self.menubar)
 
         self.retranslateUi(MainWindow)
+        QtCore.QObject.connect(self.pushButton, QtCore.SIGNAL(_fromUtf8("clicked()")), MainWindow.savePlots)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateUi(self, MainWindow):
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow", None))
         self.widgetFrameOuter.setProperty("class", _translate("MainWindow", "PeripheralCollection", None))
+        self.pushButton.setText(_translate("MainWindow", "Save Plots", None))
         self.frame_2.setProperty("class", _translate("MainWindow", "PeripheralCollectionInner", None))
 

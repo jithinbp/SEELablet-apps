@@ -83,6 +83,10 @@ class AppWindow(QtGui.QMainWindow, template_xc.Ui_MainWindow,utilitiesClass):
 		
 		self.plotAButton.setText('F vs Xc')
 		self.plotBButton.setText('F vs 1/Xc')
+		self.splitter.setSizes([10,1000])
+
+	def savePlots(self):
+		self.saveDataWindow([self.curveCH1,self.curveCH2])
 
 	def updateLabels(self,value,units=''):
 		self.fdial.value.setText('%.3f %s '%(value,units))

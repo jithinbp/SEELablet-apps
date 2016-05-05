@@ -86,7 +86,7 @@ class AppWindow(QtGui.QMainWindow, digitalScope.Ui_MainWindow,utilitiesClass):
 		self.plot.setLabel('left','CH1', units='V',**self.LlabelStyle)
 		#self.plot.addLegend(offset=(-10,30))
 		self.plot.getPlotItem().setMouseEnabled(True,False)
-		self.plot.setLimits(yMax=10,yMin=0)
+		self.plot.setLimits(yMax=10,yMin=0,xMin=0)
 		ydict = {2:'Chan 1', 4:'Chan 2', 6:'Chan 3', 8:'Chan 4'}
 		self.plot.getAxis('left').setTicks([ydict.items()])
 

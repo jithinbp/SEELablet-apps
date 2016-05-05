@@ -104,6 +104,8 @@ class AppWindow(QtGui.QMainWindow, template_graph.Ui_MainWindow,utilitiesClass):
 		self.finished=True
 		self.running=False
 		
+	def savePlots(self):
+		self.saveDataWindow([self.curveCH1,self.curveCH2])
 		
 
 	def __del__(self):

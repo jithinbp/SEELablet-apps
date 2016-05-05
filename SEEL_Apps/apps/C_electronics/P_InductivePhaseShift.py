@@ -64,7 +64,7 @@ class AppWindow(QtGui.QMainWindow, template_xl.Ui_MainWindow,utilitiesClass):
 		self.plot2.setYRange(-8.5,8.5)
 		self.plot2.setXRange(-8.5,8.5)
 		self.plot2.addLegend()
-		self.curveXY = self.addCurve(self.plot2,'Vc vs Vr',(255,255,255))
+		self.curveXY = self.addCurve(self.plot2,'Vc vs Vr',pen=[0,255,255])
 
 
 		from SEEL.analyticsClass import analyticsClass
@@ -95,6 +95,10 @@ class AppWindow(QtGui.QMainWindow, template_xl.Ui_MainWindow,utilitiesClass):
 		
 		self.plotAButton.setText('F vs dP')
 		self.plotBButton.setParent(None)
+		self.splitter.setSizes([10,1000])
+
+	def savePlot(self):
+		self.saveDataWindow([self.curveCH1,self.curveCH2,self.curveXY])
 
 	def updateLabels(self,value,units=''):
 		self.fdial.value.setText('%.3f %s '%(value,units))

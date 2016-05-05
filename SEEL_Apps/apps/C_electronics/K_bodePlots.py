@@ -9,14 +9,14 @@ can be easily visualized.
 from __future__ import print_function
 import os
 
+from SEEL_Apps.utilitiesClass import utilitiesClass
 from PyQt4 import QtCore, QtGui
 import time,sys
-from templates import template_bandpass
 
 import sys
 
 import pyqtgraph as pg
-from SEEL_Apps.utilitiesClass import utilitiesClass
+from templates import template_bandpass
 
 import numpy as np
 
@@ -85,6 +85,9 @@ class AppWindow(QtGui.QMainWindow, template_bandpass.Ui_MainWindow,utilitiesClas
 		self.plot2.setXRange(self.STARTFRQ,self.ENDFRQ)
 		self.plot2.setYRange(0,1.)
 		self.active=False
+
+	def savePlots(self):
+		self.saveDataWindow([self.curve1,self.curve2,self.curvePhase])
 
 
 	def setStartFreq(self,val):

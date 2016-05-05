@@ -7,16 +7,12 @@ can be easily visualized.
 '''
 
 from __future__ import print_function
-import os
+import time,sys,os
 
-from PyQt4 import QtCore, QtGui
-import time,sys
-from templates import transistorCE
-
-import sys
-
-import pyqtgraph as pg
 from SEEL_Apps.utilitiesClass import utilitiesClass
+from templates import transistorCE
+from PyQt4 import QtCore, QtGui
+import pyqtgraph as pg
 
 import numpy as np
 
@@ -49,13 +45,16 @@ class AppWindow(QtGui.QMainWindow, transistorCE.Ui_MainWindow,utilitiesClass):
 		self.looptimer = QtCore.QTimer()
 		self.looptimer.timeout.connect(self.acquire)
 
+	def savePlots(self):
+		self.saveDataWindow(self.curves)
+
 
 	def run(self):
 		self.looptimer.stop()
 		self.X=[];self.Y=[]
 		self.base_voltage = self.baseV.value()
 
-		self.curves.append( self.addCurve(self.plot ,'%.3f'%(self.base_voltage))  )
+		self.curves.append( self.addCurve(self.plot ,'Vb = %.3f'%(self.base_voltage))  )
 
 		self.I.set_pv3(self.base_voltage) # set base current. PV3+200K resistor
 
@@ -91,8 +90,11 @@ class AppWindow(QtGui.QMainWindow, transistorCE.Ui_MainWindow,utilitiesClass):
 		c = self.tracesBox.currentIndex()
 		if c>-1:
 			self.tracesBox.removeItem(c)
-			self.plot.removeItem(self.curves[c]);self.plot.removeItem(self.curveLabels[c]);
+			self.removeCurve(self.plot,self.curves[c]);
+			self.plot.removeItem(self.curveLabels[c]);
 			self.curves.pop(c);self.curveLabels.pop(c);
+			if len(self.curves)==0: # reset counter for plot numbers
+				self.plotnum=0
 
 
 	def __del__(self):
@@ -102,4 +104,12 @@ class AppWindow(QtGui.QMainWindow, transistorCE.Ui_MainWindow,utilitiesClass):
 	def closeEvent(self, event):
 		self.looptimer.stop()
 		self.finished=True
+
+
+if __name__ == "__main__":
+    from SEEL import interface
+    app = QtGui.QApplication(sys.argv)
+    myapp = AppWindow(I=interface.connect())
+    myapp.show()
+    sys.exit(app.exec_())
 

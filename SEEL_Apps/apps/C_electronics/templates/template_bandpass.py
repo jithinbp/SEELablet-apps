@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'template_bandpass.ui'
 #
-# Created: Fri Apr  8 17:47:18 2016
+# Created: Thu May  5 13:42:38 2016
 #      by: PyQt4 UI code generator 4.11.3
 #
 # WARNING! All changes made in this file will be lost!
@@ -52,11 +52,13 @@ class Ui_MainWindow(object):
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.frame.sizePolicy().hasHeightForWidth())
         self.frame.setSizePolicy(sizePolicy)
-        self.frame.setMinimumSize(QtCore.QSize(0, 150))
+        self.frame.setMinimumSize(QtCore.QSize(0, 80))
         self.frame.setFrameShape(QtGui.QFrame.StyledPanel)
         self.frame.setFrameShadow(QtGui.QFrame.Raised)
         self.frame.setObjectName(_fromUtf8("frame"))
         self.gridLayout = QtGui.QGridLayout(self.frame)
+        self.gridLayout.setMargin(0)
+        self.gridLayout.setSpacing(2)
         self.gridLayout.setObjectName(_fromUtf8("gridLayout"))
         self.label_6 = QtGui.QLabel(self.frame)
         self.label_6.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
@@ -112,6 +114,10 @@ class Ui_MainWindow(object):
         self.stepFreq.setProperty("value", 100)
         self.stepFreq.setObjectName(_fromUtf8("stepFreq"))
         self.gridLayout.addWidget(self.stepFreq, 4, 1, 1, 1)
+        self.pushButton_3 = QtGui.QPushButton(self.frame)
+        self.pushButton_3.setMinimumSize(QtCore.QSize(94, 30))
+        self.pushButton_3.setObjectName(_fromUtf8("pushButton_3"))
+        self.gridLayout.addWidget(self.pushButton_3, 4, 4, 1, 1)
         self.verticalLayout_3.addWidget(self.frame)
         self.frame_2 = QtGui.QFrame(self.widgetFrameOuter)
         sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Preferred, QtGui.QSizePolicy.Preferred)
@@ -131,7 +137,7 @@ class Ui_MainWindow(object):
         self.scrollArea.setWidgetResizable(True)
         self.scrollArea.setObjectName(_fromUtf8("scrollArea"))
         self.scrollAreaWidgetContents = QtGui.QWidget()
-        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 796, 412))
+        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 794, 465))
         self.scrollAreaWidgetContents.setObjectName(_fromUtf8("scrollAreaWidgetContents"))
         self.gridLayout_4 = QtGui.QGridLayout(self.scrollAreaWidgetContents)
         self.gridLayout_4.setMargin(2)
@@ -156,6 +162,7 @@ class Ui_MainWindow(object):
         self.retranslateUi(MainWindow)
         QtCore.QObject.connect(self.pushButton, QtCore.SIGNAL(_fromUtf8("clicked()")), MainWindow.run)
         QtCore.QObject.connect(self.pushButton_2, QtCore.SIGNAL(_fromUtf8("clicked()")), MainWindow.delete_curve)
+        QtCore.QObject.connect(self.pushButton_3, QtCore.SIGNAL(_fromUtf8("clicked()")), MainWindow.savePlots)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateUi(self, MainWindow):
@@ -168,5 +175,6 @@ class Ui_MainWindow(object):
         self.pushButton.setText(_translate("MainWindow", "Start Sweep", None))
         self.pushButton_2.setText(_translate("MainWindow", "DEL", None))
         self.label_4.setText(_translate("MainWindow", "Start Frequency", None))
+        self.pushButton_3.setText(_translate("MainWindow", "Save Plots", None))
         self.frame_2.setProperty("class", _translate("MainWindow", "PeripheralCollectionInner", None))
 

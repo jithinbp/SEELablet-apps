@@ -48,11 +48,14 @@ class AppWindow(QtGui.QMainWindow, diodeIV.Ui_MainWindow,utilitiesClass):
 		self.looptimer.timeout.connect(self.acquire)
 
 
+	def savePlots(self):
+		self.saveDataWindow(self.curves)
+
 	def run(self):
 		self.looptimer.stop()
 		self.X=[];self.Y=[]
 		self.plotnum+=1
-		self.curves.append( self.addCurve(self.plot ,'%.3f'%(self.plotnum))  )
+		self.curves.append( self.addCurve(self.plot ,'Plot #%d'%(self.plotnum))  )
 
 		self.V = self.startV.value()
 		self.I.set_pv1(self.V) 
@@ -64,6 +67,7 @@ class AppWindow(QtGui.QMainWindow, diodeIV.Ui_MainWindow,utilitiesClass):
 		self.plot.setYRange(0,4e-3)
 
 		self.looptimer.start(20)
+
 
 	def acquire(self):
 		V=self.I.set_pv1(self.V)

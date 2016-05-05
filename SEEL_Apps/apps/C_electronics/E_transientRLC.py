@@ -47,6 +47,7 @@ from templates import template_transient
 import numpy as np
 from PyQt4 import QtGui,QtCore
 import pyqtgraph as pg
+import sys,time
 
 params = {
 'image' : 'transient.png',
@@ -87,24 +88,30 @@ class AppWindow(QtGui.QMainWindow, template_transient.Ui_MainWindow,utilitiesCla
 		self.region.setZValue(-10)
 		self.plot1.addItem(self.region)		
 		self.lognum=0
-		self.ON="background-color: rgb(0,255,0);"
-		self.OFF="background-color: rgb(255, 0, 0);"
 		self.state=0
 		self.I.set_state(SQR1=0)
-		self.indicator.setStyleSheet(self.OFF)
 		self.msg.setText("Fitting fn :\noff+amp*exp(-damp*x)*sin(x*freq+ph)")
 		self.Params=[]
+
+	def saveData(self):
+		self.saveDataWindow([self.curveCH1,self.CH1Fit])
 		
-	def run(self):
-		self.state = 0 if self.state else 1
-		self.I.__capture_fullspeed__('CH1',5000,self.tg,['SET_LOW','SET_HIGH'][self.state])
-		if(self.state):self.indicator.setStyleSheet(self.ON)
-		else:self.indicator.setStyleSheet(self.OFF)
+	def ZeroToFive(self):
+		self.I.set_state(SQR1 = 0); time.sleep(0.2) #DisCharge Circuit
+		self.I.__capture_fullspeed__('CH1',5000,self.tg,'SET_HIGH')
 		self.CH1Fit.setData([],[])
 		self.loop=self.delayedTask(5000*self.I.timebase*1e-3+10,self.plotData)
 
+	def FiveToZero(self):
+		self.I.set_state(SQR1 = 1); time.sleep(0.2) #Charge Circuit
+		self.I.__capture_fullspeed__('CH1',5000,self.tg,'SET_LOW')
+		self.CH1Fit.setData([],[])
+		self.loop=self.delayedTask(5000*self.I.timebase*1e-3+10,self.plotData)
+
+
 	def plotData(self):	
 		self.x,self.VMID=self.I.__retrieveBufferData__('CH1',self.I.samples,self.I.timebase)#self.I.fetch_trace(1)
+		self.VMID = self.I.analogInputSources['CH1'].calPoly10(self.VMID)
 		self.curveCH1.setData(self.x,self.VMID)
 
 

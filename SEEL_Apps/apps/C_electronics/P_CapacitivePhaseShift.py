@@ -94,6 +94,7 @@ class AppWindow(QtGui.QMainWindow, template_xc.Ui_MainWindow,utilitiesClass):
 		self.running=True
 		self.plotAButton.setText('F vs dP')
 		self.plotBButton.setText('F vs Vc/I')
+		self.splitter.setSizes([10,1000])
 
 	def updateLabels(self,value,units=''):
 		self.fdial.value.setText('%.3f %s '%(value,units))
@@ -179,6 +180,9 @@ class AppWindow(QtGui.QMainWindow, template_xc.Ui_MainWindow,utilitiesClass):
 
 	def saveFile(self):
 		self.saveToCSV(self.resultsTable)
+
+	def savePlots(self):
+		self.saveDataWindow([self.curveCH1,self.curveCH2,self.curveXY])
 
 
 	def setTimebase(self,T):

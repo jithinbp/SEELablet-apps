@@ -86,6 +86,7 @@ class AppWindow(QtGui.QMainWindow, template_xl.Ui_MainWindow,utilitiesClass):
 		
 		self.plotAButton.setText('F vs Xc')
 		self.plotBButton.setText('F vs 1/Xc')
+		self.splitter.setSizes([10,1000])
 
 	def updateLabels(self,value,units=''):
 		self.fdial.value.setText('%.3f %s '%(value,units))
@@ -178,6 +179,9 @@ class AppWindow(QtGui.QMainWindow, template_xl.Ui_MainWindow,utilitiesClass):
 
 	def saveFile(self):
 		self.saveToCSV(self.resultsTable)
+
+	def savePlot(self):
+		self.saveDataWindow([self.curveVL,self.curveVC,self.curveVLC,self.curveVR])
 
 
 	def setTimebase(self,T):
