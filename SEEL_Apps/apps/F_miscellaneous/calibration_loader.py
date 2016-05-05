@@ -254,7 +254,7 @@ class AppWindow(QtGui.QMainWindow, calibration_loader.Ui_MainWindow,utilitiesCla
 				print 'fitvals',fitvals
 
 			print('Capacitance and current source : ' ,self.CAP_AND_PCS)
-
+			self.saveDataWidget(self.cleanCurves.values())
 	def stoa(self,s):
 		return [ord(a) for a in s]
 	def atos(self,a):

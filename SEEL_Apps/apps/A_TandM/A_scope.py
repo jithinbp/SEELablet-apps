@@ -533,6 +533,7 @@ class AppWindow(QtGui.QMainWindow, analogScope.Ui_MainWindow,utilitiesClass):
 			self.plot.setXRange(0,xlen)
 
 	def enableXY(self,state):
+		self.saveDataWidget([self.curve1,self.curve2,self.curve3,self.curve4])
 		self.autoRange()
 		
 	def plot_liss(self):
