@@ -10,6 +10,7 @@ from PyQt4 import QtCore, QtGui
 import pyqtgraph as pg
 from SEEL_Apps.templates.widgets import dial,button,selectAndButton,sineWidget,pwmWidget,supplyWidget,setStateList,sensorWidget
 from SEEL_Apps.templates.widgets import spinBox,doubleSpinBox
+from SEEL_Apps import saveProfile
 import numpy as np
 
 try:
@@ -610,5 +611,17 @@ class utilitiesClass():
 		info.table.setHorizontalHeaderLabels(labels)
 		info.show()
 
+
+	def savePro(self):
+		from os.path import expanduser
+		path = QtGui.QFileDialog.getSaveFileName(self, 'Save Profile',  expanduser("./"), 'INI(*.ini)')
+		if path : saveProfile.guisave(self, QtCore.QSettings(path, QtCore.QSettings.IniFormat))
+
+	def loadPro(self):
+		from os.path import expanduser
+		filename = QtGui.QFileDialog.getOpenFileName(self,  "Load a calibration folder", expanduser("./"), 'INI(*.ini)')
+		print (filename)
+		if filename :
+			saveProfile.guirestore(self, QtCore.QSettings(filename, QtCore.QSettings.IniFormat))
 
 
