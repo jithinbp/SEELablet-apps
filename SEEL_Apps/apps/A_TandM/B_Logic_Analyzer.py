@@ -86,7 +86,10 @@ class AppWindow(QtGui.QMainWindow, digitalScope.Ui_MainWindow,utilitiesClass):
 		self.plot.setLabel('left','CH1', units='V',**self.LlabelStyle)
 		#self.plot.addLegend(offset=(-10,30))
 		self.plot.getPlotItem().setMouseEnabled(True,False)
-		self.plot.setLimits(yMax=12.5,yMin=0)
+		self.plot.setLimits(yMax=10,yMin=0)
+		ydict = {2:'Chan 1', 4:'Chan 2', 6:'Chan 3', 8:'Chan 4'}
+		self.plot.getAxis('left').setTicks([ydict.items()])
+
 
 
 
@@ -178,31 +181,31 @@ class AppWindow(QtGui.QMainWindow, digitalScope.Ui_MainWindow,utilitiesClass):
 		self.curve3.clear()
 		self.curve4.clear()
 		self.maxT=0
-		self.curve1.setData(self.I.dchans[0].get_xaxis()*1e-6,self.I.dchans[0].get_yaxis() )
+		self.curve1.setData(self.I.dchans[0].get_xaxis()*1e-6,self.I.dchans[0].get_yaxis()+2 )
 		if self.maxT < self.I.dchans[0].maxT*1e-6: self.maxT = self.I.dchans[0].maxT*1e-6
 		if self.I.dchans[0].plot_length==1: #No level changes were detected
-			x=self.I.dchans[0].xaxis[0]*1e-6;y=self.I.dchans[0].yaxis[0]
+			x=self.I.dchans[0].xaxis[0]*1e-6;y=self.I.dchans[0].yaxis[0]+2
 			self.curve1.setData([x,x+self.maxT],[y,y])
 		if(self.active_dchannels>1):
-			self.curve2.setData(self.I.dchans[1].get_xaxis()*1e-6,self.I.dchans[1].get_yaxis() )
+			self.curve2.setData(self.I.dchans[1].get_xaxis()*1e-6,self.I.dchans[1].get_yaxis()+4 )
 			if self.maxT < self.I.dchans[1].maxT*1e-6: self.maxT = self.I.dchans[1].maxT *1e-6
 			if self.I.dchans[1].plot_length==1: #No level changes were detected
-				x=self.I.dchans[1].xaxis[0]*1e-6;y=self.I.dchans[1].yaxis[0]
+				x=self.I.dchans[1].xaxis[0]*1e-6;y=self.I.dchans[1].yaxis[0]+4
 				self.curve2.setData([x,x+self.maxT],[y,y])
 		else:	self.curve2.clear()		
 		if(self.active_dchannels>2):
-			self.curve3.setData(self.I.dchans[2].get_xaxis()*1e-6,self.I.dchans[2].get_yaxis())
+			self.curve3.setData(self.I.dchans[2].get_xaxis()*1e-6,self.I.dchans[2].get_yaxis()+6)
 			if self.maxT < self.I.dchans[2].maxT*1e-6: self.maxT = self.I.dchans[2].maxT*1e-6 
 			if self.I.dchans[2].plot_length==1: #No level changes were detected
-				x=self.I.dchans[2].xaxis[0]*1e-6;y=self.I.dchans[2].yaxis[0]
+				x=self.I.dchans[2].xaxis[0]*1e-6;y=self.I.dchans[2].yaxis[0]+6
 				self.curve3.setData([x,x+self.dtime*1e6],[y,y])
 		else:	self.curve3.clear()
 		
 		if(self.active_dchannels>3):
-			self.curve4.setData(self.I.dchans[3].get_xaxis()*1e-6,self.I.dchans[3].get_yaxis() )
+			self.curve4.setData(self.I.dchans[3].get_xaxis()*1e-6,self.I.dchans[3].get_yaxis() +8)
 			if self.maxT < self.I.dchans[3].maxT*1e-6: self.maxT = self.I.dchans[3].maxT *1e-6
 			if self.I.dchans[3].plot_length==1: #No level changes were detected
-				x=self.I.dchans[3].xaxis[0]*1e-6;y=self.I.dchans[3].yaxis[0]
+				x=self.I.dchans[3].xaxis[0]*1e-6;y=self.I.dchans[3].yaxis[0]+8
 				self.curve4.setData([x,x+self.maxT],[y,y])
 		else:	self.curve4.clear()
 
@@ -275,13 +278,13 @@ class AppWindow(QtGui.QMainWindow, digitalScope.Ui_MainWindow,utilitiesClass):
 
 		t1,t2 = self.I.MeasureMultipleDigitalEdges(self.edge1chan.currentText(),self.edge2chan.currentText(),self.edge1edge.currentText(),self.edge2edge.currentText(),self.edge1Count.currentIndex()+1,self.edge2Count.currentIndex()+1,self.timeoutBox.value()/1000.)
 		pos=0
-		if t1:
+		if t1!=None:
 			for a in t1:
-				i=self.timingResults.item(pos,0);	i.setText(applySIPrefix(a));		pos+=1
+				i=self.timingResults.item(pos,0);	i.setText(applySIPrefix(a,'S'));		pos+=1
 		pos=0
-		if t2:
+		if t2!=None:
 			for a in t2:
-				i=self.timingResults.item(pos,1);i.setText(applySIPrefix(a));	pos+=1
+				i=self.timingResults.item(pos,1);i.setText(applySIPrefix(a,'S'));	pos+=1
 		
 	def saveData(self):
 		self.saveDataWindow([self.curve1,self.curve2,self.curve3,self.curve4])
