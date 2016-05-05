@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>704</width>
+    <width>743</width>
     <height>447</height>
    </rect>
   </property>
@@ -67,36 +67,7 @@
        <enum>QFrame::Raised</enum>
       </property>
       <layout class="QGridLayout" name="gridLayout">
-       <item row="1" column="0">
-        <widget class="QSpinBox" name="averageCount">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="minimum">
-          <number>1</number>
-         </property>
-         <property name="maximum">
-          <number>501</number>
-         </property>
-        </widget>
-       </item>
-       <item row="0" column="1">
-        <widget class="QPushButton" name="pushButton">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="text">
-          <string>Stream Now</string>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="1">
+       <item row="2" column="1">
         <widget class="QPushButton" name="pushButton_2">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
@@ -109,7 +80,7 @@
          </property>
         </widget>
        </item>
-       <item row="0" column="0">
+       <item row="1" column="0">
         <widget class="QComboBox" name="cmdlist">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
@@ -157,7 +128,20 @@ color: rgb(255, 255, 255);</string>
          </item>
         </widget>
        </item>
-       <item row="0" column="2" rowspan="2">
+       <item row="1" column="1">
+        <widget class="QPushButton" name="pushButton">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="text">
+          <string>Stream Now</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="2" rowspan="2">
         <widget class="QLabel" name="msg">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
@@ -193,6 +177,42 @@ color: rgb(255, 255, 255);</string>
          </property>
         </widget>
        </item>
+       <item row="2" column="0">
+        <widget class="QSpinBox" name="averageCount">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="minimum">
+          <number>1</number>
+         </property>
+         <property name="maximum">
+          <number>501</number>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="3">
+        <widget class="QPushButton" name="pushButton_3">
+         <property name="maximumSize">
+          <size>
+           <width>60</width>
+           <height>16777215</height>
+          </size>
+         </property>
+         <property name="text">
+          <string>Save</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="3">
+        <widget class="QCheckBox" name="pause">
+         <property name="text">
+          <string>Pause</string>
+         </property>
+        </widget>
+       </item>
       </layout>
      </widget>
     </item>
@@ -222,16 +242,6 @@ color: rgb(255, 255, 255);</string>
     </item>
    </layout>
   </widget>
-  <widget class="QMenuBar" name="menubar">
-   <property name="geometry">
-    <rect>
-     <x>0</x>
-     <y>0</y>
-     <width>704</width>
-     <height>25</height>
-    </rect>
-   </property>
-  </widget>
   <action name="actionSave_as">
    <property name="text">
     <string>Save as</string>
@@ -247,8 +257,8 @@ color: rgb(255, 255, 255);</string>
    <slot>stream()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>717</x>
-     <y>55</y>
+     <x>438</x>
+     <y>36</y>
     </hint>
     <hint type="destinationlabel">
      <x>642</x>
@@ -263,8 +273,8 @@ color: rgb(255, 255, 255);</string>
    <slot>setAveraging()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>674</x>
-     <y>89</y>
+     <x>438</x>
+     <y>69</y>
     </hint>
     <hint type="destinationlabel">
      <x>624</x>
@@ -272,9 +282,25 @@ color: rgb(255, 255, 255);</string>
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>pushButton_3</sender>
+   <signal>clicked()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>saveData()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>679</x>
+     <y>18</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>711</x>
+     <y>0</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
-  <slot>dump_to_file()</slot>
+  <slot>saveData()</slot>
   <slot>byebye()</slot>
   <slot>stream()</slot>
   <slot>setAveraging()</slot>

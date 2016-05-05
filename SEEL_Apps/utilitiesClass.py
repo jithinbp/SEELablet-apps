@@ -606,7 +606,7 @@ class utilitiesClass():
 			if x!=None and y!=None:
 				info.setColumn(colnum,x);colnum+=1
 				info.setColumn(colnum,y);colnum+=1
-				labels.append('%s(X)'%(name));labels.append('%s(Y))'%(name));
+				labels.append('%s(X)'%(name));labels.append('%s(Y)'%(name));
 		info.table.setHorizontalHeaderLabels(labels)
 		info.show()
 
