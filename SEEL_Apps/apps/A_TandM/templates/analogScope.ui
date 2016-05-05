@@ -1288,6 +1288,40 @@
     </item>
    </layout>
   </widget>
+  <widget class="QMenuBar" name="menuBar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>932</width>
+     <height>25</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menuSaveProfile">
+    <property name="title">
+     <string>Profiles</string>
+    </property>
+    <addaction name="actionSaveProfile"/>
+    <addaction name="actionLoadProfile"/>
+   </widget>
+   <addaction name="menuSaveProfile"/>
+  </widget>
+  <action name="actionSaveProfile">
+   <property name="text">
+    <string>saveProfile</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+S</string>
+   </property>
+  </action>
+  <action name="actionLoadProfile">
+   <property name="text">
+    <string>LoadProfile</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+O</string>
+   </property>
+  </action>
  </widget>
  <resources/>
  <connections>
@@ -1451,6 +1485,38 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>actionLoadProfile</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>loadPro()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>465</x>
+     <y>274</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionSaveProfile</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>savePro()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>465</x>
+     <y>274</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>byebye()</slot>
@@ -1504,5 +1570,7 @@
   <slot>enable12()</slot>
   <slot>disable12()</slot>
   <slot>saveData()</slot>
+  <slot>savePro()</slot>
+  <slot>loadPro()</slot>
  </slots>
 </ui>

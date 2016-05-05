@@ -19,6 +19,7 @@ import sys
 
 import pyqtgraph as pg
 import pyqtgraph.opengl as gl
+from SEEL_Apps import saveProfile
 
 import numpy as np
 import scipy.optimize as optimize
@@ -575,6 +576,18 @@ class AppWindow(QtGui.QMainWindow, analogScope.Ui_MainWindow,utilitiesClass):
 		self.timer.stop()
 		self.running =False
 		self.finished=True
+
+	def savePro(self):
+		from os.path import expanduser
+		path = QtGui.QFileDialog.getSaveFileName(self, 'Save Profile',  expanduser("./"), 'INI(*.ini)')
+		if path : saveProfile.guisave(self, QtCore.QSettings(path, QtCore.QSettings.IniFormat))
+
+	def loadPro(self):
+		from os.path import expanduser
+		filename = QtGui.QFileDialog.getOpenFileName(self,  "Load a calibration folder", expanduser("./"))
+		print (filename)
+		if filename :
+			saveProfile.guirestore(self, QtCore.QSettings(filename, QtCore.QSettings.IniFormat))
 		
 
 	def __del__(self):

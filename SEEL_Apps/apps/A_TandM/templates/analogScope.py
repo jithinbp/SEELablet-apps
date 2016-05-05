@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'analogScope.ui'
 #
-# Created: Thu May  5 12:10:53 2016
+# Created: Thu May  5 14:15:04 2016
 #      by: PyQt4 UI code generator 4.11.3
 #
 # WARNING! All changes made in this file will be lost!
@@ -471,6 +471,19 @@ class Ui_MainWindow(object):
         self.verticalLayout_3.addLayout(self.verticalLayout)
         self.gridLayout.addLayout(self.verticalLayout_3, 0, 0, 1, 1)
         MainWindow.setCentralWidget(self.centralwidget)
+        self.menuBar = QtGui.QMenuBar(MainWindow)
+        self.menuBar.setGeometry(QtCore.QRect(0, 0, 932, 25))
+        self.menuBar.setObjectName(_fromUtf8("menuBar"))
+        self.menuSaveProfile = QtGui.QMenu(self.menuBar)
+        self.menuSaveProfile.setObjectName(_fromUtf8("menuSaveProfile"))
+        MainWindow.setMenuBar(self.menuBar)
+        self.actionSaveProfile = QtGui.QAction(MainWindow)
+        self.actionSaveProfile.setObjectName(_fromUtf8("actionSaveProfile"))
+        self.actionLoadProfile = QtGui.QAction(MainWindow)
+        self.actionLoadProfile.setObjectName(_fromUtf8("actionLoadProfile"))
+        self.menuSaveProfile.addAction(self.actionSaveProfile)
+        self.menuSaveProfile.addAction(self.actionLoadProfile)
+        self.menuBar.addAction(self.menuSaveProfile.menuAction())
 
         self.retranslateUi(MainWindow)
         self.fit_select_box.setCurrentIndex(4)
@@ -487,6 +500,8 @@ class Ui_MainWindow(object):
         QtCore.QObject.connect(self.trigger_select_box, QtCore.SIGNAL(_fromUtf8("currentIndexChanged(int)")), MainWindow.setTriggerChannel)
         QtCore.QObject.connect(self.dial_11, QtCore.SIGNAL(_fromUtf8("valueChanged(int)")), MainWindow.setTriggerLevel)
         QtCore.QObject.connect(self.pushButton_2, QtCore.SIGNAL(_fromUtf8("clicked()")), MainWindow.saveData)
+        QtCore.QObject.connect(self.actionLoadProfile, QtCore.SIGNAL(_fromUtf8("triggered()")), MainWindow.loadPro)
+        QtCore.QObject.connect(self.actionSaveProfile, QtCore.SIGNAL(_fromUtf8("triggered()")), MainWindow.savePro)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateUi(self, MainWindow):
@@ -561,4 +576,9 @@ class Ui_MainWindow(object):
         self.coord_label.setText(_translate("MainWindow", ".", None))
         self.freezeButton.setText(_translate("MainWindow", "FREEZE", None))
         self.pushButton_2.setText(_translate("MainWindow", "Save Data", None))
+        self.menuSaveProfile.setTitle(_translate("MainWindow", "Profiles", None))
+        self.actionSaveProfile.setText(_translate("MainWindow", "saveProfile", None))
+        self.actionSaveProfile.setShortcut(_translate("MainWindow", "Ctrl+S", None))
+        self.actionLoadProfile.setText(_translate("MainWindow", "LoadProfile", None))
+        self.actionLoadProfile.setShortcut(_translate("MainWindow", "Ctrl+O", None))
 
