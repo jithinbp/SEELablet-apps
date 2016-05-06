@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'sensorWidget.ui'
 #
-# Created: Fri Apr  8 17:47:19 2016
+# Created: Fri May  6 14:18:01 2016
 #      by: PyQt4 UI code generator 4.11.3
 #
 # WARNING! All changes made in this file will be lost!
@@ -126,7 +126,7 @@ class Ui_Form(object):
 
     def retranslateUi(self, Form):
         Form.setWindowTitle(_translate("Form", "Form", None))
-        self.widgetFrameOuter.setProperty("class", _translate("Form", "PeripheralCollection", None))
+        self.widgetFrameOuter.setProperty("class", _translate("Form", "ControlWidget", None))
         self.dataRead.setText(_translate("Form", "Read", None))
         self.autoRefresh.setToolTip(_translate("Form", "Auto Refresh Data Read", None))
         self.resultLabel.setText(_translate("Form", "Result:", None))

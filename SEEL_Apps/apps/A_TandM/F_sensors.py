@@ -73,7 +73,7 @@ class AppWindow(QtGui.QMainWindow, sensorTemplate.Ui_MainWindow,utilitiesClass):
 		self.updatepos=0
 
 
-
+		self.Running =True
 		self.deviceMenus=[]
 		self.sensorWidgets=[]
 

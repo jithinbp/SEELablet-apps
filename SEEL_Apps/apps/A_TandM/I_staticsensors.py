@@ -53,6 +53,7 @@ class AppWindow(QtGui.QMainWindow, sensorGrid.Ui_MainWindow,utilitiesClass):
 		self.looptimer.start(20)
 		self.deviceMenus=[]
 		self.sensorWidgets=[]
+		self.Running =True
 
 	def updateData(self):
 		for a in self.sensorWidgets:

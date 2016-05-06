@@ -85,6 +85,7 @@ class AppWindow(QtGui.QMainWindow, template_bandpass.Ui_MainWindow,utilitiesClas
 		self.plot2.setXRange(self.STARTFRQ,self.ENDFRQ)
 		self.plot2.setYRange(0,1.)
 		self.active=False
+		self.running = True
 
 	def savePlots(self):
 		self.saveDataWindow([self.curve1,self.curve2,self.curvePhase])
@@ -110,7 +111,7 @@ class AppWindow(QtGui.QMainWindow, template_bandpass.Ui_MainWindow,utilitiesClas
 		self.frq=self.STARTFRQ		
 		self.I.set_sine1(self.frq)
 		time.sleep(1)
-		self.loop = self.delayedTask(100,self.newset)
+		if self.running:self.loop = self.delayedTask(100,self.newset)
 
 	def stopSweep(self):
 		self.active=False
@@ -191,6 +192,7 @@ class AppWindow(QtGui.QMainWindow, template_bandpass.Ui_MainWindow,utilitiesClas
 
 	def closeEvent(self, event):
 		self.finished=True
+		self.running =False
 
 
 if __name__ == "__main__":

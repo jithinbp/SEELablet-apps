@@ -44,6 +44,7 @@ class AppWindow(QtGui.QMainWindow, transistorCE.Ui_MainWindow,utilitiesClass):
 		self.curveLabels=[]
 		self.looptimer = QtCore.QTimer()
 		self.looptimer.timeout.connect(self.acquire)
+		self.running = True
 
 	def savePlots(self):
 		self.saveDataWindow(self.curves)
@@ -67,7 +68,7 @@ class AppWindow(QtGui.QMainWindow, transistorCE.Ui_MainWindow,utilitiesClass):
 		self.plot.setXRange(self.V,self.stopV.value())
 		self.plot.setYRange(0,10e-3)
 
-		self.looptimer.start(20)
+		if self.running:self.looptimer.start(20)
 
 	def acquire(self):
 		V=self.I.set_pv2(self.V)

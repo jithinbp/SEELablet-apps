@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'template_xl.ui'
 #
-# Created: Thu May  5 23:57:20 2016
+# Created: Fri May  6 14:17:52 2016
 #      by: PyQt4 UI code generator 4.11.3
 #
 # WARNING! All changes made in this file will be lost!
@@ -55,7 +55,8 @@ class Ui_MainWindow(object):
         self.verticalLayout.setMargin(0)
         self.verticalLayout.setObjectName(_fromUtf8("verticalLayout"))
         self.gridLayout = QtGui.QGridLayout()
-        self.gridLayout.setSpacing(3)
+        self.gridLayout.setHorizontalSpacing(10)
+        self.gridLayout.setVerticalSpacing(3)
         self.gridLayout.setObjectName(_fromUtf8("gridLayout"))
         self.resistanceInductor = QtGui.QDoubleSpinBox(self.frame)
         sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Minimum, QtGui.QSizePolicy.Maximum)
@@ -88,6 +89,7 @@ class Ui_MainWindow(object):
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.label_4.sizePolicy().hasHeightForWidth())
         self.label_4.setSizePolicy(sizePolicy)
+        self.label_4.setAlignment(QtCore.Qt.AlignCenter)
         self.label_4.setObjectName(_fromUtf8("label_4"))
         self.gridLayout.addWidget(self.label_4, 0, 1, 1, 1)
         self.resistance = QtGui.QDoubleSpinBox(self.frame)
@@ -107,6 +109,7 @@ class Ui_MainWindow(object):
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.label.sizePolicy().hasHeightForWidth())
         self.label.setSizePolicy(sizePolicy)
+        self.label.setAlignment(QtCore.Qt.AlignCenter)
         self.label.setObjectName(_fromUtf8("label"))
         self.gridLayout.addWidget(self.label, 0, 2, 1, 1)
         self.frame_4 = QtGui.QFrame(self.frame)
@@ -118,6 +121,10 @@ class Ui_MainWindow(object):
         self.WidgetLayout.setMargin(0)
         self.WidgetLayout.setObjectName(_fromUtf8("WidgetLayout"))
         self.gridLayout.addWidget(self.frame_4, 0, 0, 2, 1)
+        self.analysisLabel_2 = QtGui.QLabel(self.frame)
+        self.analysisLabel_2.setAlignment(QtCore.Qt.AlignCenter)
+        self.analysisLabel_2.setObjectName(_fromUtf8("analysisLabel_2"))
+        self.gridLayout.addWidget(self.analysisLabel_2, 0, 4, 1, 1)
         self.verticalLayout.addLayout(self.gridLayout)
         self.verticalLayout_3.addWidget(self.frame)
         self.frame_2 = QtGui.QFrame(self.widgetFrameOuter)
@@ -237,15 +244,16 @@ class Ui_MainWindow(object):
 "both XL(Freq dependent ), and R.\n"
 " Ohmic Voltage drop due to R must therefore be subtracted", None))
         self.resistanceInductor.setSuffix(_translate("MainWindow", " Ohms", None))
-        self.pushButton_3.setText(_translate("MainWindow", "Save Plot", None))
+        self.pushButton_3.setText(_translate("MainWindow", "Save Data", None))
         self.pushButton.setText(_translate("MainWindow", "Fit Curves", None))
-        self.analysisLabel.setText(_translate("MainWindow", "Analyze:", None))
+        self.analysisLabel.setText(_translate("MainWindow", "Analyze", None))
         self.label_4.setToolTip(_translate("MainWindow", "The Voltage drop measured across the inductor is a function of\n"
 "both XL(Freq dependent ), and R.\n"
 " Ohmic Voltage drop due to R must therefore be subtracted", None))
         self.label_4.setText(_translate("MainWindow", "DC Resistance of The Inductor", None))
         self.resistance.setSuffix(_translate("MainWindow", " Ohms", None))
         self.label.setText(_translate("MainWindow", "Load Resistance", None))
+        self.analysisLabel_2.setText(_translate("MainWindow", "Save", None))
         self.frame_2.setProperty("class", _translate("MainWindow", "PeripheralCollectionInner", None))
         self.resultsTable.setSortingEnabled(False)
         self.label_3.setText(_translate("MainWindow", "Plot:", None))

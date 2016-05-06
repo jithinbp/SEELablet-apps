@@ -74,7 +74,7 @@ class AppWindow(QtGui.QMainWindow, template_graph.Ui_MainWindow,utilitiesClass):
 	def run(self):
 		if not self.running:return
 		self.I.capture_traces(3,2000,self.tg)
-		self.timer.singleShot(5000*self.I.timebase*1e-3+10,self.plotData)
+		if self.running:self.timer.singleShot(5000*self.I.timebase*1e-3+10,self.plotData)
 
 	def plotData(self): 
 		while(not self.I.oscilloscope_progress()[0]):
@@ -82,7 +82,7 @@ class AppWindow(QtGui.QMainWindow, template_graph.Ui_MainWindow,utilitiesClass):
 			print (self.timebase,'correction required',n)
 			n+=1
 			if n>10:
-				self.timer.singleShot(100,self.run)
+				if self.running:self.timer.singleShot(100,self.run)
 				return
 		self.I.__fetch_channel__(1)
 		self.I.__fetch_channel__(2)
@@ -90,7 +90,7 @@ class AppWindow(QtGui.QMainWindow, template_graph.Ui_MainWindow,utilitiesClass):
 		self.curveCH1.setData(self.I.achans[0].get_xaxis()*1e-6,self.I.achans[0].get_yaxis(),connect='finite')
 		self.curveCH2.setData(self.I.achans[1].get_xaxis()*1e-6,self.I.achans[1].get_yaxis(),connect='finite')
 		self.curveCH3.setData(self.I.achans[2].get_xaxis()*1e-6,self.I.achans[2].get_yaxis(),connect='finite')
-		self.timer.singleShot(100,self.run)
+		if self.running:self.timer.singleShot(100,self.run)
 
 	def setSineWaves(self,freq):
 		return self.I.set_waves(freq,180)

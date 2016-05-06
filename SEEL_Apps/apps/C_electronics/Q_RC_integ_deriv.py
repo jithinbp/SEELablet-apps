@@ -59,7 +59,9 @@ class AppWindow(QtGui.QMainWindow, template_graph.Ui_MainWindow,utilitiesClass):
 		#a1={'TITLE':'Triangle\n(W1)','MIN':10,'MAX':5000,'FUNC':self.I.set_sine1,'TYPE':'dial','UNITS':'Hz','TOOLTIP':'Frequency of waveform generator #1','LINK':self.updateLabels}
 		#self.WidgetLayout.addWidget(self.dialIcon(**a1))
 		a1={'TITLE':'SQR1','MIN':10,'MAX':5000,'FUNC':self.I.sqr1,'TYPE':'dial','UNITS':'Hz','TOOLTIP':'Frequency of square wave generator #1','LINK':self.updateLabels}
-		self.WidgetLayout.addWidget(self.dialIcon(**a1))
+		self.dial = self.dialIcon(**a1)
+		self.WidgetLayout.addWidget(self.dial)
+		self.dial.dial.setValue(100)
 
 		self.running=True
 		self.timer.singleShot(100,self.run)
@@ -80,7 +82,7 @@ class AppWindow(QtGui.QMainWindow, template_graph.Ui_MainWindow,utilitiesClass):
 		if not self.running:return
 		self.I.configure_trigger(0,'CH1',0.2,resolution=10,prescaler=1)
 		self.I.capture_traces(2,self.samples,self.tg)
-		self.timer.singleShot(self.samples*self.I.timebase*1e-3+20,self.plotData)
+		if self.running:self.timer.singleShot(self.samples*self.I.timebase*1e-3+20,self.plotData)
 
 	def plotData(self): 
 		try:

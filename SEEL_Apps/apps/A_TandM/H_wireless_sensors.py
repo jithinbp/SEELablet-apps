@@ -63,6 +63,7 @@ class AppWindow(QtGui.QMainWindow, wirelessTemplate.Ui_MainWindow,utilitiesClass
 
 		self.sensorWidgets=[]
 		self.availableClasses=[0x68,0x1E,0x5A,0x77,0x39,0x40]
+		self.Running =True
 
 
 	class plotItem:

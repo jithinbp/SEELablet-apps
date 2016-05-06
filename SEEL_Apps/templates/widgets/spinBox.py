@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'spinBox.ui'
 #
-# Created: Fri Apr  8 17:47:19 2016
+# Created: Fri May  6 14:18:01 2016
 #      by: PyQt4 UI code generator 4.11.3
 #
 # WARNING! All changes made in this file will be lost!
@@ -39,22 +39,7 @@ class Ui_Form(object):
         font.setBold(True)
         font.setWeight(75)
         Form.setFont(font)
-        Form.setStyleSheet(_fromUtf8("QFrame.PeripheralCollection{\n"
-"border-top-left-radius: 10px;\n"
-"border-top-right-radius: 10px;\n"
-"border-bottom-right-radius: 10px;\n"
-"border-bottom-left-radius: 10px;\n"
-"border: 1px solid black;\n"
-"background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,\n"
-"stop: 0 rgb(97, 146, 121), stop: 0.5 rgb(65, 89, 111));\n"
-"\n"
-"}\n"
-" QLabel {\n"
-"color: white;\n"
-"background:transparent;\n"
-"}\n"
-"\n"
-""))
+        Form.setStyleSheet(_fromUtf8(""))
         self.verticalLayout = QtGui.QVBoxLayout(Form)
         self.verticalLayout.setSpacing(0)
         self.verticalLayout.setMargin(0)
@@ -125,7 +110,7 @@ class Ui_Form(object):
 
     def retranslateUi(self, Form):
         Form.setWindowTitle(_translate("Form", "Form", None))
-        self.widgetFrameOuter.setProperty("class", _translate("Form", "PeripheralCollection", None))
+        self.widgetFrameOuter.setProperty("class", _translate("Form", "ControlWidget", None))
         self.title.setText(_translate("Form", "title", None))
         self.value.setText(_translate("Form", "value", None))
 

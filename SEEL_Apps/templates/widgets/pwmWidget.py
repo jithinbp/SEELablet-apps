@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'pwmWidget.ui'
 #
-# Created: Fri Apr  8 17:47:19 2016
+# Created: Fri May  6 14:18:02 2016
 #      by: PyQt4 UI code generator 4.11.3
 #
 # WARNING! All changes made in this file will be lost!
@@ -32,7 +32,7 @@ class Ui_Form(object):
         self.verticalLayout.setMargin(0)
         self.verticalLayout.setObjectName(_fromUtf8("verticalLayout"))
         self.frame_7 = QtGui.QFrame(Form)
-        sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Preferred, QtGui.QSizePolicy.Preferred)
+        sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Preferred)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.frame_7.sizePolicy().hasHeightForWidth())
@@ -240,9 +240,9 @@ class Ui_Form(object):
 
     def retranslateUi(self, Form):
         Form.setWindowTitle(_translate("Form", "Form", None))
-        self.frame_7.setProperty("class", _translate("Form", "PeripheralCollection", None))
+        self.frame_7.setProperty("class", _translate("Form", "ControlWidget", None))
         self.label_4.setText(_translate("Form", "Configure PWM ( sine waves will be disabled )", None))
-        self.Frame_4.setProperty("class", _translate("Form", "PeripheralCollectionInner", None))
+        self.Frame_4.setProperty("class", _translate("Form", "ControlWidgetInner", None))
         self.pushButton_6.setText(_translate("Form", "SET", None))
         self.label_20.setText(_translate("Form", "Phase", None))
         self.label_35.setText(_translate("Form", "SQR4", None))

@@ -86,7 +86,7 @@ class AppWindow(QtGui.QMainWindow, template_graph.Ui_MainWindow,utilitiesClass):
 		if not self.running: return
 		try:
 			self.I.capture_traces(2,2000,self.tg)
-			self.timer.singleShot(5000*self.I.timebase*1e-3+10,self.plotData)
+			if self.running:self.timer.singleShot(5000*self.I.timebase*1e-3+10,self.plotData)
 		except:
 			pass
 
@@ -104,7 +104,7 @@ class AppWindow(QtGui.QMainWindow, template_graph.Ui_MainWindow,utilitiesClass):
 			self.I.__fetch_channel__(2)
 			self.curveCH1.setData(self.I.achans[0].get_xaxis()*1e-6,self.I.achans[0].get_yaxis(),connect='finite')
 			self.curveCH2.setData(self.I.achans[1].get_xaxis()*1e-6,self.I.achans[1].get_yaxis(),connect='finite')
-			self.timer.singleShot(100,self.run)
+			if self.running:self.timer.singleShot(100,self.run)
 		except:
 			pass
 

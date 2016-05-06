@@ -23,7 +23,7 @@
    <item>
     <widget class="QFrame" name="frame_4">
      <property name="sizePolicy">
-      <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+      <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
        <horstretch>0</horstretch>
        <verstretch>0</verstretch>
       </sizepolicy>
@@ -41,7 +41,7 @@
       <enum>QFrame::Raised</enum>
      </property>
      <property name="class" stdset="0">
-      <string>PeripheralCollection</string>
+      <string>ControlWidget</string>
      </property>
      <layout class="QVBoxLayout" name="verticalLayout_4">
       <property name="spacing">
@@ -62,7 +62,7 @@
       <item>
        <widget class="QFrame" name="frame">
         <property name="frameShape">
-         <enum>QFrame::StyledPanel</enum>
+         <enum>QFrame::NoFrame</enum>
         </property>
         <property name="frameShadow">
          <enum>QFrame::Raised</enum>
@@ -115,11 +115,14 @@
          <string/>
         </property>
         <property name="class" stdset="0">
-         <string>PeripheralCollectionInner</string>
+         <string>ControlWidgetInner</string>
         </property>
         <layout class="QGridLayout" name="gridLayout_3">
          <property name="sizeConstraint">
           <enum>QLayout::SetNoConstraint</enum>
+         </property>
+         <property name="horizontalSpacing">
+          <number>10</number>
          </property>
          <item row="3" column="0">
           <widget class="QLabel" name="label_30">

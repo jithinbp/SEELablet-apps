@@ -160,15 +160,6 @@ class MyMainWindow(QtGui.QMainWindow, single_col_exp.Ui_MainWindow,utilitiesClas
 		self.runningApp = None
 
 
-	def loadBasicExperiments(self):
-		print('basic')
-		self.clearExperimentIcons()
-		self.loadParentModuleIcons('SEEL_Apps.apps')
-		
-	def loadAdvancedExperiments(self):
-		print('advanced')
-
-
 	def modifiedSqr1(self,val):
 		if val<4:
 			self.I.set_state(SQR1=0)
@@ -179,7 +170,6 @@ class MyMainWindow(QtGui.QMainWindow, single_col_exp.Ui_MainWindow,utilitiesClas
 		else:
 			v = self.I.sqr1(val)
 			return v
-
 
 	def loadList(self,basepackage):
 		self.funcs=[]
@@ -458,7 +448,6 @@ class MyMainWindow(QtGui.QMainWindow, single_col_exp.Ui_MainWindow,utilitiesClas
 			
 		except:
 			QtGui.QMessageBox.about(self,'Unable to Launch Server',"Is CherryPy web server installed?")
-
 
 
 

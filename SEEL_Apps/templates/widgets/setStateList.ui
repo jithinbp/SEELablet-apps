@@ -84,7 +84,7 @@ background:transparent;
       <enum>QFrame::Raised</enum>
      </property>
      <property name="class" stdset="0">
-      <string>PeripheralCollection</string>
+      <string>ControlWidget</string>
      </property>
      <layout class="QVBoxLayout" name="verticalLayout_3">
       <property name="spacing">

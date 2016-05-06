@@ -99,6 +99,7 @@ class AppWindow(QtGui.QMainWindow, template_transient.Ui_MainWindow,utilitiesCla
 	def ZeroToFive(self):
 		self.I.set_state(SQR1 = 0); time.sleep(0.2) #DisCharge Circuit
 		self.I.__capture_fullspeed__('CH1',5000,self.tg,'SET_HIGH')
+		self.tg = self.I.timebase
 		self.CH1Fit.setData([],[])
 		self.loop=self.delayedTask(5000*self.I.timebase*1e-3+10,self.plotData)
 

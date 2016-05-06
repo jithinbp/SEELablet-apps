@@ -72,6 +72,9 @@ class AppWindow(QtGui.QMainWindow, template_xc.Ui_MainWindow,utilitiesClass):
 		self.fspin = self.doubleSpinIcon(**a1)
 		self.WidgetLayout.addWidget(self.fspin)
 
+		#Set initial values
+		self.fdial.dial.setValue(100);self.fspin.doubleSpinBox.setValue(100)
+
 
 		self.timer.singleShot(100,self.run)
 		self.resultsTable.setRowCount(50)
@@ -113,7 +116,7 @@ class AppWindow(QtGui.QMainWindow, template_xc.Ui_MainWindow,utilitiesClass):
 		else: self.prescaler = 0
 		self.I.configure_trigger(0,'CH1',0,resolution=10,prescaler=self.prescaler)
 		self.I.capture_traces(2,self.samples,self.tg)
-		self.timer.singleShot(self.samples*self.I.timebase*1e-3+50,self.plotData)
+		if self.running:self.timer.singleShot(self.samples*self.I.timebase*1e-3+50,self.plotData)
 
 	def plotData(self): 
 		while(not self.I.oscilloscope_progress()[0]):
@@ -121,7 +124,7 @@ class AppWindow(QtGui.QMainWindow, template_xc.Ui_MainWindow,utilitiesClass):
 			print (self.I.timebase,'correction required',n)
 			n+=1
 			if n>10:
-				self.timer.singleShot(100,self.run)
+				if self.running:self.timer.singleShot(100,self.run)
 				return
 		self.I.__fetch_channel__(1)
 		self.I.__fetch_channel__(2)
@@ -158,7 +161,7 @@ class AppWindow(QtGui.QMainWindow, template_xc.Ui_MainWindow,utilitiesClass):
 			else:
 				self.displayDialog("Fit Failed. Please check parameters\nor change timescale")
 			self.acquireParams = False
-		self.timer.singleShot(100,self.run)
+		if self.running:self.timer.singleShot(100,self.run)
 
 	   
 	def plotA(self):

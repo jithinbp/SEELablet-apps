@@ -9,8 +9,7 @@ stop: 0 #6af, stop: 0.1 #689);
 }
 
 #centralwidget QLabel {
-color: black;
-font-weight: bold;
+font-weight: medium;
 }
 /* ------------Overall-----------  */
 
@@ -66,11 +65,6 @@ border: 1px solid black;
 background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
 stop: 0 #6af, stop: 0.1 #689);
 }
-QFrame.PeripheralCollection QLabel {
-color: white;
-font-weight: bold;
-}
-
 
 
 QFrame.PeripheralCollectionInner {
@@ -80,17 +74,14 @@ border: none;
 border-top: 1px solid black;
 }
 
-QFrame.PeripheralCollectionInner QLabel{
+QFrame.PeripheralCollection {
 color: black;
+font-weight: medium;
 }
 
-QWidget.PeripheralCollectionInner {
-background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
-stop: 0 #abe, stop: 0.7 #aba);
-border: none;
-border-top: 1px solid black;
+QFrame.PeripheralCollectionInner QLabel{
+font-weight: light;
 }
-
 
 
 QTextBrowser{
@@ -108,6 +99,7 @@ border-top: 1px solid black;
 
 QWidget.PeripheralCollectionInner QLabel{
 color: black;
+font-weight: light;
 }
 
 QWebView,QScrollAreaWidgetContents{background-color: rgb(21, 107, 113);}
@@ -132,7 +124,7 @@ width: 5px;
 #message_label{
 color: rgb(255, 255, 255);
 }
-#scrollLayout, #scroll2layout, #tab_4{
+#scrollLayout, #scroll2layout{
 background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
 stop: 0 #abe, stop: 0.7 #aba);
 }
@@ -140,8 +132,39 @@ stop: 0 #abe, stop: 0.7 #aba);
 #SCF1,#SCF2
 {
 background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
-stop: 0 #abe, stop: 0.7 #aba);
+stop: 0 #6af, stop: 0.1 #689);
 }
+
+#SCF1 QLabel,#SCF2 QLabel{
+color: white;
+font-weight: bold;
+}
+
+
+QFrame.ControlWidget{
+border-top-left-radius: 5px;
+border-top-right-radius: 5px;
+border-bottom-right-radius: 1px;
+border-bottom-left-radius: 1px;
+border: 1px solid black;
+background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+stop: 0 rgb(97, 146, 121), stop: 0.3 rgb(65, 89, 111) );
+
+}
+QFrame.ControlWidget QLabel{
+color: white;
+}
+
+QFrame.ControlWidgetInner{
+border: 1px solid black;
+background: (65, 89, 111);
+
+}
+QFrame.ControlWidgetInner QLabel{
+color: white;
+}
+
+
 
 
 #SCF1.Disconnected,#SCF2.Disconnected
@@ -156,29 +179,6 @@ stop: 0 #a4e, stop: 0.7 #a4a);
 border: none;
 border-top: 1px solid black;
 }
-
-
-/*sensors.ui
- * 
- * QTextEdit {color: rgb(0, 0, 0);}
-QLineEdit {color: rgb(0, 0, 0);}
-QLineEdit:selected {color: rgb(0, 0, 0);}
-QSpinBox{color: rgb(0, 0, 0);}
-QCheckBox{color:rgb(255,255,255);}
-
-
-wireless
-* 
-* 
-
-
-#scrollLayout, #scroll2layout{
-background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
-stop: 0 #abe, stop: 0.7 #aba);
-
-}
-*/
-
 
 
 

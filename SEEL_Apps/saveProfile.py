@@ -5,8 +5,8 @@
 #===================================================================
 
 #===================================================================
-# Modified by Jithin bp for the SEELablet package. Added support
-# for QSlider and....    
+# Modified by Jithin bp (jithinbp.in) for the SEELablet package.
+# Added support for QDial, QSpinBox, QDoubleSpinBox , QSlider
 # QCombobox ignores itemText. It's not user editable in my use case
 #
 #===================================================================
@@ -28,28 +28,48 @@ def guisave(ui, settings):
 		if isinstance(obj, QtGui.QComboBox):
 			name   = obj.objectName()      # get combobox name
 			index  = obj.currentIndex()    # get current index from combobox
-			#text   = obj.itemText(index)   # get the text for current index
 			settings.setValue(name, index)   # save combobox selection to registry
+			#print 'combo',name,index
 
 		elif isinstance(obj, QtGui.QLineEdit):
 			name = obj.objectName()
 			value = obj.text()
 			settings.setValue(name, value)    # save ui values, so they can be restored next time
+			#print 'line',name,value
 
 		elif isinstance(obj, QtGui.QCheckBox):
 			name = obj.objectName()
 			state = obj.checkState()
 			settings.setValue(name, state)
+			#print 'check',name,state
 
 		elif isinstance(obj, QtGui.QDial):
 			name = obj.objectName()
-			state = obj.value()
-			settings.setValue(name, state)
+			value = obj.value()
+			settings.setValue(name, value)
+			#print 'dial',name,value
+
+		elif isinstance(obj, QtGui.QSlider):
+			name = obj.objectName()
+			value = obj.value()
+			settings.setValue(name, value)
+			#print 'slider',name,value
+
+		elif isinstance(obj, QtGui.QSpinBox):
+			name = obj.objectName()
+			value = obj.value()
+			settings.setValue(name, value)
+			#print 'spin',name,value
+
+		elif isinstance(obj, QtGui.QDoubleSpinBox):
+			name = obj.objectName()
+			value = obj.value()
+			settings.setValue(name, value)
+			#print 'doublespin',name,value
 
 
 #===================================================================
 # restore "ui" controls with values stored in registry "settings"
-# currently only handles comboboxes, editlines &checkboxes
 # ui = QMainWindow object
 # settings = QSettings object
 #===================================================================
@@ -59,7 +79,7 @@ def guirestore(ui, settings):
 		if isinstance(obj, QtGui.QComboBox):
 			name   = obj.objectName()
 			index = int(settings.value(name))
-			if value == "":
+			if index == "" or index==-1:
 				continue
 			obj.setCurrentIndex(index)   # preselect a combobox value by index    
 
@@ -75,6 +95,27 @@ def guirestore(ui, settings):
 				obj.setChecked(bool(value))   # restore checkbox
 
 		elif isinstance(obj, QtGui.QDial):
+			name   = obj.objectName()
+			value = int(settings.value(name))
+			if value == "":
+				continue
+			obj.setValue(value)
+
+		elif isinstance(obj, QtGui.QSlider):
+			name   = obj.objectName()
+			value = int(settings.value(name))
+			if value == "":
+				continue
+			obj.setValue(value)
+
+		elif isinstance(obj, QtGui.QSpinBox):
+			name   = obj.objectName()
+			value = int(settings.value(name))
+			if value == "":
+				continue
+			obj.setValue(value)
+
+		elif isinstance(obj, QtGui.QDoubleSpinBox):
 			name   = obj.objectName()
 			value = int(settings.value(name))
 			if value == "":

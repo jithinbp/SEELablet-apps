@@ -585,6 +585,8 @@ class utilitiesClass():
 
 	def saveToCSV(self,table):
 		path = QtGui.QFileDialog.getSaveFileName(self, 'Save File', '~/', 'CSV(*.csv)')
+		sections = path.split('.')
+		if(sections[-1]!='csv'):path+='.csv'
 		if path:
 			import csv
 			with open(unicode(path), 'wb') as stream:
@@ -618,12 +620,21 @@ class utilitiesClass():
 	def savePro(self):
 		from os.path import expanduser
 		path = QtGui.QFileDialog.getSaveFileName(self, 'Save Profile',  expanduser("./"), 'INI(*.ini)')
-		if path : saveProfile.guisave(self, QtCore.QSettings(path, QtCore.QSettings.IniFormat))
+		sections = path.split('.')
+		if(sections[-1]!='ini'):path+='.ini'
+		if path: saveProfile.guisave(self, QtCore.QSettings(path, QtCore.QSettings.IniFormat))
+
+	def saveSelectedPro(self,parent):
+		from os.path import expanduser
+		path = QtGui.QFileDialog.getSaveFileName(self, 'Save Profile',  expanduser("./"), 'INI(*.ini)')
+		sections = path.split('.')
+		if(sections[-1]!='ini'):path+='.ini'
+		print ('custom save',path)
+		if path: saveProfile.guisave(parent, QtCore.QSettings(path, QtCore.QSettings.IniFormat))
 
 	def loadPro(self):
 		from os.path import expanduser
-		filename = QtGui.QFileDialog.getOpenFileName(self,  "Load a Profile", expanduser("./"), 'INI(*.ini)')
-		print (filename)
+		filename = QtGui.QFileDialog.getOpenFileName(self,  "Load a Profile", expanduser("."), 'INI(*.ini)')
 		if filename :
 			saveProfile.guirestore(self, QtCore.QSettings(filename, QtCore.QSettings.IniFormat))
 

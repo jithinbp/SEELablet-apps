@@ -21,7 +21,7 @@ params = {
 'image' : 'diodeIV.png',
 'helpfile': 'diodeIV.html',
 'name':'Diode IV\nCharacteristics',
-'hint':"Study Current-Voltage Characteristics of PN junctions.\n uses PV1 as the voltage source for sweeping voltage via a 1K current limiting resistor connected in series. \nThe voltage drop across the diode is monitored via CH1. "
+'hint':"Study Current-Voltage Characteristics of PN junctions.\n uses PV1 as the voltage source for sweeping voltage via a 1K current limiting resistor connected in series. \nThe voltage drop across the diode is monitored via CH3. "
 }
 
 class AppWindow(QtGui.QMainWindow, diodeIV.Ui_MainWindow,utilitiesClass):
@@ -63,7 +63,7 @@ class AppWindow(QtGui.QMainWindow, diodeIV.Ui_MainWindow,utilitiesClass):
 
 		P=self.plot.getPlotItem()
 		P.enableAutoRange(True,True)
-		self.plot.setXRange(0,2)
+		self.plot.setXRange(0,2.5)
 		self.plot.setYRange(0,4e-3)
 
 		self.looptimer.start(20)
@@ -71,7 +71,7 @@ class AppWindow(QtGui.QMainWindow, diodeIV.Ui_MainWindow,utilitiesClass):
 
 	def acquire(self):
 		V=self.I.set_pv1(self.V)
-		VC =  self.I.get_average_voltage('CH1',samples=20)
+		VC =  self.I.get_average_voltage('CH3',samples=20)
 		self.X.append(VC)
 		self.Y.append((V-VC)/1.e3) # list( ( np.linspace(V,V+self.stepV.value(),1000)-VC)/1.e3)
 		self.curves[-1].setData(self.X,self.Y)

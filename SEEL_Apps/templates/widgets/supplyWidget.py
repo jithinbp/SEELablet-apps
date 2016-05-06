@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'supplyWidget.ui'
 #
-# Created: Fri Apr  8 17:47:19 2016
+# Created: Fri May  6 14:18:02 2016
 #      by: PyQt4 UI code generator 4.11.3
 #
 # WARNING! All changes made in this file will be lost!
@@ -32,7 +32,7 @@ class Ui_Form(object):
         self.verticalLayout.setMargin(0)
         self.verticalLayout.setObjectName(_fromUtf8("verticalLayout"))
         self.frame_3 = QtGui.QFrame(Form)
-        sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Preferred, QtGui.QSizePolicy.Maximum)
+        sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Maximum)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.frame_3.sizePolicy().hasHeightForWidth())
@@ -156,9 +156,9 @@ class Ui_Form(object):
 
     def retranslateUi(self, Form):
         Form.setWindowTitle(_translate("Form", "Form", None))
-        self.frame_3.setProperty("class", _translate("Form", "PeripheralCollection", None))
+        self.frame_3.setProperty("class", _translate("Form", "ControlWidget", None))
         self.label_2.setText(_translate("Form", " IV Sources", None))
-        self.Frame_2.setProperty("class", _translate("Form", "PeripheralCollectionInner", None))
+        self.Frame_2.setProperty("class", _translate("Form", "ControlWidgetInner", None))
         self.label_10.setText(_translate("Form", "PV3", None))
         self.label_12.setText(_translate("Form", "PV2 ", None))
         self.label_11.setText(_translate("Form", "PV1 ", None))

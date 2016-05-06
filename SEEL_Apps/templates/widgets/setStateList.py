@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'setStateList.ui'
 #
-# Created: Fri Apr  8 17:47:19 2016
+# Created: Fri May  6 14:18:02 2016
 #      by: PyQt4 UI code generator 4.11.3
 #
 # WARNING! All changes made in this file will be lost!
@@ -123,7 +123,7 @@ class Ui_Form(object):
     def retranslateUi(self, Form):
         Form.setWindowTitle(_translate("Form", "Form", None))
         self.widgetFrameOuter.setToolTip(_translate("Form", "Disable square waves and set them to High/Low", None))
-        self.widgetFrameOuter.setProperty("class", _translate("Form", "PeripheralCollection", None))
+        self.widgetFrameOuter.setProperty("class", _translate("Form", "ControlWidget", None))
         self.title.setText(_translate("Form", "Digital Outputs", None))
         self.B1.setText(_translate("Form", "SQR1", None))
         self.B3.setText(_translate("Form", "SQR3", None))

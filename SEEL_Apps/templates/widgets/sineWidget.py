@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'sineWidget.ui'
 #
-# Created: Wed May  4 12:48:03 2016
+# Created: Fri May  6 14:18:02 2016
 #      by: PyQt4 UI code generator 4.11.3
 #
 # WARNING! All changes made in this file will be lost!
@@ -32,7 +32,7 @@ class Ui_Form(object):
         self.verticalLayout.setMargin(0)
         self.verticalLayout.setObjectName(_fromUtf8("verticalLayout"))
         self.frame_4 = QtGui.QFrame(Form)
-        sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Preferred, QtGui.QSizePolicy.Preferred)
+        sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Preferred)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.frame_4.sizePolicy().hasHeightForWidth())
@@ -46,7 +46,7 @@ class Ui_Form(object):
         self.verticalLayout_4.setContentsMargins(0, 5, 0, 0)
         self.verticalLayout_4.setObjectName(_fromUtf8("verticalLayout_4"))
         self.frame = QtGui.QFrame(self.frame_4)
-        self.frame.setFrameShape(QtGui.QFrame.StyledPanel)
+        self.frame.setFrameShape(QtGui.QFrame.NoFrame)
         self.frame.setFrameShadow(QtGui.QFrame.Raised)
         self.frame.setObjectName(_fromUtf8("frame"))
         self.horizontalLayout_2 = QtGui.QHBoxLayout(self.frame)
@@ -71,6 +71,7 @@ class Ui_Form(object):
         self.Frame_3.setObjectName(_fromUtf8("Frame_3"))
         self.gridLayout_3 = QtGui.QGridLayout(self.Frame_3)
         self.gridLayout_3.setSizeConstraint(QtGui.QLayout.SetNoConstraint)
+        self.gridLayout_3.setHorizontalSpacing(10)
         self.gridLayout_3.setObjectName(_fromUtf8("gridLayout_3"))
         self.label_30 = QtGui.QLabel(self.Frame_3)
         sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Maximum, QtGui.QSizePolicy.Maximum)
@@ -175,11 +176,11 @@ class Ui_Form(object):
 
     def retranslateUi(self, Form):
         Form.setWindowTitle(_translate("Form", "Form", None))
-        self.frame_4.setProperty("class", _translate("Form", "PeripheralCollection", None))
+        self.frame_4.setProperty("class", _translate("Form", "ControlWidget", None))
         self.label_3.setText(_translate("Form", "Arbitrary Waveform Generators", None))
         self.commandLinkButton.setToolTip(_translate("Form", "Edit the waveform table by setting a new function", None))
         self.commandLinkButton.setText(_translate("Form", "Edit", None))
-        self.Frame_3.setProperty("class", _translate("Form", "PeripheralCollectionInner", None))
+        self.Frame_3.setProperty("class", _translate("Form", "ControlWidgetInner", None))
         self.label_30.setText(_translate("Form", "phase", None))
         self.WAVE2_FREQ.setText(_translate("Form", "10Hz to 5KHz", None))
         self.label_29.setText(_translate("Form", "W2", None))

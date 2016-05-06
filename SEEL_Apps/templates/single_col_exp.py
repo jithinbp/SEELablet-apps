@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'single_col_exp.ui'
 #
-# Created: Thu May  5 23:45:16 2016
+# Created: Fri May  6 14:18:01 2016
 #      by: PyQt4 UI code generator 4.11.3
 #
 # WARNING! All changes made in this file will be lost!
@@ -238,8 +238,6 @@ class Ui_MainWindow(object):
         self.menuRemote_server.setObjectName(_fromUtf8("menuRemote_server"))
         self.menuHelp = QtGui.QMenu(self.menubar)
         self.menuHelp.setObjectName(_fromUtf8("menuHelp"))
-        self.menuLevel = QtGui.QMenu(self.menubar)
-        self.menuLevel.setObjectName(_fromUtf8("menuLevel"))
         MainWindow.setMenuBar(self.menubar)
         self.actionIPython_Console = QtGui.QAction(MainWindow)
         self.actionIPython_Console.setObjectName(_fromUtf8("actionIPython_Console"))
@@ -253,10 +251,6 @@ class Ui_MainWindow(object):
         self.actionWhite.setObjectName(_fromUtf8("actionWhite"))
         self.actionBlack = QtGui.QAction(MainWindow)
         self.actionBlack.setObjectName(_fromUtf8("actionBlack"))
-        self.actionBasic = QtGui.QAction(MainWindow)
-        self.actionBasic.setObjectName(_fromUtf8("actionBasic"))
-        self.actionAdvanced = QtGui.QAction(MainWindow)
-        self.actionAdvanced.setObjectName(_fromUtf8("actionAdvanced"))
         self.actionStart = QtGui.QAction(MainWindow)
         self.actionStart.setObjectName(_fromUtf8("actionStart"))
         self.actionStop = QtGui.QAction(MainWindow)
@@ -272,11 +266,8 @@ class Ui_MainWindow(object):
         self.menuUtilities.addAction(self.menuColor_scheme.menuAction())
         self.menuUtilities.addAction(self.menuRemote_server.menuAction())
         self.menuHelp.addAction(self.actionExperiments)
-        self.menuLevel.addAction(self.actionBasic)
-        self.menuLevel.addAction(self.actionAdvanced)
         self.menubar.addAction(self.menuUtilities.menuAction())
         self.menubar.addAction(self.menuHelp.menuAction())
-        self.menubar.addAction(self.menuLevel.menuAction())
 
         self.retranslateUi(MainWindow)
         self.tabWidget.setCurrentIndex(0)
@@ -285,8 +276,6 @@ class Ui_MainWindow(object):
         QtCore.QObject.connect(self.actionAbout_device, QtCore.SIGNAL(_fromUtf8("triggered()")), MainWindow.launchAboutDevice)
         QtCore.QObject.connect(self.actionWhite, QtCore.SIGNAL(_fromUtf8("triggered()")), MainWindow.setColorSchemeWhite)
         QtCore.QObject.connect(self.actionBlack, QtCore.SIGNAL(_fromUtf8("triggered()")), MainWindow.setColorSchemeBlack)
-        QtCore.QObject.connect(self.actionBasic, QtCore.SIGNAL(_fromUtf8("triggered()")), MainWindow.loadBasicExperiments)
-        QtCore.QObject.connect(self.actionAdvanced, QtCore.SIGNAL(_fromUtf8("triggered()")), MainWindow.loadAdvancedExperiments)
         QtCore.QObject.connect(self.actionStart, QtCore.SIGNAL(_fromUtf8("triggered()")), MainWindow.startRemoteServer)
         QtCore.QObject.connect(self.pushButton_2, QtCore.SIGNAL(_fromUtf8("clicked()")), MainWindow.returnToApps)
         QtCore.QObject.connect(self.actionExperiments, QtCore.SIGNAL(_fromUtf8("triggered()")), MainWindow.importExperimentFolder)
@@ -294,7 +283,7 @@ class Ui_MainWindow(object):
 
     def retranslateUi(self, MainWindow):
         MainWindow.setWindowTitle(_translate("MainWindow", "SEELablet: Control Panel", None))
-        self.SCF1.setProperty("class", _translate("MainWindow", "PeripheralCollectionInner Off", None))
+        self.SCF1.setProperty("class", _translate("MainWindow", "PeripheralCollection", None))
         self.hintText.setHtml(_translate("MainWindow", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
 "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
 "p, li { white-space: pre-wrap; }\n"
@@ -315,15 +304,12 @@ class Ui_MainWindow(object):
         self.menuColor_scheme.setTitle(_translate("MainWindow", "color scheme", None))
         self.menuRemote_server.setTitle(_translate("MainWindow", "remote server", None))
         self.menuHelp.setTitle(_translate("MainWindow", "import", None))
-        self.menuLevel.setTitle(_translate("MainWindow", "level", None))
         self.actionIPython_Console.setText(_translate("MainWindow", "iPython Console", None))
         self.actionIPython.setText(_translate("MainWindow", "iPython Console", None))
         self.actionReset_Device.setText(_translate("MainWindow", "Reset Device", None))
         self.actionAbout_device.setText(_translate("MainWindow", "about device", None))
         self.actionWhite.setText(_translate("MainWindow", "white", None))
         self.actionBlack.setText(_translate("MainWindow", "black", None))
-        self.actionBasic.setText(_translate("MainWindow", "Basic", None))
-        self.actionAdvanced.setText(_translate("MainWindow", "Advanced", None))
         self.actionStart.setText(_translate("MainWindow", "start", None))
         self.actionStop.setText(_translate("MainWindow", "stop", None))
         self.actionExperiments.setText(_translate("MainWindow", "Experiment Package", None))
