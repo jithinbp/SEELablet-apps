@@ -56,6 +56,7 @@ class AppWindow(QtGui.QMainWindow, sensorTemplate.Ui_MainWindow,utilitiesClass):
 
 		self.plot.setLabel('bottom', 'Datapoints -->>')
 		self.plot.setYRange(-35000,35000)
+		self.plot.setLimits(xMin=0,xMax=1000)		
 		self.curves=[]
 		self.acquireList=[]
 		self.actions=[]
@@ -96,12 +97,12 @@ class AppWindow(QtGui.QMainWindow, sensorTemplate.Ui_MainWindow,utilitiesClass):
 				else:
 					if label:
 						colStr = lambda col: hex(col[0])[2:]+hex(col[1])[2:]+hex(col[2])[2:]
-						newplt = self.addAxis(self.plot,label=label,color='#'+colStr(cols[0].getRgb()))
+						newplt = self.addAxis(self.plot,label=label)#,color='#'+colStr(cols[0].getRgb()))
 					else: newplt = self.addAxis(self.plot)
 					self.right_axes.append(newplt)
 					curves=[self.addCurve(newplt ,'%s[%s]'%(label[:10],bridge.PLOTNAMES[a])) for a in range(bridge.NUMPLOTS)]
-					for a in range(bridge.NUMPLOTS):
-						self.plotLegend.addItem(curves[a],'%s[%s]'%(label[:10],bridge.PLOTNAMES[a]))
+					#for a in range(bridge.NUMPLOTS):
+					#	self.plotLegend.addItem(curves[a],'%s[%s]'%(label[:10],bridge.PLOTNAMES[a]))
 				
 				for a in range(bridge.NUMPLOTS):
 					curves[a].checked=True
@@ -109,7 +110,7 @@ class AppWindow(QtGui.QMainWindow, sensorTemplate.Ui_MainWindow,utilitiesClass):
 					action=QtGui.QCheckBox('%s'%(bridge.PLOTNAMES[a])) #self.curveMenu.addAction('%s[%d]'%(label[:12],a)) 
 					action.toggled[bool].connect(Callback)
 					action.setChecked(True)
-					action.setStyleSheet("background-color:rgb%s;"%(str(cols[a].getRgb())))
+					action.setStyleSheet("background-color:rgb%s;"%(str(curves[a].opts['pen'].color().getRgb())))
 					self.paramMenus.insertWidget(1,action)
 					self.actions.append(action)
 				self.acquireList.append(self.plotItem(bridge,np.zeros((bridge.NUMPLOTS,self.POINTS)), curves)) 

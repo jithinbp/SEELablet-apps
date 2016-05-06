@@ -46,6 +46,7 @@ class AppWindow(QtGui.QMainWindow, wirelessTemplate.Ui_MainWindow,utilitiesClass
 		self.plot.setLabel('bottom', 'Datapoints -->>')
 		self.plot.enableAutoRange(True,True)
 		self.plot.setXRange(0,1000)
+		self.plot.setLimits(xMin=0,xMax=1000)
 		self.curves=[]
 		self.nodeWidgets=[]
 		self.nodeList=[]
@@ -89,19 +90,18 @@ class AppWindow(QtGui.QMainWindow, wirelessTemplate.Ui_MainWindow,utilitiesClass
 		if cls:
 			if hasattr(cls,'name'):	label = cls.name
 			else: label =''
-			cols=[self.random_color() for a in cls.PLOTNAMES]
 			if not self.active_device_counter:
 				if len(label):self.plot.setLabel('left', label)
 				curves=[self.addCurve(self.plot,'%s[%s]'%(label[:10],cls.PLOTNAMES[a])) for a in range(cls.NUMPLOTS)]
 			else:
 				if label:
 					colStr = lambda col: hex(col[0])[2:]+hex(col[1])[2:]+hex(col[2])[2:]
-					newplt = self.addAxis(self.plot,label=label,color='#'+colStr(cols[0].getRgb()))
+					newplt = self.addAxis(self.plot,label=label)#,color='#'+colStr(cols[0].getRgb()))
 				else: newplt = self.addAxis(self.plot)
 				self.right_axes.append(newplt)
 				curves=[self.addCurve(newplt ,'%s[%s]'%(label[:10],cls.PLOTNAMES[a])) for a in range(cls.NUMPLOTS)]
-				for a in range(cls.NUMPLOTS):
-					self.plotLegend.addItem(curves[a],'%s[%s]'%(label[:10],cls.PLOTNAMES[a]))
+				#for a in range(cls.NUMPLOTS):
+				#	self.plotLegend.addItem(curves[a],'%s[%s]'%(label[:10],cls.PLOTNAMES[a]))
 			
 			self.createMenu(cls,param)
 			for a in range(cls.NUMPLOTS):
@@ -110,7 +110,7 @@ class AppWindow(QtGui.QMainWindow, wirelessTemplate.Ui_MainWindow,utilitiesClass
 				action=QtGui.QCheckBox('%s'%(cls.PLOTNAMES[a])) #self.curveMenu.addAction('%s[%d]'%(label[:12],a)) 
 				action.toggled[bool].connect(Callback)
 				action.setChecked(True)
-				action.setStyleSheet("background-color:rgb%s;"%(str(cols[a].getRgb())))
+				action.setStyleSheet("background-color:rgb%s;"%(str(curves[a].opts['pen'].color().getRgb())))
 				self.paramMenus.insertWidget(1,action)
 				self.actionWidgets.append(action)
 			self.acquireList.append(self.plotItem(cls,np.zeros((cls.NUMPLOTS,self.POINTS)), curves)) 
