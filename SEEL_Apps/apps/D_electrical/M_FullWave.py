@@ -41,19 +41,19 @@ class AppWindow(QtGui.QMainWindow, template_graph.Ui_MainWindow,utilitiesClass):
 		super(AppWindow, self).__init__(parent)
 		self.setupUi(self)
 		self.I=kwargs.get('I',None)
-		
+		self.tg=2
+		self.I.configure_trigger(0,'CH1',0)
+		self.I.set_gain('CH1',2)
+		self.I.set_gain('CH2',2)
+		self.samples = 2000
 		self.setWindowTitle(self.I.H.version_string+' : '+params.get('name','').replace('\n',' ') )
 
 		self.plot1=self.add2DPlot(self.plot_area)
 		labelStyle = {'color': 'rgb(255,255,255)', 'font-size': '11pt'}
 		self.plot1.setLabel('left','Voltage -->', units='V',**labelStyle)
 		self.plot1.setLabel('bottom','Time -->', units='S',**labelStyle)
-		self.plot1.setYRange(-3.3,3.3)
-		self.plot1.setLimits(yMax=3.3,yMin=-3.3,xMin=0)
-		self.I.set_gain('CH1',2)
-		self.I.set_gain('CH2',2)
-		self.I.configure_trigger(0,'CH1',0)
-		self.tg=2
+		self.plot1.setYRange(-5.3,5.3)
+		self.plot1.setLimits(yMax=5.3,yMin=-5.3,xMin=0, xMax = self.samples*self.tg*1e-6)
 		self.timer = QtCore.QTimer()
 
 		self.curveCH1 = self.addCurve(self.plot1,'INPUT 1(CH1)')
@@ -63,7 +63,7 @@ class AppWindow(QtGui.QMainWindow, template_graph.Ui_MainWindow,utilitiesClass):
 		self.WidgetLayout.setAlignment(QtCore.Qt.AlignLeft)        
 
 		a1={'TITLE':'Wave 1','MIN':10,'MAX':5000,'FUNC':self.setSineWaves,'TYPE':'dial','UNITS':'Hz','TOOLTIP':'Frequency of waveform generator #1','LINK':self.updateLabels}
-		self.WidgetLayout.addWidget(self.dialIcon(**a1))
+		self.WidgetLayout.addWidget(self.dialAndDoubleSpinIcon(**a1))
 
 		self.sineSection = self.sineWidget(self.I)
 		self.WidgetLayout.addWidget(self.sineSection)
@@ -73,8 +73,8 @@ class AppWindow(QtGui.QMainWindow, template_graph.Ui_MainWindow,utilitiesClass):
 		
 	def run(self):
 		if not self.running:return
-		self.I.capture_traces(3,2000,self.tg)
-		if self.running:self.timer.singleShot(5000*self.I.timebase*1e-3+10,self.plotData)
+		self.I.capture_traces(3,self.samples,self.tg)
+		if self.running:self.timer.singleShot(self.samples*self.I.timebase*1e-3+10,self.plotData)
 
 	def plotData(self): 
 		while(not self.I.oscilloscope_progress()[0]):
@@ -104,7 +104,8 @@ class AppWindow(QtGui.QMainWindow, template_graph.Ui_MainWindow,utilitiesClass):
 	def setTimebase(self,T):
 		self.tgs = [0.5,1,2,4,6,8,10,25,50,100]
 		self.tg = self.tgs[T]
-		self.tgLabel.setText(str(5000*self.tg*1e-3)+'mS')
+		self.tgLabel.setText(str(self.samples*self.tg*1e-3)+'mS')
+		self.plot1.setLimits(xMax = self.samples*self.tg*1e-6)
 		
 	def closeEvent(self, event):
 		self.running=False

@@ -9,7 +9,7 @@ sip.setapi("QVariant", 2)
 from PyQt4 import QtCore, QtGui
 import pyqtgraph as pg
 from SEEL_Apps.templates.widgets import dial,button,selectAndButton,sineWidget,pwmWidget,supplyWidget,setStateList,sensorWidget
-from SEEL_Apps.templates.widgets import spinBox,doubleSpinBox
+from SEEL_Apps.templates.widgets import spinBox,doubleSpinBox,dialAndDoubleSpin
 from SEEL_Apps import saveProfile
 import numpy as np
 
@@ -350,6 +350,41 @@ class utilitiesClass():
 				self.linkFunc(retval*self.scale,self.units)
 				#self.linkObj.setText('%.3f %s '%(retval*self.scale,self.units))
 
+
+	class dialAndDoubleSpinIcon(QtGui.QFrame,dialAndDoubleSpin.Ui_Form):
+		def __init__(self,**args):
+			super(utilitiesClass.dialAndDoubleSpinIcon, self).__init__()
+			self.setupUi(self)
+			try:from SEEL.commands_proto import applySIPrefix
+			except ImportError:	self.applySIPrefix = None
+			else:self.applySIPrefix = applySIPrefix
+			self.name = args.get('TITLE','')
+			self.title.setText(self.name)
+			self.func = args.get('FUNC',None)
+			self.units = args.get('UNITS','')
+			self.value.setSuffix(' '+self.units)
+			if 'TOOLTIP' in args:self.widgetFrameOuter.setToolTip(args.get('TOOLTIP',''))
+			self.dial.setMinimum(args.get('MIN',0))
+			self.dial.setMaximum(args.get('MAX',100))
+			self.value.setMinimum(args.get('MIN',0))
+			self.value.setMaximum(args.get('MAX',100))
+			self.linkFunc = args.get('LINK',None)
+
+		def setValue(self,val):
+			retval = self.func(val)
+			self.value.setValue(retval)
+			if self.linkFunc:
+				self.linkFunc(retval,self.units)
+
+		def setDoubleValue(self):
+			try:
+				retval = self.func(self.value.value())
+				self.value.setValue(int(retval))
+				self.dial.setValue(int(retval))
+				if self.linkFunc:
+					self.linkFunc(retval,self.units)
+			except:
+				pass
 
 
 	class buttonIcon(QtGui.QFrame,button.Ui_Form):
