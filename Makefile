@@ -19,10 +19,7 @@ install:
 	# install documents
 	install -d $(DESTDIR)/usr/share/doc/seelablet
 	mkdir -p /usr/share/seelablet/seel_res
-	cp -r GUI $(DESTDIR)/usr/share/seelablet/seel_res/
-	cp -r ICONS $(DESTDIR)/usr/share/seelablet/seel_res/
-	cp -r HTML $(DESTDIR)/usr/share/seelablet/seel_res/
-	touch $(DESTDIR)/usr/share/seelablet/seel_res/__init__.py
+	cp -r seel_res $(DESTDIR)/usr/share/seelablet/
 	
 	#cp docs/misc/build/*.html $(DESTDIR)/usr/share/doc/seelablet/html
 	# create ditributions for Python2 and Python3
