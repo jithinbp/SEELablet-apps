@@ -441,7 +441,7 @@ class utilitiesClass():
 			self.setText(genName)
 			self.hintText = tmp.params.get('hint','No summary available')
 			if 'local' in args: imgloc = pkg_resources.resource_filename(basepackage+'.icons', _fromUtf8(tmp.params.get('image','') )) 
-			else: imgloc = pkg_resources.resource_filename('SEEL_Apps.icons', _fromUtf8(tmp.params.get('image','') )) 
+			else: imgloc = pkg_resources.resource_filename('seel_res.ICONS', _fromUtf8(tmp.params.get('image','') )) 
 			self.hintText = '''
 			<img src="%s" align="left" width="120" style="margin: 0 20"/><strong>%s</strong><br>%s
 			'''%(imgloc,genName.replace('\n',' '),self.hintText)

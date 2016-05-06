@@ -43,13 +43,13 @@ class AppWindow(QtGui.QMainWindow, template_transient.Ui_MainWindow,utilitiesCla
 
 		self.tg=2000
 		self.tgLabel.setText(str(2000*self.tg*1e-3)+'mS')
-		self.curveGx = self.addCurve(self.plot1,'Gx',(255,255,255))
-		self.curveGy = self.addCurve(self.plot1,'Gy',(255,255,0))
-		self.curveGz = self.addCurve(self.plot1,'Gz',(255,0,0))
+		self.curveGx = self.addCurve(self.plot1,'Gx')
+		self.curveGy = self.addCurve(self.plot1,'Gy')
+		self.curveGz = self.addCurve(self.plot1,'Gz')
 		self.plot2 = self.addAxis(self.plot1)
-		self.curveAx = self.addCurve(self.plot2,'Ax',(255,255,255))
-		self.curveAy = self.addCurve(self.plot2,'Ay',(0,255,255))
-		self.curveAz = self.addCurve(self.plot2,'Az',(0,0,255))
+		self.curveAx = self.addCurve(self.plot2,'Ax')
+		self.curveAy = self.addCurve(self.plot2,'Ay')
+		self.curveAz = self.addCurve(self.plot2,'Az')
 		self.curves = [self.curveAx,self.curveAy,self.curveAz,self.curveGx,self.curveGy,self.curveGz]
 		self.curveNames=['Ax','Ay','Az','Gx','Gy','Gz']
 		self.legend=self.plot1.addLegend(offset=(-10,30))

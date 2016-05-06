@@ -51,8 +51,8 @@ class AppWindow(QtGui.QMainWindow, template_transient.Ui_MainWindow,utilitiesCla
 		self.x=[]
 
 		self.looptimer=QtCore.QTimer()
-		self.curveCH1 = self.addCurve(self.plot1,'CH3',(255,255,255))
-		self.CH1Fit = self.addCurve(self.plot1,'CH3 Fit',(0,255,255))
+		self.curveCH1 = self.addCurve(self.plot1,'CH3')
+		self.CH1Fit = self.addCurve(self.plot1,'CH3 Fit')
 		self.region = pg.LinearRegionItem([self.tg*50*1e-6,self.tg*800*1e-6])
 		self.region.setZValue(-10)
 		self.plot1.addItem(self.region)		

@@ -18,7 +18,9 @@ IMAGEDIR=$(DESTDIR)/usr/share/doc/seelablet-common/images
 install:
 	# install documents
 	install -d $(DESTDIR)/usr/share/doc/seelablet
-	#cp -a docs/build/html $(DESTDIR)/usr/share/doc/seelablet
+	cp -r GUI $(DESTDIR)/usr/share/seelablet/seel_res/
+	cp -r ICONS $(DESTDIR)/usr/share/seelablet/seel_res/
+	cp -r HTML $(DESTDIR)/usr/share/seelablet/seel_res/
 	#cp docs/misc/build/*.html $(DESTDIR)/usr/share/doc/seelablet/html
 	# create ditributions for Python2 and Python3
 	python setup.py install --install-layout=deb \

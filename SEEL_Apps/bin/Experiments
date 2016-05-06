@@ -90,7 +90,8 @@ class MyMainWindow(QtGui.QMainWindow, single_col_exp.Ui_MainWindow,utilitiesClas
 		self.pwmSection = self.pwmWidget(self.I);   		self.advancedControlsLayout.addWidget(self.pwmSection)
 		
 		self.tmpTimer = QtCore.QTimer()
-		self.tmpTimer.singleShot(2,functools.partial(self.loadParentModuleIcons,'SEEL_Apps.apps'))
+		sys.path.append('/usr/share/seelablet')
+		self.tmpTimer.singleShot(2,functools.partial(self.loadParentModuleIcons,'seel_res.GUI'))
 		#self.loadIcons('SEEL_Apps.apps')
 		
 
@@ -264,11 +265,11 @@ class MyMainWindow(QtGui.QMainWindow, single_col_exp.Ui_MainWindow,utilitiesClas
 
 	def launchFunc(self,fname):
 		if self.I:
-			try:
-				if fname.split('.')[1]=='apps':
-					if self.runningApp:
-						self.runningApp.close()
-			except: pass
+			#try:
+			#	if fname.split('.')[1]=='apps':
+			if self.runningApp:
+				self.runningApp.close()
+			#except: pass
 			FILE = importlib.import_module(fname)
 			inst = FILE.AppWindow(self,I=self.I)
 			inst.show()
@@ -277,21 +278,17 @@ class MyMainWindow(QtGui.QMainWindow, single_col_exp.Ui_MainWindow,utilitiesClas
 
 			#Load help HTML if found
 			sections = fname.split('.')
-			if sections[1]=='apps':
-				print ('filename',sections)
-				fname = string.join(sections[:-1],'.')+'.html'
-				try:
-					print (sections[-1]+'.html')
-					helpurl = pkg_resources.resource_filename('SEEL_Apps.html',sections[-1]+'.html')
-					print('url',helpurl)
-					self.helpView.setUrl(QtCore.QUrl(helpurl))          
-					self.tabWidget.setCurrentIndex(1)
-				except:
-					print('No help URL file found')
-
-
-			if fname.split('.')[1]=='apps':
-				self.runningApp = inst
+			self.runningApp = inst
+			
+			print ('filename',sections)
+			fname = string.join(sections[:-1],'.')+'.html'
+			try:
+				helpurl = pkg_resources.resource_filename('seel_res.HTML',sections[-1]+'.html')
+				print('url',helpurl)
+				self.helpView.setUrl(QtCore.QUrl(helpurl))          
+				self.tabWidget.setCurrentIndex(1)
+			except:
+				print('No help URL file found')
 		else:
 			print(self.setWindowTitle('Device Not Connected!'))
 
