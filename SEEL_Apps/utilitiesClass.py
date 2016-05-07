@@ -9,7 +9,7 @@ sip.setapi("QVariant", 2)
 from PyQt4 import QtCore, QtGui
 import pyqtgraph as pg
 from SEEL_Apps.templates.widgets import dial,button,selectAndButton,sineWidget,pwmWidget,supplyWidget,setStateList,sensorWidget
-from SEEL_Apps.templates.widgets import spinBox,doubleSpinBox,dialAndDoubleSpin
+from SEEL_Apps.templates.widgets import spinBox,doubleSpinBox,dialAndDoubleSpin,pulseCounter
 from SEEL_Apps import saveProfile
 import numpy as np
 
@@ -40,6 +40,7 @@ class utilitiesClass():
 	
 	properties={'colorScheme':'black'}
 	def __init__(self):
+		sys.path.append('/usr/share/seelablet')
 		pass
 
 	def __importGL__(self):
@@ -430,6 +431,24 @@ class utilitiesClass():
 			if isinstance(retval,numbers.Number):self.value.setText('%s'%(self.applySIPrefix(retval,self.units) ))
 			else: self.value.setText(str(retval))
 
+	class pulseCounterIcon(QtGui.QFrame,pulseCounter.Ui_Form):
+		def __init__(self,I):
+			super(utilitiesClass.pulseCounterIcon, self).__init__()
+			self.setupUi(self)
+			self.readfn = I.readPulseCount
+			self.resetfn = I.countPulses
+			self.channelBox.addItems(I.allDigitalChannels)
+
+		def read(self):
+			retval = self.readfn()
+			self.value.setText('%d'%(retval))
+
+		def reset(self):
+			chan = self.channelBox.currentText()
+			if len(chan):self.resetfn(chan)
+
+
+
 	class experimentIcon(QtGui.QPushButton):
 		mouseHover = QtCore.pyqtSignal(str)
 		def __init__(self,basepackage,name,launchfunc,*args):
@@ -440,8 +459,11 @@ class utilitiesClass():
 			genName = tmp.params.get('name',name)
 			self.setText(genName)
 			self.hintText = tmp.params.get('hint','No summary available')
-			if 'local' in args: imgloc = pkg_resources.resource_filename(basepackage+'.icons', _fromUtf8(tmp.params.get('image','') )) 
-			else: imgloc = pkg_resources.resource_filename('seel_res.ICONS', _fromUtf8(tmp.params.get('image','') )) 
+			try:
+				if 'local' in args: imgloc = pkg_resources.resource_filename(basepackage+'.icons', _fromUtf8(tmp.params.get('image','') )) 
+				else: imgloc = pkg_resources.resource_filename('seel_res.ICONS', _fromUtf8(tmp.params.get('image','') )) 
+			except:
+				imgloc = ''
 			self.hintText = '''
 			<img src="%s" align="left" width="120" style="margin: 0 20"/><strong>%s</strong><br>%s
 			'''%(imgloc,genName.replace('\n',' '),self.hintText)

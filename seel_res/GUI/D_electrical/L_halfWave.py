@@ -60,18 +60,17 @@ class AppWindow(QtGui.QMainWindow, template_graph.Ui_MainWindow,utilitiesClass):
 		self.WidgetLayout.setAlignment(QtCore.Qt.AlignLeft)
 
 		a1={'TITLE':'Wave 1','MIN':10,'MAX':5000,'FUNC':self.I.set_sine1,'TYPE':'dial','UNITS':'Hz','TOOLTIP':'Frequency of waveform generator #1'}
-		a2={'TITLE':'Wave 2','MIN':10,'MAX':5000,'FUNC':self.I.set_sine2,'TYPE':'dial','UNITS':'Hz','TOOLTIP':'Frequency of waveform generator #2'}
-		self.WidgetLayout.addWidget(self.dialIcon(**a1))
-		self.WidgetLayout.addWidget(self.dialIcon(**a2))
+		self.WidgetLayout.addWidget(self.dialAndDoubleSpinIcon(**a1))
 
-		self.WidgetLayout.addWidget(self.experimentIcon('SEEL_Apps.apps.F_miscellaneous','outputs',self.launchOutputs))
+
+		self.WidgetLayout.addWidget(self.experimentIcon('SEEL_Apps.utilityApps','outputs',self.launchOutputs))
 		self.running=True
 		self.timer.singleShot(100,self.run)
 
 
 	def launchOutputs(self):
 		if self.I:
-			from SEEL_Apps.apps.F_miscellaneous import outputs
+			from SEEL_Apps.utilityApps import outputs
 			inst = outputs.AppWindow(self,I=self.I)
 			inst.show()
 			size = inst.geometry()

@@ -25,6 +25,7 @@ install:
 	# create ditributions for Python2 and Python3
 	python setup.py install --install-layout=deb \
 	         --root=$(DESTDIR)/ --prefix=/usr
+	sudo rm -rf /usr/lib/python2.7/dist-packages/seel_res
 	#python3 setup.py install --install-layout=deb \
 	#         --root=$(DESTDIR)/ --prefix=/usr
 	# move png files from dist-package dirs to /usr/share

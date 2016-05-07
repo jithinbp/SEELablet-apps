@@ -69,6 +69,7 @@ class MyMainWindow(QtGui.QMainWindow, single_col_exp.Ui_MainWindow,utilitiesClas
 				self.setWindowTitle('Error : Not Connected')
 			else:
 				self.hexid = hex(self.I.device_id()&0xFFFF)
+				self.setWindowTitle(self.I.generic_name + ' : '+self.I.H.version_string.decode("utf-8")+' - '+self.hexid)
 		except:
 			self.updateSplash(30,'Connection Error!')
 			#self.SCF1.setStyleSheet(_fromUtf8(styles.disconnected))
@@ -76,29 +77,28 @@ class MyMainWindow(QtGui.QMainWindow, single_col_exp.Ui_MainWindow,utilitiesClas
 			self.setStyleSheet(self.styleText)
 			pass
 
+		#################################   POPULATE ADVANCED CONTROLS TAB  ##################################
 		self.ExperimentLayout.setAlignment(QtCore.Qt.AlignTop|QtCore.Qt.AlignLeft)
 		self.WidgetLayout.setAlignment(QtCore.Qt.AlignTop|QtCore.Qt.AlignLeft)
 		self.advancedControlsLayout.setAlignment(QtCore.Qt.AlignTop|QtCore.Qt.AlignLeft)
-
 		#Widgets related to power supplies PV1,PVS2,PV3,PCS
 		self.supplySection = self.supplyWidget(self.I);		self.advancedControlsLayout.addWidget(self.supplySection)
-		
 		#Widgets related to Analog Waveform generators
 		self.sineSection = self.sineWidget(self.I); 		self.advancedControlsLayout.addWidget(self.sineSection)
-
 		#Widgets related to Digital Waveform generators
 		self.pwmSection = self.pwmWidget(self.I);   		self.advancedControlsLayout.addWidget(self.pwmSection)
 		self.advancedControlsLayout.addWidget(self.setStateIcon(I=self.I))
-		
+
+
+		#################################   POPULATE EXPERIMENTS TAB  ########################################
 		self.tmpTimer = QtCore.QTimer()
 		sys.path.append('/usr/share/seelablet')
 		self.tmpTimer.singleShot(2,functools.partial(self.loadParentModuleIcons,'seel_res.GUI'))
-		#self.loadIcons('SEEL_Apps.apps')
 		
 
+		#################################   POPULATE CONTROLS TAB  ##########################################
 		row=0;col=0;colLimit=3
 		self.funcs=[]
-
 		autogenControls=[]
 		autogenControls.append({'TITLE':'Wave 1','MIN':1,'MAX':5000,'FUNC':self.I.set_w1,'TYPE':'dial','UNITS':'Hz','TOOLTIP':'Frequency of waveform generator #1','LINK':self.updateWAVE1_FREQ})
 		autogenControls.append({'TITLE':'Wave 2','MIN':1,'MAX':5000,'FUNC':self.I.set_w2,'TYPE':'dial','UNITS':'Hz','TOOLTIP':'Frequency of waveform generator #2','LINK':self.updateWAVE2_FREQ})
@@ -116,16 +116,16 @@ class MyMainWindow(QtGui.QMainWindow, single_col_exp.Ui_MainWindow,utilitiesClas
 		tmpfunc = lambda x: self.I.DAC.__setRawVoltage__('PCS',4095-x)
 		autogenControls.append({'TITLE':'PCS','MIN':0,'MAX':4095,'FUNC':tmpfunc,'TYPE':'dial','UNITS':'mA','TOOLTIP':'Programmable Current Source ','SCALE_FACTOR' : 1e3,'LINK':self.updatePCS_LABEL})
 
-		autogenControls.append({'TITLE':'CAPACITANCE','FUNC':self.I.get_capacitance,'TYPE':'button','UNITS':'F','TOOLTIP':'Read Capacitance connected to CAP input '})
+		autogenControls.append({'TYPE':'separator'})
 
+		autogenControls.append({'TITLE':'CAPACITANCE','FUNC':self.I.get_capacitance,'TYPE':'button','UNITS':'F','TOOLTIP':'Read Capacitance connected to CAP input '})
 		tmpfunc = functools.partial(self.I.get_average_voltage,samples=100)
 		autogenControls.append({'TITLE':'VOLTMETER','FUNC':tmpfunc,'TYPE':'selectButton','UNITS':'V','TOOLTIP':'Voltmeter','OPTIONS':self.I.allAnalogChannels})
 		autogenControls.append({'TITLE':'Low Frequency','FUNC':self.I.get_freq,'TYPE':'selectButton','UNITS':'Hz','TOOLTIP':'Measure Frequency. Minimum 40Hz','OPTIONS':self.I.allDigitalChannels})
 		autogenControls.append({'TITLE':'High Frequency','FUNC':self.I.get_high_freq,'TYPE':'selectButton','UNITS':'Hz','TOOLTIP':'Measure Frequencies over 1MHz with 10Hz resolution','OPTIONS':self.I.allDigitalChannels})
-
 		autogenControls.append({'TITLE':'SR-04 Distance','FUNC':self.I.estimateDistance,'TYPE':'button','UNITS':'m','TOOLTIP':'Measure Distance using an HCSR04 sensor. TRIG-SQR1  , ECHO-ID1'})
+		autogenControls.append({'TYPE':'pulsecounter'})
 
-		self.setWindowTitle(self.I.generic_name + ' : '+self.I.H.version_string.decode("utf-8")+' - '+self.hexid)
 
 		for C in autogenControls:
 			if C['TYPE']=='dial':
@@ -137,6 +137,12 @@ class MyMainWindow(QtGui.QMainWindow, single_col_exp.Ui_MainWindow,utilitiesClas
 			elif C['TYPE']=='selectButton':
 				self.funcs.append(C.get('FUNC',None))
 				self.WidgetLayout.addWidget(self.selectAndButtonIcon(**C),row,col)
+			elif C['TYPE']=='pulsecounter':
+				self.WidgetLayout.addWidget(self.pulseCounterIcon(self.I),row,col)
+			elif C['TYPE'] == 'separator':
+				row+=1;col=0
+				line = QtGui.QFrame();	line.setFrameShape(QtGui.QFrame.HLine);	line.setFrameShadow(QtGui.QFrame.Sunken); self.WidgetLayout.addWidget(line,row,0,1,colLimit)
+				row+=1;col=-1
 
 			col+=1
 			if(col==colLimit):
