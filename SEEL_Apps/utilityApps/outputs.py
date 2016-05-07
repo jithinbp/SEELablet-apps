@@ -48,49 +48,49 @@ class AppWindow(QtGui.QMainWindow, controlWidgets.Ui_MainWindow,utilitiesClass):
         autogenControls=[]
         if self.I:
             if self.I.connected:
-				autogenControls.append({'TITLE':'Wave 1','MIN':1,'MAX':5000,'FUNC':self.I.set_sine1,'TYPE':'dial','UNITS':'Hz','TOOLTIP':'Frequency of waveform generator #1','LINK':self.updateWAVE1_FREQ})
-				autogenControls.append({'TITLE':'Wave 2','MIN':1,'MAX':5000,'FUNC':self.I.set_sine2,'TYPE':'dial','UNITS':'Hz','TOOLTIP':'Frequency of waveform generator #2','LINK':self.updateWAVE2_FREQ})
-				autogenControls.append({'TITLE':'square 1','MIN':10,'MAX':50000,'FUNC':self.I.sqr1,'TYPE':'dial','UNITS':'Hz','TOOLTIP':'Frequency of square wave generator #1'})
+                autogenControls.append({'TITLE':'Wave 1','MIN':1,'MAX':5000,'FUNC':self.I.set_sine1,'TYPE':'dial','UNITS':'Hz','TOOLTIP':'Frequency of waveform generator #1','LINK':self.updateWAVE1_FREQ})
+                autogenControls.append({'TITLE':'Wave 2','MIN':1,'MAX':5000,'FUNC':self.I.set_sine2,'TYPE':'dial','UNITS':'Hz','TOOLTIP':'Frequency of waveform generator #2','LINK':self.updateWAVE2_FREQ})
+                autogenControls.append({'TITLE':'square 1','MIN':10,'MAX':50000,'FUNC':self.I.sqr1,'TYPE':'dial','UNITS':'Hz','TOOLTIP':'Frequency of square wave generator #1'})
 
-				tmpfunc = functools.partial(self.I.DAC.__setRawVoltage__,'PV1')
-				autogenControls.append({'TITLE':'PV1','MIN':0,'MAX':4095,'FUNC':tmpfunc,'TYPE':'dial','UNITS':'V','TOOLTIP':'Programmable Voltage Source ','LINK':self.updatePV1_LABEL})
+                tmpfunc = functools.partial(self.I.DAC.__setRawVoltage__,'PV1')
+                autogenControls.append({'TITLE':'PV1','MIN':0,'MAX':4095,'FUNC':tmpfunc,'TYPE':'dial','UNITS':'V','TOOLTIP':'Programmable Voltage Source ','LINK':self.updatePV1_LABEL})
 
-				tmpfunc = functools.partial(self.I.DAC.__setRawVoltage__,'PV2')
-				autogenControls.append({'TITLE':'PV2','MIN':0,'MAX':4095,'FUNC':tmpfunc,'TYPE':'dial','UNITS':'V','TOOLTIP':'Programmable Voltage Source ','LINK':self.updatePV2_LABEL})
+                tmpfunc = functools.partial(self.I.DAC.__setRawVoltage__,'PV2')
+                autogenControls.append({'TITLE':'PV2','MIN':0,'MAX':4095,'FUNC':tmpfunc,'TYPE':'dial','UNITS':'V','TOOLTIP':'Programmable Voltage Source ','LINK':self.updatePV2_LABEL})
 
-				tmpfunc = functools.partial(self.I.DAC.__setRawVoltage__,'PV3')
-				autogenControls.append({'TITLE':'PV3','MIN':0,'MAX':4095,'FUNC':tmpfunc,'TYPE':'dial','UNITS':'V','TOOLTIP':'Programmable Voltage Source ','LINK':self.updatePV3_LABEL})
+                tmpfunc = functools.partial(self.I.DAC.__setRawVoltage__,'PV3')
+                autogenControls.append({'TITLE':'PV3','MIN':0,'MAX':4095,'FUNC':tmpfunc,'TYPE':'dial','UNITS':'V','TOOLTIP':'Programmable Voltage Source ','LINK':self.updatePV3_LABEL})
 
-				tmpfunc = lambda x: self.I.DAC.__setRawVoltage__('PCS',4095-x)
-				autogenControls.append({'TITLE':'PCS','MIN':0,'MAX':4095,'FUNC':tmpfunc,'TYPE':'dial','UNITS':'mA','TOOLTIP':'Programmable Current Source ','SCALE_FACTOR' : 1e3,'LINK':self.updatePCS_LABEL})
+                tmpfunc = lambda x: self.I.DAC.__setRawVoltage__('PCS',4095-x)
+                autogenControls.append({'TITLE':'PCS','MIN':0,'MAX':4095,'FUNC':tmpfunc,'TYPE':'dial','UNITS':'mA','TOOLTIP':'Programmable Current Source ','SCALE_FACTOR' : 1e3,'LINK':self.updatePCS_LABEL})
 
-				autogenControls.append({'TITLE':'CAPACITANCE','FUNC':self.I.get_capacitance,'TYPE':'button','UNITS':'F','TOOLTIP':'Read Capacitance connected to CAP input '})
+                autogenControls.append({'TITLE':'CAPACITANCE','FUNC':self.I.get_capacitance,'TYPE':'button','UNITS':'F','TOOLTIP':'Read Capacitance connected to CAP input '})
 
-				tmpfunc = functools.partial(self.I.get_average_voltage,samples=100)
-				autogenControls.append({'TITLE':'VOLTMETER','FUNC':tmpfunc,'TYPE':'selectButton','UNITS':'V','TOOLTIP':'Voltmeter','OPTIONS':self.I.allAnalogChannels})
-				autogenControls.append({'TITLE':'Low Frequency','FUNC':self.I.get_freq,'TYPE':'selectButton','UNITS':'Hz','TOOLTIP':'Measure Frequency. Minimum 40Hz','OPTIONS':self.I.allDigitalChannels})
-				autogenControls.append({'TITLE':'High Frequency','FUNC':self.I.get_high_freq,'TYPE':'selectButton','UNITS':'Hz','TOOLTIP':'Measure Frequencies over 1MHz with 10Hz resolution','OPTIONS':self.I.allDigitalChannels})
+                tmpfunc = functools.partial(self.I.get_average_voltage,samples=100)
+                autogenControls.append({'TITLE':'VOLTMETER','FUNC':tmpfunc,'TYPE':'selectButton','UNITS':'V','TOOLTIP':'Voltmeter','OPTIONS':self.I.allAnalogChannels})
+                autogenControls.append({'TITLE':'Low Frequency','FUNC':self.I.get_freq,'TYPE':'selectButton','UNITS':'Hz','TOOLTIP':'Measure Frequency. Minimum 40Hz','OPTIONS':self.I.allDigitalChannels})
+                autogenControls.append({'TITLE':'High Frequency','FUNC':self.I.get_high_freq,'TYPE':'selectButton','UNITS':'Hz','TOOLTIP':'Measure Frequencies over 1MHz with 10Hz resolution','OPTIONS':self.I.allDigitalChannels})
 
-				autogenControls.append({'TITLE':'SR-04 Distance','FUNC':self.I.estimateDistance,'TYPE':'button','UNITS':'m','TOOLTIP':'Measure Distance using an HCSR04 sensor. TRIG-SQR1  , ECHO-ID1'})
+                autogenControls.append({'TITLE':'SR-04 Distance','FUNC':self.I.estimateDistance,'TYPE':'button','UNITS':'m','TOOLTIP':'Measure Distance using an HCSR04 sensor. TRIG-SQR1  , ECHO-ID1'})
 
-				self.setWindowTitle(self.I.generic_name + ' : '+self.I.H.version_string.decode("utf-8"))
+                self.setWindowTitle(self.I.generic_name + ' : '+self.I.H.version_string.decode("utf-8"))
 
-				for C in autogenControls:
-					if C['TYPE']=='dial':
-						self.funcs.append(C.get('FUNC',None))
-						self.WidgetLayout.addWidget(self.dialIcon(**C),row,col)
-					elif C['TYPE']=='button':
-						self.funcs.append(C.get('FUNC',None))
-						self.WidgetLayout.addWidget(self.buttonIcon(**C),row,col)
-					elif C['TYPE']=='selectButton':
-						self.funcs.append(C.get('FUNC',None))
-						self.WidgetLayout.addWidget(self.selectAndButtonIcon(**C),row,col)
+                for C in autogenControls:
+                    if C['TYPE']=='dial':
+                        self.funcs.append(C.get('FUNC',None))
+                        self.WidgetLayout.addWidget(self.dialIcon(**C),row,col)
+                    elif C['TYPE']=='button':
+                        self.funcs.append(C.get('FUNC',None))
+                        self.WidgetLayout.addWidget(self.buttonIcon(**C),row,col)
+                    elif C['TYPE']=='selectButton':
+                        self.funcs.append(C.get('FUNC',None))
+                        self.WidgetLayout.addWidget(self.selectAndButtonIcon(**C),row,col)
 
-					col+=1
-					if(col==colLimit):
-						col=0;row+=1
+                    col+=1
+                    if(col==colLimit):
+                        col=0;row+=1
 
-				self.WidgetLayout.addWidget(self.setStateIcon(I=self.I),row,col)
+                self.WidgetLayout.addWidget(self.setStateIcon(I=self.I),row,col)
 
             else:
                 self.setWindowTitle(self.I.generic_name + ' : Not Connected')
