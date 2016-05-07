@@ -355,6 +355,7 @@ class utilitiesClass():
 	class dialAndDoubleSpinIcon(QtGui.QFrame,dialAndDoubleSpin.Ui_Form):
 		def __init__(self,**args):
 			super(utilitiesClass.dialAndDoubleSpinIcon, self).__init__()
+			self.linkFunc = args.get('LINK',None)
 			self.setupUi(self)
 			try:from SEEL.commands_proto import applySIPrefix
 			except ImportError:	self.applySIPrefix = None
@@ -369,7 +370,6 @@ class utilitiesClass():
 			self.dial.setMaximum(args.get('MAX',100))
 			self.value.setMinimum(args.get('MIN',0))
 			self.value.setMaximum(args.get('MAX',100))
-			self.linkFunc = args.get('LINK',None)
 
 		def setValue(self,val):
 			retval = self.func(val)
@@ -600,6 +600,16 @@ class utilitiesClass():
 			D4=self.SQR4DC.value()
 			
 			self.I.sqr4_continuous(self.SQRSF.value(),D1,P2,D2,P3,D3,P4,D4)
+
+
+		def fireSQR1(self):
+			if self.I:
+				from SEEL_Apps.utilityApps import firePulses
+				inst = firePulses.AppWindow(self,I=self.I)
+				inst.show()
+			else:
+				print (self.setWindowTitle('Device Not Connected!'))
+
 
 	class supplyWidget(QtGui.QWidget,supplyWidget.Ui_Form):
 		def __init__(self,I):

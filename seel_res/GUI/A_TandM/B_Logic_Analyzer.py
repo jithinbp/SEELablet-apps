@@ -144,9 +144,6 @@ class AppWindow(QtGui.QMainWindow, digitalScope.Ui_MainWindow,utilitiesClass):
 			else : self.I.start_three_channel_LA(modes=self.dchan_modes,trigger_channel=trchan,trigger_mode=0)
 		elif self.active_dchannels==2: self.I.start_two_channel_LA(1)
 
-		#self.I.sqr1(1000e3,50,True)
-		#self.I.sqr1_pattern([250,250,250,250,500])
-
 	def showData(self):
 		from SEEL_Apps.utilityApps import spreadsheet
 		self.info = spreadsheet.AppWindow(self)
