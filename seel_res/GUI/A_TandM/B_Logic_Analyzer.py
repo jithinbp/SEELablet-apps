@@ -12,7 +12,6 @@ import sip
 sip.setapi("QString", 2)
 sip.setapi("QVariant", 2)
 
-
 from PyQt4 import QtCore, QtGui
 import time,sys
 from templates import digitalScope
@@ -39,8 +38,6 @@ params = {
 'name':'Logic\nAnalyzer',
 'hint':'4-Channel Logic analyzer that uses inputs ID1 through ID4. Capable of detecting various level changes in the input signal, and recording timestamps'
 }
-
-
 
 class AppWindow(QtGui.QMainWindow, digitalScope.Ui_MainWindow,utilitiesClass):
 	def __init__(self, parent=None,**kwargs):
@@ -146,7 +143,9 @@ class AppWindow(QtGui.QMainWindow, digitalScope.Ui_MainWindow,utilitiesClass):
 			if trmode: self.I.start_three_channel_LA(modes=self.dchan_modes,trigger_channel=trchan,trigger_mode=trmode)
 			else : self.I.start_three_channel_LA(modes=self.dchan_modes,trigger_channel=trchan,trigger_mode=0)
 		elif self.active_dchannels==2: self.I.start_two_channel_LA(1)
-		
+
+		self.I.sqr1(1000e3,50,True)
+		self.I.sqr1_pattern([250,250,250,250,500])
 
 	def showData(self):
 		from SEEL_Apps.utilityApps import spreadsheet

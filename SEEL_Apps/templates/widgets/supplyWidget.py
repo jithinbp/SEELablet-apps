@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'supplyWidget.ui'
 #
-# Created: Fri May  6 18:04:53 2016
+# Created: Sat May  7 09:18:42 2016
 #      by: PyQt4 UI code generator 4.11.3
 #
 # WARNING! All changes made in this file will be lost!

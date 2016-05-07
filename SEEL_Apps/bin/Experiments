@@ -88,6 +88,7 @@ class MyMainWindow(QtGui.QMainWindow, single_col_exp.Ui_MainWindow,utilitiesClas
 
 		#Widgets related to Digital Waveform generators
 		self.pwmSection = self.pwmWidget(self.I);   		self.advancedControlsLayout.addWidget(self.pwmSection)
+		self.advancedControlsLayout.addWidget(self.setStateIcon(I=self.I))
 		
 		self.tmpTimer = QtCore.QTimer()
 		sys.path.append('/usr/share/seelablet')
@@ -141,7 +142,6 @@ class MyMainWindow(QtGui.QMainWindow, single_col_exp.Ui_MainWindow,utilitiesClas
 			if(col==colLimit):
 				col=0;row+=1
 
-		self.WidgetLayout.addWidget(self.setStateIcon(I=self.I),row,col)
 		col+=1
 		if(col==colLimit):
 				col=0;row+=1
