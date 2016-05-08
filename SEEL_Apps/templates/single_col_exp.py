@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'single_col_exp.ui'
 #
-# Created: Sat May  7 12:57:05 2016
+# Created: Sun May  8 16:06:41 2016
 #      by: PyQt4 UI code generator 4.11.3
 #
 # WARNING! All changes made in this file will be lost!
@@ -68,17 +68,17 @@ class Ui_MainWindow(object):
         self.verticalLayout_4.setSpacing(0)
         self.verticalLayout_4.setMargin(0)
         self.verticalLayout_4.setObjectName(_fromUtf8("verticalLayout_4"))
-        self.scrollArea_4 = QtGui.QScrollArea(self.frame)
+        self.ExperimentScrollArea = QtGui.QScrollArea(self.frame)
         sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.MinimumExpanding, QtGui.QSizePolicy.MinimumExpanding)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.scrollArea_4.sizePolicy().hasHeightForWidth())
-        self.scrollArea_4.setSizePolicy(sizePolicy)
-        self.scrollArea_4.setMaximumSize(QtCore.QSize(16777215, 16777215))
-        self.scrollArea_4.setStyleSheet(_fromUtf8(""))
-        self.scrollArea_4.setWidgetResizable(True)
-        self.scrollArea_4.setAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft|QtCore.Qt.AlignTop)
-        self.scrollArea_4.setObjectName(_fromUtf8("scrollArea_4"))
+        sizePolicy.setHeightForWidth(self.ExperimentScrollArea.sizePolicy().hasHeightForWidth())
+        self.ExperimentScrollArea.setSizePolicy(sizePolicy)
+        self.ExperimentScrollArea.setMaximumSize(QtCore.QSize(16777215, 16777215))
+        self.ExperimentScrollArea.setStyleSheet(_fromUtf8(""))
+        self.ExperimentScrollArea.setWidgetResizable(True)
+        self.ExperimentScrollArea.setAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft|QtCore.Qt.AlignTop)
+        self.ExperimentScrollArea.setObjectName(_fromUtf8("ExperimentScrollArea"))
         self.SCF1 = QtGui.QWidget()
         self.SCF1.setGeometry(QtCore.QRect(0, 0, 401, 444))
         sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Preferred, QtGui.QSizePolicy.MinimumExpanding)
@@ -112,8 +112,8 @@ class Ui_MainWindow(object):
         self.gridLayout_7.addLayout(self.ExperimentLayout, 0, 0, 1, 1)
         self.gridLayout_5.addWidget(self.frame_5, 0, 0, 1, 1)
         self.gridLayout_5.setColumnStretch(0, 1)
-        self.scrollArea_4.setWidget(self.SCF1)
-        self.verticalLayout_4.addWidget(self.scrollArea_4)
+        self.ExperimentScrollArea.setWidget(self.SCF1)
+        self.verticalLayout_4.addWidget(self.ExperimentScrollArea)
         self.verticalLayout.addWidget(self.frame)
         self.frame_3 = QtGui.QFrame(self.tab)
         sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Preferred, QtGui.QSizePolicy.Maximum)
@@ -313,4 +313,5 @@ class Ui_MainWindow(object):
         self.actionStart.setText(_translate("MainWindow", "start", None))
         self.actionStop.setText(_translate("MainWindow", "stop", None))
         self.actionExperiments.setText(_translate("MainWindow", "Experiment Package", None))
+        self.actionExperiments.setShortcut(_translate("MainWindow", "Ctrl+I", None))
 

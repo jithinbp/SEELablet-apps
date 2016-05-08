@@ -35,6 +35,33 @@ class AppWindow(QtGui.QMainWindow, aboutDevice.Ui_MainWindow):
 					xpos+=1
 				ypos+=1
 
+	def save(self):  #Save as CSV
+		path = QtGui.QFileDialog.getSaveFileName(self, 'Save File', '~/', 'CSV(*.csv)')
+		if path:
+			import csv
+			with open(unicode(path), 'wb') as stream:
+				delim = [' ','\t',',',';']
+				writer = csv.writer(stream, delimiter = delim[self.delims.currentIndex()])
+				if self.headerBox.isChecked():
+					try:
+						headers = []
+						for column in range(self.table.columnCount()):headers.append(self.table.horizontalHeaderItem(column).text())
+						writer.writerow(headers)
+					except:
+						pass
+					
+				#writer.writeheader()
+				for row in range(self.table.rowCount()):
+					rowdata = []
+					for column in range(self.table.columnCount()):
+						item = self.table.item(row, column)
+						if item is not None:
+							rowdata.append(	unicode(item.text()).encode('utf8'))
+						else:
+							rowdata.append('')
+					writer.writerow(rowdata)
+
+
 	def __del__(self):
 		print ('bye')
                 

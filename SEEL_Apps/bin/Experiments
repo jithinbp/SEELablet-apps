@@ -166,7 +166,6 @@ class MyMainWindow(QtGui.QMainWindow, single_col_exp.Ui_MainWindow,utilitiesClas
 		#self.splash.finish(self)
 		self.runningApp = None
 
-
 	def modifiedSqr1(self,val):
 		if val<4:
 			self.I.set_state(SQR1=0)
@@ -208,6 +207,11 @@ class MyMainWindow(QtGui.QMainWindow, single_col_exp.Ui_MainWindow,utilitiesClas
 		parentPath = os.path.abspath(os.path.join(dirname, os.pardir))
 		sys.path.append(parentPath)
 		self.loadSubmoduleIcons(dirname.split('/')[-1])
+		self.tmpTimer.singleShot(2,self.scrollToEnd)
+		
+	def scrollToEnd(self):
+		scrollMax = self.ExperimentScrollArea.verticalScrollBar().maximum()
+		self.ExperimentScrollArea.verticalScrollBar().setValue(scrollMax)
 
 	'''
 	def importExperimentFile(self):
@@ -249,7 +253,20 @@ class MyMainWindow(QtGui.QMainWindow, single_col_exp.Ui_MainWindow,utilitiesClas
 			for app in apps:
 				if(self.col==self.colLimit):
 					self.col=0;self.row+=1
-				fn = functools.partial(self.launchFunc,submodule+'.'+app)
+
+				appLocation = submodule+'.'+app
+				fname = app+'.'+'.html'
+
+
+				#Find a locally available helpfile
+				helpurl = pkg_resources.resource_filename('seel_res.HTML',app+'.html')
+				if not os.path.isfile(helpurl): helpurl=None
+
+				#Find a locally available helpfile, and use it if it exists
+				localhelpurl = pkg_resources.resource_filename(submodule,app+'.html')
+				if os.path.isfile(localhelpurl): helpurl=localhelpurl
+
+				fn = functools.partial(self.launchFunc,appLocation,helpurl)
 				self.funcs.append(fn)
 				icon = self.experimentIcon(submodule,app,fn)
 				self.ExperimentLayout.addWidget(icon,self.row,self.col)
@@ -269,7 +286,7 @@ class MyMainWindow(QtGui.QMainWindow, single_col_exp.Ui_MainWindow,utilitiesClas
 	def setHint(self,t):
 		self.hintText.setHtml(t)
 
-	def launchFunc(self,fname):
+	def launchFunc(self,fname,helpurl):
 		if self.I:
 			#try:
 			#	if fname.split('.')[1]=='apps':
@@ -282,19 +299,11 @@ class MyMainWindow(QtGui.QMainWindow, single_col_exp.Ui_MainWindow,utilitiesClas
 			size = inst.geometry()
 			inst.setGeometry(400, 50,size.width(), size.height())
 
-			#Load help HTML if found
-			sections = fname.split('.')
 			self.runningApp = inst
-			
-			print ('filename',sections)
-			fname = string.join(sections[:-1],'.')+'.html'
-			try:
-				helpurl = pkg_resources.resource_filename('seel_res.HTML',sections[-1]+'.html')
-				print('url',helpurl)
-				self.helpView.setUrl(QtCore.QUrl(helpurl))          
-				self.tabWidget.setCurrentIndex(1)
-			except:
-				print('No help URL file found')
+			#Load help HTML if found
+			self.helpView.setUrl(QtCore.QUrl(helpurl))          
+			self.tabWidget.setCurrentIndex(1)
+
 		else:
 			print(self.setWindowTitle('Device Not Connected!'))
 

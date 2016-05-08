@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'firePulses.ui'
 #
-# Created: Sat May  7 14:01:40 2016
+# Created: Sat May  7 23:24:47 2016
 #      by: PyQt4 UI code generator 4.11.3
 #
 # WARNING! All changes made in this file will be lost!
