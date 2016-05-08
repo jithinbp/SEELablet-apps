@@ -9,7 +9,7 @@
 	Maybe dont include this in the main package
 
 """
-#from __future__ import print_function
+from __future__ import print_function
 from SEEL_Apps.utilitiesClass import utilitiesClass
 from templates import calibration_loader
 
@@ -121,7 +121,7 @@ class AppWindow(QtGui.QMainWindow, calibration_loader.Ui_MainWindow,utilitiesCla
 			fitvals = np.polyfit(OFFSET_REMOVED[1:],X[1:],3)
 			self.results[INPUTNAME][int(GAIN)]=fitvals
 			fitfn = np.poly1d(fitvals)
-			print filename,fitvals,fitfn(0),fitfn(4095)
+			print (filename,fitvals,fitfn(0),fitfn(4095))
 
 			self.rawCurves[filename].setData(np.array(X),X-Y)
 			self.cleanCurves[filename].setData(np.array(X),X-fitfn(OFFSET_REMOVED))	
@@ -143,7 +143,7 @@ class AppWindow(QtGui.QMainWindow, calibration_loader.Ui_MainWindow,utilitiesCla
 			else:
 				self.CAP_AND_PCS = ''
 
-			print self.ADC_FILES,self.DAC_FILES
+			print (self.ADC_FILES,self.DAC_FILES)
 
 			'''
 			First calculate INL errors from the raw data obtained from AN3.
@@ -163,7 +163,7 @@ class AppWindow(QtGui.QMainWindow, calibration_loader.Ui_MainWindow,utilitiesCla
 			ADC24=inldata[:,0];ADCINL=inldata[:,1];
 
 			Y2=ADCINL-ADC24
-			print max(Y2),min(Y2),len(ADCINL)
+			print (max(Y2),min(Y2),len(ADCINL))
 			self.adc_shifts = np.zeros(4096)
 			self.INL_INTERCEPT = Y2.min()
 			self.INL_SLOPE = (Y2.max()-Y2.min())/255.
@@ -173,7 +173,7 @@ class AppWindow(QtGui.QMainWindow, calibration_loader.Ui_MainWindow,utilitiesCla
 				code = np.int16(4095*(ADCINL[a])/3.3)
 				self.adc_shifts[np.clip(code,0,4095)] = np.int16(((Y2[a]-self.INL_INTERCEPT)/self.INL_SLOPE))
 
-			print min(self.adc_shifts),max(self.adc_shifts)
+			print (min(self.adc_shifts),max(self.adc_shifts))
 			for n in range(1,len(self.adc_shifts)-2):
 				if self.adc_shifts[n]==0:
 					self.adc_shifts[n] = (self.adc_shifts[n+1]+self.adc_shifts[n-1])/2
@@ -241,7 +241,7 @@ class AppWindow(QtGui.QMainWindow, calibration_loader.Ui_MainWindow,utilitiesCla
 
 				OFF = np.int16((( DIFF-intercept)/slope)) # compress the errors into an unsigned BYTE each
 				
-				print min(OFF),max(OFF),len(OFF)
+				print (min(OFF),max(OFF),len(OFF))
 				#OFF=np.array(OFF)+127
 				#X=[(int(OFF[n])&0xF)|(int(OFF[n+1])<<4) for n in range(len(OFF)/2)]
 				#S.write_bulk_flash(10+DAC_CHAN,X)
@@ -251,7 +251,7 @@ class AppWindow(QtGui.QMainWindow, calibration_loader.Ui_MainWindow,utilitiesCla
 				self.cleanCurves[NAME].setData(np.linspace(CHAN.range[0],CHAN.range[1],4096),fitfn(CHAN.CodeToV(X2))-(OFF*slope+intercept)-Ydata)
 				self.DAC_TABLES[DAC_FILE]=OFF  #offset
 				self.DAC_POLYS [DAC_FILE]=[slope,intercept,fitvals[0],fitvals[1],fitvals[2],fitvals[3]]
-				print 'fitvals',fitvals
+				print ('fitvals',fitvals)
 
 			print('Capacitance and current source : ' ,self.CAP_AND_PCS)
 			#print ([int(x) for x in self.adc_shifts])
@@ -268,9 +268,9 @@ class AppWindow(QtGui.QMainWindow, calibration_loader.Ui_MainWindow,utilitiesCla
 			final_fitstr+=self.stoa('>|'+channel+'|<')
 			for b in keys:
 				fitstr=struct.pack('4f',*self.results[channel][b])
-				print channel,b,self.results[channel][b],len(fitstr),fitstr
-				print ':',struct.unpack('4f',fitstr)
-				print [ord(a) for a in fitstr]
+				print (channel,b,self.results[channel][b],len(fitstr),fitstr)
+				print (':',struct.unpack('4f',fitstr))
+				print ([ord(a) for a in fitstr])
 				final_fitstr+=self.stoa(fitstr)
 
 		final_fitstr+=self.stoa('STOP')
@@ -301,7 +301,7 @@ class AppWindow(QtGui.QMainWindow, calibration_loader.Ui_MainWindow,utilitiesCla
 		
 		for FILE in self.DAC_FILES:
 			name = FILE[:3]
-			print 'Writing DAC offsets and tables....',name
+			print ('Writing DAC offsets and tables....',name)
 			if name == 'PV1':
 				LOCA= self.I.DAC_SHIFTS_PV1A;LOCB= self.I.DAC_SHIFTS_PV1B;
 			elif name == 'PV2':

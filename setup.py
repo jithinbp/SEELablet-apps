@@ -24,7 +24,5 @@ setup(name='SEEL_Apps',
     install_requires = ['numpy>=1.8.1','pyqtgraph>=0.9.10'], #SEEL>=
     packages=['SEEL_Apps','SEEL_Apps.templates','SEEL_Apps.utilityApps','SEEL_Apps.utilityApps.templates','SEEL_Apps.stylesheets','SEEL_Apps.templates.widgets'],
     scripts=["SEEL_Apps/bin/"+a for a in os.listdir("SEEL_Apps/bin/")],
-    package_data={'': ['*.css','*.png','*.gif','*.html','*.css','*.js','*.png','*.jpg','*.jpeg','*.htm']},
     cmdclass={'install': CustomInstall},
 )
-
