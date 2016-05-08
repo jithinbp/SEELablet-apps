@@ -258,13 +258,16 @@ class MyMainWindow(QtGui.QMainWindow, single_col_exp.Ui_MainWindow,utilitiesClas
 				fname = app+'.'+'.html'
 
 
-				#Find a locally available helpfile
+				#Find a universally available helpfile
 				helpurl = pkg_resources.resource_filename('seel_res.HTML',app+'.html')
 				if not os.path.isfile(helpurl): helpurl=None
 
 				#Find a locally available helpfile, and use it if it exists
-				localhelpurl = pkg_resources.resource_filename(submodule,app+'.html')
-				if os.path.isfile(localhelpurl): helpurl=localhelpurl
+				try:
+					localhelpurl = pkg_resources.resource_filename(submodule+'.'+'HTML',app+'.html')
+					if os.path.isfile(localhelpurl): helpurl=localhelpurl
+				except:
+					pass
 
 				fn = functools.partial(self.launchFunc,appLocation,helpurl)
 				self.funcs.append(fn)

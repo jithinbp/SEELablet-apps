@@ -416,25 +416,37 @@ class AppWindow(QtGui.QMainWindow, analogScope.Ui_MainWindow,utilitiesClass):
 
 	def setGainCH1(self,g):
 		self.I.set_gain(self.chan1remap,g)
+		
 		if not self.Liss_show.isChecked():
 			chan = self.I.analogInputSources[self.chan1remap]
 			R = [chan.calPoly10(0),chan.calPoly10(1023)]
 			R[0]=R[0]*.9;R[1]=R[1]*.9
 			self.plot.setYRange(min(R),max(R))
+			self.plot.setLimits(yMax=max(R),yMin=min(R))		
 			
 			#RHalf = min(abs(R[0]),abs(R[1]))*0.9   #Make vertical axes symmetric. Post calibration voltage ranges are not symmetric usually.
 			#self.plot.setYRange(-1*RHalf,RHalf)    #Not sure how to handle unipolar channels . TODO
+		if g==8:  # attenuator mode. Remind the user
+			self.displayDialog('Connect a 10MOhm resistor in series with CH1')
+			self.plot.getPlotItem().setMouseEnabled(True,True)
+		else:self.plot.getPlotItem().setMouseEnabled(True,False)
 		
 	def setGainCH2(self,g):
 		self.I.set_gain('CH2',g)
+
 		if not self.Liss_show.isChecked():
 			chan = self.I.analogInputSources['CH2']
 			R = [chan.calPoly10(0),chan.calPoly10(1023)]
 			R[0]=R[0]*.9;R[1]=R[1]*.9
 			self.plot2.setYRange(min(R),max(R))
+			self.plot2.setLimits(yMax=max(R),yMin=min(R))		
 			
 			#RHalf = min(abs(R[0]),abs(R[1]))*0.9  #Make vertical axes symmetric. Post calibration voltage ranges are not symmetric usually.
 			#self.plot.setYRange(-1*RHalf,RHalf)
+		if g==8:  # attenuator mode. Remind the user
+			self.displayDialog('Connect a 10MOhm resistor in series with CH2')
+			self.plot2.setMouseEnabled(True,True)
+		else:self.plot2.setMouseEnabled(True,False)
 
 
 	def setTimeBase(self,g):
@@ -497,6 +509,8 @@ class AppWindow(QtGui.QMainWindow, analogScope.Ui_MainWindow,utilitiesClass):
 		chan = self.I.analogInputSources[self.chan1remap]
 		R = [chan.calPoly10(0),chan.calPoly10(1023)]
 		self.plot.setYRange(min(R),max(R))
+		if val!='CH1':self.CH1GainBox.setEnabled(False)   # remapped. gain does not apply
+		else :self.CH1GainBox.setEnabled(True)
 		
 	def autoRange(self):
 		if self.Liss_show.isChecked():
@@ -529,6 +543,7 @@ class AppWindow(QtGui.QMainWindow, analogScope.Ui_MainWindow,utilitiesClass):
 				print (xlen)
 
 			self.plot.setLimits(yMax=max(R),yMin=min(R),xMin=0,xMax=xlen)
+			self.plot2.setLimits(yMax=max(R2),yMin=min(R2))		
 			self.time_label.setText('%.3f mS'%(xlen*1e3))
 			self.plot.setXRange(0,xlen)
 
