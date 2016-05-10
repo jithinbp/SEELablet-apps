@@ -59,11 +59,15 @@ class AppWindow(QtGui.QMainWindow, aboutDevice.Ui_MainWindow):
 		if path:
 			import csv
 			with open(unicode(path), 'wb') as stream:
-				headers = []
-				for column in range(self.table.columnCount()):headers.append(self.table.horizontalHeaderItem(column).text())
 				delim = [' ','\t',',',';']
 				writer = csv.writer(stream, delimiter = delim[self.delims.currentIndex()])
-				if self.headerBox.isChecked():writer.writerow(headers)
+				if self.headerBox.isChecked():
+					headers = []
+					try:
+						for column in range(self.table.columnCount()):headers.append(self.table.horizontalHeaderItem(column).text())
+						writer.writerow(headers)
+					except:
+						pass
 				#writer.writeheader()
 				for row in range(self.table.rowCount()):
 					rowdata = []

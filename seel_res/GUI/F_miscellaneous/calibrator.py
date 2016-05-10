@@ -27,7 +27,7 @@ from templates import calibrator
 import numpy as np
 from PyQt4 import QtGui,QtCore
 import pyqtgraph as pg
-import sys,functools,os,random,struct,time
+import sys,functools,os,random,struct,time,serial.tools.list_ports
 
 
 params = {
@@ -47,9 +47,9 @@ class acquirer():
 		self.I=parent.I
 		self.parent = parent
 		self.INPUTS = parent.INPUTS
+		self.INL_CHANNEL = 'AN8'
 		self.paused = False
-		self.I.__ignoreCalibration__()
-		from SEEL.SENSORS.AD7718_class import AD7718
+		if self.I : self.I.__ignoreCalibration__()
 		
 		self.DAC_VALS={'PV1':[],'PV2':[],'PV3':[]}
 		self.ADC24={'AIN5':[],'AIN6':[],'AIN7':[]}
@@ -64,7 +64,7 @@ class acquirer():
 				self.ADC_VALUES[a][b]=[]
 				self.ADC_ACTUALS[a][b]=[]
 
-		calibs={  #Fix this soon
+		self.calibs={  #Fix this soon
 		'AIN6AINCOM':[6.993123e-07,-1.563294e-06,9.994211e-01,-4.596018e-03], 
 		'AIN7AINCOM':[3.911521e-07,-1.706405e-06,1.002294e+00,-1.286302e-02], 
 		'AIN3AINCOM':[-3.455831e-06,2.861689e-05,1.000195e+00,3.802349e-04], 
@@ -75,10 +75,18 @@ class acquirer():
 		'AIN8AINCOM':[8.290843e-07,-7.129532e-07,9.993159e-01,3.307947e-03], 
 		'AIN4AINCOM':[4.135213e-06,-1.973478e-05,1.000277e+00,2.115374e-04], }
 
-		self.ADC=AD7718(self.I,calibs)
+		self.setADC(self.I)
+		self.Running = False
+		
+
+	def setADC(self,I):
+		from SEEL.SENSORS.AD7718_class import AD7718
+		self.ADC=AD7718(I,self.calibs)
 		print (self.ADC.printstat())
 		self.ADC.writeRegister(self.ADC.FILTER,20)
-		self.Running = False
+
+	def setINL_CHANNEL(self,chan):
+		self.INL_CHANNEL = chan
 
 	def getAnotherPoint(self):
 		if self.vv==4096: #We're all done here.
@@ -95,8 +103,8 @@ class acquirer():
 		time.sleep(0.001)
 
 		self.ADC.__startRead__('AIN7AINCOM')
-		ADC_INL_RAW = np.average([self.I.__get_raw_average_voltage__('AN8') for x in range(70) ])
-		self.ADCPIC_INL.append(self.I.analogInputSources['AN8'].calPoly12(ADC_INL_RAW))
+		ADC_INL_RAW = np.average([self.I.__get_raw_average_voltage__(self.INL_CHANNEL) for x in range(70) ])
+		self.ADCPIC_INL.append(self.I.analogInputSources[self.INL_CHANNEL].calPoly12(ADC_INL_RAW))
 		AIN7 = self.ADC.__fetchData__('AIN7AINCOM')
 		self.ADC24['AIN7'].append(AIN7)
 
@@ -208,7 +216,11 @@ class AppWindow(QtGui.QMainWindow, calibrator.Ui_MainWindow,utilitiesClass):
 		#self.plot.setYRange(-.1,.1)
 		self.curves={}
 
-		self.curves={}
+		name = 'INL'
+		self.curves[name]={}
+		self.curves[name][0]=self.addCurve(self.plot,pen=pg.mkPen([255,255,255], width=1),name=name)
+		item = self.addLabel(name,[255,255,255]);	self.curves[name][0].curve.setClickable(True);	self.curves[name][0].sigClicked.connect(functools.partial(self.selectItem,item))
+		
 		for a in self.INPUTS:
 			self.curves[a]={}
 			if self.I.analogInputSources[a].gainEnabled:
@@ -219,9 +231,16 @@ class AppWindow(QtGui.QMainWindow, calibrator.Ui_MainWindow,utilitiesClass):
 					item = self.addLabel(name,col);	self.curves[a][b].curve.setClickable(True);	self.curves[a][b].sigClicked.connect(functools.partial(self.selectItem,item))
 			else:
 				col=QtGui.QColor(random.randint(20,255),random.randint(20,255),random.randint(20,255))
+				name = '%s:1x'%(a)
 				self.curves[a][0]=self.addCurve(self.plot,pen=pg.mkPen(col, width=1),name='%s:1x'%(a))
 				item = self.addLabel(name,col);	self.curves[a][0].curve.setClickable(True);	self.curves[a][0].sigClicked.connect(functools.partial(self.selectItem,item))
 
+		self.shortlist=[]
+		self.menu_entries=[]
+		self.menu_group=None
+		self.timer = QtCore.QTimer()
+		self.timer.timeout.connect(self.locateDevices)
+		self.timer.start(500)
 
 	def addLabel(self,name,color=None):
 		item = QtGui.QListWidgetItem()
@@ -300,13 +319,16 @@ class AppWindow(QtGui.QMainWindow, calibrator.Ui_MainWindow,utilitiesClass):
 		self.finished=True
 		try:self.timer.stop()
 		except: pass
+		try:self.A.timer.stop()
+		except: pass
 
 	def __del__(self):
 		self.running =False
 		self.finished=True
 		try:self.timer.stop()
 		except: pass
-		print ('bye')
+		try:self.A.timer.stop()
+		except: pass
 
 	def saveData(self):
 		try:
@@ -330,6 +352,37 @@ class AppWindow(QtGui.QMainWindow, calibrator.Ui_MainWindow,utilitiesClass):
 			else:
 				np.savetxt(os.path.join(self.savedir,'CALIB_%s_%dx.csv'%(a,1)),np.column_stack([np.array(self.A.ADC24['AIN6'])[self.A.ADC_ACTUALS[a][0]],self.A.ADC_VALUES[a][0]]))
 
+	def locateDevices(self):
+		L = serial.tools.list_ports.comports()
+		shortlist=[]
+		for a in L:
+			if ('ACM' in a[1]) and ('04d8:00df' in a[2]) and a[0]!=self.I.H.portname:
+				shortlist.append(a)
+		total = len(shortlist)
+		if shortlist != self.shortlist:
+			self.shortlist=shortlist
+			for a in self.menu_entries:
+				self.deviceBox.removeItem(0)
+			self.menu_entries=[]
+			for a in shortlist:
+				self.deviceBox.addItem(a[0])
+				self.menu_entries.append(a[0])
+
+
+	def setDifferentAD7718(self):
+		sel = self.deviceBox.currentText()
+		if ( not ('ACM' in sel  or 'USB' in sel)):
+			self.displayDialog('No devices Found')
+			return
+		from SEEL import interface
+		self.ISPI = interface.connect(port = sel,load_calibration=False)
+		self.A.setADC(self.ISPI)
+		self.displayDialog('Connected'+self.I.H.version_string.decode("utf-8"))
+			
+	def setINL_CHANNEL(self,chan):
+		chan = str(chan)
+		print ('inl changed to ',chan)
+		self.A.setINL_CHANNEL(chan)
 
 
 if __name__ == "__main__":

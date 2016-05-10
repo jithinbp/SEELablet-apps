@@ -254,6 +254,7 @@ class AppWindow(QtGui.QMainWindow, calibration_loader.Ui_MainWindow,utilitiesCla
 				print ('fitvals',fitvals)
 
 			print('Capacitance and current source : ' ,self.CAP_AND_PCS)
+			#print ([int(x) for x in self.adc_shifts])
 
 	def stoa(self,s):
 		return [ord(a) for a in s]
@@ -274,16 +275,19 @@ class AppWindow(QtGui.QMainWindow, calibration_loader.Ui_MainWindow,utilitiesCla
 
 		final_fitstr+=self.stoa('STOP')
 		for a in self.DAC_POLYS:
+			print ('############',self.atos(final_fitstr),len(final_fitstr))
+			l1 = len(final_fitstr)
 			final_fitstr+=self.stoa('>|'+a[:3]+'|<')
 			fitstr=struct.pack('6f',*self.DAC_POLYS[a])
 			final_fitstr+=self.stoa(fitstr)
+			print ('############',self.atos(final_fitstr),len(final_fitstr), len(final_fitstr)-l1)
 
+		print ('########---------------------#########',self.atos(final_fitstr))
 		final_fitstr+=self.stoa('STOP')
 		final_fitstr+=self.stoa(struct.pack('2f',self.INL_SLOPE,self.INL_INTERCEPT))
 		final_fitstr+=self.stoa('STOP')
 		if len(self.CAP_AND_PCS)==4:final_fitstr+=self.stoa(struct.pack('4f',*self.CAP_AND_PCS))
 		final_fitstr+=self.stoa('STOP')
-
 
 		self.adc_shifts=[int(a) for a in self.adc_shifts]  #Convert to regular list
 		print('Writing adc shifts to Flash.....(first half)')
@@ -323,7 +327,7 @@ class AppWindow(QtGui.QMainWindow, calibration_loader.Ui_MainWindow,utilitiesCla
 if __name__ == "__main__":
     from SEEL import interface
     app = QtGui.QApplication(sys.argv)
-    myapp = AppWindow(I=interface.connect())
+    myapp = AppWindow(I=interface.connect(load_calibration=False))
     myapp.show()
     sys.exit(app.exec_())
 

@@ -230,7 +230,7 @@
               <string>Chan 2</string>
              </property>
             </widget>
-            <widget class="QComboBox" name="comboBox_6">
+            <widget class="QComboBox" name="CH1GainBox">
              <property name="geometry">
               <rect>
                <x>127</x>
@@ -277,6 +277,11 @@
              <item>
               <property name="text">
                <string>+/-500mV</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>+/-160V</string>
               </property>
              </item>
             </widget>
@@ -424,7 +429,7 @@
               <string>CH2</string>
              </property>
             </widget>
-            <widget class="QComboBox" name="comboBox_7">
+            <widget class="QComboBox" name="CH2GainBox">
              <property name="geometry">
               <rect>
                <x>130</x>
@@ -471,6 +476,11 @@
              <item>
               <property name="text">
                <string>+/-500mV</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>+/-160V</string>
               </property>
              </item>
             </widget>
@@ -1342,7 +1352,7 @@
    </hints>
   </connection>
   <connection>
-   <sender>comboBox_6</sender>
+   <sender>CH1GainBox</sender>
    <signal>currentIndexChanged(int)</signal>
    <receiver>MainWindow</receiver>
    <slot>setGainCH1(int)</slot>
@@ -1390,7 +1400,7 @@
    </hints>
   </connection>
   <connection>
-   <sender>comboBox_7</sender>
+   <sender>CH2GainBox</sender>
    <signal>currentIndexChanged(int)</signal>
    <receiver>MainWindow</receiver>
    <slot>setGainCH2(int)</slot>

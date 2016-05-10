@@ -102,7 +102,7 @@
             <number>0</number>
            </property>
            <item>
-            <widget class="QScrollArea" name="scrollArea_4">
+            <widget class="QScrollArea" name="ExperimentScrollArea">
              <property name="sizePolicy">
               <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
                <horstretch>0</horstretch>
@@ -553,6 +553,9 @@ p, li { white-space: pre-wrap; }
   <action name="actionExperiments">
    <property name="text">
     <string>Experiment Package</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+I</string>
    </property>
   </action>
  </widget>

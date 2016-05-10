@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'aboutDevice.ui'
 #
-# Created: Thu May  5 12:06:30 2016
+# Created: Sat May  7 23:24:47 2016
 #      by: PyQt4 UI code generator 4.11.3
 #
 # WARNING! All changes made in this file will be lost!
@@ -101,7 +101,7 @@ class Ui_MainWindow(object):
 
     def retranslateUi(self, MainWindow):
         MainWindow.setWindowTitle(_translate("MainWindow", "About Device", None))
-        self.pushButton.setText(_translate("MainWindow", "OK", None))
+        self.pushButton.setText(_translate("MainWindow", "Cancel", None))
         self.headerBox.setText(_translate("MainWindow", "Include Headers", None))
         self.label.setText(_translate("MainWindow", "Separator:", None))
         self.delims.setItemText(0, _translate("MainWindow", "space", None))
