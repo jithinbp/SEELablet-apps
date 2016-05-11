@@ -135,7 +135,7 @@ class utilitiesClass():
 
 
 	def addCurve(self,plot,name='',**kwargs):
-		if(len(name)):curve = pg.PlotDataItem(name=name)#pg.PlotCurveItem(name=name)
+		if(len(name)):curve = pg.PlotDataItem(name=name)
 		else:curve = pg.PlotCurveItem(**kwargs)
 		plot.addItem(curve)
 		if self.properties['colorScheme']=='white':
@@ -669,7 +669,8 @@ class utilitiesClass():
 							rowdata.append('')
 					writer.writerow(rowdata)
 
-	def saveDataWindow(self,curveList):
+	'''
+	def saveDataWindow(self,curveList,plot=None):
 		from utilityApps import spreadsheet
 		info = spreadsheet.AppWindow(self)
 		colnum=0;labels=[]
@@ -681,6 +682,12 @@ class utilitiesClass():
 				info.setColumn(colnum,y);colnum+=1
 				labels.append('%s(X)'%(name));labels.append('%s(Y)'%(name));
 		info.table.setHorizontalHeaderLabels(labels)
+		info.show()
+	'''
+	
+	def saveDataWindow(self,curveList,plot=None):
+		from utilityApps import plotSaveWindow
+		info = plotSaveWindow.AppWindow(self,curveList,plot)
 		info.show()
 
 

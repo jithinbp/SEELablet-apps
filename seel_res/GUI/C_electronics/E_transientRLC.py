@@ -77,7 +77,7 @@ class AppWindow(QtGui.QMainWindow, template_transient.Ui_MainWindow,utilitiesCla
 		self.plot1.setYRange(-8.5,8.5)
 		self.I.set_gain('CH1',1)
 		self.I.configure_trigger(0,'CH1',0)
-		self.tg=0.5
+		self.tg=1
 		self.tgLabel.setText(str(5000*self.tg*1e-3)+'mS')
 		self.x=[]
 
@@ -105,19 +105,19 @@ class AppWindow(QtGui.QMainWindow, template_transient.Ui_MainWindow,utilitiesCla
 
 	def FiveToZero(self):
 		self.I.set_state(SQR1 = 1); time.sleep(0.2) #Charge Circuit
-		self.I.__capture_fullspeed__('CH1',5000,self.tg,'SET_LOW')
+		self.I.__capture_fullspeed_hr__('CH1',5000,self.tg,'SET_LOW')
 		self.CH1Fit.setData([],[])
 		self.loop=self.delayedTask(5000*self.I.timebase*1e-3+10,self.plotData)
 
 
 	def plotData(self):	
 		self.x,self.VMID=self.I.__retrieveBufferData__('CH1',self.I.samples,self.I.timebase)#self.I.fetch_trace(1)
-		self.VMID = self.I.analogInputSources['CH1'].calPoly10(self.VMID)
+		self.VMID = self.I.analogInputSources['CH1'].calPoly12(self.VMID)
 		self.curveCH1.setData(self.x,self.VMID)
 
 
 	def setTimebase(self,T):
-		self.tgs = [0.5,1,2,4,6,8,10,25,50,100]
+		self.tgs = [1,2,4,6,8,10,25,50,80,100]
 		self.tg = self.tgs[T]
 		self.tgLabel.setText(str(5000*self.tg*1e-3)+'mS')
 

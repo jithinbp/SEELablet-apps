@@ -91,8 +91,8 @@ class MyMainWindow(QtGui.QMainWindow, single_col_exp.Ui_MainWindow,utilitiesClas
 
 
 		#################################   POPULATE EXPERIMENTS TAB  ########################################
-		self.tmpTimer = QtCore.QTimer()
 		sys.path.append('/usr/share/seelablet')
+		self.tmpTimer = QtCore.QTimer()
 		self.tmpTimer.singleShot(2,functools.partial(self.loadParentModuleIcons,'seel_res.GUI'))
 		
 

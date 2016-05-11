@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'wirelessTemplate.ui'
 #
-# Created: Fri Apr  8 17:47:17 2016
+# Created: Wed May 11 13:17:39 2016
 #      by: PyQt4 UI code generator 4.11.3
 #
 # WARNING! All changes made in this file will be lost!
@@ -72,7 +72,7 @@ class Ui_MainWindow(object):
         self.scrollArea.setWidgetResizable(True)
         self.scrollArea.setObjectName(_fromUtf8("scrollArea"))
         self.scrollLayout = QtGui.QWidget()
-        self.scrollLayout.setGeometry(QtCore.QRect(0, 0, 316, 168))
+        self.scrollLayout.setGeometry(QtCore.QRect(0, 0, 246, 172))
         self.scrollLayout.setObjectName(_fromUtf8("scrollLayout"))
         self.nodeArea = QtGui.QVBoxLayout(self.scrollLayout)
         self.nodeArea.setSpacing(0)
@@ -87,7 +87,7 @@ class Ui_MainWindow(object):
         self.scrollArea_2.setWidgetResizable(True)
         self.scrollArea_2.setObjectName(_fromUtf8("scrollArea_2"))
         self.scroll2layout = QtGui.QWidget()
-        self.scroll2layout.setGeometry(QtCore.QRect(0, 0, 316, 337))
+        self.scroll2layout.setGeometry(QtCore.QRect(0, 0, 246, 347))
         self.scroll2layout.setStyleSheet(_fromUtf8(""))
         self.scroll2layout.setObjectName(_fromUtf8("scroll2layout"))
         self.paramMenus = QtGui.QVBoxLayout(self.scroll2layout)
@@ -96,6 +96,21 @@ class Ui_MainWindow(object):
         self.paramMenus.setObjectName(_fromUtf8("paramMenus"))
         spacerItem1 = QtGui.QSpacerItem(20, 40, QtGui.QSizePolicy.Minimum, QtGui.QSizePolicy.Expanding)
         self.paramMenus.addItem(spacerItem1)
+        self.frame_3 = QtGui.QFrame(self.scroll2layout)
+        self.frame_3.setFrameShape(QtGui.QFrame.NoFrame)
+        self.frame_3.setFrameShadow(QtGui.QFrame.Raised)
+        self.frame_3.setObjectName(_fromUtf8("frame_3"))
+        self.horizontalLayout_2 = QtGui.QHBoxLayout(self.frame_3)
+        self.horizontalLayout_2.setMargin(0)
+        self.horizontalLayout_2.setObjectName(_fromUtf8("horizontalLayout_2"))
+        self.pauseBox = QtGui.QCheckBox(self.frame_3)
+        self.pauseBox.setObjectName(_fromUtf8("pauseBox"))
+        self.horizontalLayout_2.addWidget(self.pauseBox)
+        self.pushButton_2 = QtGui.QPushButton(self.frame_3)
+        self.pushButton_2.setMinimumSize(QtCore.QSize(0, 0))
+        self.pushButton_2.setObjectName(_fromUtf8("pushButton_2"))
+        self.horizontalLayout_2.addWidget(self.pushButton_2)
+        self.paramMenus.addWidget(self.frame_3)
         self.scrollArea_2.setWidget(self.scroll2layout)
         self.verticalLayout.addWidget(self.scrollArea_2)
         self.verticalLayout.setStretch(0, 1)
@@ -122,6 +137,7 @@ class Ui_MainWindow(object):
         self.retranslateUi(MainWindow)
         QtCore.QObject.connect(self.checkBox, QtCore.SIGNAL(_fromUtf8("clicked(bool)")), MainWindow.toggleListen)
         QtCore.QObject.connect(self.pushButton, QtCore.SIGNAL(_fromUtf8("clicked()")), MainWindow.reloadNodeList)
+        QtCore.QObject.connect(self.pushButton_2, QtCore.SIGNAL(_fromUtf8("clicked()")), MainWindow.saveData)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateUi(self, MainWindow):
@@ -129,5 +145,7 @@ class Ui_MainWindow(object):
         self.frame.setProperty("class", _translate("MainWindow", "PeripheralCollection", None))
         self.checkBox.setText(_translate("MainWindow", "Auto Listen", None))
         self.pushButton.setText(_translate("MainWindow", "Generate Menus", None))
+        self.pauseBox.setText(_translate("MainWindow", "Pause", None))
+        self.pushButton_2.setText(_translate("MainWindow", "Save Data", None))
 
 from PyQt4 import QtWebKit

@@ -170,6 +170,7 @@ class AppWindow(QtGui.QMainWindow, sensorTemplate.Ui_MainWindow,utilitiesClass):
 				self.sensorWidgets.append(newSensor)
 
 	def updatePlots(self):			
+		if self.pauseBox.isChecked():return
 		for item in self.acquireList:
 			need_data=False
 			for a in item.curves:
@@ -196,6 +197,15 @@ class AppWindow(QtGui.QMainWindow, sensorTemplate.Ui_MainWindow,utilitiesClass):
 				s = np.clip(dt*3., 0, 1)
 				self.fps = self.fps * (1-s) + (1.0/dt) * s
 			self.plot.setTitle('%0.2f fps' % (self.fps) )
+
+	def saveData(self):
+		self.pauseBox.setChecked(True)
+		curvelist = []
+		for item in self.acquireList:
+			for a in item.curves:
+				if a.checked:curvelist.append(a)
+		self.saveDataWindow(curvelist,self.plot)
+
 
 			
 	def __del__(self):

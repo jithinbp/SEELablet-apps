@@ -114,7 +114,7 @@ class AppWindow(QtGui.QMainWindow, arbitStream.Ui_MainWindow,utilitiesClass):
 
 	def saveData(self):
 		self.pause.setChecked(True)
-		self.saveDataWindow([self.curve])
+		self.saveDataWindow([self.curve],self.plot)
 
 	def parseFunc(self,fn):
 		fn_name=fn.split('(')[0]
@@ -135,7 +135,6 @@ class AppWindow(QtGui.QMainWindow, arbitStream.Ui_MainWindow,utilitiesClass):
 
 	def __del__(self):
 		self.looptimer.stop()
-		print ('bye')
 
 	def closeEvent(self, event):
 		self.looptimer.stop()

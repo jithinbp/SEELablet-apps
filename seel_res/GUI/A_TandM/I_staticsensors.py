@@ -84,6 +84,7 @@ class AppWindow(QtGui.QMainWindow, sensorGrid.Ui_MainWindow,utilitiesClass):
 					self.ExperimentLayout.addWidget(newSensor,row,col)
 					self.sensorWidgets.append(newSensor)
 					col+=1
+
 			
 	def __del__(self):
 		self.looptimer.stop()

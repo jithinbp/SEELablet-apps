@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'analogScope.ui'
 #
-# Created: Sun May  8 17:20:40 2016
+# Created: Wed May 11 13:02:35 2016
 #      by: PyQt4 UI code generator 4.11.3
 #
 # WARNING! All changes made in this file will be lost!
@@ -442,21 +442,6 @@ class Ui_MainWindow(object):
         self.message_label.setWordWrap(False)
         self.message_label.setObjectName(_fromUtf8("message_label"))
         self.horizontalLayout.addWidget(self.message_label)
-        self.coord_label = QtGui.QLabel(self.frame_9)
-        sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Maximum, QtGui.QSizePolicy.Preferred)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.coord_label.sizePolicy().hasHeightForWidth())
-        self.coord_label.setSizePolicy(sizePolicy)
-        self.coord_label.setMaximumSize(QtCore.QSize(250, 16777215))
-        font = QtGui.QFont()
-        font.setPointSize(9)
-        font.setBold(True)
-        font.setWeight(75)
-        self.coord_label.setFont(font)
-        self.coord_label.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
-        self.coord_label.setObjectName(_fromUtf8("coord_label"))
-        self.horizontalLayout.addWidget(self.coord_label)
         self.freezeButton = QtGui.QCheckBox(self.frame_9)
         sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Minimum, QtGui.QSizePolicy.Maximum)
         sizePolicy.setHorizontalStretch(0)
@@ -577,7 +562,6 @@ class Ui_MainWindow(object):
         self.Liss_y.setItemText(2, _translate("MainWindow", "CH3", None))
         self.Liss_y.setItemText(3, _translate("MainWindow", "MIC", None))
         self.message_label.setText(_translate("MainWindow", "Msg:", None))
-        self.coord_label.setText(_translate("MainWindow", ".", None))
         self.freezeButton.setText(_translate("MainWindow", "FREEZE", None))
         self.pushButton_2.setText(_translate("MainWindow", "Save Data", None))
         self.menuSaveProfile.setTitle(_translate("MainWindow", "Profiles", None))

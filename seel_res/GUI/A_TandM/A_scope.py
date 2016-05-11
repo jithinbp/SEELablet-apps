@@ -100,7 +100,7 @@ class AppWindow(QtGui.QMainWindow, analogScope.Ui_MainWindow,utilitiesClass):
 		self.curve2 = self.addCurve(self.plot2,name='CH2');self.curve2.setPen(color=self.trace_colors[1], width=2)
 		self.curve3 = self.addCurve(self.plot,name='CH3'); self.curve3.setPen(color=self.trace_colors[2], width=2)
 		self.curve4 = self.addCurve(self.plot,name='CH4'); self.curve4.setPen(color=self.trace_colors[3], width=2)
-		self.curve_lis = self.addCurve(self.plot); self.curve_lis.setPen(color=(255,255,255), width=2)
+		self.curve_lis = self.addCurve(self.plot,name='XY'); self.curve_lis.setPen(color=(255,255,255), width=2)
 
 		self.legend = self.plot.addLegend(offset=(-10,30))
 		self.legend.addItem(self.curve1,'Chan 1');self.legend.addItem(self.curve2,'Chan 2');self.legend.addItem(self.curve3,'CH3');self.legend.addItem(self.curve4,'MIC')
@@ -422,8 +422,7 @@ class AppWindow(QtGui.QMainWindow, analogScope.Ui_MainWindow,utilitiesClass):
 			R = [chan.calPoly10(0),chan.calPoly10(1023)]
 			R[0]=R[0]*.9;R[1]=R[1]*.9
 			self.plot.setYRange(min(R),max(R))
-			self.plot.setLimits(yMax=max(R),yMin=min(R))		
-			
+			self.plot.setLimits(yMax=max(R),yMin=min(R))			
 			#RHalf = min(abs(R[0]),abs(R[1]))*0.9   #Make vertical axes symmetric. Post calibration voltage ranges are not symmetric usually.
 			#self.plot.setYRange(-1*RHalf,RHalf)    #Not sure how to handle unipolar channels . TODO
 		if g==8:  # attenuator mode. Remind the user
@@ -551,8 +550,6 @@ class AppWindow(QtGui.QMainWindow, analogScope.Ui_MainWindow,utilitiesClass):
 		self.autoRange()
 
 
-	def saveData(self):
-		self.saveDataWindow([self.curve1,self.curve2,self.curve3,self.curve4])
 
 	def plot_liss(self):
 		lissx = self.Liss_x.currentText()
@@ -583,6 +580,9 @@ class AppWindow(QtGui.QMainWindow, analogScope.Ui_MainWindow,utilitiesClass):
 			self.lissvLine.setPos(mousePoint.x())
 			self.lisshLine.setPos(mousePoint.y())
 
+
+	def saveData(self):
+		self.saveDataWindow([self.curve1,self.curve2,self.curve3,self.curve4,self.curve_lis],self.plot)
 
 
 

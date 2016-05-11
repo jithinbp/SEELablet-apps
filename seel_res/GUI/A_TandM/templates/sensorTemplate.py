@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'sensorTemplate.ui'
 #
-# Created: Fri Apr  8 17:47:16 2016
+# Created: Wed May 11 13:17:39 2016
 #      by: PyQt4 UI code generator 4.11.3
 #
 # WARNING! All changes made in this file will be lost!
@@ -82,6 +82,20 @@ class Ui_MainWindow(object):
         self.paramMenus.setObjectName(_fromUtf8("paramMenus"))
         spacerItem1 = QtGui.QSpacerItem(20, 40, QtGui.QSizePolicy.Minimum, QtGui.QSizePolicy.Expanding)
         self.paramMenus.addItem(spacerItem1)
+        self.frame_3 = QtGui.QFrame(self.scroll2layout)
+        self.frame_3.setFrameShape(QtGui.QFrame.NoFrame)
+        self.frame_3.setFrameShadow(QtGui.QFrame.Raised)
+        self.frame_3.setObjectName(_fromUtf8("frame_3"))
+        self.horizontalLayout = QtGui.QHBoxLayout(self.frame_3)
+        self.horizontalLayout.setMargin(0)
+        self.horizontalLayout.setObjectName(_fromUtf8("horizontalLayout"))
+        self.pauseBox = QtGui.QCheckBox(self.frame_3)
+        self.pauseBox.setObjectName(_fromUtf8("pauseBox"))
+        self.horizontalLayout.addWidget(self.pauseBox)
+        self.pushButton_2 = QtGui.QPushButton(self.frame_3)
+        self.pushButton_2.setObjectName(_fromUtf8("pushButton_2"))
+        self.horizontalLayout.addWidget(self.pushButton_2)
+        self.paramMenus.addWidget(self.frame_3)
         self.scrollArea_2.setWidget(self.scroll2layout)
         self.verticalLayout.addWidget(self.scrollArea_2)
         self.frame_2 = QtGui.QFrame(self.splitter)
@@ -101,10 +115,13 @@ class Ui_MainWindow(object):
 
         self.retranslateUi(MainWindow)
         QtCore.QObject.connect(self.pushButton, QtCore.SIGNAL(_fromUtf8("clicked()")), MainWindow.scan)
+        QtCore.QObject.connect(self.pushButton_2, QtCore.SIGNAL(_fromUtf8("clicked()")), MainWindow.saveData)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateUi(self, MainWindow):
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow", None))
         self.frame.setProperty("class", _translate("MainWindow", "PeripheralCollection", None))
         self.pushButton.setText(_translate("MainWindow", "Auto Scan", None))
+        self.pauseBox.setText(_translate("MainWindow", "Pause", None))
+        self.pushButton_2.setText(_translate("MainWindow", "Save Data", None))
 
