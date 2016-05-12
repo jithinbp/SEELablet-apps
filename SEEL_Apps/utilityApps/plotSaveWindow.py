@@ -67,7 +67,7 @@ class AppWindow(QtGui.QMainWindow, plotSave.Ui_MainWindow):
 			pieces = path.split('.')
 			if len(pieces)<2: #No extension specified
 				path+='.png'
-			elif pieces[-1] not in ['png','jpg']: #Wrong extension specified
+			elif pieces[-1] not in QtGui.QImageWriter.supportedImageFormats(): #Wrong extension specified
 				import string
 				path = string.join(pieces[:-1]+['png'],'.')
 				QtGui.QMessageBox.about(self,'Invalid Filename','Modified : '+path)

@@ -386,6 +386,7 @@ class AppWindow(QtGui.QMainWindow, analogScope.Ui_MainWindow,utilitiesClass):
 
 				frequency = freq/1e6
 				period = 1./freq/1e6
+				'''
 				if(self.collapseButton.isChecked()):
 					self.collapseButton.setChecked(False)
 					self.collapse_win = pg.GraphicsWindow(title="Collapsing plot")
@@ -402,6 +403,7 @@ class AppWindow(QtGui.QMainWindow, analogScope.Ui_MainWindow,utilitiesClass):
 					self.p1 = self.collapse_win.addPlot(title="Collapsing plot: %.1f waveforms collapsed on top of each other"%(xReal[-1]/period), x=xNew[s],y=yNew[s])
 					if(self.collapse_win.windowState() & QtCore.Qt.WindowActive):
 						print ('opened')
+				'''
 				#------------------------------------------------------
 			
 				if(self.overlay_fit_button.isChecked()):
