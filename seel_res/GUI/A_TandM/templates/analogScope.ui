@@ -1291,9 +1291,6 @@
    <property name="text">
     <string>saveProfile</string>
    </property>
-   <property name="shortcut">
-    <string>Ctrl+S</string>
-   </property>
   </action>
   <action name="actionLoadProfile">
    <property name="text">

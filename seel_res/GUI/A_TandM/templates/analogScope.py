@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'analogScope.ui'
 #
-# Created: Wed May 11 13:02:35 2016
+# Created: Thu May 12 15:48:22 2016
 #      by: PyQt4 UI code generator 4.11.3
 #
 # WARNING! All changes made in this file will be lost!
@@ -566,7 +566,6 @@ class Ui_MainWindow(object):
         self.pushButton_2.setText(_translate("MainWindow", "Save Data", None))
         self.menuSaveProfile.setTitle(_translate("MainWindow", "Profiles", None))
         self.actionSaveProfile.setText(_translate("MainWindow", "saveProfile", None))
-        self.actionSaveProfile.setShortcut(_translate("MainWindow", "Ctrl+S", None))
         self.actionLoadProfile.setText(_translate("MainWindow", "LoadProfile", None))
         self.actionLoadProfile.setShortcut(_translate("MainWindow", "Ctrl+O", None))
 

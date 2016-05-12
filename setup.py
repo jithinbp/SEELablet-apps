@@ -16,13 +16,14 @@ class CustomInstall(install):
         install.run(self)
 
 setup(name='SEEL_Apps',
-    version='0.1',
-    description='Experiment GUIs for the SEELablet. Requires SEEL',
-    author='Jithin B.P.',
-    author_email='jithinbp@gmail.com',
-    url='https://seelablet.jithinbp.in',
-    install_requires = ['numpy>=1.8.1','pyqtgraph>=0.9.10'], #SEEL>=
-    packages=['SEEL_Apps','SEEL_Apps.templates','SEEL_Apps.utilityApps','SEEL_Apps.utilityApps.templates','SEEL_Apps.stylesheets','SEEL_Apps.templates.widgets'],
-    scripts=["SEEL_Apps/bin/"+a for a in os.listdir("SEEL_Apps/bin/")],
-    cmdclass={'install': CustomInstall},
+	version='0.1',
+	description='Experiment GUIs for the SEELablet. Requires SEEL',
+	author='Jithin B.P.',
+	author_email='jithinbp@gmail.com',
+	url='https://seelablet.jithinbp.in',
+	install_requires = ['numpy>=1.8.1','pyqtgraph>=0.9.10'], #SEEL>=
+	packages=['SEEL_Apps','SEEL_Apps.templates','SEEL_Apps.utilityApps','SEEL_Apps.utilityApps.templates','SEEL_Apps.stylesheets','SEEL_Apps.templates.widgets'],
+	scripts=["SEEL_Apps/bin/"+a for a in os.listdir("SEEL_Apps/bin/")],
+	package_data={'': ['*.css','*.png','*.gif','*.html','*.css','*.js','*.png','*.jpg','*.jpeg','*.htm','proto.rules']},
+	cmdclass={'install': CustomInstall},
 )

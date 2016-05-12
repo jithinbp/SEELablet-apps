@@ -43,6 +43,9 @@ class utilitiesClass():
 		sys.path.append('/usr/share/seelablet')
 		pass
 
+	def enableShortcuts(self):
+		self.connect(QtGui.QShortcut(QtGui.QKeySequence(dial._translate("MainWindow", "Ctrl+S", None)), self), QtCore.SIGNAL('activated()'), self.saveData)
+
 	def __importGL__(self):
 		print ('importing opengl')
 		import pyqtgraph.opengl as gl
@@ -694,9 +697,10 @@ class utilitiesClass():
 	def savePro(self):
 		from os.path import expanduser
 		path = QtGui.QFileDialog.getSaveFileName(self, 'Save Profile',  expanduser("./"), 'INI(*.ini)')
-		sections = path.split('.')
-		if(sections[-1]!='ini'):path+='.ini'
-		if path: saveProfile.guisave(self, QtCore.QSettings(path, QtCore.QSettings.IniFormat))
+		if path:
+			sections = path.split('.')
+			if(sections[-1]!='ini'):path+='.ini'
+			saveProfile.guisave(self, QtCore.QSettings(path, QtCore.QSettings.IniFormat))
 
 	def saveSelectedPro(self,parent):
 		from os.path import expanduser

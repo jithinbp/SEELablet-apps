@@ -21,8 +21,11 @@ class AppWindow(QtGui.QMainWindow, plotSave.Ui_MainWindow):
 	def __init__(self, parent ,curveList,plot):
 		super(AppWindow, self).__init__(parent)
 		self.setupUi(self)
+		self.connect(QtGui.QShortcut(QtGui.QKeySequence(QtCore.Qt.Key_Escape), self), QtCore.SIGNAL('activated()'), self.close)
+		self.connect(QtGui.QShortcut(QtGui.QKeySequence(plotSave._translate("MainWindow", "Ctrl+P", None)), self), QtCore.SIGNAL('activated()'), self.printImage)
+		self.connect(QtGui.QShortcut(QtGui.QKeySequence(plotSave._translate("MainWindow", "Ctrl+C", None)), self), QtCore.SIGNAL('activated()'), self.copyToClipboard)
+		
 		self.table.setColumnWidth(0,200)
-
 		colnum=0;labels=[]
 		self.maxRows=0
 		self.maxCols=0
@@ -76,6 +79,20 @@ class AppWindow(QtGui.QMainWindow, plotSave.Ui_MainWindow):
 			exporter.parameters()['width'] = self.imageWidthBox.value()
 			exporter.export(path)
 
+	def printImage(self): 
+		import pyqtgraph.exporters
+		self.exporter = pg.exporters.PrintExporter(self.plot.plotItem)
+		#exporter.parameters()['width'] = self.imageWidthBox.value()
+		self.exporter.export()
+
+	def copyToClipboard(self): 
+		import pyqtgraph.exporters
+		self.exporter = pg.exporters.ImageExporter(self.plot.plotItem)
+		self.exporter.parameters()['width'] = self.imageWidthBox.value()
+		self.exporter.export(copy=True)
+		QtGui.QMessageBox.about(self,'Copy Plot','Plot Image Copied to clipboard')
+
+	
 
 	def save(self):  #Save as CSV
 		path = QtGui.QFileDialog.getSaveFileName(self, 'Save File', '~/', 'CSV(*.csv)')

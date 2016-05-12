@@ -153,6 +153,7 @@ class AppWindow(QtGui.QMainWindow, analogScope.Ui_MainWindow,utilitiesClass):
 		self.timer = QtCore.QTimer()
 		self.finished=False
 		self.timer.singleShot(500,self.start_capture)
+		self.enableShortcuts()
 
 
 	def mouseClicked(self,evt):
@@ -561,6 +562,7 @@ class AppWindow(QtGui.QMainWindow, analogScope.Ui_MainWindow,utilitiesClass):
 		if not (self.channel_states[self.liss_x] and self.channel_states[self.liss_y]):
 			QtGui.QMessageBox.about(self, 'Error : Insufficient Data',  'Please enable the selected channels in the oscilloscope')
 			return
+
 		self.liss_win = pg.GraphicsWindow(title="Basic plotting examples")
 		self.liss_win.setWindowTitle('pyqtgraph example: Plotting')
 		self.p1 = self.liss_win.addPlot(title="Lissajous: x : %s vs y : %s"%(lissx,lissy),x=self.I.achans[self.liss_x].get_yaxis(),y=self.I.achans[self.liss_y].get_yaxis())
@@ -581,7 +583,6 @@ class AppWindow(QtGui.QMainWindow, analogScope.Ui_MainWindow,utilitiesClass):
 			mousePoint = self.vb.mapSceneToView(pos)
 			self.lissvLine.setPos(mousePoint.x())
 			self.lisshLine.setPos(mousePoint.y())
-
 
 	def saveData(self):
 		self.saveDataWindow([self.curve1,self.curve2,self.curve3,self.curve4,self.curve_lis],self.plot)
