@@ -100,7 +100,7 @@ class AppWindow(QtGui.QMainWindow, analogScope.Ui_MainWindow,utilitiesClass):
 		self.curve2 = self.addCurve(self.plot2,name='CH2');self.curve2.setPen(color=self.trace_colors[1], width=2)
 		self.curve3 = self.addCurve(self.plot,name='CH3'); self.curve3.setPen(color=self.trace_colors[2], width=2)
 		self.curve4 = self.addCurve(self.plot,name='CH4'); self.curve4.setPen(color=self.trace_colors[3], width=2)
-		self.curve_lis = self.addCurve(self.plot); self.curve_lis.setPen(color=(255,255,255), width=2)
+		self.curve_lis = self.addCurve(self.plot,name='XY'); self.curve_lis.setPen(color=(255,255,255), width=2)
 
 		self.legend = self.plot.addLegend(offset=(-10,30))
 		self.legend.addItem(self.curve1,'Chan 1');self.legend.addItem(self.curve2,'Chan 2');self.legend.addItem(self.curve3,'CH3');self.legend.addItem(self.curve4,'MIC')
@@ -153,6 +153,7 @@ class AppWindow(QtGui.QMainWindow, analogScope.Ui_MainWindow,utilitiesClass):
 		self.timer = QtCore.QTimer()
 		self.finished=False
 		self.timer.singleShot(500,self.start_capture)
+		self.enableShortcuts()
 
 
 	def mouseClicked(self,evt):
@@ -386,6 +387,7 @@ class AppWindow(QtGui.QMainWindow, analogScope.Ui_MainWindow,utilitiesClass):
 
 				frequency = freq/1e6
 				period = 1./freq/1e6
+				'''
 				if(self.collapseButton.isChecked()):
 					self.collapseButton.setChecked(False)
 					self.collapse_win = pg.GraphicsWindow(title="Collapsing plot")
@@ -402,6 +404,7 @@ class AppWindow(QtGui.QMainWindow, analogScope.Ui_MainWindow,utilitiesClass):
 					self.p1 = self.collapse_win.addPlot(title="Collapsing plot: %.1f waveforms collapsed on top of each other"%(xReal[-1]/period), x=xNew[s],y=yNew[s])
 					if(self.collapse_win.windowState() & QtCore.Qt.WindowActive):
 						print ('opened')
+				'''
 				#------------------------------------------------------
 			
 				if(self.overlay_fit_button.isChecked()):
@@ -422,8 +425,7 @@ class AppWindow(QtGui.QMainWindow, analogScope.Ui_MainWindow,utilitiesClass):
 			R = [chan.calPoly10(0),chan.calPoly10(1023)]
 			R[0]=R[0]*.9;R[1]=R[1]*.9
 			self.plot.setYRange(min(R),max(R))
-			self.plot.setLimits(yMax=max(R),yMin=min(R))		
-			
+			self.plot.setLimits(yMax=max(R),yMin=min(R))			
 			#RHalf = min(abs(R[0]),abs(R[1]))*0.9   #Make vertical axes symmetric. Post calibration voltage ranges are not symmetric usually.
 			#self.plot.setYRange(-1*RHalf,RHalf)    #Not sure how to handle unipolar channels . TODO
 		if g==8:  # attenuator mode. Remind the user
@@ -551,8 +553,6 @@ class AppWindow(QtGui.QMainWindow, analogScope.Ui_MainWindow,utilitiesClass):
 		self.autoRange()
 
 
-	def saveData(self):
-		self.saveDataWindow([self.curve1,self.curve2,self.curve3,self.curve4])
 
 	def plot_liss(self):
 		lissx = self.Liss_x.currentText()
@@ -562,6 +562,7 @@ class AppWindow(QtGui.QMainWindow, analogScope.Ui_MainWindow,utilitiesClass):
 		if not (self.channel_states[self.liss_x] and self.channel_states[self.liss_y]):
 			QtGui.QMessageBox.about(self, 'Error : Insufficient Data',  'Please enable the selected channels in the oscilloscope')
 			return
+
 		self.liss_win = pg.GraphicsWindow(title="Basic plotting examples")
 		self.liss_win.setWindowTitle('pyqtgraph example: Plotting')
 		self.p1 = self.liss_win.addPlot(title="Lissajous: x : %s vs y : %s"%(lissx,lissy),x=self.I.achans[self.liss_x].get_yaxis(),y=self.I.achans[self.liss_y].get_yaxis())
@@ -583,6 +584,8 @@ class AppWindow(QtGui.QMainWindow, analogScope.Ui_MainWindow,utilitiesClass):
 			self.lissvLine.setPos(mousePoint.x())
 			self.lisshLine.setPos(mousePoint.y())
 
+	def saveData(self):
+		self.saveDataWindow([self.curve1,self.curve2,self.curve3,self.curve4,self.curve_lis],self.plot)
 
 
 

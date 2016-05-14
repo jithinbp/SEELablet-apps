@@ -7,7 +7,6 @@
     This experiment is used to calculate the value of acceleration due
     to gravity by measuring the time period of a pendulum
 
-
 """
 
 from __future__ import print_function
@@ -55,59 +54,58 @@ class AppWindow(QtGui.QMainWindow, rodpendulum.Ui_MainWindow,utilitiesClass):
 		self.currentRow=0		
 		self.curpos=0
 		self.overflowTime=time.time()
+		self.setTotalPoints()
+		
+		
+	def setTotalPoints(self):
+		self.totalPoints = self.pointBox.value()*2+1
+		self.progressBar.setMaximum(self.totalPoints)
 
 	def clearTable(self):
+		self.currentRow=0
 		for x in range(100):
 			self.resultsTable.item(x,0).setText('')
 
 	def update(self):
-		states = self.I.get_LA_initial_states()
-		a,b,c,d,e=states
-		if a==self.I.MAX_SAMPLES/4:
-			self.progressBar.setValue(0)
-			a = 0
-		else: self.progressBar.setValue(a)
-
 		if self.running:
-			if a != self.curpos:
-				self.curpos=a
-				if a>self.max_points and a!=self.I.MAX_SAMPLES/4:
-						self.I.stop_LA()
-						self.displayDialog("Point Limit reached. Acquisition stopped ")
-						self.running=False
+			states = self.I.get_LA_initial_states()
+			a,b,c,d,e=states  #points acquired by ID1..4 , e=states of ID1..4
+			
+			if a==self.I.MAX_SAMPLES/4:a=0
+			self.progressBar.setValue(a)
+
+			if a >self.curpos:  #new datapoints available. load to table
+				if a!=self.I.MAX_SAMPLES/4:
+					tmp = self.I.fetch_long_data_from_LA(a,1)
+					self.I.dchans[0].load_data(e,tmp)
+					while self.currentRow < len(self.I.dchans[0].timestamps)/2-1:  #Alternate points will be used
+							index = self.currentRow*2
+							dt = self.I.dchans[0].timestamps[index+2]-self.I.dchans[0].timestamps[index]
+							item = QtGui.QTableWidgetItem();item.setText('%.3e'%(dt)); self.resultsTable.setItem(self.currentRow, 0, item); item.setFlags(QtCore.Qt.ItemIsSelectable|QtCore.Qt.ItemIsEnabled)
+							self.currentRow+=1
+					self.curpos = a
+
+
+			if a>=self.totalPoints+1:
+				self.I.stop_LA()
+				self.displayDialog("Point Limit reached. Acquisition stopped ")
+				self.running=False
+				return
 
 			if (time.time() - self.overflowTime)>60:
-					self.I.stop_LA()
-					self.displayDialog("One minute timeout exceeded. Please restart acquisition")
-					self.running=False
+				self.I.stop_LA()
+				self.displayDialog("One minute timeout exceeded. Please restart acquisition")
+				self.running=False
 			else:
-					self.timerProgress.setValue(60+self.overflowTime-time.time() )
+				self.timerProgress.setValue(60+self.overflowTime-time.time() )
 
 
-	def downloadData(self):
-		self.clearTable()
-		states = self.I.get_LA_initial_states()
-		a,b,c,d,e=states
-		if a==self.I.MAX_SAMPLES/4:a=0
-		if a>self.max_points:
-			a = self.max_points 										#Cap it at max_points number of points. Goes up to 2500 otherwise
-		
-		self.progressBar.setValue(a)
-		self.currentRow=0;
-		tmp = self.I.fetch_long_data_from_LA(a,1)
-		self.I.dchans[0].load_data(e,tmp)
-		pos=0
-		while pos<len(self.I.dchans[0].timestamps)-2:
-				dt = self.I.dchans[0].timestamps[pos+2]-self.I.dchans[0].timestamps[pos]
-				item = QtGui.QTableWidgetItem();item.setText('%.3e'%(dt)); self.resultsTable.setItem(self.currentRow, 0, item); item.setFlags(QtCore.Qt.ItemIsSelectable|QtCore.Qt.ItemIsEnabled)
-				self.currentRow+=1
-				pos+=2
-		
 	def run(self):
-		self.running=True
+		self.clearTable()
 		self.I.start_one_channel_LA(channel='SEN',channel_mode=2,trigger_mode=0)  #every falling edge
 		self.curpos=0;self.overflowTime=time.time()
 		self.currentRow=0
+		self.running=True
 		
 
 	def stop(self):
@@ -129,14 +127,21 @@ class AppWindow(QtGui.QMainWindow, rodpendulum.Ui_MainWindow,utilitiesClass):
 	def calculateg(self):
 		x=self.fetchSelectedItemsFromColumns(self.resultsTable,1)[0]
 		if len(x):
+			t = np.average(x)*1e-6 #Convert to seconds
+			length = self.lenBox.value()*1e-2 #Convert to metres
 			if self.pendulum=='simple':
-				t = np.average(x)*1e-6 #Convert to seconds
-				length = self.lenBox.value()*1e-2 #Convert to metres
 				g = length*4*np.pi*np.pi/(t*t)
-				print (t,g)
+				self.gLabel.setText('%.3f m/s^2'%(g))
+			elif self.pendulum=='rod':
+				length*=2/3.
+				g = length*4*np.pi*np.pi/(t*t)
 				self.gLabel.setText('%.3f m/s^2'%(g))
 		else:
 			self.gLabel.setText('Select some data')
+
+
+	def saveData(self):
+		self.saveToCSV(self.resultsTable)
 
 	def closeEvent(self, event):
 		self.running=False

@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>711</width>
+    <width>735</width>
     <height>612</height>
    </rect>
   </property>
@@ -55,18 +55,12 @@
         <number>0</number>
        </property>
        <item>
-        <widget class="QFrame" name="frame">
+        <widget class="QFrame" name="frame_4">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
            <horstretch>0</horstretch>
            <verstretch>0</verstretch>
           </sizepolicy>
-         </property>
-         <property name="minimumSize">
-          <size>
-           <width>0</width>
-           <height>80</height>
-          </size>
          </property>
          <property name="frameShape">
           <enum>QFrame::StyledPanel</enum>
@@ -74,73 +68,40 @@
          <property name="frameShadow">
           <enum>QFrame::Raised</enum>
          </property>
-         <property name="class" stdset="0">
-          <string>PeripheralCollectionInner</string>
-         </property>
-         <layout class="QGridLayout" name="gridLayout">
-          <property name="leftMargin">
-           <number>0</number>
-          </property>
-          <property name="topMargin">
-           <number>0</number>
-          </property>
-          <property name="rightMargin">
-           <number>0</number>
-          </property>
-          <property name="bottomMargin">
-           <number>4</number>
-          </property>
-          <property name="horizontalSpacing">
-           <number>0</number>
-          </property>
-          <property name="verticalSpacing">
+         <layout class="QHBoxLayout" name="horizontalLayout_2">
+          <property name="spacing">
            <number>3</number>
           </property>
-          <item row="0" column="0">
-           <widget class="QFrame" name="frame_4">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
+          <property name="margin">
+           <number>2</number>
+          </property>
+          <item>
+           <widget class="QPushButton" name="pushButton">
+            <property name="minimumSize">
+             <size>
+              <width>94</width>
+              <height>30</height>
+             </size>
             </property>
-            <property name="frameShape">
-             <enum>QFrame::StyledPanel</enum>
+            <property name="text">
+             <string>Start</string>
             </property>
-            <property name="frameShadow">
-             <enum>QFrame::Raised</enum>
-            </property>
-            <layout class="QHBoxLayout" name="horizontalLayout_2">
-             <item>
-              <widget class="QPushButton" name="pushButton">
-               <property name="minimumSize">
-                <size>
-                 <width>94</width>
-                 <height>30</height>
-                </size>
-               </property>
-               <property name="text">
-                <string>Start Timer</string>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QPushButton" name="pushButton_3">
-               <property name="minimumSize">
-                <size>
-                 <width>94</width>
-                 <height>30</height>
-                </size>
-               </property>
-               <property name="text">
-                <string>Stop Timer</string>
-               </property>
-              </widget>
-             </item>
-            </layout>
            </widget>
           </item>
-          <item row="2" column="0">
+          <item>
+           <widget class="QPushButton" name="pushButton_3">
+            <property name="minimumSize">
+             <size>
+              <width>94</width>
+              <height>30</height>
+             </size>
+            </property>
+            <property name="text">
+             <string>Stop</string>
+            </property>
+           </widget>
+          </item>
+          <item>
            <widget class="QProgressBar" name="progressBar">
             <property name="styleSheet">
              <string notr="true">QProgressBar:horizontal {
@@ -165,37 +126,6 @@ width: 5px;
             </property>
             <property name="format">
              <string>%v</string>
-            </property>
-           </widget>
-          </item>
-         </layout>
-        </widget>
-       </item>
-       <item>
-        <widget class="QFrame" name="frame_5">
-         <property name="frameShape">
-          <enum>QFrame::StyledPanel</enum>
-         </property>
-         <property name="frameShadow">
-          <enum>QFrame::Raised</enum>
-         </property>
-         <layout class="QHBoxLayout" name="horizontalLayout_3">
-          <item>
-           <widget class="QPushButton" name="pushButton_5">
-            <property name="minimumSize">
-             <size>
-              <width>94</width>
-              <height>30</height>
-             </size>
-            </property>
-            <property name="maximumSize">
-             <size>
-              <width>300</width>
-              <height>16777215</height>
-             </size>
-            </property>
-            <property name="text">
-             <string>Load Data points into spreadsheet</string>
             </property>
            </widget>
           </item>
@@ -224,7 +154,7 @@ width: 5px;
              <bool>true</bool>
             </property>
             <property name="format">
-             <string>%v Seconds to timer overflow</string>
+             <string>%v Seconds to timeout</string>
             </property>
            </widget>
           </item>
@@ -419,7 +349,7 @@ Hold down CTRL key and click to select non consecutive points</string>
              <enum>QFrame::Raised</enum>
             </property>
             <layout class="QGridLayout" name="gridLayout_2">
-             <item row="7" column="1">
+             <item row="10" column="1">
               <widget class="QComboBox" name="comboBox">
                <item>
                 <property name="text">
@@ -433,7 +363,7 @@ Hold down CTRL key and click to select non consecutive points</string>
                </item>
               </widget>
              </item>
-             <item row="5" column="0" colspan="2">
+             <item row="8" column="0" colspan="2">
               <widget class="Line" name="line">
                <property name="minimumSize">
                 <size>
@@ -452,14 +382,14 @@ Hold down CTRL key and click to select non consecutive points</string>
                </property>
               </widget>
              </item>
-             <item row="10" column="0">
+             <item row="13" column="0">
               <widget class="QPushButton" name="pushButton_6">
                <property name="text">
                 <string>Calculate</string>
                </property>
               </widget>
              </item>
-             <item row="1" column="0" colspan="2">
+             <item row="4" column="0" colspan="2">
               <widget class="Line" name="line_2">
                <property name="minimumSize">
                 <size>
@@ -478,7 +408,7 @@ Hold down CTRL key and click to select non consecutive points</string>
                </property>
               </widget>
              </item>
-             <item row="12" column="0">
+             <item row="15" column="0">
               <spacer name="verticalSpacer">
                <property name="orientation">
                 <enum>Qt::Vertical</enum>
@@ -491,38 +421,38 @@ Hold down CTRL key and click to select non consecutive points</string>
                </property>
               </spacer>
              </item>
-             <item row="2" column="1">
+             <item row="5" column="1">
               <widget class="QLabel" name="averageLabel">
                <property name="text">
                 <string>result</string>
                </property>
               </widget>
              </item>
-             <item row="7" column="0">
+             <item row="10" column="0">
               <widget class="QLabel" name="averageLabel_2">
                <property name="text">
                 <string>Value of g using :</string>
                </property>
               </widget>
              </item>
-             <item row="8" column="0">
+             <item row="11" column="0">
               <widget class="QLabel" name="label_2">
                <property name="text">
                 <string>Length (cm)</string>
                </property>
               </widget>
              </item>
-             <item row="2" column="0">
+             <item row="5" column="0">
               <widget class="QPushButton" name="pushButton_4">
                <property name="toolTip">
                 <string>Obtain average of data points selected in the table</string>
                </property>
                <property name="text">
-                <string>Average</string>
+                <string>Average Selected points&gt;</string>
                </property>
               </widget>
              </item>
-             <item row="0" column="0">
+             <item row="3" column="0">
               <widget class="QLabel" name="label">
                <property name="sizePolicy">
                 <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
@@ -533,17 +463,102 @@ Hold down CTRL key and click to select non consecutive points</string>
                <property name="text">
                 <string>Data Analysis</string>
                </property>
+               <property name="class" stdset="0">
+                <string>headingLabel</string>
+               </property>
               </widget>
              </item>
-             <item row="10" column="1">
+             <item row="13" column="1">
               <widget class="QLabel" name="gLabel">
                <property name="text">
                 <string>g:</string>
                </property>
               </widget>
              </item>
-             <item row="8" column="1">
+             <item row="11" column="1">
               <widget class="QDoubleSpinBox" name="lenBox"/>
+             </item>
+             <item row="0" column="0">
+              <widget class="QLabel" name="label_3">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="text">
+                <string>Points to acquire</string>
+               </property>
+              </widget>
+             </item>
+             <item row="12" column="0" colspan="2">
+              <widget class="Line" name="line_3">
+               <property name="orientation">
+                <enum>Qt::Horizontal</enum>
+               </property>
+              </widget>
+             </item>
+             <item row="0" column="1">
+              <widget class="QSpinBox" name="pointBox">
+               <property name="minimum">
+                <number>5</number>
+               </property>
+               <property name="maximum">
+                <number>1000</number>
+               </property>
+              </widget>
+             </item>
+             <item row="1" column="0" colspan="2">
+              <widget class="Line" name="line_4">
+               <property name="minimumSize">
+                <size>
+                 <width>30</width>
+                 <height>0</height>
+                </size>
+               </property>
+               <property name="lineWidth">
+                <number>1</number>
+               </property>
+               <property name="midLineWidth">
+                <number>0</number>
+               </property>
+               <property name="orientation">
+                <enum>Qt::Horizontal</enum>
+               </property>
+              </widget>
+             </item>
+             <item row="2" column="0" colspan="2">
+              <widget class="Line" name="line_5">
+               <property name="minimumSize">
+                <size>
+                 <width>30</width>
+                 <height>0</height>
+                </size>
+               </property>
+               <property name="lineWidth">
+                <number>1</number>
+               </property>
+               <property name="midLineWidth">
+                <number>0</number>
+               </property>
+               <property name="orientation">
+                <enum>Qt::Horizontal</enum>
+               </property>
+              </widget>
+             </item>
+             <item row="16" column="0">
+              <widget class="QPushButton" name="pushButton_2">
+               <property name="text">
+                <string>Clear Table</string>
+               </property>
+              </widget>
+             </item>
+             <item row="16" column="1">
+              <widget class="QPushButton" name="pushButton_5">
+               <property name="text">
+                <string>Save Table</string>
+               </property>
+              </widget>
              </item>
             </layout>
            </widget>
@@ -561,7 +576,7 @@ Hold down CTRL key and click to select non consecutive points</string>
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>711</width>
+     <width>735</width>
      <height>25</height>
     </rect>
    </property>
@@ -576,8 +591,8 @@ Hold down CTRL key and click to select non consecutive points</string>
    <slot>run()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>320</x>
-     <y>72</y>
+     <x>97</x>
+     <y>63</y>
     </hint>
     <hint type="destinationlabel">
      <x>646</x>
@@ -592,8 +607,8 @@ Hold down CTRL key and click to select non consecutive points</string>
    <slot>stop()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>635</x>
-     <y>60</y>
+     <x>194</x>
+     <y>63</y>
     </hint>
     <hint type="destinationlabel">
      <x>445</x>
@@ -608,27 +623,11 @@ Hold down CTRL key and click to select non consecutive points</string>
    <slot>calcAvg()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>458</x>
-     <y>240</y>
+     <x>568</x>
+     <y>194</y>
     </hint>
     <hint type="destinationlabel">
      <x>592</x>
-     <y>0</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>pushButton_5</sender>
-   <signal>clicked()</signal>
-   <receiver>MainWindow</receiver>
-   <slot>downloadData()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>89</x>
-     <y>136</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>86</x>
      <y>0</y>
     </hint>
    </hints>
@@ -640,8 +639,8 @@ Hold down CTRL key and click to select non consecutive points</string>
    <slot>setPendulumType(int)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>605</x>
-     <y>286</y>
+     <x>720</x>
+     <y>236</y>
     </hint>
     <hint type="destinationlabel">
      <x>722</x>
@@ -656,12 +655,60 @@ Hold down CTRL key and click to select non consecutive points</string>
    <slot>calculateg()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>509</x>
-     <y>383</y>
+     <x>568</x>
+     <y>311</y>
     </hint>
     <hint type="destinationlabel">
-     <x>754</x>
+     <x>734</x>
      <y>414</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pointBox</sender>
+   <signal>editingFinished()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>setTotalPoints()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>652</x>
+     <y>108</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>750</x>
+     <y>84</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_5</sender>
+   <signal>clicked()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>saveData()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>677</x>
+     <y>591</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>686</x>
+     <y>617</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_2</sender>
+   <signal>clicked()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>clearTable()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>531</x>
+     <y>588</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>529</x>
+     <y>633</y>
     </hint>
    </hints>
   </connection>
@@ -674,5 +721,8 @@ Hold down CTRL key and click to select non consecutive points</string>
   <slot>downloadData()</slot>
   <slot>setPendulumType(int)</slot>
   <slot>calculateg()</slot>
+  <slot>setTotalPoints()</slot>
+  <slot>saveData()</slot>
+  <slot>clearTable()</slot>
  </slots>
 </ui>

@@ -43,6 +43,9 @@ class utilitiesClass():
 		sys.path.append('/usr/share/seelablet')
 		pass
 
+	def enableShortcuts(self):
+		self.connect(QtGui.QShortcut(QtGui.QKeySequence(dial._translate("MainWindow", "Ctrl+S", None)), self), QtCore.SIGNAL('activated()'), self.saveData)
+
 	def __importGL__(self):
 		print ('importing opengl')
 		import pyqtgraph.opengl as gl
@@ -135,7 +138,7 @@ class utilitiesClass():
 
 
 	def addCurve(self,plot,name='',**kwargs):
-		if(len(name)):curve = pg.PlotDataItem(name=name)#pg.PlotCurveItem(name=name)
+		if(len(name)):curve = pg.PlotDataItem(name=name)
 		else:curve = pg.PlotCurveItem(**kwargs)
 		plot.addItem(curve)
 		if self.properties['colorScheme']=='white':
@@ -669,7 +672,8 @@ class utilitiesClass():
 							rowdata.append('')
 					writer.writerow(rowdata)
 
-	def saveDataWindow(self,curveList):
+	'''
+	def saveDataWindow(self,curveList,plot=None):
 		from utilityApps import spreadsheet
 		info = spreadsheet.AppWindow(self)
 		colnum=0;labels=[]
@@ -682,14 +686,21 @@ class utilitiesClass():
 				labels.append('%s(X)'%(name));labels.append('%s(Y)'%(name));
 		info.table.setHorizontalHeaderLabels(labels)
 		info.show()
+	'''
+	
+	def saveDataWindow(self,curveList,plot=None):
+		from utilityApps import plotSaveWindow
+		info = plotSaveWindow.AppWindow(self,curveList,plot)
+		info.show()
 
 
 	def savePro(self):
 		from os.path import expanduser
 		path = QtGui.QFileDialog.getSaveFileName(self, 'Save Profile',  expanduser("./"), 'INI(*.ini)')
-		sections = path.split('.')
-		if(sections[-1]!='ini'):path+='.ini'
-		if path: saveProfile.guisave(self, QtCore.QSettings(path, QtCore.QSettings.IniFormat))
+		if path:
+			sections = path.split('.')
+			if(sections[-1]!='ini'):path+='.ini'
+			saveProfile.guisave(self, QtCore.QSettings(path, QtCore.QSettings.IniFormat))
 
 	def saveSelectedPro(self,parent):
 		from os.path import expanduser

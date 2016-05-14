@@ -10,16 +10,15 @@ from __future__ import print_function
 from SEEL_Apps.utilitiesClass import utilitiesClass
 from SEEL.analyticsClass import analyticsClass
 
-from .templates import template_transient
+from .templates import simplePendulum
 
 import numpy as np
 from PyQt4 import QtGui,QtCore
 import pyqtgraph as pg
-import sys
+import sys,time
 
 params = {
 'image' : 'transient.png',
-#'helpfile': 'https://en.wikipedia.org/wiki/LC_circuit',
 'name':'Simple Pendulum',
 'hint':'''
 	Study Simple pendulum's velocity oscillations.<br>
@@ -31,7 +30,7 @@ params = {
 
 }
 
-class AppWindow(QtGui.QMainWindow, template_transient.Ui_MainWindow,utilitiesClass):
+class AppWindow(QtGui.QMainWindow, simplePendulum.Ui_MainWindow,utilitiesClass):
 	def __init__(self, parent=None,**kwargs):
 		super(AppWindow, self).__init__(parent)
 		self.setupUi(self)
@@ -40,41 +39,61 @@ class AppWindow(QtGui.QMainWindow, template_transient.Ui_MainWindow,utilitiesCla
 		
 		self.setWindowTitle(self.I.H.version_string+' : '+params.get('name','').replace('\n',' ') )
 
-		self.plot1=self.add2DPlot(self.plot_area)
+		self.plot=self.add2DPlot(self.plot_area)
 		labelStyle = {'color': 'rgb(255,255,255)', 'font-size': '11pt'}
-		self.plot1.setLabel('left','Voltage -->', units='V',**labelStyle)
-		self.plot1.setLabel('bottom','Time -->', units='S',**labelStyle)
+		self.plot.setLabel('left','Voltage -->', units='V',**labelStyle)
+		self.plot.setLabel('bottom','Time -->', units='S',**labelStyle)
 
-		self.plot1.setYRange(-8.5,8.5)
+		self.plot.setYRange(-8.5,8.5)
 		self.tg=100
 		self.tgLabel.setText(str(5000*self.tg*1e-3)+'S')
 		self.x=[]
+		self.CParams=[0,0,0,0,0]
 
-		self.looptimer=QtCore.QTimer()
-		self.curveCH1 = self.addCurve(self.plot1,'CH3')
-		self.CH1Fit = self.addCurve(self.plot1,'CH3 Fit')
+		self.FitTable.setHorizontalHeaderLabels(['Amp','Freq','Phase','Offset','Damping'])
+		for a in range(5):
+			item = QtGui.QTableWidgetItem()
+			self.FitTable.setItem(0,a,item)
+			item.setText('Nil')
+
+
+		self.curveCH1 = self.addCurve(self.plot,'CH3')
+		self.CH1Fit = self.addCurve(self.plot,'CH3 Fit')
 		self.region = pg.LinearRegionItem([self.tg*50*1e-6,self.tg*800*1e-6])
 		self.region.setZValue(-10)
-		self.plot1.addItem(self.region)		
-		self.lognum=0
-		self.msg.setText("Fitting fn :\noff+amp*exp(-damp*x)*sin(x*freq+ph)")
+		self.plot.addItem(self.region)		
+		self.msg.setText("Function:offset+A*exp(-damp*x)*sin(x*freq+ph)")
 		self.running=True
 		self.Params=[]
+		self.looptimer=QtCore.QTimer()
+		self.looptimer.timeout.connect(self.updateProgress)
+		self.I.set_w1(1)
+	
+	def updateProgress(self):
+		v=(time.time()-self.curT)*100/(self.maxT-self.curT)
+		if time.time()>self.maxT:
+				self.looptimer.stop()
+				v=100
+		self.progressBar.setValue(v)
 		
-	def run(self):
+	def start(self):
 		if not self.running:return
-		self.I.__capture_fullspeed__('CH3',5000,self.tg)
+		self.I.__capture_fullspeed_hr__('CH3',5000,self.tg)
 		self.CH1Fit.setData([],[])
+		self.curT = time.time()
+		self.maxT = self.curT+5000*self.tg*1e-6
+		self.looptimer.start(300)
 		self.loop=self.delayedTask(5000*self.I.timebase*1e-3+10,self.plotData)
 
 	def plotData(self):	
 		self.x,self.VMID=self.I.__retrieveBufferData__('CH3',self.I.samples,self.I.timebase)#self.I.fetch_trace(1)
+		self.VMID = self.I.analogInputSources['CH3'].calPoly12(self.VMID)
 		self.curveCH1.setData(self.x*1e-6,self.VMID)
 
 	def setTimebase(self,T):
-		self.tgs = [100,200,300,500,800,1000,2000,3000,5000,10000]
+		self.tgs = [100,200,300,500,800,1000,2000,3000,5000,8000]
 		self.tg = self.tgs[T]
-		self.tgLabel.setText(str(5000*self.tg*1e-3)+'mS')
+		self.tgLabel.setText('total time: ' + str(5000*self.tg*1e-3)+'mS')
 
 	def fit(self):
 		if(not len(self.x)):return
@@ -88,21 +107,26 @@ class AppWindow(QtGui.QMainWindow, template_transient.Ui_MainWindow,utilitiesCla
 		Csuccess,Cparams,chisq = self.CC.arbitFit(self.x[start:end]-self.x[start],self.VMID[start:end],self.CC.dampedSine,guess=guess)
 
 		if Csuccess:
-			self.CLabel.setText("CH1:\nA:%.2f V\tF:%.4f Hz\tDamp:%.3e"%(Cparams[0],1e6*abs(Cparams[1])/(2*np.pi),Cparams[4]))
+			showVals = [Cparams[0],1e6*abs(Cparams[1])/(2*np.pi),Cparams[2]*180/np.pi,Cparams[3],Cparams[4]]
+			for a in range(5):
+				item = self.FitTable.item(0,a)
+				item.setText('%.2e'%showVals[a])
 			self.CH1Fit.setData(self.x[start:end]*1e-6,self.CC.dampedSine(self.x[start:end]-self.x[start],*Cparams))
 			self.CParams=Cparams
 		else:
-			self.CLabel.setText("CH1:\nFit Failed. Change selected region.")
+			for a in range(5):
+				item = self.FitTable.item(0,a)
+				item.setText('Nil')
 			self.CH1Fit.clear()
+
+	def saveData(self):
+		self.saveDataWindow([self.curveCH1,self.CH1Fit],self.plot)
+
 
 	def closeEvent(self, event):
 		self.running=False
+		self.looptimer.stop()
 
-	def showData(self):
-		self.lognum+=1
-		b=self.CParams
-		res =  'FIT:\nAmp:%.1fV\tFreq:%.1fHz\tPhase:%.1f\nOffset:%.2fV\tDamping:%.2e'%(b[0],1e6*abs(b[1])/(2*np.pi),b[2]*180/np.pi,b[3],b[4])
-		self.displayDialog(res)
 		
 if __name__ == "__main__":
 	from SEEL import interface

@@ -43,7 +43,7 @@ class AppWindow(QtGui.QMainWindow, wirelessTemplate.Ui_MainWindow,utilitiesClass
 		self.I.NRF.start_token_manager()
 		print (self.I.readLog()	)
 		self.plot=self.add2DPlot(self.plot_area)
-		self.plot.setLabel('bottom', 'Datapoints -->>')
+		self.plot.setLabel('bottom', 'Datapoints')
 		self.plot.enableAutoRange(True,True)
 		self.plot.setXRange(0,1000)
 		self.plot.setLimits(xMin=0,xMax=1000)
@@ -203,7 +203,8 @@ class AppWindow(QtGui.QMainWindow, wirelessTemplate.Ui_MainWindow,utilitiesClass
 			self.nodeArea.insertWidget(0,newNode)
 			self.nodeWidgets.append(newNode)
 
-	def updatePlots(self):			
+	def updatePlots(self):
+		if self.pauseBox.isChecked():return	
 		for item in self.acquireList:
 			need_data=False
 			for a in item.curves:
@@ -231,6 +232,14 @@ class AppWindow(QtGui.QMainWindow, wirelessTemplate.Ui_MainWindow,utilitiesClass
 				self.fps = self.fps * (1-s) + (1.0/dt) * s
 			self.plot.setTitle('%0.2f fps' % (self.fps) )
 
+
+	def saveData(self):
+		self.pauseBox.setChecked(True)
+		curvelist = []
+		for item in self.acquireList:
+			for a in item.curves:
+				if a.checked:curvelist.append(a)
+		self.saveDataWindow(curvelist,self.plot)
 			
 	def toggleListen(self,state):
 		if state:

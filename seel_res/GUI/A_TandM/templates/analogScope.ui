@@ -1235,35 +1235,6 @@
             </widget>
            </item>
            <item>
-            <widget class="QLabel" name="coord_label">
-             <property name="sizePolicy">
-              <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
-               <horstretch>0</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
-             </property>
-             <property name="maximumSize">
-              <size>
-               <width>250</width>
-               <height>16777215</height>
-              </size>
-             </property>
-             <property name="font">
-              <font>
-               <pointsize>9</pointsize>
-               <weight>75</weight>
-               <bold>true</bold>
-              </font>
-             </property>
-             <property name="text">
-              <string>.</string>
-             </property>
-             <property name="alignment">
-              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-             </property>
-            </widget>
-           </item>
-           <item>
             <widget class="QCheckBox" name="freezeButton">
              <property name="sizePolicy">
               <sizepolicy hsizetype="Minimum" vsizetype="Maximum">
@@ -1320,9 +1291,6 @@
    <property name="text">
     <string>saveProfile</string>
    </property>
-   <property name="shortcut">
-    <string>Ctrl+S</string>
-   </property>
   </action>
   <action name="actionLoadProfile">
    <property name="text">
@@ -1359,7 +1327,7 @@
    <hints>
     <hint type="sourcelabel">
      <x>851</x>
-     <y>59</y>
+     <y>91</y>
     </hint>
     <hint type="destinationlabel">
      <x>0</x>
@@ -1375,7 +1343,7 @@
    <hints>
     <hint type="sourcelabel">
      <x>914</x>
-     <y>59</y>
+     <y>91</y>
     </hint>
     <hint type="destinationlabel">
      <x>0</x>
@@ -1407,7 +1375,7 @@
    <hints>
     <hint type="sourcelabel">
      <x>854</x>
-     <y>99</y>
+     <y>131</y>
     </hint>
     <hint type="destinationlabel">
      <x>748</x>
@@ -1486,8 +1454,8 @@
    <slot>saveData()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>895</x>
-     <y>530</y>
+     <x>918</x>
+     <y>546</y>
     </hint>
     <hint type="destinationlabel">
      <x>940</x>
@@ -1582,5 +1550,6 @@
   <slot>saveData()</slot>
   <slot>savePro()</slot>
   <slot>loadPro()</slot>
+  <slot>savePlot()</slot>
  </slots>
 </ui>
