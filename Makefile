@@ -14,7 +14,7 @@ all:
 
 clean:
 	rm -rf SEEL_Apps.egg-info build
-	rm -rf $(DESTDIR)/usr/share/seelablet/
+	if $(CUSTOM); then rm -rf /usr/share/seelablet/; fi
 	find . -name "*~" -o -name "*.pyc" -o -name "__pycache__" | xargs rm -rf
 	#make -C docs clean
 	#make -C docs/misc clean
