@@ -16,7 +16,7 @@ Currently Supports:\n
 from __future__ import print_function
 
 from SEEL_Apps.templates.widgets.clicking import Ui_Form as Ui_Clicking
-from templates import sensorTemplate
+from .templates import sensorTemplate
 
 from SEEL.SENSORS.supported import supported
 from SEEL.sensorlist import sensors as sensorHints

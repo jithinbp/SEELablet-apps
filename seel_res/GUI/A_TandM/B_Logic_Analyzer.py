@@ -14,7 +14,7 @@ sip.setapi("QVariant", 2)
 
 from PyQt4 import QtCore, QtGui
 import time,sys
-from templates import digitalScope
+from .templates import digitalScope
 from SEEL.commands_proto import applySIPrefix
 
 import sys,os,string

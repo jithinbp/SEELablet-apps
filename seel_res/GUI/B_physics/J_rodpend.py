@@ -13,7 +13,7 @@
 from __future__ import print_function
 from SEEL_Apps.utilitiesClass import utilitiesClass
 
-from templates import rodpendulum
+from .templates import rodpendulum
 
 import numpy as np
 from PyQt4 import QtGui,QtCore

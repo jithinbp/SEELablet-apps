@@ -10,7 +10,7 @@ from __future__ import print_function
 import time,sys,os
 
 from SEEL_Apps.utilitiesClass import utilitiesClass
-from templates import transistorCE
+from .templates import transistorCE
 from PyQt4 import QtCore, QtGui
 import pyqtgraph as pg
 

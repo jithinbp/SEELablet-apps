@@ -19,7 +19,7 @@ from SEEL_Apps.utilitiesClass import utilitiesClass
 from SEEL.SENSORS.supported import supported
 from SEEL.sensorlist import sensors as sensorHints
 
-from templates import sensorTemplate
+from .templates import sensorTemplate
 from SEEL_Apps.templates.widgets.clicking import Ui_Form as Ui_Clicking
 
 import pyqtgraph as pg

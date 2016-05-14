@@ -13,7 +13,7 @@ from __future__ import print_function
 from SEEL_Apps.utilitiesClass import utilitiesClass
 from SEEL.analyticsClass import analyticsClass
 
-from templates import template_graph
+from .templates import template_graph
 
 import numpy as np
 from PyQt4 import QtGui,QtCore
