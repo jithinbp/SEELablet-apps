@@ -51,6 +51,7 @@ class acquirer():
 		self.paused = False
 		if self.I : self.I.__ignoreCalibration__()
 		
+
 		self.DAC_VALS={'PV1':[],'PV2':[],'PV3':[]}
 		self.ADC24={'AIN5':[],'AIN6':[],'AIN7':[]}
 		self.ADCPIC_INL=[]
@@ -93,6 +94,7 @@ class acquirer():
 			print('done')
 			self.Running = False
 			self.timer.stop()
+			self.parent.setWindowTitle(" We're all finished here")
 			return
 		if(self.paused):return
 
@@ -104,7 +106,8 @@ class acquirer():
 
 		self.ADC.__startRead__('AIN7AINCOM')
 		ADC_INL_RAW = np.average([self.I.__get_raw_average_voltage__(self.INL_CHANNEL) for x in range(70) ])
-		self.ADCPIC_INL.append(self.I.analogInputSources[self.INL_CHANNEL].calPoly12(ADC_INL_RAW))
+		ADC_INL_CONVERTED = self.I.analogInputSources[self.INL_CHANNEL].calPoly12(ADC_INL_RAW)
+		self.ADCPIC_INL.append(ADC_INL_CONVERTED)
 		AIN7 = self.ADC.__fetchData__('AIN7AINCOM')
 		self.ADC24['AIN7'].append(AIN7)
 
@@ -148,7 +151,7 @@ class acquirer():
 		AIN6 = self.ADC.__fetchData__('AIN6AINCOM')
 		self.ADC24['AIN6'].append(AIN6)
 
-		#########################----UPDATE PLOTS----######################
+		#########################----UPDATE PLOTS AND TABLE----######################
 		if self.vv%50==0:  
 			for a in self.INPUTS:
 				if self.I.analogInputSources[a].gainEnabled:
@@ -156,11 +159,18 @@ class acquirer():
 							self.parent.curves[a][b].setData(np.array(self.ADC24['AIN6'])[self.ADC_ACTUALS[a][b]],np.array(self.ADC_VALUES[a][b]) )
 				else:
 						self.parent.curves[a][0].setData(np.array(self.ADC24['AIN6'])[self.ADC_ACTUALS[a][0]],np.array(self.ADC_VALUES[a][0]) )
+
+		self.parent.valueTable.item(0,0).setText('%.3f'%AIN5)
+		self.parent.valueTable.item(0,1).setText('%.3f'%val1)
+
+		self.parent.valueTable.item(0,2).setText('%.3f'%AIN6)
+		self.parent.valueTable.item(0,3).setText('%.3f'%val2)
+
+		self.parent.valueTable.item(0,4).setText('%.3f'%AIN7)
+		self.parent.valueTable.item(0,5).setText('%.3f'%val3)
+		self.parent.valueTable.item(0,6).setText('%.3f'%ADC_INL_CONVERTED)
+
 		#-------------------------------------------------------
-
-
-
-		self.parent.msg.setText( 'PV1:%.3f  AIN5:%.5e  PV2:%.3f  AIN6:%.5e PV3:%.3f AIN7:%.5e '%(val1,AIN5,val2,AIN6,val3,AIN7))
 		self.parent.progressBar.setValue(self.vv*100/4095.)
 		self.vv += 1
 		return True
@@ -208,6 +218,12 @@ class AppWindow(QtGui.QMainWindow, calibrator.Ui_MainWindow,utilitiesClass):
 		self.savedir = os.path.join('.',self.hexid)
 
 		self.setWindowTitle(self.I.generic_name + ' : '+self.I.H.version_string.decode("utf-8")+' : '+self.hexid)
+
+		self.valueTable.setHorizontalHeaderLabels(['AIN5','PV1','AIN6','PV2','AIN7','PV3','INL'])
+		for a in range(8):
+			item = QtGui.QTableWidgetItem()
+			self.valueTable.setItem(0,a,item)
+			item.setText('.')
 
 		self.plot=self.add2DPlot(self.plot_area)
 		labelStyle = {'color': 'rgb(255,255,255)', 'font-size': '11pt'}

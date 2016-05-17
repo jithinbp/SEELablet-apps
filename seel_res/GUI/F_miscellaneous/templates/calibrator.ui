@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>838</width>
+    <width>820</width>
     <height>586</height>
    </rect>
   </property>
@@ -78,6 +78,62 @@
           <string>PeripheralCollectionInner</string>
          </property>
          <layout class="QGridLayout" name="gridLayout">
+          <item row="3" column="3">
+           <widget class="QPushButton" name="pushButton_3">
+            <property name="minimumSize">
+             <size>
+              <width>120</width>
+              <height>0</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>80</width>
+              <height>16777215</height>
+             </size>
+            </property>
+            <property name="text">
+             <string>Save Data</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="3">
+           <widget class="QLabel" name="label">
+            <property name="text">
+             <string>INL Channel</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="1" colspan="2">
+           <widget class="QLabel" name="dirnameLabel">
+            <property name="text">
+             <string>:calibration_data</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="3">
+           <widget class="QComboBox" name="comboBox">
+            <property name="maximumSize">
+             <size>
+              <width>150</width>
+              <height>16777215</height>
+             </size>
+            </property>
+            <item>
+             <property name="text">
+              <string>AN8</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>CAP</string>
+             </property>
+            </item>
+           </widget>
+          </item>
           <item row="0" column="0">
            <widget class="QPushButton" name="pushButton_2">
             <property name="minimumSize">
@@ -116,46 +172,7 @@
             </property>
            </widget>
           </item>
-          <item row="3" column="4">
-           <widget class="QPushButton" name="pushButton_3">
-            <property name="minimumSize">
-             <size>
-              <width>120</width>
-              <height>0</height>
-             </size>
-            </property>
-            <property name="maximumSize">
-             <size>
-              <width>80</width>
-              <height>16777215</height>
-             </size>
-            </property>
-            <property name="text">
-             <string>Save Data</string>
-            </property>
-           </widget>
-          </item>
-          <item row="1" column="4">
-           <widget class="QComboBox" name="comboBox">
-            <property name="maximumSize">
-             <size>
-              <width>150</width>
-              <height>16777215</height>
-             </size>
-            </property>
-            <item>
-             <property name="text">
-              <string>AN8</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>CAP</string>
-             </property>
-            </item>
-           </widget>
-          </item>
-          <item row="3" column="0" colspan="4">
+          <item row="3" column="0">
            <widget class="QPushButton" name="pushButton">
             <property name="minimumSize">
              <size>
@@ -168,28 +185,44 @@
             </property>
            </widget>
           </item>
-          <item row="1" column="1" colspan="3">
-           <widget class="QLabel" name="msg">
-            <property name="text">
-             <string>msg</string>
+          <item row="1" column="1" rowspan="3">
+           <widget class="QTableWidget" name="valueTable">
+            <property name="maximumSize">
+             <size>
+              <width>16777215</width>
+              <height>60</height>
+             </size>
             </property>
-           </widget>
-          </item>
-          <item row="0" column="4">
-           <widget class="QLabel" name="label">
-            <property name="text">
-             <string>INL Channel</string>
+            <property name="rowCount">
+             <number>1</number>
             </property>
-           </widget>
-          </item>
-          <item row="0" column="1" colspan="3">
-           <widget class="QLabel" name="dirnameLabel">
-            <property name="text">
-             <string>:calibration_data</string>
+            <property name="columnCount">
+             <number>8</number>
             </property>
-            <property name="alignment">
-             <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
-            </property>
+            <attribute name="horizontalHeaderDefaultSectionSize">
+             <number>55</number>
+            </attribute>
+            <attribute name="horizontalHeaderMinimumSectionSize">
+             <number>55</number>
+            </attribute>
+            <attribute name="horizontalHeaderStretchLastSection">
+             <bool>true</bool>
+            </attribute>
+            <attribute name="verticalHeaderVisible">
+             <bool>false</bool>
+            </attribute>
+            <attribute name="verticalHeaderStretchLastSection">
+             <bool>true</bool>
+            </attribute>
+            <row/>
+            <column/>
+            <column/>
+            <column/>
+            <column/>
+            <column/>
+            <column/>
+            <column/>
+            <column/>
            </widget>
           </item>
          </layout>
@@ -329,8 +362,8 @@
               <rect>
                <x>0</x>
                <y>0</y>
-               <width>607</width>
-               <height>425</height>
+               <width>589</width>
+               <height>419</height>
               </rect>
              </property>
              <layout class="QGridLayout" name="gridLayout_4">
@@ -360,7 +393,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>838</width>
+     <width>820</width>
      <height>25</height>
     </rect>
    </property>

@@ -60,7 +60,7 @@ class MyMainWindow(QtGui.QMainWindow, single_col_exp.Ui_MainWindow,utilitiesClas
 		try:
 			if not self.I.connected:
 				if len(self.I.H.occupiedPorts):
-					diag = QtGui.QMessageBox.about(self,'Error','Could not find available device.\nSoftware already running for ports: %s'%self.I.H.occupiedPorts)
+					diag = QtGui.QMessageBox.about(self,'Error','Could not find available device.\nSoftware already running for ports: %s'%list(self.I.H.occupiedPorts))
 				else:
 					diag = QtGui.QMessageBox.about(self,'Error','Could not find available device')
 				#diag.show()
@@ -75,8 +75,6 @@ class MyMainWindow(QtGui.QMainWindow, single_col_exp.Ui_MainWindow,utilitiesClas
 			#self.SCF1.setStyleSheet(_fromUtf8(styles.disconnected))
 			self.styleText = pkg_resources.resource_string('SEEL_Apps', "stylesheets/overall_disconnected.css").decode("utf-8")
 			self.setStyleSheet(self.styleText)
-			pass
-
 		#################################   POPULATE ADVANCED CONTROLS TAB  ##################################
 		self.ExperimentLayout.setAlignment(QtCore.Qt.AlignTop|QtCore.Qt.AlignLeft)
 		self.WidgetLayout.setAlignment(QtCore.Qt.AlignTop|QtCore.Qt.AlignLeft)
@@ -339,6 +337,17 @@ class MyMainWindow(QtGui.QMainWindow, single_col_exp.Ui_MainWindow,utilitiesClas
 				self.deviceCombo.addItem(a[0])
 				self.menu_entries.append(a[0])
 
+		#Check for, and handle disconnect event
+		if self.I.connected:
+			if self.I.H.portname not in self.menu_entries:
+					print (self.menu_entries, self.I.H.portname)
+					self.styleText = pkg_resources.resource_string('SEEL_Apps', "stylesheets/overall_disconnected.css").decode("utf-8")
+					self.setStyleSheet(self.styleText)
+					self.setWindowTitle('Error : Device Disconnected')
+					if self.runningApp:
+						self.runningApp.close()
+					self.I.connected = False
+
 
 	def selectDevice(self):
 		sel = self.deviceCombo.currentText()
@@ -349,24 +358,33 @@ class MyMainWindow(QtGui.QMainWindow, single_col_exp.Ui_MainWindow,utilitiesClas
 		self.updateSplash(20,'Reconnecting to %s'%(sel));
 		self.updateSplash(20,'Reconnecting to %s'%(sel));
 		if self.I:
-			self.I.reconnect(port = sel)
-			self.updateSplash(20,'Finished Reconnecting...');
-			self.displayDialog('Reconnected :'+self.I.H.version_string.decode("utf-8"))
-			#self.SCF1.setStyleSheet(_fromUtf8(styles.connected))
-			self.styleText = pkg_resources.resource_string('SEEL_Apps', "stylesheets/overall.css").decode("utf-8")
-			self.setStyleSheet(self.styleText)
-			self.setWindowTitle('SEELablet : '+self.I.H.version_string.decode("utf-8"))
-		else:
-			self.I = interface.connect(port = sel)
-			self.updateSplash(20,'Finished Loading...');
-			self.displayDialog('Connected :'+self.I.H.version_string.decode("utf-8"))
 			try:
+				self.I.reconnect(port = sel)
+			except Exception,e:
+				self.updateSplash(30,'Connection Error!')
+				#self.SCF1.setStyleSheet(_fromUtf8(styles.disconnected))
+				self.styleText = pkg_resources.resource_string('SEEL_Apps', "stylesheets/overall_disconnected.css").decode("utf-8")
+				self.setStyleSheet(self.styleText)
+
+			if not self.I.connected:
+				if len(self.I.H.occupiedPorts):
+					diag = QtGui.QMessageBox.about(self,'Error','Could not find available device.\nSoftware already running for ports: %s'%list(self.I.H.occupiedPorts))
+				else:
+					diag = QtGui.QMessageBox.about(self,'Error','Could not find available device')
+				#diag.show()
+				self.styleText = pkg_resources.resource_string('SEEL_Apps', "stylesheets/overall_disconnected.css").decode("utf-8")
+				self.setStyleSheet(self.styleText)
+				self.setWindowTitle('Error : Not Connected')
+			else:
+				self.hexid = hex(self.I.device_id()&0xFFFF)
+				self.setWindowTitle(self.I.generic_name + ' : '+self.I.H.version_string.decode("utf-8")+' - '+self.hexid)
+				self.updateSplash(20,'Finished Reconnecting...');
+				self.displayDialog('Reconnected :'+self.I.H.version_string.decode("utf-8"))
 				#self.SCF1.setStyleSheet(_fromUtf8(styles.connected))
 				self.styleText = pkg_resources.resource_string('SEEL_Apps', "stylesheets/overall.css").decode("utf-8")
 				self.setStyleSheet(self.styleText)
 				self.setWindowTitle('SEELablet : '+self.I.H.version_string.decode("utf-8"))
-			except:
-				pass
+
 		self.splash.close()
 		return
 

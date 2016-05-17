@@ -11,7 +11,7 @@ from SEEL_Apps.utilitiesClass import utilitiesClass
 
 from PyQt4 import QtCore, QtGui
 import time,sys
-from .templates import analogScope
+from templates import analogScope
 
 import sys,os,string
 import time
@@ -235,23 +235,26 @@ class AppWindow(QtGui.QMainWindow, analogScope.Ui_MainWindow,utilitiesClass):
 				self.I.configure_trigger(self.trigger_channel,self.triggerChannelName,self.trigger_level,resolution=10,prescaler=self.prescalerValue)
 				self.I.capture_traces(self.active_channels,self.samples,self.timebase,self.chan1remap,self.ch123sa,trigger=self.triggerBox.isChecked())
 		except:
-			pass
+			print ('communication error')
+			self.close()
 
 		self.timer.singleShot(self.samples*self.I.timebase*1e-3+10+self.prescalerValue*20,self.update)
 
 	def update(self):
 		n=0
-		while(not self.I.oscilloscope_progress()[0]):
-			time.sleep(0.1)
-			print (self.timebase,'correction required',n)
-			n+=1
-			if n>10:
-				self.timer.singleShot(100,self.start_capture)
-				return
 		try:
+			while(not self.I.oscilloscope_progress()[0]):
+				time.sleep(0.1)
+				print (self.timebase,'correction required',n)
+				n+=1
+				if n>10:
+					self.timer.singleShot(100,self.start_capture)
+					return
 			for a in range(self.channels_in_buffer): self.I.__fetch_channel__(a+1)
 		except:
-			pass
+			print ('communication error')
+			self.close()
+
 		self.curve1.clear()
 		self.curve2.clear()
 		self.curve3.clear()
@@ -331,6 +334,10 @@ class AppWindow(QtGui.QMainWindow, analogScope.Ui_MainWindow,utilitiesClass):
 						coords+="<span style='color: rgb%s'>%0.3fV</span>," %(c, self.I.achans[a].yaxis[index])
 				#self.coord_label.setText(coords)
 				self.plot.plotItem.titleLabel.setText(coords)
+			else:
+				self.plot.plotItem.titleLabel.setText('')
+				self.vLine.setPos(-1)
+				self.hLine.setPos(-1)
 
 
 		self.timer.singleShot(100,self.start_capture)
