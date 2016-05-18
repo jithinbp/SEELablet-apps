@@ -10,7 +10,7 @@ from __future__ import print_function
 import time,sys,os
 
 from SEEL_Apps.utilitiesClass import utilitiesClass
-from .templates import transistorCE
+from templates import transistorCE
 from PyQt4 import QtCore, QtGui
 import pyqtgraph as pg
 
@@ -31,11 +31,11 @@ class AppWindow(QtGui.QMainWindow, transistorCE.Ui_MainWindow,utilitiesClass):
 
 		self.setWindowTitle(self.I.H.version_string+' : '+params.get('name','').replace('\n',' ') )
 
-		self.plot=self.add2DPlot(self.plot_area)
+		self.plot=self.add2DPlot(self.plot_area,enableMenu=False)
+		self.sig = self.rightClickToZoomOut(self.plot)
 		labelStyle = {'color': 'rgb(255,255,255)', 'font-size': '11pt'}
 		self.plot.setLabel('left','Current -->', units='A',**labelStyle)
 		self.plot.setLabel('bottom','Voltage -->', units='V',**labelStyle)
-
 		self.totalpoints=2000
 		self.X=[]
 		self.Y=[]
@@ -64,9 +64,9 @@ class AppWindow(QtGui.QMainWindow, transistorCE.Ui_MainWindow,utilitiesClass):
 		time.sleep(0.2)
 
 		P=self.plot.getPlotItem()
-		P.enableAutoRange(True,True)
 		self.plot.setXRange(self.V,self.stopV.value())
 		self.plot.setYRange(0,10e-3)
+		if len(self.curves)>1:P.enableAutoRange(True,True)
 
 		if self.running:self.looptimer.start(20)
 

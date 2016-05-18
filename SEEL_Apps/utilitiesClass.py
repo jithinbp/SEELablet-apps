@@ -29,7 +29,6 @@ class utilitiesClass():
 	viewBoxes=[]
 	plots3D={}
 	plots2D={}
-	axisItems=[]
 	total_plot_areas=0
 	funcList=[]
 	gl=None
@@ -70,12 +69,37 @@ class utilitiesClass():
 					axis.setPen('k')
 				except:
 					pass
+			
 			n=0
-			for c in self.plots2D[plot]: #Change curve colors to match white background
-				c.setPen(color=self.white_trace_colors[n], width=3)
-				n+=1
-				if(n==54):break
+			if isinstance(plot, pg.widgets.PlotWidget.PlotWidget):  #Only consider curves part of the main left axis
+				for c in self.plots2D[plot]: #Change curve colors to match white background
+					c.setPen(color=self.white_trace_colors[n], width=3)
+					n+=1
+					if(n==54):break
 
+				try:
+					for d in self.plots2D[plot].viewBoxes:  #Go through the additional axes too
+						for f in self.plots2D[d]:
+							f.setPen(color=self.white_trace_colors[n], width=3)
+							n+=1
+							if(n==54):break
+				except: pass
+
+				try:
+					for d in plot.axisItems:  #Go through any additional axes, and set colors there too
+						d.setPen('k')
+				except Exception,ex: print ('error while changing scheme',ex)
+
+
+	def rightClickToZoomOut(self,plot):
+		clickEvent = functools.partial(self.autoRangePlot,plot)
+		return pg.SignalProxy(self.plot.scene().sigMouseClicked, rateLimit=60, slot=clickEvent)
+
+
+	def autoRangePlot(self,plot,evt):
+		pos = evt[0].scenePos()  ## using signal proxy turns original arguments into a tuple
+		if plot.sceneBoundingRect().contains(pos) and evt[0].button() == QtCore.Qt.RightButton:
+			plot.enableAutoRange(True,True)
 
 
 	def setColorSchemeBlack(self):
@@ -91,7 +115,30 @@ class utilitiesClass():
 					axis.setPen('w')
 				except:
 					pass
-				n=0
+
+			n=0
+			if isinstance(plot, pg.widgets.PlotWidget.PlotWidget):  #Only consider curves part of the main left axis
+				for c in self.plots2D[plot]: #Change curve colors to match black background
+					c.setPen(color=self.black_trace_colors[n], width=2)
+					n+=1
+					if(n==54):break
+
+				try:
+					for d in self.plots2D[plot].viewBoxes:  #Go through the additional axes too
+						for f in self.plots2D[d]:
+							f.setPen(color=self.black_trace_colors[n], width=2)
+							n+=1
+							if(n==54):break
+				except: pass
+
+				try:
+					for d in plot.axisItems:  #Go through any additional axes, and set colors there too
+						d.setPen('w')
+				except Exception,ex: print ('error while changing scheme',ex)
+
+
+
+
 				for c in self.plots2D[plot]: #Change curve colors to match black background
 					c.setPen(color=self.black_trace_colors[n], width=3)
 					n+=1
@@ -114,6 +161,7 @@ class utilitiesClass():
 		plot.getAxis('bottom').setGrid(170)
 
 		plot.viewBoxes=[]
+		plot.axisItems=[]
 		self.plots2D[plot]=[]
 		if self.properties['colorScheme']=='white':
 			self.setColorSchemeWhite()
@@ -204,22 +252,22 @@ class utilitiesClass():
 	def addAxis(self,plot,**args):
 		p3 = pg.ViewBox()
 		ax3 = pg.AxisItem('right')
-		plot.plotItem.layout.addItem(ax3, 2, 3+len(self.axisItems))
+		plot.plotItem.layout.addItem(ax3, 2, 3+len(plot.axisItems))
 		plot.plotItem.scene().addItem(p3)
 		ax3.linkToView(p3)
 		p3.setXLink(plot.plotItem)
 		ax3.setZValue(-10000)
 		if args.get('label',False):
 			ax3.setLabel(args.get('label',False), color=args.get('color','#ffffff'))
-		plot.viewBoxes.append(p3)
 
 		p3.setGeometry(plot.plotItem.vb.sceneBoundingRect())
 		p3.linkedViewChanged(plot.plotItem.vb, p3.XAxis)
 		## Handle view resizing 
 		Callback = functools.partial(self.updateViews,plot)		
 		plot.getViewBox().sigStateChanged.connect(Callback)
-		self.axisItems.append(ax3)
-		self.plots2D[p3]=[]
+		plot.viewBoxes.append(p3)
+		plot.axisItems.append(ax3)
+		self.plots2D[p3]=[]  # TODO do not consider a new axis as a plot. simply make it a part of the axisItems array of the main plot
 		return p3
 
 	def enableRightAxis(self,plot):

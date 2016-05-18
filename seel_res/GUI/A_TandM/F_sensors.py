@@ -19,7 +19,7 @@ from SEEL_Apps.utilitiesClass import utilitiesClass
 from SEEL.SENSORS.supported import supported
 from SEEL.sensorlist import sensors as sensorHints
 
-from .templates import sensorTemplate
+from templates import sensorTemplate
 from SEEL_Apps.templates.widgets.clicking import Ui_Form as Ui_Clicking
 
 import pyqtgraph as pg
@@ -50,6 +50,7 @@ class AppWindow(QtGui.QMainWindow, sensorTemplate.Ui_MainWindow,utilitiesClass):
 
 		print (self.I.readLog()	)
 		self.plot=self.add2DPlot(self.plot_area)
+		self.plot.setTitle('dsafd')
 		self.setWindowTitle(self.I.H.version_string+' : '+params.get('name','').replace('\n',' ') )
 
 		self.axisItems=[]
