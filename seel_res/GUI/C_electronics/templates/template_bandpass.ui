@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>804</width>
-    <height>628</height>
+    <width>801</width>
+    <height>565</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -84,20 +84,23 @@
           <property name="spacing">
            <number>2</number>
           </property>
+          <item row="0" column="5">
+           <widget class="QPushButton" name="pushButton_3">
+            <property name="minimumSize">
+             <size>
+              <width>94</width>
+              <height>30</height>
+             </size>
+            </property>
+            <property name="text">
+             <string>Save Plots</string>
+            </property>
+           </widget>
+          </item>
           <item row="4" column="0">
            <widget class="QLabel" name="label_6">
             <property name="text">
              <string>Total Datapoints</string>
-            </property>
-            <property name="alignment">
-             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-            </property>
-           </widget>
-          </item>
-          <item row="0" column="2">
-           <widget class="QLabel" name="label_2">
-            <property name="text">
-             <string>Acquired Data</string>
             </property>
             <property name="alignment">
              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -111,41 +114,6 @@
             </property>
             <property name="alignment">
              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-            </property>
-           </widget>
-          </item>
-          <item row="0" column="3">
-           <widget class="QComboBox" name="tracesBox"/>
-          </item>
-          <item row="3" column="4">
-           <widget class="QPushButton" name="pushButton">
-            <property name="minimumSize">
-             <size>
-              <width>94</width>
-              <height>30</height>
-             </size>
-            </property>
-            <property name="text">
-             <string>Start Sweep</string>
-            </property>
-           </widget>
-          </item>
-          <item row="0" column="4">
-           <widget class="QPushButton" name="pushButton_2">
-            <property name="minimumSize">
-             <size>
-              <width>94</width>
-              <height>0</height>
-             </size>
-            </property>
-            <property name="maximumSize">
-             <size>
-              <width>40</width>
-              <height>16777215</height>
-             </size>
-            </property>
-            <property name="text">
-             <string>DEL</string>
             </property>
            </widget>
           </item>
@@ -178,13 +146,6 @@
             </property>
             <property name="alignment">
              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-            </property>
-           </widget>
-          </item>
-          <item row="3" column="2" colspan="2">
-           <widget class="QProgressBar" name="progress">
-            <property name="value">
-             <number>0</number>
             </property>
            </widget>
           </item>
@@ -226,8 +187,8 @@
             </property>
            </widget>
           </item>
-          <item row="4" column="4">
-           <widget class="QPushButton" name="pushButton_3">
+          <item row="0" column="3">
+           <widget class="QPushButton" name="pushButton">
             <property name="minimumSize">
              <size>
               <width>94</width>
@@ -235,7 +196,72 @@
              </size>
             </property>
             <property name="text">
-             <string>Save Plots</string>
+             <string>START</string>
+            </property>
+           </widget>
+          </item>
+          <item row="4" column="5">
+           <widget class="QPushButton" name="pushButton_2">
+            <property name="minimumSize">
+             <size>
+              <width>94</width>
+              <height>0</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>40</width>
+              <height>16777215</height>
+             </size>
+            </property>
+            <property name="text">
+             <string>DEL</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="4">
+           <widget class="QPushButton" name="pushButton_4">
+            <property name="minimumSize">
+             <size>
+              <width>94</width>
+              <height>30</height>
+             </size>
+            </property>
+            <property name="text">
+             <string>STOP</string>
+            </property>
+           </widget>
+          </item>
+          <item row="4" column="3">
+           <widget class="QLabel" name="label_2">
+            <property name="text">
+             <string>Acquired Data</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+            </property>
+           </widget>
+          </item>
+          <item row="4" column="4">
+           <widget class="QComboBox" name="tracesBox"/>
+          </item>
+          <item row="3" column="2">
+           <spacer name="horizontalSpacer">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>40</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item row="3" column="3" colspan="3">
+           <widget class="QProgressBar" name="progress">
+            <property name="value">
+             <number>0</number>
             </property>
            </widget>
           </item>
@@ -282,8 +308,8 @@
               <rect>
                <x>0</x>
                <y>0</y>
-               <width>794</width>
-               <height>465</height>
+               <width>791</width>
+               <height>424</height>
               </rect>
              </property>
              <layout class="QGridLayout" name="gridLayout_4">
@@ -313,12 +339,11 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>804</width>
+     <width>801</width>
      <height>25</height>
     </rect>
    </property>
   </widget>
-  <widget class="QStatusBar" name="statusbar"/>
  </widget>
  <resources/>
  <connections>
@@ -329,8 +354,8 @@
    <slot>run()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>801</x>
-     <y>93</y>
+     <x>175</x>
+     <y>157</y>
     </hint>
     <hint type="destinationlabel">
      <x>741</x>
@@ -361,12 +386,28 @@
    <slot>savePlots()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>725</x>
-     <y>113</y>
+     <x>798</x>
+     <y>157</y>
     </hint>
     <hint type="destinationlabel">
      <x>719</x>
-     <y>-2</y>
+     <y>0</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_4</sender>
+   <signal>clicked()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>stop()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>265</x>
+     <y>151</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>313</x>
+     <y>-25</y>
     </hint>
    </hints>
   </connection>
@@ -375,5 +416,6 @@
   <slot>run()</slot>
   <slot>delete_curve()</slot>
   <slot>savePlots()</slot>
+  <slot>stop()</slot>
  </slots>
 </ui>

@@ -345,14 +345,20 @@ class utilitiesClass():
 			self.linkFunc = args.get('LINK',None)
 
 		def setValue(self,val):
-			retval = self.func(val)
+			try:
+				retval = self.func(val)
+			except Exception,err:
+				retval = 'err'
+				
+
 			if isinstance(retval,numbers.Number):
 				self.value.setText('%s'%(self.applySIPrefix(retval*self.scale,self.units) ))
+				if self.linkFunc:
+					self.linkFunc(retval*self.scale,self.units)
+					#self.linkObj.setText('%.3f %s '%(retval*self.scale,self.units))
 			else: self.value.setText(str(retval))
 			#self.value.setText('%.2f %s '%(retval*self.scale,self.units))
-			if self.linkFunc:
-				self.linkFunc(retval*self.scale,self.units)
-				#self.linkObj.setText('%.3f %s '%(retval*self.scale,self.units))
+
 
 
 	class dialAndDoubleSpinIcon(QtGui.QFrame,dialAndDoubleSpin.Ui_Form):
@@ -518,6 +524,7 @@ class utilitiesClass():
 			super(utilitiesClass.sineWidget, self).__init__()
 			self.setupUi(self)
 			self.I = I
+			self.commandLinkButton.setVisible(False)  #TODO : 
 			self.modes = ['sine','tria']
 
 

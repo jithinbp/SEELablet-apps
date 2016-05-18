@@ -288,7 +288,7 @@ class MyMainWindow(QtGui.QMainWindow, single_col_exp.Ui_MainWindow,utilitiesClas
 		self.hintText.setHtml(t)
 
 	def launchFunc(self,fname,helpurl):
-		if self.I:
+		if self.I.connected:
 			#try:
 			#	if fname.split('.')[1]=='apps':
 			if self.runningApp:
@@ -306,7 +306,7 @@ class MyMainWindow(QtGui.QMainWindow, single_col_exp.Ui_MainWindow,utilitiesClas
 			self.tabWidget.setCurrentIndex(1)
 
 		else:
-			print(self.setWindowTitle('Device Not Connected!'))
+			QtGui.QMessageBox.about(self,'Error','Hardware not detected')
 
 	def returnToApps(self):
 		self.tabWidget.setCurrentIndex(0)
@@ -328,7 +328,9 @@ class MyMainWindow(QtGui.QMainWindow, single_col_exp.Ui_MainWindow,utilitiesClas
 				shortlist.append(a)
 
 		total = len(shortlist)
+		menuChanged = False
 		if shortlist != self.shortlist:
+			menuChanged = True
 			self.shortlist=shortlist
 			for a in self.menu_entries:
 				self.deviceCombo.removeItem(0)
@@ -338,15 +340,24 @@ class MyMainWindow(QtGui.QMainWindow, single_col_exp.Ui_MainWindow,utilitiesClas
 				self.menu_entries.append(a[0])
 
 		#Check for, and handle disconnect event
-		if self.I.connected:
-			if self.I.H.portname not in self.menu_entries:
-					print (self.menu_entries, self.I.H.portname)
-					self.styleText = pkg_resources.resource_string('SEEL_Apps', "stylesheets/overall_disconnected.css").decode("utf-8")
-					self.setStyleSheet(self.styleText)
-					self.setWindowTitle('Error : Device Disconnected')
-					if self.runningApp:
-						self.runningApp.close()
-					self.I.connected = False
+		if menuChanged:
+			if self.I.connected:
+				if self.I.H.portname not in self.menu_entries:
+						print (self.menu_entries, self.I.H.portname)
+						self.styleText = pkg_resources.resource_string('SEEL_Apps', "stylesheets/overall_disconnected.css").decode("utf-8")
+						self.setStyleSheet(self.styleText)
+						self.setWindowTitle('Error : Device Disconnected')
+						if self.runningApp:
+							self.runningApp.close()
+						self.I.connected = False
+
+			elif len(self.menu_entries):
+				reply = QtGui.QMessageBox.question(self, 'Connection', 'New Device Found. Connect?', QtGui.QMessageBox.No, QtGui.QMessageBox.Yes)
+				if reply == QtGui.QMessageBox.Yes:
+					print (reply)
+					self.selectDevice()
+
+
 
 
 	def selectDevice(self):

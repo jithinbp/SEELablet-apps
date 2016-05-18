@@ -45,8 +45,10 @@ class AppWindow(QtGui.QMainWindow, template_bandpass.Ui_MainWindow,utilitiesClas
 
 		self.plot1=self.add2DPlot(self.plot_area)
 		self.plot2=self.add2DPlot(self.plot_area)
-		self.curve1 = self.addCurve(self.plot1,'INPUT')
-		self.curve2 = self.addCurve(self.plot1,'OUTPUT')
+		
+		self.legend = self.plot1.addLegend(offset=(-10,30))
+		self.curve1 = self.addCurve(self.plot1,'INPUT (CH1)')
+		self.curve2 = self.addCurve(self.plot1,'OUTPUT(CH2)')
 		self.p2=self.enableRightAxis(self.plot2)
 		self.plot2.getAxis('right').setLabel('Phase', color='#00ffff')
 		self.plot2.getAxis('left').setLabel('Amplitude', color='#ffffff')
@@ -84,8 +86,7 @@ class AppWindow(QtGui.QMainWindow, template_bandpass.Ui_MainWindow,utilitiesClas
 		self.loop=None
 		self.plot2.setXRange(self.STARTFRQ,self.ENDFRQ)
 		self.plot2.setYRange(0,1.)
-		self.active=False
-		self.running = True
+		self.running = False
 
 	def savePlots(self):
 		self.saveDataWindow([self.curve1,self.curve2,self.curvePhase])
@@ -100,24 +101,33 @@ class AppWindow(QtGui.QMainWindow, template_bandpass.Ui_MainWindow,utilitiesClas
 		self.DELTAFRQ = (self.ENDFRQ-self.STARTFRQ)/self.STEPFRQ		
 
 	def run(self):
-		if(self.active):
-			return
-		self.active=True
+		if(self.running): return
+		self.running=True
+		self.freqs=[]
+		self.amps=[]
+		self.dP=[]
+
 		self.STARTFRQ=self.startFreq.value()
 		self.ENDFRQ=self.stopFreq.value()
 		self.STEPFRQ=self.stepFreq.value()
 		self.DELTAFRQ = (self.ENDFRQ-self.STARTFRQ)/self.STEPFRQ
 		print ('from %d to %d in %.3fHz steps'%(self.STARTFRQ,self.ENDFRQ,self.DELTAFRQ))
-		self.frq=self.STARTFRQ		
+		self.frq=self.STARTFRQ
 		self.I.set_sine1(self.frq)
-		time.sleep(1)
+		self.plot2.setXRange(self.STARTFRQ,self.ENDFRQ)
+		self.plot2.setLimits(xMax=self.ENDFRQ,xMin = self.STARTFRQ)			
+
 		if self.running:self.loop = self.delayedTask(100,self.newset)
 
+	def stop(self):
+		self.running = False
+		self.progress.setValue(100)
+
 	def stopSweep(self):
-		self.active=False
+		self.running=False
 		
 	def newset(self):
-		if(not self.active):return
+		if(not self.running):return
 		frq = self.I.set_sine1(self.frq)
 		time.sleep(0.1)
 		tg=int(1e6/frq/1000)+1
@@ -128,23 +138,24 @@ class AppWindow(QtGui.QMainWindow, template_bandpass.Ui_MainWindow,utilitiesClas
 		self.progress.setValue(pos)
 		if(self.frq>self.ENDFRQ and self.DELTAFRQ>0) or (self.frq<self.ENDFRQ and self.DELTAFRQ<0):
 			print ('og',self.frq,self.ENDFRQ,self.DELTAFRQ)
-			self.active=False
+			self.running=False
 			#txt='<div style="text-align: center"><span style="color: #FFF;font-size:8pt;">%d-%d</span></div>'%(self.STARTFRQ,self.ENDFRQ)
 			#text = pg.TextItem(html=txt, anchor=(0,0), border='w', fill=(0, 0, 255, 100))
 			#self.plot2.addItem(text)
 			#text.setPos(self.X[-1],self.Y[-1])
 			#self.curveLabels.append(text)
 			self.curves.append(self.curveAmp)
+			self.set_sine1(0.2)
 
 	def plotData(self,frq):		
-		if(not self.active):return
+		if(not self.running):return
 		x,y=self.I.fetch_trace(1)
 		self.curve1.setData(x,y)
+		pars1 = self.CC.sineFit(x,y)
+
 		x,y=self.I.fetch_trace(2)
 		self.curve2.setData(x,y)
-
-		pars1 = self.CC.sineFit(x,y)
-		pars2 = self.CC.sineFit(x,y)#,freq=self.frq)
+		pars2 = self.CC.sineFit(x,y)#),freq=self.frq)
 		if pars1 and pars2:
 			a1,f1,o1,p1 = pars1
 			a2,f2,o2,p2 = pars2
@@ -163,12 +174,16 @@ class AppWindow(QtGui.QMainWindow, template_bandpass.Ui_MainWindow,utilitiesClas
 			#print chisq2[0]
 			self.curveAmp.setData(self.freqs,self.amps)
 			self.curvePhase.setData(self.freqs,self.dP)
-		self.loop=self.delayedTask(10,self.newset)
+		if self.running:self.loop = self.delayedTask(10,self.newset)
 		
 		
 
 	def showData(self):
 		self.displayObjectContents({'Frequency Response':np.column_stack([self.freqs,self.amps,self.dP])})
+
+	def saveData(self):
+		self.saveDataWindow([self.curvePhase,self.curveAmp],self.plot2)
+
 
 	def clearData(self):
 		self.freqs=[]

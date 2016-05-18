@@ -184,14 +184,14 @@ class AppWindow(QtGui.QMainWindow, analogScope.Ui_MainWindow,utilitiesClass):
 			for a in [self.curve1,self.curve2,self.curve3,self.curve4]:
 				a.setFftMode(True)
 			#self.curve4.setFftMode(True)
-			self.plot.setLabel('bottom', 'Frequency -->>', units='Hz')
+			self.plot.setLabel('bottom', 'Frequency', units='Hz')
 			self.MAX_SAMPLES=10000
 		else:
 			self.fourierMode=False
 			for a in [self.curve1,self.curve2,self.curve3,self.curve4]:#,self.curveFR]+self.curveF:
 				a.setFftMode(False)
 			self.MAX_SAMPLES=2000
-			self.plot.setLabel('bottom', 'Time -->>', units='S')
+			self.plot.setLabel('bottom', 'Time', units='S')
 
 		self.max_samples_per_channel=[0,self.MAX_SAMPLES/4,self.MAX_SAMPLES/4,self.MAX_SAMPLES/4,self.MAX_SAMPLES/4]
 		self.autoSetSamples()
@@ -325,9 +325,19 @@ class AppWindow(QtGui.QMainWindow, analogScope.Ui_MainWindow,utilitiesClass):
 			self.fps = self.fps * (1-s) + (1.0/dt) * s
 		
 		if self.mousePoint:
-			index = int(self.mousePoint.x()*1e6/self.I.timebase)
-			if index > 0 and index < self.I.samples:
-				coords="%.1f FPS, <span style='color: white'>%0.1f uS</span>: "%(self.fps,self.I.achans[0].xaxis[index])
+			1.e6/self.timebase/2
+			
+			if self.fourierMode:
+				index = int(self.I.samples*self.mousePoint.x()*self.I.timebase/1e6)
+				maxIndex = len(self.curve1.getData()[0])
+			else:
+				index = int(self.mousePoint.x()*1e6/self.I.timebase)
+				maxIndex = self.I.samples
+			
+			#print (self.mousePoint.x(),1.e6/self.timebase/2,index,max(self.curve1.getData()[0]),min(self.curve1.getData()[0]),len(self.curve1.getData()[0]))
+			if index > 0 and index < maxIndex:
+				if self.fourierMode : coords="%.1f FPS, <span style='color: white'>%s</span>: "%(self.fps,applySIPrefix(self.curve1.getData()[0][index],'Hz'))
+				else : coords="%.1f FPS, <span style='color: white'>%0.1f uS</span>: "%(self.fps,self.I.achans[0].xaxis[index])
 				for a in range(4):
 					if self.channel_states[a]:
 						c=self.trace_colors[a]
@@ -553,7 +563,10 @@ class AppWindow(QtGui.QMainWindow, analogScope.Ui_MainWindow,utilitiesClass):
 
 			self.plot.setLimits(yMax=max(R),yMin=min(R),xMin=0,xMax=xlen)
 			self.plot2.setLimits(yMax=max(R2),yMin=min(R2))		
-			self.time_label.setText('%.3f mS'%(xlen*1e3))
+			if self.fourierMode:
+				self.time_label.setText(applySIPrefix(xlen, unit='Hz',precision=2 ))
+			else:
+				self.time_label.setText(applySIPrefix(xlen, unit='S',precision=2 ))
 			self.plot.setXRange(0,xlen)
 
 	def enableXY(self,state):
