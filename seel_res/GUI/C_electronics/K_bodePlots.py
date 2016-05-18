@@ -88,8 +88,6 @@ class AppWindow(QtGui.QMainWindow, template_bandpass.Ui_MainWindow,utilitiesClas
 		self.plot2.setYRange(0,1.)
 		self.running = False
 
-	def savePlots(self):
-		self.saveDataWindow([self.curve1,self.curve2,self.curvePhase])
 
 
 	def setStartFreq(self,val):
@@ -145,7 +143,7 @@ class AppWindow(QtGui.QMainWindow, template_bandpass.Ui_MainWindow,utilitiesClas
 			#text.setPos(self.X[-1],self.Y[-1])
 			#self.curveLabels.append(text)
 			self.curves.append(self.curveAmp)
-			self.set_sine1(0.2)
+			self.I.set_w1(0.2)
 
 	def plotData(self,frq):		
 		if(not self.running):return
@@ -181,7 +179,7 @@ class AppWindow(QtGui.QMainWindow, template_bandpass.Ui_MainWindow,utilitiesClas
 	def showData(self):
 		self.displayObjectContents({'Frequency Response':np.column_stack([self.freqs,self.amps,self.dP])})
 
-	def saveData(self):
+	def savePlots(self):
 		self.saveDataWindow([self.curvePhase,self.curveAmp],self.plot2)
 
 

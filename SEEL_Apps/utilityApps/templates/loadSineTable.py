@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'loadSineTable.ui'
 #
-# Created: Wed May 11 13:01:14 2016
+# Created: Wed May 18 06:37:04 2016
 #      by: PyQt4 UI code generator 4.11.3
 #
 # WARNING! All changes made in this file will be lost!
