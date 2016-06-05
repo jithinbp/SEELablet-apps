@@ -18,7 +18,6 @@ import time
 import sys
 
 import pyqtgraph as pg
-import pyqtgraph.opengl as gl
 
 import numpy as np
 import scipy.optimize as optimize

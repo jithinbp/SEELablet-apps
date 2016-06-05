@@ -30,7 +30,7 @@ from SEEL_Apps.stylesheets import styles
 from SEEL_Apps.utilitiesClass import utilitiesClass
 from SEEL_Apps.templates import single_col_exp
 
-import os,string,time,pkgutil,importlib,functools,pkg_resources,serial.tools.list_ports
+import os,string,time,pkgutil,importlib,functools,pkg_resources
 
 try:
     _fromUtf8 = QtCore.QString.fromUtf8
@@ -75,6 +75,7 @@ class MyMainWindow(QtGui.QMainWindow, single_col_exp.Ui_MainWindow,utilitiesClas
 			#self.SCF1.setStyleSheet(_fromUtf8(styles.disconnected))
 			self.styleText = pkg_resources.resource_string('SEEL_Apps', "stylesheets/overall_disconnected.css").decode("utf-8")
 			self.setStyleSheet(self.styleText)
+
 		#################################   POPULATE ADVANCED CONTROLS TAB  ##################################
 		self.ExperimentLayout.setAlignment(QtCore.Qt.AlignTop|QtCore.Qt.AlignLeft)
 		self.WidgetLayout.setAlignment(QtCore.Qt.AlignTop|QtCore.Qt.AlignLeft)
@@ -163,7 +164,6 @@ class MyMainWindow(QtGui.QMainWindow, single_col_exp.Ui_MainWindow,utilitiesClas
 		self.updateSplash(30,'Almost done...')
 		#self.splash.finish(self)
 		self.runningApp = None
-
 	def modifiedSqr1(self,val):
 		if val<4:
 			self.I.set_state(SQR1=0)
@@ -236,7 +236,6 @@ class MyMainWindow(QtGui.QMainWindow, single_col_exp.Ui_MainWindow,utilitiesClas
 		self.funcs=[]
 		baselib = importlib.import_module(basepackage)
 		subdirs = [name for _, name,isDir in pkgutil.iter_modules([os.path.dirname(baselib.__file__)]) if isDir==True]
-		print (subdirs)
 		for sub in subdirs:
 			submodule = basepackage+'.'+sub
 			self.loadSubmoduleIcons(submodule)
@@ -320,24 +319,21 @@ class MyMainWindow(QtGui.QMainWindow, single_col_exp.Ui_MainWindow,utilitiesClas
 		else:
 			print (self.setWindowTitle('Device Not Connected!'))
 
-	def locateDevices(self):
-		L = serial.tools.list_ports.comports()
-		shortlist=[]
-		for a in L:
-			if ('ACM' in a[1]) and ('04d8:00df' in a[2]):
-				shortlist.append(a)
 
-		total = len(shortlist)
+
+	def locateDevices(self):
+		L = self.I.H.listPorts()
+		total = len(L)
 		menuChanged = False
-		if shortlist != self.shortlist:
+		if L != self.shortlist:
 			menuChanged = True
-			self.shortlist=shortlist
+			self.shortlist=L
 			for a in self.menu_entries:
 				self.deviceCombo.removeItem(0)
 			self.menu_entries=[]
-			for a in shortlist:
-				self.deviceCombo.addItem(a[0])
-				self.menu_entries.append(a[0])
+			for a in L:
+				self.deviceCombo.addItem(a)
+				self.menu_entries.append(a)
 
 		#Check for, and handle disconnect event
 		if menuChanged:

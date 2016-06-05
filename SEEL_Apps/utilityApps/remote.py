@@ -30,7 +30,7 @@ class CherryPyClass():
 	exposed = True	#Expose all methods
 
 	def __init__(self,S=None,methods=None):		
-		self.functions = {'1': {	'title': 'Lumberjack Song',	'artist': 'Canadian Guard Choir'},	} #Defaul example for testing purposes
+		self.functions = {}
 		if S: self.functions = S
 		self.methods = methods
 		
@@ -59,14 +59,6 @@ class CherryPyClass():
 			result=method(*total_args)		
 			#self.hw_lock=False
 			return json.dumps(result,cls=NumpyEncoder)
-
-
-		if id in self.songs:
-			song = self.songs[id]
-			return('Song with the ID %s is called %s, and the artist is %s' % (id, song['title'], song['artist']))
-		else:
-			return('No song with the ID %s :-(' % id)			
-
 
 
 if __name__ == '__main__':

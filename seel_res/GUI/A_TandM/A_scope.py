@@ -1,8 +1,8 @@
 #!/usr/bin/python
 '''
-oscilloscope for the vLabtool - version 0. \n
+oscilloscope application for SEELablet. \n
 
-Also Includes XY plotting mode, and fitting against standard Sine/Square functions\n
+Also Includes XY plotting mode, and fitting against standard Sine/Square functions, and FFT\n
 '''
 #TODO : Fix scaling issues in fourier transform mode. The user should be able to pan and zoom fourier plots within limits
 
@@ -18,7 +18,6 @@ import time
 import sys
 
 import pyqtgraph as pg
-import pyqtgraph.opengl as gl
 
 import numpy as np
 import scipy.optimize as optimize
