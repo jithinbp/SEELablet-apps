@@ -14,6 +14,7 @@ import numpy as np
 
 from json import encoder
 json.JSONEncoder.FLOAT_REPR = lambda f: ("%.2f" % f)
+import httplib, urllib,threading
 
 class NumpyEncoder(json.JSONEncoder): # Answered by SO user http://stackoverflow.com/users/3768982/tlausch
 	def default(self, obj):
@@ -34,16 +35,27 @@ params = {
 }
 
 class AppWindow(QtGui.QMainWindow, remote.Ui_MainWindow):
+	resSlot = QtCore.pyqtSignal(str,str)
 	def __init__(self, parent=None,**kwargs):
 		super(AppWindow, self).__init__(parent)
 		self.setupUi(self)
 		self.I=kwargs.get('I',None)
 		self.setWindowTitle(self.I.H.version_string+' : '+params.get('name','').replace('\n',' ') )
-		self.res = self.resultWriter(self.results)
 		self.pubEdit.setText("pub-c-22260663-a169-4935-9c74-22925f4398af")
 		self.subEdit.setText("sub-c-3431f4ba-2984-11e6-a01f-0619f8945a4f")
 		self.channelLabel.setText(self.I.hexid)
 		self.resetKeys() #Connect to pubnub
+		self.pubnub.subscribe(self.I.hexid+'response',callback = self.responseCallback)
+		
+		self.resSlot.connect(self.writeResults)
+		self.thingSpeakCommand = None
+		
+		self.timer=QtCore.QTimer()
+		self.timer.timeout.connect(self.uploadToThingSpeak)
+		self.uploadToThingSpeak();
+		self.timer.start(15*1e3) #15 seconds
+		
+		
 		import inspect
 
 		funcs=dir(self.I)
@@ -60,17 +72,48 @@ class AppWindow(QtGui.QMainWindow, remote.Ui_MainWindow):
 				if inspect.ismethod(fn):
 					self.methods[a]=(fn,args)		#list of tuples of all methods in device handler
 					if args[0]=='self': self.function_list.append([a,args[1:] ])
+	
+	def uploadToThingSpeak(self):
+		if self.thingSpeakCommand:
+			try:
+				result = self.thingSpeakCommand[0](*self.thingSpeakCommand[1])
+				params = urllib.urlencode({'field1': float(result), 'key':str(self.thingSpeakKey.text())})
+				headers = {"Content-type": "application/x-www-form-urlencoded","Accept": "text/plain"}
+				conn = httplib.HTTPConnection("api.thingspeak.com:80")
+				conn.request("POST", "/update", params, headers)
+				response = conn.getresponse()
+				self.results_2.append('%s : %s'%( response.status, response.reason))
+				data = response.read()
+				conn.close()
+			except Exception,e:
+				self.results_2.append('Error : %s'%( e.message))
+				pass
 
-
-	class resultWriter:
-		def __init__(self,results):
-			self.results = results
-		def write(self,txt):
-			self.results.append('abc')#txt)
+	def setThingSpeakCommand(self):
+		try:
+			message = str(self.cmdEditThingSpeak.text())
+			fn_name=message.split('(')[0]
+			args = message[message.find("(")+1:message.find(")")].strip().split(',')
+			total_args=[]
+			for t in args:
+				if not len(t):continue
+				if t[0]=="'" or t[0]=='"':total_args.append(t[1:-1])
+				else:total_args.append(string.atoi(t))
+			
+			method = self.methods.get(fn_name)[0]
+			if method == None :
+				print ('no such command :',fn_name)
+				return 'no such command : %s'%fn_name
+			else:
+				#while self.hw_lock and self.active: pass
+				#self.hw_lock=True
+				self.thingSpeakCommand=[method,total_args]
+		except Exception,e:
+			self.results_2.append('Set Error : %s'%( e.message))
+			pass
 
 	def callback(self,message, channel):
-		self.results.append('[' + channel + ']: ' + str(message))
-		
+		self.resSlot.emit(str(message),'in')		
 		try:
 			fn_name=message.split('(')[0]
 
@@ -91,14 +134,27 @@ class AppWindow(QtGui.QMainWindow, remote.Ui_MainWindow):
 				result=method(*total_args)		
 				#self.hw_lock=False
 				jsonres = json.dumps(result,cls=NumpyEncoder)
-				print (method,total_args,type(jsonres),len(jsonres),jsonres,self.I.hexid+'response',file=self.res)
 				self.pubnub.publish(channel = self.I.hexid+'response',message = jsonres)
+				self.resSlot.emit('%s %s %s %d %s... %s'%(method.__name__,str(total_args),str(type(jsonres)),len(jsonres),str(jsonres[:20]),self.I.hexid+'response'),'out')
 		except Exception,e:
 			self.responseLabel.setText (e.message)
 
+	def responseCallback(self,message, channel):
+		self.resSlot.emit(str(message),'reply')		
+		
+
+	def writeResults(self,txt,t):
+		if t == 'in':
+			self.results.append('RECV:<span style="background-color: #FFFF00">' + txt +'</span')
+		elif t == 'out':
+			self.results.append('SEND:<span style="background-color: #00FF00">' + txt +'</span')
+		elif t == 'reply':
+			self.results.append('GOT :<span style="background-color: #00FFFF">' + txt +'</span')
 
 	def execRemote(self):
-		self.pubnub.publish(channel = hex(0x1000000000000000|int(str(self.sendID.text()),16)),message = str(self.cmdEdit.text()))
+		chan = hex(0x1000000000000000|int(str(self.sendID.text()),16)) ; msg = str(self.cmdEdit.text())
+		self.pubnub.publish(channel = chan,message = msg)
+		self.resSlot.emit('[' + chan + ']: ' + msg,'out')
 
 	def setListenState(self,state):
 		if state: #Enable listen
@@ -117,8 +173,6 @@ class AppWindow(QtGui.QMainWindow, remote.Ui_MainWindow):
 				subscribe_key = str(self.subEdit.text()))
 		except Exception,e:
 			self.responseLabel.setText (e)
-
-
 
 	def __del__(self):
 		try:self.pubnub.stop()

@@ -657,8 +657,11 @@ class utilitiesClass():
 			D3=self.SQR3DC.value()
 			D4=self.SQR4DC.value()
 			
-			self.I.sqr4_continuous(self.SQRSF.value(),D1,P2,D2,P3,D3,P4,D4)
-
+			retval = self.I.sqrPWM(self.SQRSF.value(),D1,P2,D2,P3,D3,P4,D4)
+			try:
+				self.SQRSF.setValue(retval)
+			except Exception,e:
+				print (e.message)
 
 		def fireSQR1(self):
 			if self.I:

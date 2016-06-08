@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'pwmWidget.ui'
 #
-# Created: Sat May  7 14:01:02 2016
+# Created: Wed Jun  8 19:32:06 2016
 #      by: PyQt4 UI code generator 4.11.3
 #
 # WARNING! All changes made in this file will be lost!
