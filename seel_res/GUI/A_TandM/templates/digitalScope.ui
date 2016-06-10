@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>892</width>
-    <height>549</height>
+    <width>944</width>
+    <height>557</height>
    </rect>
   </property>
   <property name="mouseTracking">
@@ -102,13 +102,13 @@
         <property name="geometry">
          <rect>
           <x>10</x>
-          <y>305</y>
+          <y>325</y>
           <width>281</width>
-          <height>211</height>
+          <height>191</height>
          </rect>
         </property>
         <property name="frameShape">
-         <enum>QFrame::StyledPanel</enum>
+         <enum>QFrame::NoFrame</enum>
         </property>
         <property name="frameShadow">
          <enum>QFrame::Raised</enum>
@@ -117,9 +117,52 @@
          <string>PeripheralCollectionInner</string>
         </property>
         <layout class="QGridLayout" name="gridLayout_4">
+         <property name="horizontalSpacing">
+          <number>3</number>
+         </property>
          <property name="verticalSpacing">
           <number>1</number>
          </property>
+         <property name="margin">
+          <number>0</number>
+         </property>
+         <item row="4" column="2">
+          <widget class="QSpinBox" name="timeoutBox">
+           <property name="suffix">
+            <string>mS</string>
+           </property>
+           <property name="minimum">
+            <number>10</number>
+           </property>
+           <property name="maximum">
+            <number>10000</number>
+           </property>
+          </widget>
+         </item>
+         <item row="4" column="3">
+          <widget class="QPushButton" name="pushButton_6">
+           <property name="font">
+            <font>
+             <weight>75</weight>
+             <italic>true</italic>
+             <bold>true</bold>
+            </font>
+           </property>
+           <property name="text">
+            <string>Measure &gt;</string>
+           </property>
+          </widget>
+         </item>
+         <item row="4" column="0" colspan="2">
+          <widget class="QLabel" name="label">
+           <property name="text">
+            <string>Timeout:</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+           </property>
+          </widget>
+         </item>
          <item row="3" column="2">
           <widget class="QComboBox" name="edge2edge">
            <property name="currentIndex">
@@ -142,7 +185,7 @@
            </item>
           </widget>
          </item>
-         <item row="0" column="0" colspan="5">
+         <item row="0" column="0" colspan="4">
           <widget class="QLabel" name="label_56">
            <property name="sizePolicy">
             <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
@@ -202,7 +245,7 @@
          <item row="2" column="1">
           <widget class="QComboBox" name="edge1chan"/>
          </item>
-         <item row="2" column="4">
+         <item row="2" column="3">
           <widget class="QComboBox" name="edge1Count">
            <property name="currentIndex">
             <number>0</number>
@@ -229,7 +272,7 @@
            </item>
           </widget>
          </item>
-         <item row="3" column="4">
+         <item row="3" column="3">
           <widget class="QComboBox" name="edge2Count">
            <item>
             <property name="text">
@@ -253,8 +296,11 @@
            </item>
           </widget>
          </item>
-         <item row="10" column="0" colspan="5">
+         <item row="10" column="0" colspan="4">
           <widget class="QTableWidget" name="timingResults">
+           <property name="verticalScrollBarPolicy">
+            <enum>Qt::ScrollBarAlwaysOff</enum>
+           </property>
            <property name="showGrid">
             <bool>true</bool>
            </property>
@@ -296,463 +342,7 @@
            <column/>
           </widget>
          </item>
-         <item row="4" column="2">
-          <widget class="QSpinBox" name="timeoutBox">
-           <property name="suffix">
-            <string>mS</string>
-           </property>
-           <property name="minimum">
-            <number>10</number>
-           </property>
-           <property name="maximum">
-            <number>10000</number>
-           </property>
-          </widget>
-         </item>
-         <item row="4" column="4">
-          <widget class="QPushButton" name="pushButton_6">
-           <property name="font">
-            <font>
-             <weight>75</weight>
-             <italic>true</italic>
-             <bold>true</bold>
-            </font>
-           </property>
-           <property name="text">
-            <string>Measure &gt;</string>
-           </property>
-          </widget>
-         </item>
-         <item row="4" column="0" colspan="2">
-          <widget class="QLabel" name="label">
-           <property name="text">
-            <string>Timeout:</string>
-           </property>
-           <property name="alignment">
-            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-           </property>
-          </widget>
-         </item>
         </layout>
-       </widget>
-       <widget class="QLabel" name="label_13">
-        <property name="geometry">
-         <rect>
-          <x>15</x>
-          <y>60</y>
-          <width>176</width>
-          <height>31</height>
-         </rect>
-        </property>
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="text">
-         <string>Number of channels  :</string>
-        </property>
-       </widget>
-       <widget class="QFrame" name="frame_5">
-        <property name="geometry">
-         <rect>
-          <x>10</x>
-          <y>145</y>
-          <width>281</width>
-          <height>156</height>
-         </rect>
-        </property>
-        <property name="frameShape">
-         <enum>QFrame::StyledPanel</enum>
-        </property>
-        <property name="frameShadow">
-         <enum>QFrame::Raised</enum>
-        </property>
-        <property name="class" stdset="0">
-         <string>PeripheralCollectionInner</string>
-        </property>
-        <layout class="QFormLayout" name="formLayout">
-         <item row="0" column="0" colspan="2">
-          <widget class="QLabel" name="label_54">
-           <property name="font">
-            <font>
-             <weight>75</weight>
-             <bold>true</bold>
-            </font>
-           </property>
-           <property name="text">
-            <string>MULTI CHANNEL</string>
-           </property>
-          </widget>
-         </item>
-         <item row="2" column="0">
-          <widget class="QLabel" name="label_4">
-           <property name="text">
-            <string>ID1 :</string>
-           </property>
-          </widget>
-         </item>
-         <item row="2" column="1">
-          <widget class="QComboBox" name="comboBox">
-           <property name="font">
-            <font>
-             <pointsize>9</pointsize>
-             <weight>75</weight>
-             <bold>true</bold>
-            </font>
-           </property>
-           <property name="currentIndex">
-            <number>1</number>
-           </property>
-           <item>
-            <property name="text">
-             <string>DISABLED</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>EVERY EDGE</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>FALLING EDGES ONLY</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>RISING EDGES ONLY</string>
-            </property>
-           </item>
-          </widget>
-         </item>
-         <item row="3" column="0">
-          <widget class="QLabel" name="label_9">
-           <property name="text">
-            <string>ID2 :</string>
-           </property>
-          </widget>
-         </item>
-         <item row="3" column="1">
-          <widget class="QComboBox" name="comboBox_2">
-           <property name="font">
-            <font>
-             <pointsize>9</pointsize>
-             <weight>75</weight>
-             <bold>true</bold>
-            </font>
-           </property>
-           <property name="currentIndex">
-            <number>1</number>
-           </property>
-           <item>
-            <property name="text">
-             <string>DISABLED</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>EVERY EDGE</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>FALLING EDGES ONLY</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>RISING EDGES ONLY</string>
-            </property>
-           </item>
-          </widget>
-         </item>
-         <item row="4" column="0">
-          <widget class="QLabel" name="label_11">
-           <property name="text">
-            <string>ID3 :</string>
-           </property>
-          </widget>
-         </item>
-         <item row="4" column="1">
-          <widget class="QComboBox" name="comboBox_3">
-           <property name="font">
-            <font>
-             <pointsize>9</pointsize>
-             <weight>75</weight>
-             <bold>true</bold>
-            </font>
-           </property>
-           <property name="currentIndex">
-            <number>1</number>
-           </property>
-           <item>
-            <property name="text">
-             <string>DISABLED</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>EVERY EDGE</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>FALLING EDGES ONLY</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>RISING EDGES ONLY</string>
-            </property>
-           </item>
-          </widget>
-         </item>
-         <item row="5" column="0">
-          <widget class="QLabel" name="label_12">
-           <property name="text">
-            <string>ID4 :</string>
-           </property>
-          </widget>
-         </item>
-         <item row="5" column="1">
-          <widget class="QComboBox" name="comboBox_4">
-           <property name="font">
-            <font>
-             <pointsize>9</pointsize>
-             <weight>75</weight>
-             <bold>true</bold>
-            </font>
-           </property>
-           <property name="currentIndex">
-            <number>1</number>
-           </property>
-           <item>
-            <property name="text">
-             <string>DISABLED</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>EVERY EDGE</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>FALLING EDGES ONLY</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>RISING EDGES ONLY</string>
-            </property>
-           </item>
-          </widget>
-         </item>
-         <item row="1" column="0" colspan="2">
-          <widget class="QFrame" name="frame_10">
-           <property name="minimumSize">
-            <size>
-             <width>0</width>
-             <height>20</height>
-            </size>
-           </property>
-           <property name="frameShape">
-            <enum>QFrame::StyledPanel</enum>
-           </property>
-           <property name="frameShadow">
-            <enum>QFrame::Raised</enum>
-           </property>
-           <property name="class" stdset="0">
-            <string>PeripheralCollectionInner</string>
-           </property>
-           <layout class="QHBoxLayout" name="horizontalLayout_2">
-            <property name="spacing">
-             <number>1</number>
-            </property>
-            <property name="topMargin">
-             <number>0</number>
-            </property>
-            <property name="bottomMargin">
-             <number>0</number>
-            </property>
-            <item>
-             <widget class="QLabel" name="label_29">
-              <property name="text">
-               <string>trigger</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QComboBox" name="LA1_trig"/>
-            </item>
-            <item>
-             <widget class="QComboBox" name="LA1_trigmode">
-              <property name="currentIndex">
-               <number>0</number>
-              </property>
-              <item>
-               <property name="text">
-                <string>DISABLED</string>
-               </property>
-              </item>
-              <item>
-               <property name="text">
-                <string>FALLING EDGES ONLY</string>
-               </property>
-              </item>
-              <item>
-               <property name="text">
-                <string>RISING EDGES ONLY</string>
-               </property>
-              </item>
-              <item>
-               <property name="text">
-                <string>EVERY FOUR RISING EDGES</string>
-               </property>
-              </item>
-             </widget>
-            </item>
-           </layout>
-          </widget>
-         </item>
-        </layout>
-       </widget>
-       <widget class="QComboBox" name="active_channel_box">
-        <property name="geometry">
-         <rect>
-          <x>210</x>
-          <y>65</y>
-          <width>61</width>
-          <height>21</height>
-         </rect>
-        </property>
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <item>
-         <property name="text">
-          <string>1</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>2</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>3</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>4</string>
-         </property>
-        </item>
-       </widget>
-       <widget class="QFrame" name="frame_8">
-        <property name="geometry">
-         <rect>
-          <x>10</x>
-          <y>90</y>
-          <width>281</width>
-          <height>51</height>
-         </rect>
-        </property>
-        <property name="frameShape">
-         <enum>QFrame::StyledPanel</enum>
-        </property>
-        <property name="frameShadow">
-         <enum>QFrame::Raised</enum>
-        </property>
-        <property name="class" stdset="0">
-         <string>PeripheralCollectionInner</string>
-        </property>
-        <widget class="QLabel" name="label_58">
-         <property name="geometry">
-          <rect>
-           <x>10</x>
-           <y>0</y>
-           <width>201</width>
-           <height>21</height>
-          </rect>
-         </property>
-         <property name="font">
-          <font>
-           <weight>75</weight>
-           <bold>true</bold>
-          </font>
-         </property>
-         <property name="text">
-          <string>SINGLE CHANNEL OPTIONS</string>
-         </property>
-        </widget>
-        <widget class="QComboBox" name="LA1_chanmode">
-         <property name="geometry">
-          <rect>
-           <x>150</x>
-           <y>20</y>
-           <width>121</width>
-           <height>21</height>
-          </rect>
-         </property>
-         <property name="currentIndex">
-          <number>1</number>
-         </property>
-         <item>
-          <property name="text">
-           <string>DISABLED</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>EVERY EDGE</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>FALLING EDGES ONLY</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>RISING EDGES ONLY</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>EVERY FOUR RISING EDGES</string>
-          </property>
-         </item>
-        </widget>
-        <widget class="QLabel" name="label_28">
-         <property name="geometry">
-          <rect>
-           <x>10</x>
-           <y>20</y>
-           <width>61</width>
-           <height>20</height>
-          </rect>
-         </property>
-         <property name="text">
-          <string>Channel</string>
-         </property>
-        </widget>
-        <widget class="QComboBox" name="LA1_chan">
-         <property name="geometry">
-          <rect>
-           <x>70</x>
-           <y>20</y>
-           <width>71</width>
-           <height>21</height>
-          </rect>
-         </property>
-        </widget>
        </widget>
        <widget class="QPushButton" name="pushButton">
         <property name="geometry">
@@ -830,6 +420,829 @@
          <string>Raw Data</string>
         </property>
        </widget>
+       <widget class="QToolBox" name="channelSelection">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>65</y>
+          <width>281</width>
+          <height>246</height>
+         </rect>
+        </property>
+        <property name="currentIndex">
+         <number>0</number>
+        </property>
+        <widget class="QWidget" name="C1">
+         <property name="geometry">
+          <rect>
+           <x>0</x>
+           <y>0</y>
+           <width>281</width>
+           <height>122</height>
+          </rect>
+         </property>
+         <attribute name="label">
+          <string>Single Channel Mode</string>
+         </attribute>
+         <widget class="QLabel" name="label_28">
+          <property name="geometry">
+           <rect>
+            <x>10</x>
+            <y>10</y>
+            <width>131</width>
+            <height>20</height>
+           </rect>
+          </property>
+          <property name="text">
+           <string>Input Channel</string>
+          </property>
+         </widget>
+         <widget class="QComboBox" name="C1_chan">
+          <property name="geometry">
+           <rect>
+            <x>135</x>
+            <y>5</y>
+            <width>141</width>
+            <height>26</height>
+           </rect>
+          </property>
+         </widget>
+         <widget class="QComboBox" name="C1_chanmode">
+          <property name="geometry">
+           <rect>
+            <x>135</x>
+            <y>40</y>
+            <width>141</width>
+            <height>26</height>
+           </rect>
+          </property>
+          <property name="currentIndex">
+           <number>1</number>
+          </property>
+          <item>
+           <property name="text">
+            <string>DISABLED</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>EVERY EDGE</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>FALLING EDGES ONLY</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>RISING EDGES ONLY</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>EVERY FOUR RISING EDGES</string>
+           </property>
+          </item>
+         </widget>
+         <widget class="QLabel" name="label_29">
+          <property name="geometry">
+           <rect>
+            <x>10</x>
+            <y>45</y>
+            <width>131</width>
+            <height>20</height>
+           </rect>
+          </property>
+          <property name="text">
+           <string>Edges to Record :</string>
+          </property>
+         </widget>
+         <widget class="QLabel" name="label_31">
+          <property name="enabled">
+           <bool>true</bool>
+          </property>
+          <property name="geometry">
+           <rect>
+            <x>10</x>
+            <y>85</y>
+            <width>81</width>
+            <height>18</height>
+           </rect>
+          </property>
+          <property name="text">
+           <string>trigger </string>
+          </property>
+         </widget>
+         <widget class="QComboBox" name="C1_trig">
+          <property name="enabled">
+           <bool>true</bool>
+          </property>
+          <property name="geometry">
+           <rect>
+            <x>83</x>
+            <y>80</y>
+            <width>78</width>
+            <height>26</height>
+           </rect>
+          </property>
+          <property name="frame">
+           <bool>true</bool>
+          </property>
+         </widget>
+         <widget class="QComboBox" name="C1_trigmode">
+          <property name="enabled">
+           <bool>true</bool>
+          </property>
+          <property name="geometry">
+           <rect>
+            <x>163</x>
+            <y>80</y>
+            <width>113</width>
+            <height>26</height>
+           </rect>
+          </property>
+          <property name="currentIndex">
+           <number>0</number>
+          </property>
+          <property name="frame">
+           <bool>true</bool>
+          </property>
+          <item>
+           <property name="text">
+            <string>DISABLED</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>FALLING EDGES ONLY</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>RISING EDGES ONLY</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>EVERY FOUR RISING EDGES</string>
+           </property>
+          </item>
+         </widget>
+        </widget>
+        <widget class="QWidget" name="C2">
+         <attribute name="label">
+          <string>Two Channel Mode</string>
+         </attribute>
+         <widget class="QComboBox" name="C2_ID1">
+          <property name="geometry">
+           <rect>
+            <x>83</x>
+            <y>4</y>
+            <width>78</width>
+            <height>26</height>
+           </rect>
+          </property>
+         </widget>
+         <widget class="QLabel" name="label_33">
+          <property name="geometry">
+           <rect>
+            <x>10</x>
+            <y>10</y>
+            <width>81</width>
+            <height>18</height>
+           </rect>
+          </property>
+          <property name="text">
+           <string>Channel 1</string>
+          </property>
+         </widget>
+         <widget class="QComboBox" name="C2_M1">
+          <property name="geometry">
+           <rect>
+            <x>165</x>
+            <y>5</y>
+            <width>113</width>
+            <height>26</height>
+           </rect>
+          </property>
+          <property name="currentIndex">
+           <number>1</number>
+          </property>
+          <item>
+           <property name="text">
+            <string>DISABLED</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>EVERY EDGE</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>FALLING EDGES ONLY</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>RISING EDGES ONLY</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>EVERY FOUR RISING EDGES</string>
+           </property>
+          </item>
+         </widget>
+         <widget class="QLabel" name="label_34">
+          <property name="geometry">
+           <rect>
+            <x>10</x>
+            <y>45</y>
+            <width>81</width>
+            <height>18</height>
+           </rect>
+          </property>
+          <property name="text">
+           <string>Channel 2</string>
+          </property>
+         </widget>
+         <widget class="QComboBox" name="C2_ID2">
+          <property name="geometry">
+           <rect>
+            <x>83</x>
+            <y>40</y>
+            <width>78</width>
+            <height>26</height>
+           </rect>
+          </property>
+         </widget>
+         <widget class="QComboBox" name="C2_M2">
+          <property name="geometry">
+           <rect>
+            <x>165</x>
+            <y>40</y>
+            <width>113</width>
+            <height>26</height>
+           </rect>
+          </property>
+          <property name="currentIndex">
+           <number>1</number>
+          </property>
+          <item>
+           <property name="text">
+            <string>DISABLED</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>EVERY EDGE</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>FALLING EDGES ONLY</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>RISING EDGES ONLY</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>EVERY FOUR RISING EDGES</string>
+           </property>
+          </item>
+         </widget>
+         <widget class="QComboBox" name="C2_trigmode">
+          <property name="geometry">
+           <rect>
+            <x>172</x>
+            <y>85</y>
+            <width>106</width>
+            <height>26</height>
+           </rect>
+          </property>
+          <property name="currentIndex">
+           <number>0</number>
+          </property>
+          <item>
+           <property name="text">
+            <string>DISABLED</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>FALLING EDGE</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>RISING EDGE</string>
+           </property>
+          </item>
+         </widget>
+         <widget class="QLabel" name="label_35">
+          <property name="geometry">
+           <rect>
+            <x>10</x>
+            <y>90</y>
+            <width>81</width>
+            <height>18</height>
+           </rect>
+          </property>
+          <property name="text">
+           <string>trigger </string>
+          </property>
+         </widget>
+         <widget class="QComboBox" name="C2_trig">
+          <property name="geometry">
+           <rect>
+            <x>85</x>
+            <y>85</y>
+            <width>78</width>
+            <height>26</height>
+           </rect>
+          </property>
+         </widget>
+        </widget>
+        <widget class="QWidget" name="C3">
+         <attribute name="label">
+          <string>Three Channel Mode</string>
+         </attribute>
+         <widget class="QComboBox" name="C3_M2">
+          <property name="geometry">
+           <rect>
+            <x>50</x>
+            <y>35</y>
+            <width>225</width>
+            <height>17</height>
+           </rect>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>9</pointsize>
+            <weight>75</weight>
+            <bold>true</bold>
+           </font>
+          </property>
+          <property name="currentIndex">
+           <number>1</number>
+          </property>
+          <item>
+           <property name="text">
+            <string>DISABLED</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>EVERY EDGE</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>FALLING EDGES ONLY</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>RISING EDGES ONLY</string>
+           </property>
+          </item>
+         </widget>
+         <widget class="QLabel" name="label_10">
+          <property name="geometry">
+           <rect>
+            <x>9</x>
+            <y>35</y>
+            <width>30</width>
+            <height>17</height>
+           </rect>
+          </property>
+          <property name="text">
+           <string>ID2 :</string>
+          </property>
+         </widget>
+         <widget class="QComboBox" name="C3_M3">
+          <property name="geometry">
+           <rect>
+            <x>50</x>
+            <y>58</y>
+            <width>225</width>
+            <height>18</height>
+           </rect>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>9</pointsize>
+            <weight>75</weight>
+            <bold>true</bold>
+           </font>
+          </property>
+          <property name="currentIndex">
+           <number>1</number>
+          </property>
+          <item>
+           <property name="text">
+            <string>DISABLED</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>EVERY EDGE</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>FALLING EDGES ONLY</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>RISING EDGES ONLY</string>
+           </property>
+          </item>
+         </widget>
+         <widget class="QLabel" name="label_5">
+          <property name="geometry">
+           <rect>
+            <x>9</x>
+            <y>11</y>
+            <width>30</width>
+            <height>18</height>
+           </rect>
+          </property>
+          <property name="text">
+           <string>ID1 :</string>
+          </property>
+         </widget>
+         <widget class="QComboBox" name="C3_M1">
+          <property name="geometry">
+           <rect>
+            <x>50</x>
+            <y>11</y>
+            <width>225</width>
+            <height>18</height>
+           </rect>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>9</pointsize>
+            <weight>75</weight>
+            <bold>true</bold>
+           </font>
+          </property>
+          <property name="currentIndex">
+           <number>1</number>
+          </property>
+          <item>
+           <property name="text">
+            <string>DISABLED</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>EVERY EDGE</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>FALLING EDGES ONLY</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>RISING EDGES ONLY</string>
+           </property>
+          </item>
+         </widget>
+         <widget class="QLabel" name="label_13">
+          <property name="geometry">
+           <rect>
+            <x>9</x>
+            <y>58</y>
+            <width>30</width>
+            <height>18</height>
+           </rect>
+          </property>
+          <property name="text">
+           <string>ID3 :</string>
+          </property>
+         </widget>
+         <widget class="QLabel" name="label_32">
+          <property name="geometry">
+           <rect>
+            <x>7</x>
+            <y>95</y>
+            <width>81</width>
+            <height>18</height>
+           </rect>
+          </property>
+          <property name="text">
+           <string>trigger </string>
+          </property>
+         </widget>
+         <widget class="QComboBox" name="C3_trig">
+          <property name="geometry">
+           <rect>
+            <x>80</x>
+            <y>90</y>
+            <width>78</width>
+            <height>26</height>
+           </rect>
+          </property>
+         </widget>
+         <widget class="QComboBox" name="C3_trigmode">
+          <property name="geometry">
+           <rect>
+            <x>162</x>
+            <y>90</y>
+            <width>113</width>
+            <height>26</height>
+           </rect>
+          </property>
+          <property name="currentIndex">
+           <number>0</number>
+          </property>
+          <item>
+           <property name="text">
+            <string>DISABLED</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>FALLING EDGES ONLY</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>RISING EDGES ONLY</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>EVERY FOUR RISING EDGES</string>
+           </property>
+          </item>
+         </widget>
+        </widget>
+        <widget class="QWidget" name="C4">
+         <property name="geometry">
+          <rect>
+           <x>0</x>
+           <y>0</y>
+           <width>281</width>
+           <height>122</height>
+          </rect>
+         </property>
+         <attribute name="label">
+          <string>Four Channel Mode</string>
+         </attribute>
+         <widget class="QComboBox" name="C4_M4">
+          <property name="geometry">
+           <rect>
+            <x>50</x>
+            <y>71</y>
+            <width>225</width>
+            <height>18</height>
+           </rect>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>9</pointsize>
+            <weight>75</weight>
+            <bold>true</bold>
+           </font>
+          </property>
+          <property name="currentIndex">
+           <number>1</number>
+          </property>
+          <item>
+           <property name="text">
+            <string>DISABLED</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>EVERY EDGE</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>FALLING EDGES ONLY</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>RISING EDGES ONLY</string>
+           </property>
+          </item>
+         </widget>
+         <widget class="QLabel" name="label_11">
+          <property name="geometry">
+           <rect>
+            <x>9</x>
+            <y>47</y>
+            <width>30</width>
+            <height>18</height>
+           </rect>
+          </property>
+          <property name="text">
+           <string>ID3 :</string>
+          </property>
+         </widget>
+         <widget class="QComboBox" name="C4_M1">
+          <property name="geometry">
+           <rect>
+            <x>50</x>
+            <y>0</y>
+            <width>225</width>
+            <height>18</height>
+           </rect>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>9</pointsize>
+            <weight>75</weight>
+            <bold>true</bold>
+           </font>
+          </property>
+          <property name="currentIndex">
+           <number>1</number>
+          </property>
+          <item>
+           <property name="text">
+            <string>DISABLED</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>EVERY EDGE</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>FALLING EDGES ONLY</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>RISING EDGES ONLY</string>
+           </property>
+          </item>
+         </widget>
+         <widget class="QLabel" name="label_12">
+          <property name="geometry">
+           <rect>
+            <x>9</x>
+            <y>71</y>
+            <width>30</width>
+            <height>18</height>
+           </rect>
+          </property>
+          <property name="text">
+           <string>ID4 :</string>
+          </property>
+         </widget>
+         <widget class="QComboBox" name="C4_M3">
+          <property name="geometry">
+           <rect>
+            <x>50</x>
+            <y>47</y>
+            <width>225</width>
+            <height>18</height>
+           </rect>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>9</pointsize>
+            <weight>75</weight>
+            <bold>true</bold>
+           </font>
+          </property>
+          <property name="currentIndex">
+           <number>1</number>
+          </property>
+          <item>
+           <property name="text">
+            <string>DISABLED</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>EVERY EDGE</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>FALLING EDGES ONLY</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>RISING EDGES ONLY</string>
+           </property>
+          </item>
+         </widget>
+         <widget class="QComboBox" name="C4_M2">
+          <property name="geometry">
+           <rect>
+            <x>50</x>
+            <y>24</y>
+            <width>225</width>
+            <height>17</height>
+           </rect>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>9</pointsize>
+            <weight>75</weight>
+            <bold>true</bold>
+           </font>
+          </property>
+          <property name="currentIndex">
+           <number>1</number>
+          </property>
+          <item>
+           <property name="text">
+            <string>DISABLED</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>EVERY EDGE</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>FALLING EDGES ONLY</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>RISING EDGES ONLY</string>
+           </property>
+          </item>
+         </widget>
+         <widget class="QLabel" name="label_4">
+          <property name="geometry">
+           <rect>
+            <x>9</x>
+            <y>0</y>
+            <width>30</width>
+            <height>18</height>
+           </rect>
+          </property>
+          <property name="text">
+           <string>ID1 :</string>
+          </property>
+         </widget>
+         <widget class="QLabel" name="label_9">
+          <property name="geometry">
+           <rect>
+            <x>9</x>
+            <y>24</y>
+            <width>30</width>
+            <height>17</height>
+           </rect>
+          </property>
+          <property name="text">
+           <string>ID2 :</string>
+          </property>
+         </widget>
+         <widget class="QCheckBox" name="FourChanTrig">
+          <property name="geometry">
+           <rect>
+            <x>10</x>
+            <y>95</y>
+            <width>256</width>
+            <height>26</height>
+           </rect>
+          </property>
+          <property name="text">
+           <string>Trigger on ID1</string>
+          </property>
+          <property name="checked">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </widget>
+       </widget>
+       <widget class="Line" name="line">
+        <property name="geometry">
+         <rect>
+          <x>12</x>
+          <y>310</y>
+          <width>276</width>
+          <height>21</height>
+         </rect>
+        </property>
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+       </widget>
       </widget>
      </widget>
     </item>
@@ -882,6 +1295,12 @@
            <horstretch>0</horstretch>
            <verstretch>0</verstretch>
           </sizepolicy>
+         </property>
+         <property name="minimumSize">
+          <size>
+           <width>0</width>
+           <height>30</height>
+          </size>
          </property>
          <property name="baseSize">
           <size>
@@ -978,86 +1397,6 @@
  <resources/>
  <connections>
   <connection>
-   <sender>active_channel_box</sender>
-   <signal>currentIndexChanged(QString)</signal>
-   <receiver>MainWindow</receiver>
-   <slot>setActiveDigitalChannels(QString)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>762</x>
-     <y>85</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>888</x>
-     <y>75</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>comboBox_3</sender>
-   <signal>currentIndexChanged(int)</signal>
-   <receiver>MainWindow</receiver>
-   <slot>set_dchan_mode_ch3(int)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>872</x>
-     <y>266</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>888</x>
-     <y>393</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>comboBox_2</sender>
-   <signal>currentIndexChanged(int)</signal>
-   <receiver>MainWindow</receiver>
-   <slot>set_dchan_mode_ch2(int)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>872</x>
-     <y>242</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>888</x>
-     <y>348</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>comboBox</sender>
-   <signal>currentIndexChanged(int)</signal>
-   <receiver>MainWindow</receiver>
-   <slot>set_dchan_mode_ch1(int)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>872</x>
-     <y>219</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>888</x>
-     <y>308</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>comboBox_4</sender>
-   <signal>currentIndexChanged(int)</signal>
-   <receiver>MainWindow</receiver>
-   <slot>set_dchan_mode_ch4(int)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>872</x>
-     <y>290</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>888</x>
-     <y>466</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
    <sender>pushButton_6</sender>
    <signal>clicked()</signal>
    <receiver>MainWindow</receiver>
@@ -1069,7 +1408,7 @@
     </hint>
     <hint type="destinationlabel">
      <x>272</x>
-     <y>562</y>
+     <y>544</y>
     </hint>
    </hints>
   </connection>
@@ -1117,7 +1456,7 @@
     </hint>
     <hint type="destinationlabel">
      <x>763</x>
-     <y>-13</y>
+     <y>0</y>
     </hint>
    </hints>
   </connection>
@@ -1141,51 +1480,6 @@
  <slots>
   <slot>dump_to_file()</slot>
   <slot>byebye()</slot>
-  <slot>setGainCH1(int)</slot>
-  <slot>setGainCH2(int)</slot>
-  <slot>setPCS(int)</slot>
-  <slot>setPV1(int)</slot>
-  <slot>setPV2(int)</slot>
-  <slot>setTimeBase(int)</slot>
-  <slot>setTriggerLevel(int)</slot>
-  <slot>setTriggerChannel(int)</slot>
-  <slot>setSamples(int)</slot>
-  <slot>setActiveChannels(QString)</slot>
-  <slot>setPV3(int)</slot>
-  <slot>setSINE1(double)</slot>
-  <slot>setSINE2(double)</slot>
-  <slot>start_dma_dds()</slot>
-  <slot>remap_CH0(QString)</slot>
-  <slot>setGainCH5(int)</slot>
-  <slot>set_scope_type(int)</slot>
-  <slot>set_digital_trigger(bool)</slot>
-  <slot>set_digital_scope_time(int)</slot>
-  <slot>setActiveDigitalChannels(QString)</slot>
-  <slot>enable_channel(bool)</slot>
-  <slot>set_liss_x(int)</slot>
-  <slot>set_liss_y(int)</slot>
-  <slot>plot_liss()</slot>
-  <slot>change_scope_type(int)</slot>
-  <slot>set_dchan_mode_ch4(int)</slot>
-  <slot>set_dchan_mode_ch3(int)</slot>
-  <slot>set_dchan_mode_ch2(int)</slot>
-  <slot>set_dchan_mode_ch1(int)</slot>
-  <slot>liss_animate(bool)</slot>
-  <slot>measure_r2r()</slot>
-  <slot>measure_f2f()</slot>
-  <slot>measure_pulse()</slot>
-  <slot>measure_dcycle()</slot>
-  <slot>setOffset(int)</slot>
-  <slot>setOpacity(int)</slot>
-  <slot>measure_interval()</slot>
-  <slot>sqr_phase(int)</slot>
-  <slot>sqr_freq(int)</slot>
-  <slot>sqr_dc(int)</slot>
-  <slot>sqr_update()</slot>
-  <slot>autoset()</slot>
-  <slot>setSINEPHASE(double)</slot>
-  <slot>collapse_waveform()</slot>
-  <slot>setSinePhase()</slot>
   <slot>capture()</slot>
   <slot>showData()</slot>
   <slot>plotData()</slot>

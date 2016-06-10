@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'sensorTemplate.ui'
 #
-# Created: Thu May 12 23:47:03 2016
+# Created: Thu Jun  9 17:23:22 2016
 #      by: PyQt4 UI code generator 4.11.3
 #
 # WARNING! All changes made in this file will be lost!

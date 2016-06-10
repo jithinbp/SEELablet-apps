@@ -112,12 +112,13 @@ class MyMainWindow(QtGui.QMainWindow, single_col_exp.Ui_MainWindow,utilitiesClas
 		tmpfunc = functools.partial(self.I.DAC.__setRawVoltage__,'PV3')
 		autogenControls.append({'TITLE':'PV3','MIN':0,'MAX':4095,'FUNC':tmpfunc,'TYPE':'dial','UNITS':'V','TOOLTIP':'Programmable Voltage Source ','LINK':self.updatePV3_LABEL})
 
-		tmpfunc = lambda x: self.I.DAC.__setRawVoltage__('PCS',4095-x)
-		autogenControls.append({'TITLE':'PCS','MIN':0,'MAX':4095,'FUNC':tmpfunc,'TYPE':'dial','UNITS':'mA','TOOLTIP':'Programmable Current Source ','SCALE_FACTOR' : 1e3,'LINK':self.updatePCS_LABEL})
+		tmpfunc = lambda x: self.I.DAC.__setRawVoltage__('PCS',x)
+		autogenControls.append({'TITLE':'PCS','MIN':0,'MAX':4095,'FUNC':tmpfunc,'TYPE':'dial','UNITS':'A','TOOLTIP':'Programmable Current Source ','LINK':self.updatePCS_LABEL})
 
 		autogenControls.append({'TYPE':'separator'})
 
 		autogenControls.append({'TITLE':'CAPACITANCE','FUNC':self.I.get_capacitance,'TYPE':'button','UNITS':'F','TOOLTIP':'Read Capacitance connected to CAP input '})
+		autogenControls.append({'TITLE':'RESISTANCE','FUNC':self.I.get_resistance,'TYPE':'button','UNITS':u"\u03A9",'TOOLTIP':'Read Resistance connected to SEN input '})
 		tmpfunc = functools.partial(self.I.get_average_voltage,samples=100)
 		autogenControls.append({'TITLE':'VOLTMETER','FUNC':tmpfunc,'TYPE':'selectButton','UNITS':'V','TOOLTIP':'Voltmeter','OPTIONS':self.I.allAnalogChannels})
 		autogenControls.append({'TITLE':'Low Frequency','FUNC':self.I.get_freq,'TYPE':'selectButton','UNITS':'Hz','TOOLTIP':'Measure Frequency. Minimum 40Hz','OPTIONS':self.I.allDigitalChannels})

@@ -675,24 +675,27 @@ class utilitiesClass():
 	class supplyWidget(QtGui.QWidget,supplyWidget.Ui_Form):
 		def __init__(self,I):
 			super(utilitiesClass.supplyWidget, self).__init__()
+			try:from SEEL.commands_proto import applySIPrefix
+			except ImportError:	self.applySIPrefix = None
+			else:self.applySIPrefix = applySIPrefix
 			self.setupUi(self)
 			self.I = I
 
 		def setPV1(self,val):
 			val=self.I.DAC.setVoltage('PV1',val)
-			self.PV1_LABEL.setText('%.3f V'%(val))
+			self.PV1_LABEL.setText(self.applySIPrefix(val,'V'))
 
 		def setPV2(self,val):
 			val=self.I.DAC.setVoltage('PV2',val)
-			self.PV2_LABEL.setText('%.3f V'%(val))
+			self.PV2_LABEL.setText(self.applySIPrefix(val,'V'))
 
 		def setPV3(self,val):
 			val=self.I.DAC.setVoltage('PV3',val)
-			self.PV3_LABEL.setText('%.3f V'%(val))
+			self.PV3_LABEL.setText(self.applySIPrefix(val,'V'))
 
 		def setPCS(self,val):
-			val=3.3e-3-self.I.DAC.setVoltage('PCS',val/1.e3)
-			self.PCS_LABEL.setText('%.3f mA'%(val*1e3))
+			val=self.I.DAC.setVoltage('PCS',val/1.e3)
+			self.PCS_LABEL.setText(self.applySIPrefix(val,'A'))
 
 
 
