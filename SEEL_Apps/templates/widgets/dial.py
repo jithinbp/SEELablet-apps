@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'dial.ui'
 #
-# Created: Fri May  6 14:18:01 2016
+# Created: Sun Jun 12 11:10:48 2016
 #      by: PyQt4 UI code generator 4.11.3
 #
 # WARNING! All changes made in this file will be lost!
@@ -108,8 +108,11 @@ class Ui_Form(object):
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.dial.sizePolicy().hasHeightForWidth())
         self.dial.setSizePolicy(sizePolicy)
-        self.dial.setMinimum(10)
+        self.dial.setStyleSheet(_fromUtf8(""))
+        self.dial.setMinimum(0)
         self.dial.setMaximum(5000)
+        self.dial.setPageStep(1)
+        self.dial.setProperty("value", 0)
         self.dial.setInvertedControls(False)
         self.dial.setWrapping(False)
         self.dial.setNotchesVisible(True)

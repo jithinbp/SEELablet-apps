@@ -129,13 +129,13 @@ background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
 stop: 0 #abe, stop: 0.7 #aba);
 }
 
-#SCF1,#SCF2
+#SCF1,#SCF2,#SCF3
 {
 background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
 stop: 0 #6af, stop: 0.1 #689);
 }
 
-#SCF1 QLabel,#SCF2 QLabel{
+#SCF1 QLabel,#SCF2 QLabel,#SCF3 QLabel{
 color: white;
 font-weight: bold;
 }
@@ -161,13 +161,30 @@ background: (65, 89, 111);
 
 }
 QFrame.ControlWidgetInner QLabel{
-color: white;
+color: white; /*white*/
+}
+
+QMessageBox QLabel{
+color: black;
 }
 
 
+QDial.Shaded {
+	background-color:QLinearGradient( 
+		x1: 0.177, y1: 0.004, x2: 0.831, y2: 0.911, 
+		stop: 0 white, 
+		stop: 0.061 white, 
+		stop: 0.066 lightgray, 
+		stop: 0.5 #242424, 
+		stop: 0.505 #000000,
+		stop: 0.827 #040404,
+		stop: 0.966 #292929,
+		stop: 0.983 #2e2e2e
+	);
+}
 
 
-#SCF1.Disconnected,#SCF2.Disconnected
+#SCF1.Disconnected,#SCF2.Disconnected,#SCF3.Disconnected
 {
 background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,stop: 0 #944, stop: 0.7 #966);
 }

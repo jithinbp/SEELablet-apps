@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'pwmWidget.ui'
 #
-# Created: Wed Jun  8 19:32:06 2016
+# Created: Sat Jun 11 12:30:26 2016
 #      by: PyQt4 UI code generator 4.11.3
 #
 # WARNING! All changes made in this file will be lost!
@@ -26,7 +26,8 @@ except AttributeError:
 class Ui_Form(object):
     def setupUi(self, Form):
         Form.setObjectName(_fromUtf8("Form"))
-        Form.resize(367, 268)
+        Form.resize(362, 257)
+        Form.setMaximumSize(QtCore.QSize(16777215, 257))
         self.verticalLayout = QtGui.QVBoxLayout(Form)
         self.verticalLayout.setSpacing(0)
         self.verticalLayout.setMargin(0)
@@ -46,10 +47,12 @@ class Ui_Form(object):
         self.verticalLayout_5.setContentsMargins(0, 5, 0, 0)
         self.verticalLayout_5.setObjectName(_fromUtf8("verticalLayout_5"))
         self.frame = QtGui.QFrame(self.frame_7)
-        self.frame.setFrameShape(QtGui.QFrame.StyledPanel)
+        self.frame.setFrameShape(QtGui.QFrame.NoFrame)
         self.frame.setFrameShadow(QtGui.QFrame.Raised)
         self.frame.setObjectName(_fromUtf8("frame"))
         self.horizontalLayout = QtGui.QHBoxLayout(self.frame)
+        self.horizontalLayout.setSpacing(4)
+        self.horizontalLayout.setMargin(4)
         self.horizontalLayout.setObjectName(_fromUtf8("horizontalLayout"))
         self.label_4 = QtGui.QLabel(self.frame)
         font = QtGui.QFont()

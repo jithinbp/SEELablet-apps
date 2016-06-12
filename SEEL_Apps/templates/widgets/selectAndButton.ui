@@ -180,7 +180,7 @@ background:transparent;
           </widget>
          </item>
          <item row="1" column="0">
-          <widget class="QPushButton" name="pushButton">
+          <widget class="QPushButton" name="button">
            <property name="text">
             <string>Read</string>
            </property>
@@ -200,7 +200,7 @@ background:transparent;
  <resources/>
  <connections>
   <connection>
-   <sender>pushButton</sender>
+   <sender>button</sender>
    <signal>clicked()</signal>
    <receiver>Form</receiver>
    <slot>read()</slot>

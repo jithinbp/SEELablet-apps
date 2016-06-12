@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'selectAndButton.ui'
 #
-# Created: Fri May  6 14:18:01 2016
+# Created: Sun Jun 12 11:10:49 2016
 #      by: PyQt4 UI code generator 4.11.3
 #
 # WARNING! All changes made in this file will be lost!
@@ -109,15 +109,15 @@ class Ui_Form(object):
         self.value.setAlignment(QtCore.Qt.AlignCenter)
         self.value.setObjectName(_fromUtf8("value"))
         self.gridLayout_3.addWidget(self.value, 2, 0, 1, 1)
-        self.pushButton = QtGui.QPushButton(self.ImageFrame)
-        self.pushButton.setAutoRepeat(True)
-        self.pushButton.setObjectName(_fromUtf8("pushButton"))
-        self.gridLayout_3.addWidget(self.pushButton, 1, 0, 1, 1)
+        self.button = QtGui.QPushButton(self.ImageFrame)
+        self.button.setAutoRepeat(True)
+        self.button.setObjectName(_fromUtf8("button"))
+        self.gridLayout_3.addWidget(self.button, 1, 0, 1, 1)
         self.verticalLayout_3.addWidget(self.ImageFrame)
         self.verticalLayout.addWidget(self.widgetFrameOuter)
 
         self.retranslateUi(Form)
-        QtCore.QObject.connect(self.pushButton, QtCore.SIGNAL(_fromUtf8("clicked()")), Form.read)
+        QtCore.QObject.connect(self.button, QtCore.SIGNAL(_fromUtf8("clicked()")), Form.read)
         QtCore.QMetaObject.connectSlotsByName(Form)
 
     def retranslateUi(self, Form):
@@ -125,5 +125,5 @@ class Ui_Form(object):
         self.widgetFrameOuter.setProperty("class", _translate("Form", "ControlWidget", None))
         self.title.setText(_translate("Form", "title", None))
         self.value.setText(_translate("Form", "Result", None))
-        self.pushButton.setText(_translate("Form", "Read", None))
+        self.button.setText(_translate("Form", "Read", None))
 

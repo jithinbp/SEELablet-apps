@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'single_col_exp.ui'
 #
-# Created: Sun May  8 16:06:41 2016
+# Created: Sun Jun 12 13:15:27 2016
 #      by: PyQt4 UI code generator 4.11.3
 #
 # WARNING! All changes made in this file will be lost!
@@ -68,6 +68,9 @@ class Ui_MainWindow(object):
         self.verticalLayout_4.setSpacing(0)
         self.verticalLayout_4.setMargin(0)
         self.verticalLayout_4.setObjectName(_fromUtf8("verticalLayout_4"))
+        self.subSections = QtGui.QComboBox(self.frame)
+        self.subSections.setObjectName(_fromUtf8("subSections"))
+        self.verticalLayout_4.addWidget(self.subSections)
         self.ExperimentScrollArea = QtGui.QScrollArea(self.frame)
         sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.MinimumExpanding, QtGui.QSizePolicy.MinimumExpanding)
         sizePolicy.setHorizontalStretch(0)
@@ -80,7 +83,7 @@ class Ui_MainWindow(object):
         self.ExperimentScrollArea.setAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft|QtCore.Qt.AlignTop)
         self.ExperimentScrollArea.setObjectName(_fromUtf8("ExperimentScrollArea"))
         self.SCF1 = QtGui.QWidget()
-        self.SCF1.setGeometry(QtCore.QRect(0, 0, 401, 444))
+        self.SCF1.setGeometry(QtCore.QRect(0, 0, 401, 418))
         sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Preferred, QtGui.QSizePolicy.MinimumExpanding)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -102,8 +105,8 @@ class Ui_MainWindow(object):
         self.frame_5.setFrameShadow(QtGui.QFrame.Raised)
         self.frame_5.setObjectName(_fromUtf8("frame_5"))
         self.gridLayout_7 = QtGui.QGridLayout(self.frame_5)
+        self.gridLayout_7.setMargin(0)
         self.gridLayout_7.setSpacing(5)
-        self.gridLayout_7.setContentsMargins(0, 5, 0, 0)
         self.gridLayout_7.setObjectName(_fromUtf8("gridLayout_7"))
         self.ExperimentLayout = QtGui.QGridLayout()
         self.ExperimentLayout.setMargin(5)
@@ -221,9 +224,21 @@ class Ui_MainWindow(object):
         self.tabWidget.addTab(self.tab_3, _fromUtf8(""))
         self.tab_4 = QtGui.QWidget()
         self.tab_4.setObjectName(_fromUtf8("tab_4"))
-        self.advancedControlsLayout = QtGui.QVBoxLayout(self.tab_4)
-        self.advancedControlsLayout.setMargin(3)
+        self.layout = QtGui.QVBoxLayout(self.tab_4)
+        self.layout.setMargin(3)
+        self.layout.setObjectName(_fromUtf8("layout"))
+        self.scrollArea = QtGui.QScrollArea(self.tab_4)
+        self.scrollArea.setWidgetResizable(True)
+        self.scrollArea.setObjectName(_fromUtf8("scrollArea"))
+        self.SCF3 = QtGui.QWidget()
+        self.SCF3.setGeometry(QtCore.QRect(0, 0, 397, 634))
+        self.SCF3.setObjectName(_fromUtf8("SCF3"))
+        self.advancedControlsLayout = QtGui.QGridLayout(self.SCF3)
+        self.advancedControlsLayout.setMargin(0)
+        self.advancedControlsLayout.setHorizontalSpacing(3)
         self.advancedControlsLayout.setObjectName(_fromUtf8("advancedControlsLayout"))
+        self.scrollArea.setWidget(self.SCF3)
+        self.layout.addWidget(self.scrollArea)
         self.tabWidget.addTab(self.tab_4, _fromUtf8(""))
         self.verticalLayout_2.addWidget(self.tabWidget)
         MainWindow.setCentralWidget(self.centralwidget)
@@ -279,6 +294,7 @@ class Ui_MainWindow(object):
         QtCore.QObject.connect(self.actionStart, QtCore.SIGNAL(_fromUtf8("triggered()")), MainWindow.startRemoteServer)
         QtCore.QObject.connect(self.pushButton_2, QtCore.SIGNAL(_fromUtf8("clicked()")), MainWindow.returnToApps)
         QtCore.QObject.connect(self.actionExperiments, QtCore.SIGNAL(_fromUtf8("triggered()")), MainWindow.importExperimentFolder)
+        QtCore.QObject.connect(self.subSections, QtCore.SIGNAL(_fromUtf8("currentIndexChanged(int)")), MainWindow.changeSubSection)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateUi(self, MainWindow):

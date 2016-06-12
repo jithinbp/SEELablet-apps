@@ -60,7 +60,7 @@ class AppWindow(QtGui.QMainWindow, plotSave.Ui_MainWindow):
 		for a in data:
 			item = QtGui.QTableWidgetItem()
 			self.table.setItem(ypos,col,item)
-			item.setText('%s'%a)
+			item.setText('%.3e'%a)
 			ypos+=1
 
 

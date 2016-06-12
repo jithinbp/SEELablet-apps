@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>337</width>
-    <height>173</height>
+    <height>157</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -68,6 +68,13 @@
       </item>
       <item>
        <widget class="QFrame" name="Frame_2">
+        <property name="font">
+         <font>
+          <pointsize>10</pointsize>
+          <weight>75</weight>
+          <bold>true</bold>
+         </font>
+        </property>
         <property name="PeripheralCollectionInner" stdset="0">
          <string/>
         </property>
@@ -78,6 +85,12 @@
          <property name="sizeConstraint">
           <enum>QLayout::SetNoConstraint</enum>
          </property>
+         <property name="margin">
+          <number>3</number>
+         </property>
+         <property name="spacing">
+          <number>3</number>
+         </property>
          <item row="2" column="0">
           <widget class="QLabel" name="label_10">
            <property name="sizePolicy">
@@ -85,6 +98,12 @@
              <horstretch>0</horstretch>
              <verstretch>0</verstretch>
             </sizepolicy>
+           </property>
+           <property name="font">
+            <font>
+             <weight>50</weight>
+             <bold>false</bold>
+            </font>
            </property>
            <property name="text">
             <string>PV3</string>
@@ -99,6 +118,12 @@
              <verstretch>0</verstretch>
             </sizepolicy>
            </property>
+           <property name="font">
+            <font>
+             <weight>50</weight>
+             <bold>false</bold>
+            </font>
+           </property>
            <property name="text">
             <string>PV2 </string>
            </property>
@@ -112,6 +137,12 @@
              <verstretch>0</verstretch>
             </sizepolicy>
            </property>
+           <property name="font">
+            <font>
+             <weight>50</weight>
+             <bold>false</bold>
+            </font>
+           </property>
            <property name="text">
             <string>PV1 </string>
            </property>
@@ -119,6 +150,12 @@
          </item>
          <item row="3" column="1">
           <widget class="QLabel" name="PCS_LABEL">
+           <property name="font">
+            <font>
+             <weight>50</weight>
+             <bold>false</bold>
+            </font>
+           </property>
            <property name="text">
             <string>0-3.3mA</string>
            </property>
@@ -132,6 +169,12 @@
              <verstretch>0</verstretch>
             </sizepolicy>
            </property>
+           <property name="font">
+            <font>
+             <weight>50</weight>
+             <bold>false</bold>
+            </font>
+           </property>
            <property name="text">
             <string>PCS</string>
            </property>
@@ -139,6 +182,12 @@
          </item>
          <item row="2" column="1">
           <widget class="QLabel" name="PV3_LABEL">
+           <property name="font">
+            <font>
+             <weight>50</weight>
+             <bold>false</bold>
+            </font>
+           </property>
            <property name="text">
             <string>0 - 3.3V</string>
            </property>
@@ -146,6 +195,12 @@
          </item>
          <item row="1" column="1">
           <widget class="QLabel" name="PV2_LABEL">
+           <property name="font">
+            <font>
+             <weight>50</weight>
+             <bold>false</bold>
+            </font>
+           </property>
            <property name="text">
             <string>-3.3 to 3.3V</string>
            </property>
@@ -153,6 +208,12 @@
          </item>
          <item row="0" column="1">
           <widget class="QLabel" name="PV1_LABEL">
+           <property name="font">
+            <font>
+             <weight>50</weight>
+             <bold>false</bold>
+            </font>
+           </property>
            <property name="text">
             <string>-5 to 5V</string>
            </property>
@@ -165,6 +226,12 @@
              <horstretch>0</horstretch>
              <verstretch>0</verstretch>
             </sizepolicy>
+           </property>
+           <property name="font">
+            <font>
+             <weight>50</weight>
+             <bold>false</bold>
+            </font>
            </property>
            <property name="decimals">
             <number>3</number>
@@ -188,6 +255,12 @@
              <verstretch>0</verstretch>
             </sizepolicy>
            </property>
+           <property name="font">
+            <font>
+             <weight>50</weight>
+             <bold>false</bold>
+            </font>
+           </property>
            <property name="decimals">
             <number>3</number>
            </property>
@@ -210,6 +283,12 @@
              <verstretch>0</verstretch>
             </sizepolicy>
            </property>
+           <property name="font">
+            <font>
+             <weight>50</weight>
+             <bold>false</bold>
+            </font>
+           </property>
            <property name="decimals">
             <number>3</number>
            </property>
@@ -228,6 +307,12 @@
              <horstretch>0</horstretch>
              <verstretch>0</verstretch>
             </sizepolicy>
+           </property>
+           <property name="font">
+            <font>
+             <weight>50</weight>
+             <bold>false</bold>
+            </font>
            </property>
            <property name="decimals">
             <number>3</number>

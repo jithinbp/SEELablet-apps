@@ -9,8 +9,9 @@ sip.setapi("QVariant", 2)
 from PyQt4 import QtCore, QtGui
 import pyqtgraph as pg
 from SEEL_Apps.templates.widgets import dial,button,selectAndButton,sineWidget,pwmWidget,supplyWidget,setStateList,sensorWidget
-from SEEL_Apps.templates.widgets import spinBox,doubleSpinBox,dialAndDoubleSpin,pulseCounter
+from SEEL_Apps.templates.widgets import spinBox,doubleSpinBox,dialAndDoubleSpin,pulseCounter,voltWidget,gainWidget,gainWidgetCombined
 from SEEL_Apps import saveProfile
+from SEEL.commands_proto import applySIPrefix
 import numpy as np
 
 try:
@@ -44,6 +45,36 @@ class utilitiesClass():
 
 	def enableShortcuts(self):
 		self.connect(QtGui.QShortcut(QtGui.QKeySequence(dial._translate("MainWindow", "Ctrl+S", None)), self), QtCore.SIGNAL('activated()'), self.saveData)
+
+
+	class utils:
+		def __init__(self):
+			pass
+
+		def applySIPrefix(self,value, unit='',precision=2 ):
+				neg = False
+				if value < 0.:
+					value *= -1; neg = True
+				elif value == 0.:  return '0 '  # mantissa & exponnt both 0
+				exponent = int(np.log10(value))
+				if exponent > 0:
+					exponent = (exponent // 3) * 3
+				else:
+					exponent = (-1*exponent + 3) // 3 * (-3)
+
+				value *= (10 ** (-exponent) )
+				if value >= 1000.:
+					value /= 1000.0
+					exponent += 3
+				if neg:
+					value *= -1
+				exponent = int(exponent)
+				PREFIXES = "yzafpnum kMGTPEZY"
+				prefix_levels = (len(PREFIXES) - 1) // 2
+				si_level = exponent // 3
+				if abs(si_level) > prefix_levels:
+					raise ValueError("Exponent out range of available prefixes.")
+				return '%.*f %s%s' % (precision, value,PREFIXES[si_level + prefix_levels],unit)
 
 	def __importGL__(self):
 		print ('importing opengl')
@@ -100,6 +131,46 @@ class utilitiesClass():
 		pos = evt[0].scenePos()  ## using signal proxy turns original arguments into a tuple
 		if plot.sceneBoundingRect().contains(pos) and evt[0].button() == QtCore.Qt.RightButton:
 			plot.enableAutoRange(True,True)
+
+	def enableCrossHairs(self,plot,curves):
+		self.plot.setTitle('')
+		vLine = pg.InfiniteLine(angle=90, movable=False,pen=[100,100,200,200])
+		plot.addItem(vLine, ignoreBounds=True)
+		hLine = pg.InfiniteLine(angle=0, movable=False,pen=[100,100,200,200])
+		plot.addItem(hLine, ignoreBounds=True)
+		plot.hLine = hLine; plot.vLine = vLine
+		crossHairPartial = functools.partial(self.crossHairEvent,plot)
+		proxy = pg.SignalProxy(self.plot.scene().sigMouseClicked, rateLimit=60, slot=crossHairPartial)
+		plot.proxy = proxy
+		plot.mousePoint=None
+
+	def crossHairEvent(self,plot,evt):
+		pos = evt[0].scenePos()  ## using signal proxy turns original arguments into a tuple
+		if self.plot.sceneBoundingRect().contains(pos):
+			plot.mousePoint = plot.getPlotItem().vb.mapSceneToView(pos)
+			plot.vLine.setPos(plot.mousePoint.x())
+			plot.hLine.setPos(plot.mousePoint.y())
+
+	def displayCrossHairData(self,plot,fmode,ns,tg,axes,cols):
+		if plot.mousePoint:
+			if fmode:
+				index = int(ns*plot.mousePoint.x()*tg/1e6)
+			else:
+				index = int(plot.mousePoint.x()*1e6/tg)
+
+			maxIndex = ns			
+			if index > 0 and index < maxIndex:
+				coords=''' '''
+				for col,a in zip(cols,axes):
+						try: coords+="<span style='color: rgb%s'>%0.3fV</span>," %(col, a[index])
+						except: pass
+				#self.coord_label.setText(coords)
+				plot.plotItem.titleLabel.setText(coords)
+			else:
+				plot.plotItem.titleLabel.setText('')
+				plot.vLine.setPos(-1)
+				plot.hLine.setPos(-1)
+
 
 
 	def setColorSchemeBlack(self):
@@ -315,13 +386,10 @@ class utilitiesClass():
 			QtGui.QMessageBox.about(self, 'Message',  txt)
 
 
-	class spinIcon(QtGui.QFrame,spinBox.Ui_Form):
+	class spinIcon(QtGui.QFrame,spinBox.Ui_Form,utils):
 		def __init__(self,**args):
 			super(utilitiesClass.spinIcon, self).__init__()
 			self.setupUi(self)
-			try:from SEEL.commands_proto import applySIPrefix
-			except ImportError:	self.applySIPrefix = None
-			else:self.applySIPrefix = applySIPrefix
 			self.name = args.get('TITLE','')
 			self.title.setText(self.name)
 			self.func = args.get('FUNC',None)
@@ -344,13 +412,10 @@ class utilitiesClass():
 				self.linkFunc(retval*self.scale,self.units)
 				#self.linkObj.setText('%.3f %s '%(retval*self.scale,self.units))
 
-	class doubleSpinIcon(QtGui.QFrame,doubleSpinBox.Ui_Form):
+	class doubleSpinIcon(QtGui.QFrame,doubleSpinBox.Ui_Form,utils):
 		def __init__(self,**args):
 			super(utilitiesClass.doubleSpinIcon, self).__init__()
 			self.setupUi(self)
-			try:from SEEL.commands_proto import applySIPrefix
-			except ImportError:	self.applySIPrefix = None
-			else:self.applySIPrefix = applySIPrefix
 			self.name = args.get('TITLE','')
 			self.title.setText(self.name)
 			self.func = args.get('FUNC',None)
@@ -373,13 +438,11 @@ class utilitiesClass():
 				#self.linkObj.setText('%.3f %s '%(retval*self.scale,self.units))
 
 
-	class dialIcon(QtGui.QFrame,dial.Ui_Form):
+	class dialIcon(QtGui.QFrame,dial.Ui_Form,utils):
 		def __init__(self,**args):
 			super(utilitiesClass.dialIcon, self).__init__()
 			self.setupUi(self)
-			try:from SEEL.commands_proto import applySIPrefix
-			except ImportError:	self.applySIPrefix = None
-			else:self.applySIPrefix = applySIPrefix
+			self.linkFunc = args.get('LINK',None)
 			self.name = args.get('TITLE','')
 			self.title.setText(self.name)
 			self.func = args.get('FUNC',None)
@@ -390,7 +453,6 @@ class utilitiesClass():
 
 			self.dial.setMinimum(args.get('MIN',0))
 			self.dial.setMaximum(args.get('MAX',100))
-			self.linkFunc = args.get('LINK',None)
 
 		def setValue(self,val):
 			try:
@@ -409,14 +471,11 @@ class utilitiesClass():
 
 
 
-	class dialAndDoubleSpinIcon(QtGui.QFrame,dialAndDoubleSpin.Ui_Form):
+	class dialAndDoubleSpinIcon(QtGui.QFrame,dialAndDoubleSpin.Ui_Form,utils):
 		def __init__(self,**args):
 			super(utilitiesClass.dialAndDoubleSpinIcon, self).__init__()
 			self.linkFunc = args.get('LINK',None)
 			self.setupUi(self)
-			try:from SEEL.commands_proto import applySIPrefix
-			except ImportError:	self.applySIPrefix = None
-			else:self.applySIPrefix = applySIPrefix
 			self.name = args.get('TITLE','')
 			self.title.setText(self.name)
 			self.func = args.get('FUNC',None)
@@ -445,12 +504,9 @@ class utilitiesClass():
 				pass
 
 
-	class buttonIcon(QtGui.QFrame,button.Ui_Form):
+	class buttonIcon(QtGui.QFrame,button.Ui_Form,utils):
 		def __init__(self,**args):
 			super(utilitiesClass.buttonIcon, self).__init__()
-			try:from SEEL.commands_proto import applySIPrefix
-			except ImportError:	self.applySIPrefix = None
-			else:self.applySIPrefix = applySIPrefix
 			self.setupUi(self)
 			self.name = args.get('TITLE','')
 			self.title.setText(self.name)
@@ -466,18 +522,16 @@ class utilitiesClass():
 			if isinstance(retval,numbers.Number):self.value.setText('%s'%(self.applySIPrefix(retval,self.units) ))
 			else: self.value.setText(str(retval))
 
-	class selectAndButtonIcon(QtGui.QFrame,selectAndButton.Ui_Form):
+	class selectAndButtonIcon(QtGui.QFrame,selectAndButton.Ui_Form,utils):
 		def __init__(self,**args):
 			super(utilitiesClass.selectAndButtonIcon, self).__init__()
 			self.setupUi(self)
-			try:from SEEL.commands_proto import applySIPrefix
-			except ImportError:	self.applySIPrefix = None
-			else:self.applySIPrefix = applySIPrefix
+			self.linkFunc = args.get('LINK',None)
 			self.name = args.get('TITLE','')
 			self.title.setText(self.name)
 			self.func = args.get('FUNC',None)
 			self.units = args.get('UNITS','')
-			self.pushButton.setText(args.get('LABEL','Read'))
+			self.button.setText(args.get('LABEL','Read'))
 			self.optionBox.addItems(args.get('OPTIONS',[]))
 			if 'TOOLTIP' in args:self.widgetFrameOuter.setToolTip(args.get('TOOLTIP',''))
 
@@ -487,6 +541,47 @@ class utilitiesClass():
 			#else: self.value.setText('%.3e %s '%(retval,self.units))
 			if isinstance(retval,numbers.Number):self.value.setText('%s'%(self.applySIPrefix(retval,self.units) ))
 			else: self.value.setText(str(retval))
+			if self.linkFunc:
+				self.linkFunc(retval)
+
+	class gainIcon(QtGui.QFrame,gainWidget.Ui_Form,utils):
+		def __init__(self,**args):
+			super(utilitiesClass.gainIcon, self).__init__()
+			self.setupUi(self)
+			self.func = args.get('FUNC',None)
+			self.linkFunc = args.get('LINK',None)
+
+		def setGainCH1(self,g):
+			retval= self.func('CH1',g)
+			if self.linkFunc:
+				self.linkFunc(retval)
+		def setGainCH2(self,g):
+			retval= self.func('CH2',g)
+			if self.linkFunc:
+				self.linkFunc(retval)
+
+	class gainIconCombined(QtGui.QFrame,gainWidgetCombined.Ui_Form,utils):
+		def __init__(self,**args):
+			super(utilitiesClass.gainIconCombined, self).__init__()
+			self.setupUi(self)
+			self.func = args.get('FUNC',None)
+			self.linkFunc = args.get('LINK',None)
+
+		def setGains(self,g):
+			if (g==8):
+				msg = QtGui.QMessageBox()
+				msg.setIcon(QtGui.QMessageBox.Information)
+				msg.setWindowTitle("Set Input Attenuation")
+				msg.setText("Note :");
+				msg.setInformativeText("Please connect a 10MOhm resistor in series on both inputs")
+				msg.setDetailedText("Connecting a 10MOhm resistor in series with the channel causes an 11x attenuation.\nThe software automatically compensates for this, and assumes a +/-160V range \n")
+				msg.exec_()
+			self.func('CH1',g)
+			retval=self.func('CH2',g)
+			if self.linkFunc:
+				self.linkFunc(retval)
+
+
 
 	class pulseCounterIcon(QtGui.QFrame,pulseCounter.Ui_Form):
 		def __init__(self,I):
@@ -526,6 +621,7 @@ class utilitiesClass():
 			'''%(imgloc,genName.replace('\n',' '),self.hintText)
 			self.func = launchfunc			
 			self.clicked.connect(self.func)
+			self.setSizePolicy(QtGui.QSizePolicy(QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Preferred))
 			self.setMaximumWidth(170)
 			#self.setStyleSheet("border-image: url(%s) 0 0 0 0 stretch stretch;color:white;"%(pkg_resources.resource_filename('SEEL_Apps.icons', _fromUtf8(tmp.params.get('image','') ))))
 			self.setStyleSheet("color:black;background: qradialgradient(cx: 0.3, cy: -0.4,fx: 0.3, fy: -0.4,radius: 1.35, stop: 0 #fff, stop: 1 #bbb);")
@@ -672,12 +768,38 @@ class utilitiesClass():
 				print (self.setWindowTitle('Device Not Connected!'))
 
 
-	class supplyWidget(QtGui.QWidget,supplyWidget.Ui_Form):
+
+	class voltWidget(QtGui.QWidget,voltWidget.Ui_Form,utils):
+		def __init__(self,I):
+			super(utilitiesClass.voltWidget, self).__init__()
+			self.setupUi(self)
+
+			self.I = I
+			self.col1=['CH1','CH2','CH3']
+			self.col2=['CAP','SEN','AN8']
+			pos=0
+			for a,b in zip(self.col1,self.col2):
+				item = QtGui.QTableWidgetItem();self.table.setItem(pos,0,item);	item.setText('%s'%a)
+				item = QtGui.QTableWidgetItem();self.table.setItem(pos,2,item); item.setText('%s'%b)
+
+				item = QtGui.QTableWidgetItem();self.table.setItem(pos,1,item);	item.setText('')
+				item = QtGui.QTableWidgetItem();self.table.setItem(pos,3,item); item.setText('')
+
+				pos+=1
+
+
+		def read(self):
+			pos =0 
+			for a,b in zip(self.col1,self.col2):
+				self.table.item(pos,1).setText(self.applySIPrefix(self.I.get_average_voltage(a),'V'))
+				self.table.item(pos,3).setText(self.applySIPrefix(self.I.get_average_voltage(b),'V'))
+				pos+=1
+
+
+
+	class supplyWidget(QtGui.QWidget,supplyWidget.Ui_Form,utils):
 		def __init__(self,I):
 			super(utilitiesClass.supplyWidget, self).__init__()
-			try:from SEEL.commands_proto import applySIPrefix
-			except ImportError:	self.applySIPrefix = None
-			else:self.applySIPrefix = applySIPrefix
 			self.setupUi(self)
 			self.I = I
 

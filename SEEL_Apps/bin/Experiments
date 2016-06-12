@@ -82,6 +82,10 @@ class MyMainWindow(QtGui.QMainWindow, single_col_exp.Ui_MainWindow,utilitiesClas
 		self.advancedControlsLayout.setAlignment(QtCore.Qt.AlignTop|QtCore.Qt.AlignLeft)
 		#Widgets related to power supplies PV1,PVS2,PV3,PCS
 		self.supplySection = self.supplyWidget(self.I);		self.advancedControlsLayout.addWidget(self.supplySection)
+
+		#Widgets related to voltmeters CH1,CH2,CH3,SEN,CAP,AN8
+		self.voltSection = self.voltWidget(self.I);   	self.advancedControlsLayout.addWidget(self.voltSection)
+
 		#Widgets related to Analog Waveform generators
 		self.sineSection = self.sineWidget(self.I); 		self.advancedControlsLayout.addWidget(self.sineSection)
 		#Widgets related to Digital Waveform generators
@@ -91,16 +95,18 @@ class MyMainWindow(QtGui.QMainWindow, single_col_exp.Ui_MainWindow,utilitiesClas
 
 		#################################   POPULATE EXPERIMENTS TAB  ########################################
 		sys.path.append('/usr/share/seelablet')
+		self.subSectionList=[]
+		self.subSectionPaths=[]
 		self.tmpTimer = QtCore.QTimer()
-		self.tmpTimer.singleShot(2,functools.partial(self.loadParentModuleIcons,'seel_res.GUI'))
+		self.tmpTimer.singleShot(2,functools.partial(self.loadSectionList,'seel_res.GUI'))
 		
 
 		#################################   POPULATE CONTROLS TAB  ##########################################
 		row=0;col=0;colLimit=3
 		self.funcs=[]
 		autogenControls=[]
-		autogenControls.append({'TITLE':'Wave 1','MIN':1,'MAX':5000,'FUNC':self.I.set_w1,'TYPE':'dial','UNITS':'Hz','TOOLTIP':'Frequency of waveform generator #1','LINK':self.updateWAVE1_FREQ})
-		autogenControls.append({'TITLE':'Wave 2','MIN':1,'MAX':5000,'FUNC':self.I.set_w2,'TYPE':'dial','UNITS':'Hz','TOOLTIP':'Frequency of waveform generator #2','LINK':self.updateWAVE2_FREQ})
+		autogenControls.append({'TITLE':'Wave 1','MIN':1,'MAX':5000,'FUNC':self.I.set_w1,'TYPE':'dial2','UNITS':'Hz','TOOLTIP':'Frequency of waveform generator #1','LINK':self.updateWAVE1_FREQ})
+		autogenControls.append({'TITLE':'Wave 2','MIN':1,'MAX':5000,'FUNC':self.I.set_w2,'TYPE':'dial2','UNITS':'Hz','TOOLTIP':'Frequency of waveform generator #2','LINK':self.updateWAVE2_FREQ})
 		autogenControls.append({'TITLE':'square 1','MIN':0,'MAX':50000,'FUNC':self.modifiedSqr1,'TYPE':'dial','UNITS':'Hz','TOOLTIP':'Frequency of square wave generator #1\n0 for switched off, Max for On state'})
 
 		tmpfunc = functools.partial(self.I.DAC.__setRawVoltage__,'PV1')
@@ -115,6 +121,7 @@ class MyMainWindow(QtGui.QMainWindow, single_col_exp.Ui_MainWindow,utilitiesClas
 		tmpfunc = lambda x: self.I.DAC.__setRawVoltage__('PCS',x)
 		autogenControls.append({'TITLE':'PCS','MIN':0,'MAX':4095,'FUNC':tmpfunc,'TYPE':'dial','UNITS':'A','TOOLTIP':'Programmable Current Source ','LINK':self.updatePCS_LABEL})
 
+		#autogenControls.append({'TYPE':'voltWidget'})
 		autogenControls.append({'TYPE':'separator'})
 
 		autogenControls.append({'TITLE':'CAPACITANCE','FUNC':self.I.get_capacitance,'TYPE':'button','UNITS':'F','TOOLTIP':'Read Capacitance connected to CAP input '})
@@ -123,7 +130,7 @@ class MyMainWindow(QtGui.QMainWindow, single_col_exp.Ui_MainWindow,utilitiesClas
 		autogenControls.append({'TITLE':'VOLTMETER','FUNC':tmpfunc,'TYPE':'selectButton','UNITS':'V','TOOLTIP':'Voltmeter','OPTIONS':self.I.allAnalogChannels})
 		autogenControls.append({'TITLE':'Low Frequency','FUNC':self.I.get_freq,'TYPE':'selectButton','UNITS':'Hz','TOOLTIP':'Measure Frequency. Minimum 40Hz','OPTIONS':self.I.allDigitalChannels})
 		autogenControls.append({'TITLE':'High Frequency','FUNC':self.I.get_high_freq,'TYPE':'selectButton','UNITS':'Hz','TOOLTIP':'Measure Frequencies over 1MHz with 10Hz resolution','OPTIONS':self.I.allDigitalChannels})
-		autogenControls.append({'TITLE':'SR-04 Distance','FUNC':self.I.estimateDistance,'TYPE':'button','UNITS':'m','TOOLTIP':'Measure Distance using an HCSR04 sensor. TRIG-SQR1  , ECHO-ID1'})
+		#autogenControls.append({'TITLE':'SR-04 Distance','FUNC':self.I.estimateDistance,'TYPE':'button','UNITS':'m','TOOLTIP':'Measure Distance using an HCSR04 sensor. TRIG-SQR1  , ECHO-ID1'})
 		autogenControls.append({'TYPE':'pulsecounter'})
 
 
@@ -131,6 +138,9 @@ class MyMainWindow(QtGui.QMainWindow, single_col_exp.Ui_MainWindow,utilitiesClas
 			if C['TYPE']=='dial':
 				self.funcs.append(C.get('FUNC',None))
 				self.WidgetLayout.addWidget(self.dialIcon(**C),row,col)
+			elif C['TYPE']=='dial2':
+				self.funcs.append(C.get('FUNC',None))
+				self.WidgetLayout.addWidget(self.dialAndDoubleSpinIcon(**C),row,col)
 			elif C['TYPE']=='button':
 				self.funcs.append(C.get('FUNC',None))
 				self.WidgetLayout.addWidget(self.buttonIcon(**C),row,col)
@@ -143,6 +153,11 @@ class MyMainWindow(QtGui.QMainWindow, single_col_exp.Ui_MainWindow,utilitiesClas
 				row+=1;col=0
 				line = QtGui.QFrame();	line.setFrameShape(QtGui.QFrame.HLine);	line.setFrameShadow(QtGui.QFrame.Sunken); self.WidgetLayout.addWidget(line,row,0,1,colLimit)
 				row+=1;col=-1
+			elif C['TYPE'] == 'voltWidget':
+				row+=1;col=0
+				self.voltSection = self.voltWidget(self.I);   		self.WidgetLayout.addWidget(self.voltSection,row,0,1,colLimit)
+				row+=1;col=-1
+
 
 			col+=1
 			if(col==colLimit):
@@ -151,6 +166,7 @@ class MyMainWindow(QtGui.QMainWindow, single_col_exp.Ui_MainWindow,utilitiesClas
 		col+=1
 		if(col==colLimit):
 				col=0;row+=1
+
 
 		self.menu_entries=[]
 		self.menu_group=None
@@ -165,6 +181,7 @@ class MyMainWindow(QtGui.QMainWindow, single_col_exp.Ui_MainWindow,utilitiesClas
 		self.updateSplash(30,'Almost done...')
 		#self.splash.finish(self)
 		self.runningApp = None
+
 	def modifiedSqr1(self,val):
 		if val<4:
 			self.I.set_state(SQR1=0)
@@ -212,34 +229,35 @@ class MyMainWindow(QtGui.QMainWindow, single_col_exp.Ui_MainWindow,utilitiesClas
 		scrollMax = self.ExperimentScrollArea.verticalScrollBar().maximum()
 		self.ExperimentScrollArea.verticalScrollBar().setValue(scrollMax)
 
-	'''
-	def importExperimentFile(self):
-		from os.path import expanduser
-		filename = QtGui.QFileDialog.getOpenFileName(self,  "Load an app", expanduser("./"), 'PY(*.py)')
-		if not filename:return
-		parentPath = os.path.abspath(os.path.join(filename, os.pardir))
-		parentPath2 = os.path.abspath(os.path.join(parentPath, os.pardir))
-		sys.path.append(parentPath2)
-		filename = filename.split('/')[-1]
-		print(filename,parentPath2)
-		
-		self.col=0;self.row+=1
-		modname = filename.split('.')[0]
-		fn = functools.partial(self.launchFunc,parentPath.split('/')[-1]+'.'+modname)
-		self.funcs.append(fn)
-		icon = self.experimentIcon(parentPath.split('/')[-1],modname,fn)
-		self.ExperimentLayout.addWidget(icon,self.row,self.col)
-		icon.mouseHover.connect(self.setHint)
-		self.col+=1
-	'''
-	
+
+	def loadSectionList(self,basepackage):
+		#st= time.time()
+		baselib = importlib.import_module(basepackage)
+		subdirs = [name for _, name,isDir in pkgutil.iter_modules([os.path.dirname(baselib.__file__)]) if isDir==True]
+		for sub in subdirs:
+			submodule = basepackage+'.'+sub
+			sublib = importlib.import_module(submodule)
+			self.subSectionList.append(sublib.__dict__.get('title',submodule.split('.')[-1][1:] ))
+			self.subSectionPaths.append(submodule)
+
+
+		self.subSections.addItems(self.subSectionList)
+		#print ('section parsing time : ' ,time.time() - st,self.subSectionList)
+
+	def changeSubSection(self,ind):
+		self.loadParentModuleIcons(self.subSectionPaths[ind])
+
+
 	def loadParentModuleIcons(self,basepackage):
+		self.clearExperimentIcons()
 		self.funcs=[]
+		#st= time.time()
 		baselib = importlib.import_module(basepackage)
 		subdirs = [name for _, name,isDir in pkgutil.iter_modules([os.path.dirname(baselib.__file__)]) if isDir==True]
 		for sub in subdirs:
 			submodule = basepackage+'.'+sub
 			self.loadSubmoduleIcons(submodule)
+		#print ('parsing time : ' ,time.time() - st)
 
 	def loadSubmoduleIcons(self,submodule):
 			sublib = importlib.import_module(submodule)
