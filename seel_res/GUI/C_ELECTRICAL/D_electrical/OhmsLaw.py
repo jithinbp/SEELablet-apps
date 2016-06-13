@@ -56,13 +56,8 @@ class AppWindow(QtGui.QMainWindow, graph_and_sheet.Ui_MainWindow,utilitiesClass)
 		self.current = 0;
 		self.readings = 0
 
-		tmpfunc = functools.partial(self.I.DAC.__setRawVoltage__,'PCS')
-		a1={'TITLE':'PCS','MIN':100,'MAX':2000,'FUNC':tmpfunc,'UNITS':'A','TOOLTIP':'Programmable Current Source','LINK':self.setCurrent}
-		cr_icon = self.dialIcon(**a1);self.WidgetLayout.addWidget(cr_icon); cr_icon.setValue(100)
-
-		tmpfunc = functools.partial(self.I.get_voltage,samples=10)
-		a1={'TITLE':'VOLTMETER','FUNC':tmpfunc,'UNITS':'V','TOOLTIP':'Voltmeter','OPTIONS':self.I.allAnalogChannels,'LINK':self.setVoltage}
-		self.WidgetLayout.addWidget(self.selectAndButtonIcon(**a1))
+		cr_icon = self.addPCS(self.I,self.setCurrent);self.WidgetLayout.addWidget(cr_icon); cr_icon.setValue(100)
+		self.WidgetLayout.addWidget(self.addVoltmeter(self.I,self.setVoltage))
 		
 
 	def clearData(self):

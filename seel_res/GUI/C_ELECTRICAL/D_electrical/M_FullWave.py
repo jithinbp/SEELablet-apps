@@ -13,7 +13,7 @@ from __future__ import print_function
 from SEEL_Apps.utilitiesClass import utilitiesClass
 from SEEL.analyticsClass import analyticsClass
 
-from SEEL_Apps.templates import template_graph
+from SEEL_Apps.templates import template_graph_nofft
 
 import numpy as np
 from PyQt4 import QtGui,QtCore
@@ -36,7 +36,7 @@ params = {
 
 }
 
-class AppWindow(QtGui.QMainWindow, template_graph.Ui_MainWindow,utilitiesClass):
+class AppWindow(QtGui.QMainWindow, template_graph_nofft.Ui_MainWindow,utilitiesClass):
 	def __init__(self, parent=None,**kwargs):
 		super(AppWindow, self).__init__(parent)
 		self.setupUi(self)
@@ -48,27 +48,32 @@ class AppWindow(QtGui.QMainWindow, template_graph.Ui_MainWindow,utilitiesClass):
 		self.samples = 2000
 		self.setWindowTitle(self.I.H.version_string+' : '+params.get('name','').replace('\n',' ') )
 
-		self.plot1=self.add2DPlot(self.plot_area)
+		self.plot=self.add2DPlot(self.plot_area)
 		labelStyle = {'color': 'rgb(255,255,255)', 'font-size': '11pt'}
-		self.plot1.setLabel('left','Voltage -->', units='V',**labelStyle)
-		self.plot1.setLabel('bottom','Time -->', units='S',**labelStyle)
-		self.plot1.setYRange(-5.3,5.3)
-		self.plot1.setLimits(yMax=5.3,yMin=-5.3,xMin=0, xMax = self.samples*self.tg*1e-6)
+		self.plot.setLabel('left','Voltage -->', units='V',**labelStyle)
+		self.plot.setLabel('bottom','Time -->', units='S',**labelStyle)
+		self.plot.setYRange(-5.3,5.3)
+		self.plot.setLimits(yMax=5.3,yMin=-5.3,xMin=0, xMax = self.samples*self.tg*1e-6)
 		self.timer = QtCore.QTimer()
 
-		self.curveCH1 = self.addCurve(self.plot1,'INPUT 1(CH1)')
-		self.curveCH2 = self.addCurve(self.plot1,'INPUT 2(CH2)')
-		self.curveCH3 = self.addCurve(self.plot1,'OUTPUT(CH3)')
+		self.curveCH1 = self.addCurve(self.plot,'INPUT 1(CH1)')
+		self.curveCH2 = self.addCurve(self.plot,'INPUT 2(CH2)')
+		self.curveCH3 = self.addCurve(self.plot,'OUTPUT(CH3)')
 
 		self.WidgetLayout.setAlignment(QtCore.Qt.AlignLeft)        
 
-		a1={'TITLE':'Wave 1','MIN':10,'MAX':5000,'FUNC':self.setSineWaves,'TYPE':'dial','UNITS':'Hz','TOOLTIP':'Frequency of waveform generator #1','LINK':self.updateLabels}
-		self.WidgetLayout.addWidget(self.dialAndDoubleSpinIcon(**a1))
 
 		self.sineSection = self.sineWidget(self.I)
 		self.WidgetLayout.addWidget(self.sineSection)
+
+		self.sinewidget = self.addW1(self.I,self.updateLabels)
+		self.WidgetLayout.addWidget(self.sinewidget)
+		self.sinewidget.dial.setValue(500)
+
+
 		self.running=True
 		self.timer.singleShot(100,self.run)
+
 		
 		
 	def run(self):
@@ -76,7 +81,11 @@ class AppWindow(QtGui.QMainWindow, template_graph.Ui_MainWindow,utilitiesClass):
 		self.I.capture_traces(3,self.samples,self.tg)
 		if self.running:self.timer.singleShot(self.samples*self.I.timebase*1e-3+10,self.plotData)
 
+	def saveData(self):
+		self.saveDataWindow([self.curveCH1,self.curveCH2,self.curveCH3],self.plot)
+
 	def plotData(self): 
+		n=0
 		while(not self.I.oscilloscope_progress()[0]):
 			time.sleep(0.1)
 			print (self.timebase,'correction required',n)
@@ -105,7 +114,7 @@ class AppWindow(QtGui.QMainWindow, template_graph.Ui_MainWindow,utilitiesClass):
 		self.tgs = [0.5,1,2,4,6,8,10,25,50,100]
 		self.tg = self.tgs[T]
 		self.tgLabel.setText(str(self.samples*self.tg*1e-3)+'mS')
-		self.plot1.setLimits(xMax = self.samples*self.tg*1e-6)
+		self.plot.setLimits(xMax = self.samples*self.tg*1e-6)
 		
 	def closeEvent(self, event):
 		self.running=False

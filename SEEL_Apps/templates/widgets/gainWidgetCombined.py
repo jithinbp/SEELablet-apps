@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'gainWidgetCombined.ui'
 #
-# Created: Sun Jun 12 11:10:49 2016
+# Created: Mon Jun 13 02:31:07 2016
 #      by: PyQt4 UI code generator 4.11.3
 #
 # WARNING! All changes made in this file will be lost!
@@ -96,18 +96,18 @@ class Ui_Form(object):
         self.gridLayout_3.setHorizontalSpacing(0)
         self.gridLayout_3.setVerticalSpacing(2)
         self.gridLayout_3.setObjectName(_fromUtf8("gridLayout_3"))
-        self.optionBox = QtGui.QComboBox(self.ImageFrame)
-        self.optionBox.setObjectName(_fromUtf8("optionBox"))
-        self.optionBox.addItem(_fromUtf8(""))
-        self.optionBox.addItem(_fromUtf8(""))
-        self.optionBox.addItem(_fromUtf8(""))
-        self.optionBox.addItem(_fromUtf8(""))
-        self.optionBox.addItem(_fromUtf8(""))
-        self.optionBox.addItem(_fromUtf8(""))
-        self.optionBox.addItem(_fromUtf8(""))
-        self.optionBox.addItem(_fromUtf8(""))
-        self.optionBox.addItem(_fromUtf8(""))
-        self.gridLayout_3.addWidget(self.optionBox, 1, 0, 1, 1)
+        self.g1 = QtGui.QComboBox(self.ImageFrame)
+        self.g1.setObjectName(_fromUtf8("g1"))
+        self.g1.addItem(_fromUtf8(""))
+        self.g1.addItem(_fromUtf8(""))
+        self.g1.addItem(_fromUtf8(""))
+        self.g1.addItem(_fromUtf8(""))
+        self.g1.addItem(_fromUtf8(""))
+        self.g1.addItem(_fromUtf8(""))
+        self.g1.addItem(_fromUtf8(""))
+        self.g1.addItem(_fromUtf8(""))
+        self.g1.addItem(_fromUtf8(""))
+        self.gridLayout_3.addWidget(self.g1, 1, 0, 1, 1)
         self.title_2 = QtGui.QLabel(self.ImageFrame)
         sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Preferred, QtGui.QSizePolicy.Maximum)
         sizePolicy.setHorizontalStretch(0)
@@ -126,7 +126,7 @@ class Ui_Form(object):
         self.verticalLayout.addWidget(self.widgetFrameOuter)
 
         self.retranslateUi(Form)
-        QtCore.QObject.connect(self.optionBox, QtCore.SIGNAL(_fromUtf8("currentIndexChanged(int)")), Form.setGains)
+        QtCore.QObject.connect(self.g1, QtCore.SIGNAL(_fromUtf8("currentIndexChanged(int)")), Form.setGains)
         QtCore.QMetaObject.connectSlotsByName(Form)
 
     def retranslateUi(self, Form):
@@ -134,14 +134,14 @@ class Ui_Form(object):
         Form.setToolTip(_translate("Form", "Change the voltage range for the selected channel", None))
         self.widgetFrameOuter.setProperty("class", _translate("Form", "ControlWidget", None))
         self.title.setText(_translate("Form", "set ranges", None))
-        self.optionBox.setItemText(0, _translate("Form", "+/-16V", None))
-        self.optionBox.setItemText(1, _translate("Form", "+/-8V", None))
-        self.optionBox.setItemText(2, _translate("Form", "+/-4V", None))
-        self.optionBox.setItemText(3, _translate("Form", "+/-3V", None))
-        self.optionBox.setItemText(4, _translate("Form", "+/-2V", None))
-        self.optionBox.setItemText(5, _translate("Form", "+/-1.5V", None))
-        self.optionBox.setItemText(6, _translate("Form", "+/-1V", None))
-        self.optionBox.setItemText(7, _translate("Form", "+/-500mV", None))
-        self.optionBox.setItemText(8, _translate("Form", "+/-160V", None))
+        self.g1.setItemText(0, _translate("Form", "+/-16V", None))
+        self.g1.setItemText(1, _translate("Form", "+/-8V", None))
+        self.g1.setItemText(2, _translate("Form", "+/-4V", None))
+        self.g1.setItemText(3, _translate("Form", "+/-3V", None))
+        self.g1.setItemText(4, _translate("Form", "+/-2V", None))
+        self.g1.setItemText(5, _translate("Form", "+/-1.5V", None))
+        self.g1.setItemText(6, _translate("Form", "+/-1V", None))
+        self.g1.setItemText(7, _translate("Form", "+/-500mV", None))
+        self.g1.setItemText(8, _translate("Form", "+/-160V", None))
         self.title_2.setText(_translate("Form", "CH1, CH2", None))
 

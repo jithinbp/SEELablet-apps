@@ -59,15 +59,16 @@ class AppWindow(QtGui.QMainWindow, template_graph.Ui_MainWindow,utilitiesClass):
 		self.WidgetLayout.setAlignment(QtCore.Qt.AlignLeft)
 		self.ControlsLayout.setAlignment(QtCore.Qt.AlignRight)
 
-		a1={'TITLE':'Wave 1','MIN':10,'MAX':5000,'FUNC':self.I.set_sine1,'TYPE':'dial','UNITS':'Hz','TOOLTIP':'Frequency of waveform generator #1'}
-		self.sinewidget = self.dialAndDoubleSpinIcon(**a1)
+		
+		#Set the supply bias
+		self.I.set_pv1(5.0)
+		
+		self.sinewidget = self.addW1(self.I)
 		self.WidgetLayout.addWidget(self.sinewidget)
 		self.sinewidget.dial.setValue(200)
 
-		tmpfunc = functools.partial(self.I.DAC.__setRawVoltage__,'PV3')
-		a1={'TITLE':'PV3','MIN':0,'MAX':4095,'FUNC':tmpfunc,'UNITS':'V','TOOLTIP':'Programmable Voltage Source 3'}
-		self.WidgetLayout.addWidget(self.dialIcon(**a1))
-
+		bias = self.addPV3(self.I); bias.dial.setValue(2048)
+		self.WidgetLayout.addWidget(bias)
 
 		a1={'TITLE':'TIMEBASE','MIN':0,'MAX':9,'FUNC':self.set_timebase,'UNITS':'S','TOOLTIP':'Set Timebase of the oscilloscope'}
 		self.ControlsLayout.addWidget(self.dialIcon(**a1))
@@ -78,6 +79,7 @@ class AppWindow(QtGui.QMainWindow, template_graph.Ui_MainWindow,utilitiesClass):
 		#self.WidgetLayout.addWidget(self.experimentIcon('SEEL_Apps.utilityApps','outputs',self.launchOutputs))
 		self.running=True
 		self.timer.singleShot(100,self.run)
+
 
 	def gainChanged(self,g):
 		self.autoRange()
@@ -104,7 +106,7 @@ class AppWindow(QtGui.QMainWindow, template_graph.Ui_MainWindow,utilitiesClass):
 		samplescaling=[1,1,1,1,1,0.5,0.4,0.3,0.2,0.2,0.1]
 		self.tg=timebases[g]
 		self.samples = int(self.max_samples*samplescaling[g])
-		self.autoRange()
+		return self.autoRange()
 
 	def autoRange(self):
 		if not self.fftMode:
@@ -133,7 +135,9 @@ class AppWindow(QtGui.QMainWindow, template_graph.Ui_MainWindow,utilitiesClass):
 	def plotData(self): 
 		if not self.running: return
 		try:
+			n=0
 			while(not self.I.oscilloscope_progress()[0]):
+				print ('wait..')
 				time.sleep(0.1)
 				n+=1
 				if n>10:

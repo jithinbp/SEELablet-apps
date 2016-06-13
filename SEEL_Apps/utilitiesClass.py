@@ -459,7 +459,6 @@ class utilitiesClass():
 				retval = self.func(val)
 			except Exception,err:
 				retval = 'err'
-				
 
 			if isinstance(retval,numbers.Number):
 				self.value.setText('%s'%(self.applySIPrefix(retval*self.scale,self.units) ))
@@ -550,12 +549,22 @@ class utilitiesClass():
 			self.setupUi(self)
 			self.func = args.get('FUNC',None)
 			self.linkFunc = args.get('LINK',None)
+			self.msg = QtGui.QMessageBox()
+			self.msg.setIcon(QtGui.QMessageBox.Information)
+			self.msg.setWindowTitle("Set Input Attenuation")
+			self.msg.setText("Note :");
+			self.msg.setInformativeText("Please connect a 10MOhm resistor in series with this input")
+			self.msg.setDetailedText("Connecting a 10MOhm resistor in series with the channel causes an 11x attenuation.\nThe software automatically compensates for this, and assumes a +/-160V range \n")
 
 		def setGainCH1(self,g):
+			if (g==8):
+				self.msg.exec_()
 			retval= self.func('CH1',g)
 			if self.linkFunc:
 				self.linkFunc(retval)
 		def setGainCH2(self,g):
+			if (g==8):
+				self.msg.exec_()
 			retval= self.func('CH2',g)
 			if self.linkFunc:
 				self.linkFunc(retval)
@@ -835,6 +844,53 @@ class utilitiesClass():
 			self.I.set_state(SQR3 = state)
 		def toggle4(self,state):
 			self.I.set_state(SQR4 = state)
+
+
+
+	def addPV1(self,I,link=None):
+		tmpfunc = functools.partial(I.DAC.__setRawVoltage__,'PV1')
+		a1={'TITLE':'PV1','MIN':0,'MAX':4095,'FUNC':tmpfunc,'UNITS':'V','TOOLTIP':'Programmable Voltage Source 1'}
+		if link: a['LINK'] = link
+		return self.dialIcon(**a1)
+
+	def addPV2(self,I,link=None):
+		tmpfunc = functools.partial(I.DAC.__setRawVoltage__,'PV2')
+		a={'TITLE':'PV2','MIN':0,'MAX':4095,'FUNC':tmpfunc,'UNITS':'V','TOOLTIP':'Programmable Voltage Source 2'}
+		if link: a['LINK'] = link
+		return self.dialIcon(**a)
+
+
+	def addPV3(self,I,link=None):
+		tmpfunc = functools.partial(I.DAC.__setRawVoltage__,'PV3')
+		a={'TITLE':'PV3','MIN':0,'MAX':4095,'FUNC':tmpfunc,'UNITS':'V','TOOLTIP':'Programmable Voltage Source 3'}
+		if link: a['LINK'] = link
+		return self.dialIcon(**a)
+
+	def addPCS(self,I,link=None):
+		tmpfunc = functools.partial(I.DAC.__setRawVoltage__,'PCS')
+		a={'TITLE':'PCS','MIN':0,'MAX':4095,'FUNC':tmpfunc,'UNITS':'A','TOOLTIP':'Programmable Current Source'}
+		if link: a['LINK'] = link
+		return self.dialIcon(**a)
+
+	def addVoltmeter(self,I,link=None):
+		tmpfunc = functools.partial(I.get_voltage,samples=10)
+		a={'TITLE':'VOLTMETER','FUNC':tmpfunc,'UNITS':'V','TOOLTIP':'Voltmeter','OPTIONS':I.allAnalogChannels}
+		if link: a['LINK'] = link
+		return self.selectAndButtonIcon(**a)
+
+
+	def addW1(self,I,link=None):
+		a={'TITLE':'Wave 1','MIN':1,'MAX':5000,'FUNC':self.I.set_w1,'TYPE':'dial','UNITS':'Hz','TOOLTIP':'Frequency of waveform generator #1'}
+		if link: a['LINK'] = link
+		return self.dialAndDoubleSpinIcon(**a)
+
+
+	def addW2(self,I,link=None):
+		a={'TITLE':'Wave 2','MIN':1,'MAX':5000,'FUNC':self.I.set_w2,'TYPE':'dial','UNITS':'Hz','TOOLTIP':'Frequency of waveform generator #2'}
+		if link: a['LINK'] = link
+		return self.dialAndDoubleSpinIcon(**a)
+
+
 
 	def saveToCSV(self,table):
 		path = QtGui.QFileDialog.getSaveFileName(self, 'Save File', '~/', 'CSV(*.csv)')

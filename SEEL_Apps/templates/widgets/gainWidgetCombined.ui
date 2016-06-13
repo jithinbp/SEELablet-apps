@@ -160,7 +160,7 @@ background:transparent;
           <number>2</number>
          </property>
          <item row="1" column="0">
-          <widget class="QComboBox" name="optionBox">
+          <widget class="QComboBox" name="g1">
            <item>
             <property name="text">
              <string>+/-16V</string>
@@ -242,7 +242,7 @@ background:transparent;
  <resources/>
  <connections>
   <connection>
-   <sender>optionBox</sender>
+   <sender>g1</sender>
    <signal>currentIndexChanged(int)</signal>
    <receiver>Form</receiver>
    <slot>setGains()</slot>

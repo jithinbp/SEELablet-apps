@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'dial.ui'
 #
-# Created: Sun Jun 12 11:10:48 2016
+# Created: Mon Jun 13 02:31:07 2016
 #      by: PyQt4 UI code generator 4.11.3
 #
 # WARNING! All changes made in this file will be lost!
@@ -111,10 +111,11 @@ class Ui_Form(object):
         self.dial.setStyleSheet(_fromUtf8(""))
         self.dial.setMinimum(0)
         self.dial.setMaximum(5000)
-        self.dial.setPageStep(1)
+        self.dial.setPageStep(10)
         self.dial.setProperty("value", 0)
         self.dial.setInvertedControls(False)
         self.dial.setWrapping(False)
+        self.dial.setNotchTarget(5.0)
         self.dial.setNotchesVisible(True)
         self.dial.setObjectName(_fromUtf8("dial"))
         self.gridLayout_3.addWidget(self.dial, 0, 0, 1, 1)

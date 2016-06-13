@@ -62,8 +62,8 @@ class AppWindow(QtGui.QMainWindow, template_graph.Ui_MainWindow,utilitiesClass):
 		self.curveCH2 = self.addCurve(self.plot,'OUTPUT(CH2)')
 		self.WidgetLayout.setAlignment(QtCore.Qt.AlignLeft)
 
-		a1={'TITLE':'Wave 1','MIN':10,'MAX':5000,'FUNC':self.I.set_sine1,'TYPE':'dial','UNITS':'Hz','TOOLTIP':'Frequency of waveform generator #1'}
-		self.sinewidget = self.dialAndDoubleSpinIcon(**a1)
+
+		self.sinewidget = self.addW1(self.I)
 		self.WidgetLayout.addWidget(self.sinewidget)
 		self.sinewidget.dial.setValue(500)
 
@@ -102,7 +102,7 @@ class AppWindow(QtGui.QMainWindow, template_graph.Ui_MainWindow,utilitiesClass):
 		samplescaling=[1,1,1,1,1,0.5,0.4,0.3,0.2,0.2,0.1]
 		self.tg=timebases[g]
 		self.samples = int(self.max_samples*samplescaling[g])
-		self.autoRange()
+		return self.autoRange()
 
 	def autoRange(self):
 		if not self.fftMode:
@@ -132,6 +132,7 @@ class AppWindow(QtGui.QMainWindow, template_graph.Ui_MainWindow,utilitiesClass):
 	def plotData(self): 
 		if not self.running: return
 		try:
+			n=0
 			while(not self.I.oscilloscope_progress()[0]):
 				time.sleep(0.1)
 				n+=1

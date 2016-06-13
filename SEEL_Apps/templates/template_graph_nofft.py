@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'template_graph_nofft.ui'
 #
-# Created: Sun Jun 12 11:10:48 2016
+# Created: Mon Jun 13 02:31:07 2016
 #      by: PyQt4 UI code generator 4.11.3
 #
 # WARNING! All changes made in this file will be lost!

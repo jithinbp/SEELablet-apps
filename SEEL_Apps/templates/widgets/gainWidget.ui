@@ -160,7 +160,7 @@ background:transparent;
           <number>2</number>
          </property>
          <item row="1" column="0">
-          <widget class="QComboBox" name="optionBox">
+          <widget class="QComboBox" name="g1">
            <item>
             <property name="text">
              <string>+/-16V</string>
@@ -232,7 +232,7 @@ background:transparent;
           </widget>
          </item>
          <item row="3" column="0">
-          <widget class="QComboBox" name="optionBox_2">
+          <widget class="QComboBox" name="g2">
            <item>
             <property name="text">
              <string>+/-16V</string>
@@ -314,7 +314,7 @@ background:transparent;
  <resources/>
  <connections>
   <connection>
-   <sender>optionBox</sender>
+   <sender>g1</sender>
    <signal>currentIndexChanged(int)</signal>
    <receiver>Form</receiver>
    <slot>setGainCH1()</slot>
@@ -330,7 +330,7 @@ background:transparent;
    </hints>
   </connection>
   <connection>
-   <sender>optionBox_2</sender>
+   <sender>g2</sender>
    <signal>currentIndexChanged(int)</signal>
    <receiver>Form</receiver>
    <slot>setGainCH2()</slot>

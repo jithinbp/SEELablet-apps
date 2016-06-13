@@ -20,9 +20,9 @@ import sys,functools,time
 
 params = {
 'image' : 'halfwave.png',
-'name':'Non-Inverting\nOp-Amp',
+'name':'Transistor Amplifier',
 'hint':'''
-	Study Op-Amps in Non-inverting configuration.<br>
+	Study a simple transistor based amplifier.<br>
 	'''
 
 }
@@ -42,12 +42,13 @@ class AppWindow(QtGui.QMainWindow, template_graph_nofft.Ui_MainWindow,utilitiesC
 		self.plot=self.add2DPlot(self.plot_area,enableMenu=False)
 		self.enableCrossHairs(self.plot,[])
 		labelStyle = {'color': 'rgb(255,255,255)', 'font-size': '11pt'}
-		self.plot.setLabel('left','Voltage -->', units='V',**labelStyle)
-		self.plot.setLabel('bottom','Time -->', units='S',**labelStyle)
+		self.plot.setLabel('left','V (CH1)', units='V',**labelStyle)
+		self.plot.setLabel('bottom','Time', units='S',**labelStyle)
 		self.plot.setYRange(-8.5,8.5)
-		self.I.set_gain('CH1',1)
-		self.I.set_gain('CH2',1)
-		self.plot.setLimits(yMax=8,yMin=-8,xMin=0,xMax=4e-3)
+
+		self.p2=self.enableRightAxis(self.plot)
+		self.plot.getAxis('right').setLabel('V (CH2)', units='V', color='#ff0000')
+
 
 		self.I.configure_trigger(0,'CH1',0,prescaler = self.prescalerValue)
 		self.tg=2
@@ -58,14 +59,22 @@ class AppWindow(QtGui.QMainWindow, template_graph_nofft.Ui_MainWindow,utilitiesC
 		self.legend = self.plot.addLegend(offset=(-10,30))
 		self.curveCH1 = self.addCurve(self.plot,'INPUT(CH1)')
 		self.curveCH2 = self.addCurve(self.plot,'OUTPUT(CH2)')
-
+		self.curveCH2=self.addCurve(self.p2,'OUTPUT(CH2)')
+		self.curveCH2.setPen(color=(255,0,0))
+		self.autoRange()
+		
 		self.WidgetLayout.setAlignment(QtCore.Qt.AlignLeft)
+		self.ControlsLayout.setAlignment(QtCore.Qt.AlignRight)
 
 		#Utility widgets
-		a1={'TITLE':'Wave 1','MIN':10,'MAX':5000,'FUNC':self.I.set_sine1,'TYPE':'dial','UNITS':'Hz','TOOLTIP':'Frequency of waveform generator #1'}
-		self.sinewidget = self.dialAndDoubleSpinIcon(**a1)
+		self.sinewidget = self.addW1(self.I)
 		self.WidgetLayout.addWidget(self.sinewidget)
 		self.sinewidget.dial.setValue(500)
+
+		pv = self.addPV3(self.I)
+		self.WidgetLayout.addWidget(pv)
+		pv.dial.setValue(2048)  #midpoint
+
 
 		a1={'TITLE':'Measure Gain','FUNC':self.measureGain,'TOOLTIP':'Curve fit the traces and find the gain of the circuit'}
 		self.ampGain = self.buttonIcon(**a1)
@@ -76,7 +85,10 @@ class AppWindow(QtGui.QMainWindow, template_graph_nofft.Ui_MainWindow,utilitiesC
 		a1={'TITLE':'TIMEBASE','MIN':0,'MAX':9,'FUNC':self.set_timebase,'UNITS':'S','TOOLTIP':'Set Timebase of the oscilloscope'}
 		self.ControlsLayout.addWidget(self.dialIcon(**a1))
 
-		self.ControlsLayout.addWidget(self.gainIconCombined(FUNC=self.I.set_gain,LINK=self.gainChanged))
+		G = self.gainIcon(FUNC=self.I.set_gain,LINK=self.gainChanged)
+		self.ControlsLayout.addWidget(G)
+		G.g1.setCurrentIndex(7)
+		G.g2.setCurrentIndex(1)
 
 		self.running=True
 		self.fit = False
@@ -95,7 +107,7 @@ class AppWindow(QtGui.QMainWindow, template_graph_nofft.Ui_MainWindow,utilitiesC
 		samplescaling=[1,1,1,1,1,0.5,0.4,0.3,0.2,0.2,0.1]
 		self.tg=timebases[g]
 		self.samples = int(self.max_samples*samplescaling[g])
-		self.autoRange()
+		return self.autoRange()
 
 	def autoRange(self):
 		xlen = self.tg*self.samples*1e-6
@@ -106,6 +118,12 @@ class AppWindow(QtGui.QMainWindow, template_graph_nofft.Ui_MainWindow,utilitiesC
 		self.plot.setLimits(yMax=max(R),yMin=min(R),xMin=0,xMax=xlen)
 		self.plot.setYRange(min(R),max(R))			
 		self.plot.setXRange(0,xlen)
+
+		chan = self.I.analogInputSources['CH2']
+		R = [chan.calPoly10(0),chan.calPoly10(1023)]
+		R[0]=R[0]*.9;R[1]=R[1]*.9
+		self.p2.setYRange(min(R),max(R))			
+		self.p2.setLimits(yMax=max(R),yMin=min(R))
 
 		return self.samples*self.tg*1e-6
 
@@ -154,7 +172,7 @@ class AppWindow(QtGui.QMainWindow, template_graph_nofft.Ui_MainWindow,utilitiesC
 					pass
 				
 			
-			if self.running:self.timer.singleShot(100,self.run)
+			if self.running:self.timer.singleShot(200,self.run)
 		except Exception,e:
 			print (e)
 
