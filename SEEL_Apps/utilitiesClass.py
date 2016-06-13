@@ -890,6 +890,11 @@ class utilitiesClass():
 		if link: a['LINK'] = link
 		return self.dialAndDoubleSpinIcon(**a)
 
+	def addSQR1(self,I,link=None):
+		a={'TITLE':'SQR 1','MIN':1,'MAX':100000,'FUNC':self.I.sqr1,'TYPE':'dial','UNITS':'Hz','TOOLTIP':'Frequency of SQR1'}
+		if link: a['LINK'] = link
+		return self.dialAndDoubleSpinIcon(**a)
+
 
 
 	def saveToCSV(self,table):

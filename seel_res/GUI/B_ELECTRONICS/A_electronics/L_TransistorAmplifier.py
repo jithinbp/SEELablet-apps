@@ -20,7 +20,7 @@ import sys,functools,time
 
 params = {
 'image' : 'halfwave.png',
-'name':'Transistor Amplifier',
+'name':'Transistor\nAmplifier',
 'hint':'''
 	Study a simple transistor based amplifier.<br>
 	'''

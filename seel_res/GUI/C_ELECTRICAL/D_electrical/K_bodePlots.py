@@ -53,7 +53,8 @@ class AppWindow(QtGui.QMainWindow, template_bandpass.Ui_MainWindow,utilitiesClas
 		self.plot2.getAxis('right').setLabel('Phase', color='#00ffff')
 		self.plot2.getAxis('left').setLabel('Amplitude', color='#ffffff')
 
-		for a in [self.plot1,self.plot2]:a.getAxis('bottom').setLabel('Frequency', color='#ffffff')
+		self.plot1.getAxis('bottom').setLabel('Time',units='S' ,color='#ffffff')
+		self.plot2.getAxis('bottom').setLabel('Frequency',units='Hz', color='#ffffff')
 		self.p2.setYRange(-360,360)
 		self.curvePhase=self.addCurve(self.p2,'PHASE')#pg.PlotCurveItem()
 		self.curvePhase.setPen(color=(0,255,255))
