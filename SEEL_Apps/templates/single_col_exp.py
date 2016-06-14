@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'single_col_exp.ui'
 #
-# Created: Sun Jun 12 13:15:27 2016
+# Created: Tue Jun 14 10:24:09 2016
 #      by: PyQt4 UI code generator 4.11.3
 #
 # WARNING! All changes made in this file will be lost!
@@ -69,6 +69,8 @@ class Ui_MainWindow(object):
         self.verticalLayout_4.setMargin(0)
         self.verticalLayout_4.setObjectName(_fromUtf8("verticalLayout_4"))
         self.subSections = QtGui.QComboBox(self.frame)
+        self.subSections.setDuplicatesEnabled(True)
+        self.subSections.setFrame(False)
         self.subSections.setObjectName(_fromUtf8("subSections"))
         self.verticalLayout_4.addWidget(self.subSections)
         self.ExperimentScrollArea = QtGui.QScrollArea(self.frame)
@@ -146,16 +148,16 @@ class Ui_MainWindow(object):
         self.verticalLayout_5.addWidget(self.hintText)
         self.verticalLayout.addWidget(self.frame_3)
         self.tabWidget.addTab(self.tab, _fromUtf8(""))
-        self.tab_2 = QtGui.QWidget()
-        self.tab_2.setObjectName(_fromUtf8("tab_2"))
-        self.helpLayout = QtGui.QVBoxLayout(self.tab_2)
+        self.HELPTAB = QtGui.QWidget()
+        self.HELPTAB.setObjectName(_fromUtf8("HELPTAB"))
+        self.helpLayout = QtGui.QVBoxLayout(self.HELPTAB)
         self.helpLayout.setSpacing(0)
         self.helpLayout.setMargin(0)
         self.helpLayout.setObjectName(_fromUtf8("helpLayout"))
-        self.pushButton_2 = QtGui.QPushButton(self.tab_2)
+        self.pushButton_2 = QtGui.QPushButton(self.HELPTAB)
         self.pushButton_2.setObjectName(_fromUtf8("pushButton_2"))
         self.helpLayout.addWidget(self.pushButton_2)
-        self.tabWidget.addTab(self.tab_2, _fromUtf8(""))
+        self.tabWidget.addTab(self.HELPTAB, _fromUtf8(""))
         self.tab_3 = QtGui.QWidget()
         self.tab_3.setObjectName(_fromUtf8("tab_3"))
         self.verticalLayout_3 = QtGui.QVBoxLayout(self.tab_3)
@@ -175,7 +177,7 @@ class Ui_MainWindow(object):
         self.scrollArea_5.setAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft|QtCore.Qt.AlignVCenter)
         self.scrollArea_5.setObjectName(_fromUtf8("scrollArea_5"))
         self.SCF2 = QtGui.QWidget()
-        self.SCF2.setGeometry(QtCore.QRect(0, 0, 403, 612))
+        self.SCF2.setGeometry(QtCore.QRect(0, 0, 398, 28))
         self.SCF2.setStyleSheet(_fromUtf8(""))
         self.SCF2.setObjectName(_fromUtf8("SCF2"))
         self.gridLayout_6 = QtGui.QGridLayout(self.SCF2)
@@ -231,7 +233,7 @@ class Ui_MainWindow(object):
         self.scrollArea.setWidgetResizable(True)
         self.scrollArea.setObjectName(_fromUtf8("scrollArea"))
         self.SCF3 = QtGui.QWidget()
-        self.SCF3.setGeometry(QtCore.QRect(0, 0, 397, 634))
+        self.SCF3.setGeometry(QtCore.QRect(0, 0, 98, 28))
         self.SCF3.setObjectName(_fromUtf8("SCF3"))
         self.advancedControlsLayout = QtGui.QGridLayout(self.SCF3)
         self.advancedControlsLayout.setMargin(0)
@@ -308,8 +310,8 @@ class Ui_MainWindow(object):
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab), _translate("MainWindow", "Experiments ", None))
         self.tabWidget.setTabToolTip(self.tabWidget.indexOf(self.tab), _translate("MainWindow", "Icons for launching experiments", None))
         self.pushButton_2.setText(_translate("MainWindow", "<<< Return To Application List", None))
-        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_2), _translate("MainWindow", "Help", None))
-        self.tabWidget.setTabToolTip(self.tabWidget.indexOf(self.tab_2), _translate("MainWindow", "Help window: This tab will automatically load the helpfile relevant to the last experiment you launched", None))
+        self.tabWidget.setTabText(self.tabWidget.indexOf(self.HELPTAB), _translate("MainWindow", "Help", None))
+        self.tabWidget.setTabToolTip(self.tabWidget.indexOf(self.HELPTAB), _translate("MainWindow", "Help window: This tab will automatically load the helpfile relevant to the last experiment you launched", None))
         self.SCF2.setProperty("class", _translate("MainWindow", "PeripheralCollectionInner", None))
         self.pushButton.setText(_translate("MainWindow", "SET", None))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_3), _translate("MainWindow", " Controls  ", None))

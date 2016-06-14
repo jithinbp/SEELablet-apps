@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>804</width>
-    <height>628</height>
+    <width>790</width>
+    <height>528</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -69,7 +69,7 @@
           </size>
          </property>
          <property name="frameShape">
-          <enum>QFrame::StyledPanel</enum>
+          <enum>QFrame::NoFrame</enum>
          </property>
          <property name="frameShadow">
           <enum>QFrame::Raised</enum>
@@ -78,99 +78,28 @@
           <string>PeripheralCollectionInner</string>
          </property>
          <layout class="QGridLayout" name="gridLayout">
+          <property name="verticalSpacing">
+           <number>0</number>
+          </property>
           <property name="margin">
            <number>0</number>
           </property>
-          <property name="spacing">
-           <number>0</number>
-          </property>
-          <item row="0" column="0">
-           <widget class="QLabel" name="label">
-            <property name="text">
-             <string>Collector Voltage Range</string>
-            </property>
-            <property name="alignment">
-             <set>Qt::AlignCenter</set>
-            </property>
-           </widget>
-          </item>
-          <item row="3" column="0">
-           <widget class="QLabel" name="label_6">
-            <property name="text">
-             <string>Step Size (V)</string>
-            </property>
-            <property name="alignment">
-             <set>Qt::AlignCenter</set>
-            </property>
-           </widget>
-          </item>
-          <item row="1" column="1">
-           <widget class="QDoubleSpinBox" name="startV">
+          <item row="1" column="5">
+           <widget class="QDoubleSpinBox" name="biasV">
             <property name="minimumSize">
              <size>
               <width>0</width>
               <height>30</height>
              </size>
+            </property>
+            <property name="suffix">
+             <string> V</string>
+            </property>
+            <property name="decimals">
+             <number>3</number>
             </property>
             <property name="minimum">
              <double>-3.300000000000000</double>
-            </property>
-            <property name="maximum">
-             <double>3.300000000000000</double>
-            </property>
-            <property name="singleStep">
-             <double>0.200000000000000</double>
-            </property>
-           </widget>
-          </item>
-          <item row="3" column="1">
-           <widget class="QDoubleSpinBox" name="stepV">
-            <property name="minimumSize">
-             <size>
-              <width>0</width>
-              <height>30</height>
-             </size>
-            </property>
-            <property name="decimals">
-             <number>3</number>
-            </property>
-            <property name="minimum">
-             <double>0.000000000000000</double>
-            </property>
-            <property name="maximum">
-             <double>1.000000000000000</double>
-            </property>
-            <property name="singleStep">
-             <double>0.200000000000000</double>
-            </property>
-            <property name="value">
-             <double>0.020000000000000</double>
-            </property>
-           </widget>
-          </item>
-          <item row="2" column="3">
-           <widget class="QLabel" name="label_2">
-            <property name="text">
-             <string>Acquired Data</string>
-            </property>
-            <property name="alignment">
-             <set>Qt::AlignCenter</set>
-            </property>
-           </widget>
-          </item>
-          <item row="2" column="4">
-           <widget class="QComboBox" name="tracesBox"/>
-          </item>
-          <item row="1" column="4" colspan="2">
-           <widget class="QDoubleSpinBox" name="baseV">
-            <property name="minimumSize">
-             <size>
-              <width>0</width>
-              <height>30</height>
-             </size>
-            </property>
-            <property name="decimals">
-             <number>3</number>
             </property>
             <property name="maximum">
              <double>3.300000000000000</double>
@@ -179,43 +108,27 @@
              <double>0.010000000000000</double>
             </property>
             <property name="value">
-             <double>0.800000000000000</double>
+             <double>-1.200000000000000</double>
             </property>
            </widget>
           </item>
-          <item row="1" column="3">
-           <widget class="QLabel" name="label_7">
+          <item row="5" column="1">
+           <widget class="QLabel" name="msg">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="MinimumExpanding" vsizetype="Preferred">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
             <property name="text">
-             <string>Base Voltage</string>
+             <string/>
             </property>
             <property name="alignment">
              <set>Qt::AlignCenter</set>
             </property>
            </widget>
           </item>
-          <item row="2" column="1">
-           <widget class="QDoubleSpinBox" name="stopV">
-            <property name="minimumSize">
-             <size>
-              <width>0</width>
-              <height>30</height>
-             </size>
-            </property>
-            <property name="minimum">
-             <double>-3.300000000000000</double>
-            </property>
-            <property name="maximum">
-             <double>3.300000000000000</double>
-            </property>
-            <property name="singleStep">
-             <double>0.200000000000000</double>
-            </property>
-            <property name="value">
-             <double>3.000000000000000</double>
-            </property>
-           </widget>
-          </item>
-          <item row="3" column="4">
+          <item row="3" column="9" colspan="2">
            <widget class="QPushButton" name="pushButton_3">
             <property name="minimumSize">
              <size>
@@ -228,7 +141,180 @@
             </property>
            </widget>
           </item>
-          <item row="2" column="5">
+          <item row="0" column="0" rowspan="6">
+           <widget class="Line" name="line">
+            <property name="orientation">
+             <enum>Qt::Vertical</enum>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="3">
+           <widget class="QDoubleSpinBox" name="startV">
+            <property name="minimumSize">
+             <size>
+              <width>0</width>
+              <height>30</height>
+             </size>
+            </property>
+            <property name="suffix">
+             <string> V</string>
+            </property>
+            <property name="minimum">
+             <double>-3.300000000000000</double>
+            </property>
+            <property name="maximum">
+             <double>3.300000000000000</double>
+            </property>
+            <property name="singleStep">
+             <double>0.200000000000000</double>
+            </property>
+            <property name="value">
+             <double>0.000000000000000</double>
+            </property>
+           </widget>
+          </item>
+          <item row="5" column="2">
+           <widget class="QLabel" name="label_6">
+            <property name="text">
+             <string>Total Steps</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+            </property>
+           </widget>
+          </item>
+          <item row="5" column="3">
+           <widget class="QSpinBox" name="totalPoints">
+            <property name="minimumSize">
+             <size>
+              <width>0</width>
+              <height>30</height>
+             </size>
+            </property>
+            <property name="minimum">
+             <number>10</number>
+            </property>
+            <property name="maximum">
+             <number>1000</number>
+            </property>
+            <property name="value">
+             <number>100</number>
+            </property>
+           </widget>
+          </item>
+          <item row="5" column="9" colspan="2">
+           <widget class="QProgressBar" name="progress">
+            <property name="value">
+             <number>0</number>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="2" colspan="2">
+           <widget class="QLabel" name="sweepLabel">
+            <property name="text">
+             <string>sweep</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignCenter</set>
+            </property>
+           </widget>
+          </item>
+          <item row="5" column="5">
+           <widget class="QPushButton" name="plotButton">
+            <property name="minimumSize">
+             <size>
+              <width>94</width>
+              <height>30</height>
+             </size>
+            </property>
+            <property name="text">
+             <string>Plot</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="1">
+           <widget class="QComboBox" name="optionsBox"/>
+          </item>
+          <item row="1" column="2">
+           <widget class="QLabel" name="label_4">
+            <property name="text">
+             <string>Initial Voltage</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="4" rowspan="6">
+           <widget class="Line" name="line_3">
+            <property name="orientation">
+             <enum>Qt::Vertical</enum>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="2" rowspan="2">
+           <widget class="QLabel" name="label_5">
+            <property name="text">
+             <string>Final Voltage</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="3" rowspan="2">
+           <widget class="QDoubleSpinBox" name="stopV">
+            <property name="minimumSize">
+             <size>
+              <width>0</width>
+              <height>30</height>
+             </size>
+            </property>
+            <property name="suffix">
+             <string> V</string>
+            </property>
+            <property name="minimum">
+             <double>-3.300000000000000</double>
+            </property>
+            <property name="maximum">
+             <double>3.300000000000000</double>
+            </property>
+            <property name="singleStep">
+             <double>0.200000000000000</double>
+            </property>
+            <property name="value">
+             <double>3.300000000000000</double>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="6" rowspan="6" colspan="2">
+           <widget class="Line" name="line_2">
+            <property name="orientation">
+             <enum>Qt::Vertical</enum>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="5">
+           <widget class="QLabel" name="biasLabel">
+            <property name="text">
+             <string>bias</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignCenter</set>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="9" colspan="2">
+           <widget class="QLabel" name="label_2">
+            <property name="text">
+             <string>Acquired Data</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignCenter</set>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="10">
            <widget class="QPushButton" name="pushButton_2">
             <property name="minimumSize">
              <size>
@@ -247,61 +333,15 @@
             </property>
            </widget>
           </item>
-          <item row="2" column="0">
-           <widget class="QLabel" name="label_5">
-            <property name="text">
-             <string>Final Voltage (V)</string>
-            </property>
-            <property name="alignment">
-             <set>Qt::AlignCenter</set>
-            </property>
-           </widget>
-          </item>
-          <item row="0" column="3" colspan="2">
-           <widget class="QLabel" name="label_8">
-            <property name="text">
-             <string>Base Current (PV3 via 200K resistor) </string>
-            </property>
-            <property name="alignment">
-             <set>Qt::AlignCenter</set>
-            </property>
-           </widget>
-          </item>
-          <item row="1" column="0">
-           <widget class="QLabel" name="label_4">
-            <property name="text">
-             <string>Initial Voltage (V)</string>
-            </property>
-            <property name="alignment">
-             <set>Qt::AlignCenter</set>
-            </property>
-           </widget>
-          </item>
-          <item row="0" column="1">
-           <widget class="QPushButton" name="pushButton">
+          <item row="1" column="9">
+           <widget class="QComboBox" name="tracesBox">
             <property name="minimumSize">
              <size>
-              <width>94</width>
-              <height>30</height>
+              <width>140</width>
+              <height>0</height>
              </size>
-            </property>
-            <property name="text">
-             <string>START ACQUISITION</string>
             </property>
            </widget>
-          </item>
-          <item row="1" column="2">
-           <spacer name="horizontalSpacer">
-            <property name="orientation">
-             <enum>Qt::Horizontal</enum>
-            </property>
-            <property name="sizeHint" stdset="0">
-             <size>
-              <width>40</width>
-              <height>20</height>
-             </size>
-            </property>
-           </spacer>
           </item>
          </layout>
         </widget>
@@ -346,8 +386,8 @@
               <rect>
                <x>0</x>
                <y>0</y>
-               <width>794</width>
-               <height>439</height>
+               <width>780</width>
+               <height>366</height>
               </rect>
              </property>
              <layout class="QGridLayout" name="gridLayout_4">
@@ -377,31 +417,14 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>804</width>
+     <width>790</width>
      <height>25</height>
     </rect>
    </property>
   </widget>
-  <widget class="QStatusBar" name="statusbar"/>
  </widget>
  <resources/>
  <connections>
-  <connection>
-   <sender>pushButton</sender>
-   <signal>clicked()</signal>
-   <receiver>MainWindow</receiver>
-   <slot>run()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>381</x>
-     <y>39</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>741</x>
-     <y>202</y>
-    </hint>
-   </hints>
-  </connection>
   <connection>
    <sender>pushButton_2</sender>
    <signal>clicked()</signal>
@@ -409,8 +432,8 @@
    <slot>delete_curve()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>801</x>
-     <y>106</y>
+     <x>788</x>
+     <y>85</y>
     </hint>
     <hint type="destinationlabel">
      <x>741</x>
@@ -425,19 +448,52 @@
    <slot>savePlots()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>732</x>
-     <y>131</y>
+     <x>768</x>
+     <y>117</y>
     </hint>
     <hint type="destinationlabel">
      <x>713</x>
-     <y>-8</y>
+     <y>0</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>plotButton</sender>
+   <signal>clicked()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>run()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>525</x>
+     <y>129</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>0</x>
+     <y>131</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>optionsBox</sender>
+   <signal>currentIndexChanged(int)</signal>
+   <receiver>MainWindow</receiver>
+   <slot>typeChanged(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>226</x>
+     <y>44</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>-10</x>
+     <y>47</y>
     </hint>
    </hints>
   </connection>
  </connections>
  <slots>
-  <slot>run()</slot>
   <slot>delete_curve()</slot>
   <slot>savePlots()</slot>
+  <slot>run()</slot>
+  <slot>typeChanged(int)</slot>
  </slots>
 </ui>

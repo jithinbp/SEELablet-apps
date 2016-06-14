@@ -1,7 +1,7 @@
 #!/usr/bin/python
 '''
-Study Common Emitter Characteristics of NPN transistors.
-Saturation currents, and their dependence on base current 
+Study NJFET
+Saturation currents, and their dependence on gate voltage 
 can be easily visualized.
 
 '''
@@ -17,11 +17,13 @@ import pyqtgraph as pg
 import numpy as np
 
 params = {
-'image' : 'transistorCE.png',
-'name':'N-Channel FET\nCharacteristics',
-'hint':''
-}
 
+'image' : 'transistorCE.png',
+'name':'Transistor CB\nCharacteristics',
+'hint':'''
+	Study the common base Characteristics of NPN transistors .
+	'''
+}
 class AppWindow(QtGui.QMainWindow, NFET.Ui_MainWindow,utilitiesClass):
 	def __init__(self, parent=None,**kwargs):
 		super(AppWindow, self).__init__(parent)
@@ -36,6 +38,9 @@ class AppWindow(QtGui.QMainWindow, NFET.Ui_MainWindow,utilitiesClass):
 		labelStyle = {'color': 'rgb(255,255,255)', 'font-size': '11pt'}
 		self.plot.setLabel('left','Drain Current', units='A',**labelStyle)
 		self.plot.setLabel('bottom','Drain-Source Voltage', units='V',**labelStyle)
+		
+		self.sweepLabel.setText('Collector Sweep(PV1)')
+		self.biasLabel.setText('Emitter Voltage(PV2)')
 		self.totalpoints=2000
 		self.X=[]
 		self.Y=[]
@@ -46,10 +51,12 @@ class AppWindow(QtGui.QMainWindow, NFET.Ui_MainWindow,utilitiesClass):
 		self.looptimer = QtCore.QTimer()
 		self.looptimer.timeout.connect(self.acquire)
 		self.running = True
-		self.stopV.setMaximum(5)
-		
+		self.START=0
+		self.STOP=4
+		self.STEP =0.2
+
 	def savePlots(self):
-		self.saveDataWindow(self.curves)
+		self.saveDataWindow(self.curves,self.plot)
 
 
 	def run(self):
@@ -64,14 +71,14 @@ class AppWindow(QtGui.QMainWindow, NFET.Ui_MainWindow,utilitiesClass):
 		self.START = self.startV.value()
 		self.STOP = self.stopV.value()
 		self.STEP = (self.STOP-self.START)/self.totalPoints.value()
-		print ('from %d to %d in %.3fV steps'%(self.START,self.STOP,self.STEP))
+		#print ('from %d to %d in %.3fV steps'%(self.START,self.STOP,self.STEP))
 		
 		self.V = self.START
 		self.I.set_pv1(self.V) 
 		time.sleep(0.2)
 
 		P=self.plot.getPlotItem()
-		self.plot.setXRange(self.V,self.stopV.value())
+		self.plot.setXRange(-2,self.stopV.value())
 		self.plot.setYRange(-5e-3,5e-3)
 		if len(self.curves)>1:P.enableAutoRange(True,True)
 
@@ -79,7 +86,7 @@ class AppWindow(QtGui.QMainWindow, NFET.Ui_MainWindow,utilitiesClass):
 
 	def acquire(self):
 		V=self.I.set_pv1(self.V)
-		VC =  self.I.get_voltage('CH1',samples=10)
+		VC =  self.I.get_average_voltage('CH1',samples=10)
 		self.X.append(VC)
 		self.Y.append((V-VC)/self.RESISTANCE) # list( ( np.linspace(V,V+self.stepV.value(),1000)-VC)/1.e3)
 		self.curves[-1].setData(self.X,self.Y)

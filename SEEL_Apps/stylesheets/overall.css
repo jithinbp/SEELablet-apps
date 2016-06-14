@@ -27,7 +27,7 @@ padding-top: 15px;padding-bottom:15px;
 background: qradialgradient(cx: 0.3, cy: -0.4,
 fx: 0.3, fy: -0.4,
 radius: 1.2, stop: 0 #fff, stop: 1 #aaa);
-width: 30px;
+min-width: 30px;
 font-size: 13px;
 }
 
@@ -102,7 +102,7 @@ color: black;
 font-weight: light;
 }
 
-QWebView,QScrollAreaWidgetContents{background-color: rgb(21, 107, 113);}
+QScrollAreaWidgetContents{background-color: rgb(21, 107, 113);}
 
 /*---------------digitalScope.ui-----------------*/
 QProgressBar:horizontal {
@@ -138,6 +138,9 @@ stop: 0 #6af, stop: 0.1 #689);
 #SCF1 QLabel,#SCF2 QLabel,#SCF3 QLabel{
 color: white;
 font-weight: bold;
+}
+#SCF1 QPushButton{
+font-size:10pt;
 }
 
 

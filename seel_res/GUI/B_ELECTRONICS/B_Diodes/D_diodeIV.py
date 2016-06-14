@@ -9,7 +9,7 @@ import os
 from SEEL_Apps.utilitiesClass import utilitiesClass
 from PyQt4 import QtCore, QtGui
 import time,sys
-from .templates import diodeIV
+from templates import diodeIV
 
 import sys
 
@@ -21,7 +21,7 @@ params = {
 'image' : 'diodeIV.png',
 'helpfile': 'diodeIV.html',
 'name':'Diode IV\nCharacteristics',
-'hint':"Study Current-Voltage Characteristics of PN junctions.\n uses PV1 as the voltage source for sweeping voltage via a 1K current limiting resistor connected in series. \nThe voltage drop across the diode is monitored via CH3. "
+'hint':"Study Current-Voltage Characteristics of PN junctions.\n uses PV1 as the voltage source for sweeping voltage via a 1K current limiting resistor connected in series. \nThe voltage drop across the diode is monitored via CH1. "
 }
 
 class AppWindow(QtGui.QMainWindow, diodeIV.Ui_MainWindow,utilitiesClass):
@@ -34,8 +34,8 @@ class AppWindow(QtGui.QMainWindow, diodeIV.Ui_MainWindow,utilitiesClass):
 
 		self.plot=self.add2DPlot(self.plot_area)
 		labelStyle = {'color': 'rgb(255,255,255)', 'font-size': '11pt'}
-		self.plot.setLabel('left','Current -->', units='A',**labelStyle)
-		self.plot.setLabel('bottom','Voltage -->', units='V',**labelStyle)
+		self.plot.setLabel('left','Current', units='A',**labelStyle)
+		self.plot.setLabel('bottom','Voltage', units='V',**labelStyle)
 
 		self.totalpoints=2000
 		self.X=[]

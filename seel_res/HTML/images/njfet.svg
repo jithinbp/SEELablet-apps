@@ -13,7 +13,7 @@
    viewBox="0 0 11509.995 6929.9998"
    id="svg2"
    inkscape:version="0.91 r13725"
-   sodipodi:docname="fets.sch.svg">
+   sodipodi:docname="njfet.svg">
   <metadata
      id="metadata278">
     <rdf:RDF>
@@ -45,13 +45,13 @@
      fit-margin-left="0"
      fit-margin-right="0"
      fit-margin-bottom="0"
-     inkscape:zoom="1.5964793"
-     inkscape:cx="14.23421"
-     inkscape:cy="-35.466434"
+     inkscape:zoom="6.3859172"
+     inkscape:cx="29.100641"
+     inkscape:cy="19.033263"
      inkscape:window-x="65"
      inkscape:window-y="24"
      inkscape:window-maximized="1"
-     inkscape:current-layer="g192" />
+     inkscape:current-layer="svg2" />
   <title
      id="title4">SVG Picture created as fets.sch.svg date 2016/06/14 00:05:02 </title>
   <desc
@@ -348,31 +348,6 @@
        inkscape:connector-curvature="0" />
   </g>
   <g
-     style="fill:#008484;fill-opacity:0;stroke:#008484;stroke-width:60;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1"
-     id="g144"
-     transform="translate(-6180.0203,-10160)">
-    <path
-       d="m 11140,10950 -280,0"
-       id="path146"
-       inkscape:connector-curvature="0" />
-    <path
-       d="m 11000,10950 0,-500 -50,70 -50,50 -40,20"
-       id="path148"
-       inkscape:connector-curvature="0" />
-    <path
-       d="m 11360,10950 0,-500"
-       id="path150"
-       inkscape:connector-curvature="0" />
-    <path
-       d="m 11640,10950 -210,-290"
-       id="path152"
-       inkscape:connector-curvature="0" />
-    <path
-       d="m 11640,10450 -280,280"
-       id="path154"
-       inkscape:connector-curvature="0" />
-  </g>
-  <g
      style="fill:#008400;fill-opacity:0;stroke:#008400;stroke-width:60;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1"
      id="g156"
      transform="translate(-6180.0203,-10160)">
@@ -466,4 +441,16 @@
        id="path198"
        inkscape:connector-curvature="0" />
   </g>
+  <text
+     xml:space="preserve"
+     style="font-style:normal;font-weight:normal;font-size:1250.0012207px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+     x="4170.7974"
+     y="815.28772"
+     id="text4230"
+     sodipodi:linespacing="125%"><tspan
+       sodipodi:role="line"
+       id="tspan4232"
+       x="4170.7974"
+       y="815.28772"
+       style="font-size:694.44512939px">560R</tspan></text>
 </svg>

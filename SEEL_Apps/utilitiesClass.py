@@ -47,6 +47,32 @@ class utilitiesClass():
 		self.connect(QtGui.QShortcut(QtGui.QKeySequence(dial._translate("MainWindow", "Ctrl+S", None)), self), QtCore.SIGNAL('activated()'), self.saveData)
 
 
+	def applySIPrefix(self,value, unit='',precision=2 ):
+			neg = False
+			if value < 0.:
+				value *= -1; neg = True
+			elif value == 0.:  return '0 '  # mantissa & exponnt both 0
+			exponent = int(np.log10(value))
+			if exponent > 0:
+				exponent = (exponent // 3) * 3
+			else:
+				exponent = (-1*exponent + 3) // 3 * (-3)
+
+			value *= (10 ** (-exponent) )
+			if value >= 1000.:
+				value /= 1000.0
+				exponent += 3
+			if neg:
+				value *= -1
+			exponent = int(exponent)
+			PREFIXES = "yzafpnum kMGTPEZY"
+			prefix_levels = (len(PREFIXES) - 1) // 2
+			si_level = exponent // 3
+			if abs(si_level) > prefix_levels:
+				raise ValueError("Exponent out range of available prefixes.")
+			return '%.*f %s%s' % (precision, value,PREFIXES[si_level + prefix_levels],unit)
+
+
 	class utils:
 		def __init__(self):
 			pass
@@ -124,7 +150,7 @@ class utilitiesClass():
 
 	def rightClickToZoomOut(self,plot):
 		clickEvent = functools.partial(self.autoRangePlot,plot)
-		return pg.SignalProxy(self.plot.scene().sigMouseClicked, rateLimit=60, slot=clickEvent)
+		return pg.SignalProxy(plot.scene().sigMouseClicked, rateLimit=60, slot=clickEvent)
 
 
 	def autoRangePlot(self,plot,evt):

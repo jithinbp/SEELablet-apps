@@ -50,6 +50,7 @@ class AppWindow(QtGui.QMainWindow, template_graph_nofft.Ui_MainWindow,utilitiesC
 		self.I.configure_trigger(0,'CH3',0,prescaler = self.prescalerValue)
 		self.tg=1; self.icg=10000;self.tp=4
 		self.max_samples=2000
+		self.chan = 'CH1'
 		self.samples = self.max_samples
 		self.timer = QtCore.QTimer()
 
@@ -70,7 +71,7 @@ class AppWindow(QtGui.QMainWindow, template_graph_nofft.Ui_MainWindow,utilitiesC
 		a1={'TITLE':'ICG','MIN':1,'MAX':10000,'UNITS':'S','FUNC':self.set_icg,'UNITS':'S','TOOLTIP':'Set ICG'}
 		self.WidgetLayout.addWidget(self.dialIcon(**a1))
 
-		a1={'TITLE':'TP','MIN':1,'MAX':100,'UNITS':'S','FUNC':self.set_tp,'UNITS':'S','TOOLTIP':'Set TP'}
+		a1={'TITLE':'TP','MIN':64,'MAX':100,'UNITS':'S','FUNC':self.set_tp,'UNITS':'S','TOOLTIP':'Set TP'}
 		self.WidgetLayout.addWidget(self.dialIcon(**a1))
 
 
@@ -87,16 +88,16 @@ class AppWindow(QtGui.QMainWindow, template_graph_nofft.Ui_MainWindow,utilitiesC
 
 	def set_icg(self,g):
 		self.icg = g
-		return g
+		return g*1e-6
 
 	def set_tp(self,g):
 		self.tp = g
-		return g
+		return g*1e-6
 
 	def autoRange(self):
 		xlen = self.tg*self.samples*1e-6
 		self.plot.autoRange();
-		chan = self.I.analogInputSources['CH1']
+		chan = self.I.analogInputSources[self.chan]
 		R = [chan.calPoly10(0),chan.calPoly10(1023)]
 		R[0]=R[0]*.9;R[1]=R[1]*.9
 		self.plot.setLimits(yMax=max(R),yMin=min(R),xMin=0,xMax=xlen)
@@ -110,7 +111,7 @@ class AppWindow(QtGui.QMainWindow, template_graph_nofft.Ui_MainWindow,utilitiesC
 	def run(self):
 		if not self.running: return
 		try:
-			self.I.opticalArray(self.tg,self.icg,self.tp)
+			self.I.opticalArray(self.tg,self.icg,self.tp,channel = self.chan)
 			if self.running:self.timer.singleShot(self.samples*self.tg*1e-3+10+self.icg*1e-3,self.plotData)
 		except:
 			pass

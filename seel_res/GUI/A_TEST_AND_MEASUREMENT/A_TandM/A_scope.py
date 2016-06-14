@@ -147,6 +147,8 @@ class AppWindow(QtGui.QMainWindow, analogScope.Ui_MainWindow,utilitiesClass):
 		self.showgrid()
 		self.trigtext.setParentItem(self.arrow)
 		self.prescalerValue=0
+		self.setGainCH1(0)
+		self.setGainCH2(0)
 		self.I.configure_trigger(self.trigger_channel,self.triggerChannelName,0,prescaler = self.prescalerValue)
 		
 		self.autoRange()
