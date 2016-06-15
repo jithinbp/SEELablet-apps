@@ -7,13 +7,15 @@ For python2.7
 -------------
 
 	seelablet-common,
-	python-serial,  python-pyqtgraph,  python-qt4,
+	python-serial,  python-pyqtgraph,  python-qt5,
+	python-pyqt5.qtwebkit,
 	python-appindicator
 
 For python3
 -----------
 	seelablet-common,
-	python3-serial, python3-pyqtgraph, python3-pyqt4.qtopengl,
+	python3-serial, python3-pyqtgraph, python3-pyqt5.qtopengl,
+	python3-pyqt5.qtwebkit
 	gir1.2-appindicator3-0.1
 
 "Exceptional" dependencies
