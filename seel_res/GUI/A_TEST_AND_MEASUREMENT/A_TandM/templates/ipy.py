@@ -1,90 +1,76 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'ipy.ui'
+# Form implementation generated from reading ui file 'seel_res/GUI/A_TEST_AND_MEASUREMENT/A_TandM/templates/ipy.ui'
 #
-# Created: Fri Dec 18 12:46:57 2015
-#      by: PyQt5 UI code generator 4.11.3
+# Created by: PyQt5 UI code generator 5.6
 #
 # WARNING! All changes made in this file will be lost!
 
-from PyQt5 import QtCore, QtGui
-
-try:
-    _fromUtf8 = QtCore.QString.fromUtf8
-except AttributeError:
-    def _fromUtf8(s):
-        return s
-
-try:
-    _encoding = QtGui.QApplication.UnicodeUTF8
-    def _translate(context, text, disambig):
-        return QtGui.QApplication.translate(context, text, disambig, _encoding)
-except AttributeError:
-    def _translate(context, text, disambig):
-        return QtGui.QApplication.translate(context, text, disambig)
+from PyQt5 import QtCore, QtGui, QtWidgets
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
-        MainWindow.setObjectName(_fromUtf8("MainWindow"))
+        MainWindow.setObjectName("MainWindow")
         MainWindow.resize(898, 417)
-        self.centralwidget = QtGui.QWidget(MainWindow)
-        self.centralwidget.setObjectName(_fromUtf8("centralwidget"))
-        self.verticalLayout = QtGui.QVBoxLayout(self.centralwidget)
+        self.centralwidget = QtWidgets.QWidget(MainWindow)
+        self.centralwidget.setObjectName("centralwidget")
+        self.verticalLayout = QtWidgets.QVBoxLayout(self.centralwidget)
+        self.verticalLayout.setContentsMargins(0, 0, 0, 0)
         self.verticalLayout.setSpacing(0)
-        self.verticalLayout.setMargin(0)
-        self.verticalLayout.setObjectName(_fromUtf8("verticalLayout"))
-        self.frame = QtGui.QFrame(self.centralwidget)
-        self.frame.setFrameShape(QtGui.QFrame.StyledPanel)
-        self.frame.setFrameShadow(QtGui.QFrame.Raised)
-        self.frame.setObjectName(_fromUtf8("frame"))
-        self.layout = QtGui.QVBoxLayout(self.frame)
+        self.verticalLayout.setObjectName("verticalLayout")
+        self.frame = QtWidgets.QFrame(self.centralwidget)
+        self.frame.setFrameShape(QtWidgets.QFrame.StyledPanel)
+        self.frame.setFrameShadow(QtWidgets.QFrame.Raised)
+        self.frame.setObjectName("frame")
+        self.layout = QtWidgets.QVBoxLayout(self.frame)
+        self.layout.setContentsMargins(0, 0, 0, 0)
         self.layout.setSpacing(0)
-        self.layout.setMargin(0)
-        self.layout.setObjectName(_fromUtf8("layout"))
+        self.layout.setObjectName("layout")
         self.verticalLayout.addWidget(self.frame)
         MainWindow.setCentralWidget(self.centralwidget)
-        self.menubar = QtGui.QMenuBar(MainWindow)
+        self.menubar = QtWidgets.QMenuBar(MainWindow)
         self.menubar.setGeometry(QtCore.QRect(0, 0, 898, 25))
-        self.menubar.setObjectName(_fromUtf8("menubar"))
+        self.menubar.setObjectName("menubar")
         MainWindow.setMenuBar(self.menubar)
-        self.statusbar = QtGui.QStatusBar(MainWindow)
-        self.statusbar.setObjectName(_fromUtf8("statusbar"))
+        self.statusbar = QtWidgets.QStatusBar(MainWindow)
+        self.statusbar.setObjectName("statusbar")
         MainWindow.setStatusBar(self.statusbar)
-        self.toolBar = QtGui.QToolBar(MainWindow)
-        sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.MinimumExpanding, QtGui.QSizePolicy.Fixed)
+        self.toolBar = QtWidgets.QToolBar(MainWindow)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.MinimumExpanding, QtWidgets.QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.toolBar.sizePolicy().hasHeightForWidth())
         self.toolBar.setSizePolicy(sizePolicy)
-        self.toolBar.setObjectName(_fromUtf8("toolBar"))
+        self.toolBar.setObjectName("toolBar")
         MainWindow.addToolBar(QtCore.Qt.TopToolBarArea, self.toolBar)
         MainWindow.insertToolBarBreak(self.toolBar)
-        self.actionNumpy = QtGui.QAction(MainWindow)
-        self.actionNumpy.setObjectName(_fromUtf8("actionNumpy"))
-        self.actionPylab = QtGui.QAction(MainWindow)
-        self.actionPylab.setObjectName(_fromUtf8("actionPylab"))
-        self.actionScipy = QtGui.QAction(MainWindow)
-        self.actionScipy.setObjectName(_fromUtf8("actionScipy"))
+        self.actionNumpy = QtWidgets.QAction(MainWindow)
+        self.actionNumpy.setObjectName("actionNumpy")
+        self.actionPylab = QtWidgets.QAction(MainWindow)
+        self.actionPylab.setObjectName("actionPylab")
+        self.actionScipy = QtWidgets.QAction(MainWindow)
+        self.actionScipy.setObjectName("actionScipy")
         self.toolBar.addAction(self.actionNumpy)
         self.toolBar.addAction(self.actionScipy)
         self.toolBar.addAction(self.actionPylab)
 
         self.retranslateUi(MainWindow)
-        QtCore.QObject.connect(self.actionNumpy, QtCore.SIGNAL(_fromUtf8("triggered()")), MainWindow.importNumpy)
-        QtCore.QObject.connect(self.actionScipy, QtCore.SIGNAL(_fromUtf8("triggered()")), MainWindow.importScipy)
-        QtCore.QObject.connect(self.actionPylab, QtCore.SIGNAL(_fromUtf8("triggered()")), MainWindow.importPylab)
+        self.actionNumpy.triggered.connect(MainWindow.importNumpy)
+        self.actionScipy.triggered.connect(MainWindow.importScipy)
+        self.actionPylab.triggered.connect(MainWindow.importPylab)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateUi(self, MainWindow):
-        MainWindow.setWindowTitle(_translate("MainWindow", "iPython Console", None))
-        self.toolBar.setWindowTitle(_translate("MainWindow", "toolBar", None))
-        self.actionNumpy.setText(_translate("MainWindow", "Numpy", None))
-        self.actionNumpy.setToolTip(_translate("MainWindow", "import numpy as np", None))
-        self.actionNumpy.setShortcut(_translate("MainWindow", "Ctrl+Shift+N", None))
-        self.actionPylab.setText(_translate("MainWindow", "PyLab", None))
-        self.actionPylab.setToolTip(_translate("MainWindow", "from pylab import *", None))
-        self.actionPylab.setShortcut(_translate("MainWindow", "Ctrl+Shift+P", None))
-        self.actionScipy.setText(_translate("MainWindow", "Scipy", None))
-        self.actionScipy.setToolTip(_translate("MainWindow", "import scipy", None))
-        self.actionScipy.setShortcut(_translate("MainWindow", "Ctrl+Shift+S", None))
+        _translate = QtCore.QCoreApplication.translate
+        MainWindow.setWindowTitle(_translate("MainWindow", "iPython Console"))
+        self.toolBar.setWindowTitle(_translate("MainWindow", "toolBar"))
+        self.actionNumpy.setText(_translate("MainWindow", "Numpy"))
+        self.actionNumpy.setToolTip(_translate("MainWindow", "import numpy as np"))
+        self.actionNumpy.setShortcut(_translate("MainWindow", "Ctrl+Shift+N"))
+        self.actionPylab.setText(_translate("MainWindow", "PyLab"))
+        self.actionPylab.setToolTip(_translate("MainWindow", "from pylab import *"))
+        self.actionPylab.setShortcut(_translate("MainWindow", "Ctrl+Shift+P"))
+        self.actionScipy.setText(_translate("MainWindow", "Scipy"))
+        self.actionScipy.setToolTip(_translate("MainWindow", "import scipy"))
+        self.actionScipy.setShortcut(_translate("MainWindow", "Ctrl+Shift+S"))
 

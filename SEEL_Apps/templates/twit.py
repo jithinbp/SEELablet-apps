@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'seel_res/GUI/E_MISCELLANEOUS/A_Add-ons/templates/NFC.ui'
+# Form implementation generated from reading ui file 'SEEL_Apps/templates/twit.ui'
 #
 # Created by: PyQt5 UI code generator 5.6
 #
@@ -24,14 +24,6 @@ class Ui_MainWindow(object):
         self.verticalLayout_2 = QtWidgets.QVBoxLayout(self.frame)
         self.verticalLayout_2.setContentsMargins(0, 0, 0, -1)
         self.verticalLayout_2.setObjectName("verticalLayout_2")
-        self.detect = QtWidgets.QLabel(self.frame)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Maximum)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.detect.sizePolicy().hasHeightForWidth())
-        self.detect.setSizePolicy(sizePolicy)
-        self.detect.setObjectName("detect")
-        self.verticalLayout_2.addWidget(self.detect)
         self.dataLabel = QtWidgets.QLabel(self.frame)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Maximum)
         sizePolicy.setHorizontalStretch(0)
@@ -46,19 +38,12 @@ class Ui_MainWindow(object):
         self.frame_2.setObjectName("frame_2")
         self.gridLayout = QtWidgets.QGridLayout(self.frame_2)
         self.gridLayout.setObjectName("gridLayout")
-        self.sectorEdit = QtWidgets.QSpinBox(self.frame_2)
-        self.sectorEdit.setMinimum(8)
-        self.sectorEdit.setObjectName("sectorEdit")
-        self.gridLayout.addWidget(self.sectorEdit, 0, 0, 1, 1)
-        self.pushButton = QtWidgets.QPushButton(self.frame_2)
-        self.pushButton.setObjectName("pushButton")
-        self.gridLayout.addWidget(self.pushButton, 0, 1, 1, 1)
-        self.dataEdit = QtWidgets.QLineEdit(self.frame_2)
-        self.dataEdit.setObjectName("dataEdit")
-        self.gridLayout.addWidget(self.dataEdit, 1, 0, 1, 1)
-        self.pushButton_2 = QtWidgets.QPushButton(self.frame_2)
-        self.pushButton_2.setObjectName("pushButton_2")
-        self.gridLayout.addWidget(self.pushButton_2, 1, 1, 1, 1)
+        self.label = QtWidgets.QLabel(self.frame_2)
+        self.label.setObjectName("label")
+        self.gridLayout.addWidget(self.label, 0, 0, 1, 1)
+        self.consumerKey = QtWidgets.QLineEdit(self.frame_2)
+        self.consumerKey.setObjectName("consumerKey")
+        self.gridLayout.addWidget(self.consumerKey, 0, 1, 1, 1)
         self.verticalLayout_2.addWidget(self.frame_2)
         self.frame_3 = QtWidgets.QFrame(self.frame)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.MinimumExpanding)
@@ -92,19 +77,15 @@ class Ui_MainWindow(object):
         MainWindow.setMenuBar(self.menubar)
 
         self.retranslateUi(MainWindow)
-        self.pushButton.clicked.connect(MainWindow.read)
-        self.pushButton_2.clicked.connect(MainWindow.write)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
         self.frame.setProperty("class", _translate("MainWindow", "PeripheralCollection"))
-        self.detect.setText(_translate("MainWindow", "Detecting reader..."))
         self.dataLabel.setText(_translate("MainWindow", ":"))
         self.frame_2.setProperty("class", _translate("MainWindow", "PeripheralCollectionInner"))
-        self.pushButton.setText(_translate("MainWindow", "Read"))
-        self.pushButton_2.setText(_translate("MainWindow", "Write"))
+        self.label.setText(_translate("MainWindow", "TextLabel"))
         self.frame_3.setProperty("class", _translate("MainWindow", "PeripheralCollectionInner"))
         self.autoBox.setText(_translate("MainWindow", "Automatic Detection and reading"))
 

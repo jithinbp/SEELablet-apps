@@ -1,69 +1,54 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'voltWidget.ui'
+# Form implementation generated from reading ui file 'SEEL_Apps/templates/widgets/voltWidget.ui'
 #
-# Created: Sat Jun 11 12:30:26 2016
-#      by: PyQt5 UI code generator 4.11.3
+# Created by: PyQt5 UI code generator 5.6
 #
 # WARNING! All changes made in this file will be lost!
 
-from PyQt5 import QtCore, QtGui
-
-try:
-    _fromUtf8 = QtCore.QString.fromUtf8
-except AttributeError:
-    def _fromUtf8(s):
-        return s
-
-try:
-    _encoding = QtGui.QApplication.UnicodeUTF8
-    def _translate(context, text, disambig):
-        return QtGui.QApplication.translate(context, text, disambig, _encoding)
-except AttributeError:
-    def _translate(context, text, disambig):
-        return QtGui.QApplication.translate(context, text, disambig)
+from PyQt5 import QtCore, QtGui, QtWidgets
 
 class Ui_Form(object):
     def setupUi(self, Form):
-        Form.setObjectName(_fromUtf8("Form"))
+        Form.setObjectName("Form")
         Form.resize(330, 125)
         Form.setMaximumSize(QtCore.QSize(16777215, 125))
-        self.verticalLayout = QtGui.QVBoxLayout(Form)
+        self.verticalLayout = QtWidgets.QVBoxLayout(Form)
+        self.verticalLayout.setContentsMargins(0, 0, 0, 0)
         self.verticalLayout.setSpacing(0)
-        self.verticalLayout.setMargin(0)
-        self.verticalLayout.setObjectName(_fromUtf8("verticalLayout"))
-        self.frame_7 = QtGui.QFrame(Form)
-        sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Preferred)
+        self.verticalLayout.setObjectName("verticalLayout")
+        self.frame_7 = QtWidgets.QFrame(Form)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Preferred)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.frame_7.sizePolicy().hasHeightForWidth())
         self.frame_7.setSizePolicy(sizePolicy)
         self.frame_7.setMaximumSize(QtCore.QSize(400, 125))
-        self.frame_7.setFrameShape(QtGui.QFrame.NoFrame)
-        self.frame_7.setFrameShadow(QtGui.QFrame.Raised)
-        self.frame_7.setObjectName(_fromUtf8("frame_7"))
-        self.verticalLayout_5 = QtGui.QVBoxLayout(self.frame_7)
-        self.verticalLayout_5.setSpacing(0)
+        self.frame_7.setFrameShape(QtWidgets.QFrame.NoFrame)
+        self.frame_7.setFrameShadow(QtWidgets.QFrame.Raised)
+        self.frame_7.setObjectName("frame_7")
+        self.verticalLayout_5 = QtWidgets.QVBoxLayout(self.frame_7)
         self.verticalLayout_5.setContentsMargins(0, 5, 0, 0)
-        self.verticalLayout_5.setObjectName(_fromUtf8("verticalLayout_5"))
-        self.frame = QtGui.QFrame(self.frame_7)
-        sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Preferred, QtGui.QSizePolicy.Maximum)
+        self.verticalLayout_5.setSpacing(0)
+        self.verticalLayout_5.setObjectName("verticalLayout_5")
+        self.frame = QtWidgets.QFrame(self.frame_7)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Maximum)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.frame.sizePolicy().hasHeightForWidth())
         self.frame.setSizePolicy(sizePolicy)
-        self.frame.setFrameShape(QtGui.QFrame.NoFrame)
-        self.frame.setFrameShadow(QtGui.QFrame.Raised)
-        self.frame.setObjectName(_fromUtf8("frame"))
-        self.horizontalLayout = QtGui.QHBoxLayout(self.frame)
-        self.horizontalLayout.setSpacing(0)
+        self.frame.setFrameShape(QtWidgets.QFrame.NoFrame)
+        self.frame.setFrameShadow(QtWidgets.QFrame.Raised)
+        self.frame.setObjectName("frame")
+        self.horizontalLayout = QtWidgets.QHBoxLayout(self.frame)
         self.horizontalLayout.setContentsMargins(4, 0, 4, 0)
-        self.horizontalLayout.setObjectName(_fromUtf8("horizontalLayout"))
-        self.label = QtGui.QLabel(self.frame)
-        self.label.setObjectName(_fromUtf8("label"))
+        self.horizontalLayout.setSpacing(0)
+        self.horizontalLayout.setObjectName("horizontalLayout")
+        self.label = QtWidgets.QLabel(self.frame)
+        self.label.setObjectName("label")
         self.horizontalLayout.addWidget(self.label)
-        self.commandLinkButton = QtGui.QCommandLinkButton(self.frame)
-        sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Preferred, QtGui.QSizePolicy.Preferred)
+        self.commandLinkButton = QtWidgets.QCommandLinkButton(self.frame)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.commandLinkButton.sizePolicy().hasHeightForWidth())
@@ -71,23 +56,23 @@ class Ui_Form(object):
         self.commandLinkButton.setMinimumSize(QtCore.QSize(94, 0))
         self.commandLinkButton.setMaximumSize(QtCore.QSize(16777215, 30))
         self.commandLinkButton.setAutoRepeatDelay(100)
-        self.commandLinkButton.setObjectName(_fromUtf8("commandLinkButton"))
+        self.commandLinkButton.setObjectName("commandLinkButton")
         self.horizontalLayout.addWidget(self.commandLinkButton)
         self.verticalLayout_5.addWidget(self.frame)
-        self.Frame_4 = QtGui.QFrame(self.frame_7)
-        self.Frame_4.setProperty("PeripheralCollectionInner", _fromUtf8(""))
-        self.Frame_4.setObjectName(_fromUtf8("Frame_4"))
-        self.gridLayout_4 = QtGui.QGridLayout(self.Frame_4)
-        self.gridLayout_4.setSizeConstraint(QtGui.QLayout.SetNoConstraint)
-        self.gridLayout_4.setMargin(0)
+        self.Frame_4 = QtWidgets.QFrame(self.frame_7)
+        self.Frame_4.setProperty("PeripheralCollectionInner", "")
+        self.Frame_4.setObjectName("Frame_4")
+        self.gridLayout_4 = QtWidgets.QGridLayout(self.Frame_4)
+        self.gridLayout_4.setSizeConstraint(QtWidgets.QLayout.SetNoConstraint)
+        self.gridLayout_4.setContentsMargins(0, 0, 0, 0)
         self.gridLayout_4.setSpacing(0)
-        self.gridLayout_4.setObjectName(_fromUtf8("gridLayout_4"))
-        self.table = QtGui.QTableWidget(self.Frame_4)
+        self.gridLayout_4.setObjectName("gridLayout_4")
+        self.table = QtWidgets.QTableWidget(self.Frame_4)
         self.table.setVerticalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOff)
         self.table.setHorizontalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOff)
         self.table.setRowCount(3)
         self.table.setColumnCount(4)
-        self.table.setObjectName(_fromUtf8("table"))
+        self.table.setObjectName("table")
         self.table.horizontalHeader().setVisible(False)
         self.table.horizontalHeader().setDefaultSectionSize(80)
         self.table.horizontalHeader().setMinimumSectionSize(85)
@@ -100,14 +85,15 @@ class Ui_Form(object):
         self.verticalLayout.addWidget(self.frame_7)
 
         self.retranslateUi(Form)
-        QtCore.QObject.connect(self.commandLinkButton, QtCore.SIGNAL(_fromUtf8("clicked()")), Form.read)
+        self.commandLinkButton.clicked.connect(Form.read)
         QtCore.QMetaObject.connectSlotsByName(Form)
 
     def retranslateUi(self, Form):
-        Form.setWindowTitle(_translate("Form", "Form", None))
-        self.frame_7.setProperty("class", _translate("Form", "ControlWidget", None))
-        self.label.setText(_translate("Form", "Voltmeters", None))
-        self.commandLinkButton.setToolTip(_translate("Form", "Read voltages from all channels and display them", None))
-        self.commandLinkButton.setText(_translate("Form", "Update", None))
-        self.Frame_4.setProperty("class", _translate("Form", "ControlWidgetInner", None))
+        _translate = QtCore.QCoreApplication.translate
+        Form.setWindowTitle(_translate("Form", "Form"))
+        self.frame_7.setProperty("class", _translate("Form", "ControlWidget"))
+        self.label.setText(_translate("Form", "Voltmeters"))
+        self.commandLinkButton.setToolTip(_translate("Form", "Read voltages from all channels and display them"))
+        self.commandLinkButton.setText(_translate("Form", "Update"))
+        self.Frame_4.setProperty("class", _translate("Form", "ControlWidgetInner"))
 
