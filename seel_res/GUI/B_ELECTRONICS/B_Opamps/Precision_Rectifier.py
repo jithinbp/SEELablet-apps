@@ -21,14 +21,10 @@ import sys,functools,time
 
 params = {
 'image' : 'halfwave.png',
-'name':'Half Wave\nRectifier',
+'name':'Precision\nRectifier',
 'hint':'''
-	Study halfwave rectifiers.<br>
-	Connect Wavegen 1 to a diode as well as CH1.<br>
-	connect the other end of the diode to CH2.<br>
-	Provide a load resistor(1K) from CH2 to ground.<br>
-	Observe Half wave rectification.
-	
+	Build and study a precision rectifier made with an Op-Amp and diodes.<br>
+	Observe Half wave rectification.	
 	'''
 
 }

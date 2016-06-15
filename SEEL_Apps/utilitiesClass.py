@@ -159,20 +159,20 @@ class utilitiesClass():
 			plot.enableAutoRange(True,True)
 
 	def enableCrossHairs(self,plot,curves):
-		self.plot.setTitle('')
+		plot.setTitle('')
 		vLine = pg.InfiniteLine(angle=90, movable=False,pen=[100,100,200,200])
 		plot.addItem(vLine, ignoreBounds=True)
 		hLine = pg.InfiniteLine(angle=0, movable=False,pen=[100,100,200,200])
 		plot.addItem(hLine, ignoreBounds=True)
 		plot.hLine = hLine; plot.vLine = vLine
 		crossHairPartial = functools.partial(self.crossHairEvent,plot)
-		proxy = pg.SignalProxy(self.plot.scene().sigMouseClicked, rateLimit=60, slot=crossHairPartial)
+		proxy = pg.SignalProxy(plot.scene().sigMouseClicked, rateLimit=60, slot=crossHairPartial)
 		plot.proxy = proxy
 		plot.mousePoint=None
 
 	def crossHairEvent(self,plot,evt):
 		pos = evt[0].scenePos()  ## using signal proxy turns original arguments into a tuple
-		if self.plot.sceneBoundingRect().contains(pos):
+		if plot.sceneBoundingRect().contains(pos):
 			plot.mousePoint = plot.getPlotItem().vb.mapSceneToView(pos)
 			plot.vLine.setPos(plot.mousePoint.x())
 			plot.hLine.setPos(plot.mousePoint.y())
@@ -920,6 +920,12 @@ class utilitiesClass():
 		a={'TITLE':'SQR 1','MIN':1,'MAX':100000,'FUNC':self.I.sqr1,'TYPE':'dial','UNITS':'Hz','TOOLTIP':'Frequency of SQR1'}
 		if link: a['LINK'] = link
 		return self.dialAndDoubleSpinIcon(**a)
+
+	def addTimebase(self,I,func):
+		a={'TITLE':'TIMEBASE','MIN':0,'MAX':9,'FUNC':func,'TYPE':'dial','UNITS':'S','TOOLTIP':'Set Timebase of the oscilloscope'}
+		T2 = self.dialIcon(**a)
+		T2.dial.setPageStep(1)
+		return T2
 
 
 

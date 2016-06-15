@@ -22,13 +22,9 @@ import numpy as np
 
 params = {
 'image' : 'bodeplot.jpg',
-'helpfile': 'transistorCE.html',
-'name':'Filter\nCharacteristics',
+'name':'Voltage\nControlled\nLow-Pass Filter',
 'hint':'''
-	Study frequency responses of filters.<br>
-	Wavegen 1 is connected to the input and simultaneously monitored via CH1.<br>
-	The output of the filter is connected to CH2.<br>
-	Curve fitting routines extract data and plot the dependence of amplitude and phase on input frequency.
+	Make and Study a voltage controlled low pass filter using an analog multiplier IC such as AD633.<br>
 	'''
 
 }
@@ -45,6 +41,7 @@ class AppWindow(QtGui.QMainWindow, template_bandpass.Ui_MainWindow,utilitiesClas
 
 		self.plot1=self.add2DPlot(self.plot_area)
 		self.plot2=self.add2DPlot(self.plot_area)
+		#self.enableCrossHairs(self.plot2,[])
 		
 		self.legend = self.plot1.addLegend(offset=(-10,30))
 		self.curve1 = self.addCurve(self.plot1,'INPUT (CH1)')
@@ -58,6 +55,12 @@ class AppWindow(QtGui.QMainWindow, template_bandpass.Ui_MainWindow,utilitiesClas
 		self.p2.setYRange(-360,360)
 		self.curvePhase=self.addCurve(self.p2,'PHASE',pen=[0,255,255])#pg.PlotCurveItem()
 		self.curveAmp = self.addCurve(self.plot2,'AMPLITUDE',pen=[255,255,255])
+
+		#self.ControlsLayout.addWidget(self.gainIconCombined(FUNC=self.I.set_gain,LINK=self.autoRange))
+		self.pv = self.addPV3(self.I)
+		self.ControlsLayout.addWidget(self.pv)
+		self.pv.dial.setValue(2048)
+
 
 		self.totalpoints=2000
 		self.samples = 2000
@@ -175,6 +178,8 @@ class AppWindow(QtGui.QMainWindow, template_bandpass.Ui_MainWindow,utilitiesClas
 			#print chisq2[0]
 			self.curveAmp.setData(self.freqs,self.amps)
 			self.curvePhase.setData(self.freqs,self.dP)
+		
+		#self.displayCrossHairData(self.plot2,False,len(self.freqs),abs(self.DELTAFRQ),[self.freqs],[(255,255,255)])
 		if self.running:self.loop = self.delayedTask(10,self.newset)
 		
 		

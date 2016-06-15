@@ -12,7 +12,7 @@
 from __future__ import print_function
 from SEEL_Apps.utilitiesClass import utilitiesClass
 
-from .templates import template_xc
+from templates import template_xc
 
 import numpy as np
 from PyQt4 import QtGui,QtCore
@@ -71,20 +71,17 @@ class AppWindow(QtGui.QMainWindow, template_xc.Ui_MainWindow,utilitiesClass):
 		self.I.configure_trigger(0,'CH1',0)
 		self.tg=20
 		self.samples = 2000
+		self.max_samples = 2000
 		self.prescaler = 0
-		self.setTimeGap(20)
 		self.timer = QtCore.QTimer()
 
 		self.WidgetLayout.setAlignment(QtCore.Qt.AlignLeft)
 
-		a1={'TITLE':'Wave 1','MIN':0,'MAX':5000,'FUNC':self.I.set_sine1,'TYPE':'dial','UNITS':'Hz','TOOLTIP':'Frequency of waveform generator #1','LINK':self.updateLabels}
-		self.fdial = self.dialIcon(**a1)
+		self.fdial = self.addW1(self.I);
 		self.WidgetLayout.addWidget(self.fdial)
-		self.fspin = self.doubleSpinIcon(**a1)
-		self.WidgetLayout.addWidget(self.fspin)
+		self.fdial.dial.setValue(100)
 
-		#Set initial values
-		self.fdial.dial.setValue(100);self.fspin.doubleSpinBox.setValue(100)
+		self.WidgetLayout.addWidget(self.addTimebase(self.I,self.set_timebase))
 
 		self.timer.singleShot(100,self.run)
 		self.resultsTable.setRowCount(50)
@@ -98,20 +95,17 @@ class AppWindow(QtGui.QMainWindow, template_xc.Ui_MainWindow,utilitiesClass):
 		self.plotBButton.setText('F vs Vc/I')
 		self.splitter.setSizes([10,1000])
 
-	def updateLabels(self,value,units=''):
-		self.fdial.value.setText('%.3f %s '%(value,units))
-		self.fspin.value.setText('%.3f %s '%(value,units))
-		if value:self.tg = 1e6*(5./value)/self.samples
-		if self.tg<2:self.tg=2
-		elif self.tg>200:self.tg=200
-		self.setTimeGap(self.tg)
-		
-	def setTimeGap(self,tg):
-		self.tg = tg
+
+	def set_timebase(self,g):
+		timebases = [1.5,2,4,8,16,32,128,256,512,1024]
+		self.prescalerValue=[0,0,0,0,1,1,2,2,3,3,3][g]
+		samplescaling=[1,1,1,1,1,0.5,0.4,0.3,0.2,0.2,0.1]
+		self.tg=timebases[g]
+		self.samples = int(self.max_samples*samplescaling[g])
 		self.plot1.setXRange(0,self.samples*self.tg*1e-6)
 		self.plot1.setLimits(yMax=8,yMin=-8,xMin=0,xMax=self.samples*self.tg*1e-6)
 		self.p2.setLimits(yMax=8,yMin=-8,xMin=0,xMax=self.samples*self.tg*1e-6)
-
+		return self.samples*self.tg*1e-6
 
 	def fit(self):
 		print ("Adding...")
@@ -184,7 +178,7 @@ class AppWindow(QtGui.QMainWindow, template_xc.Ui_MainWindow,utilitiesClass):
 		self.saveToCSV(self.resultsTable)
 
 	def savePlots(self):
-		self.saveDataWindow([self.curveCH1,self.curveCH2,self.curveXY])
+		self.saveDataWindow([self.curveCH1,self.curveCH2,self.curveXY],self.plot1)
 
 
 	def setTimebase(self,T):

@@ -316,7 +316,7 @@ class MyMainWindow(QtGui.QMainWindow, single_col_exp.Ui_MainWindow,utilitiesClas
 			inst = FILE.AppWindow(self,I=self.I)
 			inst.show()
 			size = inst.geometry()
-			inst.setGeometry(400, 50,size.width(), size.height())
+			inst.setGeometry(500, 50,size.width(), size.height())
 
 			self.runningApp = inst
 			#Load help HTML if found

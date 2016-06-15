@@ -1,8 +1,5 @@
 #!/usr/bin/python
 '''
-Study Common Emitter Characteristics of NPN transistors.
-Saturation currents, and their dependence on base current 
-can be easily visualized.
 
 '''
 
@@ -23,12 +20,10 @@ import numpy as np
 params = {
 'image' : 'bodeplot.jpg',
 'helpfile': 'transistorCE.html',
-'name':'Filter\nCharacteristics',
+'name':'Piezo Bandwidth\nCharacteristics',
 'hint':'''
-	Study frequency responses of filters.<br>
-	Wavegen 1 is connected to the input and simultaneously monitored via CH1.<br>
-	The output of the filter is connected to CH2.<br>
-	Curve fitting routines extract data and plot the dependence of amplitude and phase on input frequency.
+	Study frequency response of a piezo buzzer using an audio microphone.<br>
+	Curve fitting routines extract data and plot the dependence of amplitude on input frequency.
 	'''
 
 }
@@ -47,20 +42,15 @@ class AppWindow(QtGui.QMainWindow, template_bandpass.Ui_MainWindow,utilitiesClas
 		self.plot2=self.add2DPlot(self.plot_area)
 		
 		self.legend = self.plot1.addLegend(offset=(-10,30))
-		self.curve1 = self.addCurve(self.plot1,'INPUT (CH1)')
-		self.curve2 = self.addCurve(self.plot1,'OUTPUT(CH2)')
-		self.p2=self.enableRightAxis(self.plot2)
-		self.plot2.getAxis('right').setLabel('Phase', color='#00ffff')
+		self.curve1 = self.addCurve(self.plot1,'INPUT (CH2)')
+		self.curve2 = self.addCurve(self.plot1,'OUTPUT(MIC)')
 		self.plot2.getAxis('left').setLabel('Amplitude', color='#ffffff')
 
 		self.plot1.getAxis('bottom').setLabel('Time',units='S' ,color='#ffffff')
 		self.plot2.getAxis('bottom').setLabel('Frequency',units='Hz', color='#ffffff')
-		self.p2.setYRange(-360,360)
-		self.curvePhase=self.addCurve(self.p2,'PHASE',pen=[0,255,255])#pg.PlotCurveItem()
 		self.curveAmp = self.addCurve(self.plot2,'AMPLITUDE',pen=[255,255,255])
 
-		self.totalpoints=2000
-		self.samples = 2000
+		self.samples = 5000
 		self.X=[]
 		self.Y=[]
 		
@@ -69,10 +59,11 @@ class AppWindow(QtGui.QMainWindow, template_bandpass.Ui_MainWindow,utilitiesClas
 
 		from SEEL.analyticsClass import analyticsClass
 		self.CC = analyticsClass()
-		self.I.configure_trigger(0,'CH1',0)
-		self.I.set_sine1(5000)
-		self.I.__autoRangeScope__(2)
+		self.I.configure_trigger(1,'CH2',0)
 		self.I.set_sine1(2)
+		self.I.set_gain('CH2',2)
+		self.startFreq.setValue(3000)
+		self.stopFreq.setValue(4000)
 
 		self.freqs=[]
 		self.amps=[]
@@ -124,10 +115,10 @@ class AppWindow(QtGui.QMainWindow, template_bandpass.Ui_MainWindow,utilitiesClas
 	def newset(self):
 		if(not self.running):return
 		frq = self.I.set_sine1(self.frq)
-		time.sleep(0.1)
-		tg=int(1e6/frq/1000)+1
+		time.sleep(0.01)
+		tg=int(1e6/frq/500)+1
 		
-		self.I.capture_traces(2,self.samples,tg,trigger=True)
+		self.I.capture_traces(2,self.samples,tg,'MIC',trigger=True)
 		self.loop=self.delayedTask(self.samples*self.I.timebase*1e-3+10,self.plotData,frq)		
 		self.plot1.setLimits(xMin = 0,xMax = self.samples*self.I.timebase*1e-6)
 
@@ -148,33 +139,22 @@ class AppWindow(QtGui.QMainWindow, template_bandpass.Ui_MainWindow,utilitiesClas
 
 	def plotData(self,frq):		
 		if(not self.running):return
-		x,y=self.I.fetch_trace(1)
+		x,y=self.I.fetch_trace(2)   #CH2 . Input
 		self.curve1.setData(x*1e-6,y)
-		self.I.__autoSelectRange__('CH1',max(abs(y)))
-		pars1 = self.CC.sineFit(x,y)
 
-		x,y=self.I.fetch_trace(2)
+		x,y=self.I.fetch_trace(1)   #Microphone
 		self.curve2.setData(x*1e-6,y)
-		self.I.__autoSelectRange__('CH2',max(abs(y)))
 		pars2 = self.CC.sineFit(x,y)#),freq=self.frq)
-		if pars1 and pars2:
-			a1,f1,o1,p1 = pars1
+		if pars2:
 			a2,f2,o2,p2 = pars2
-			if (a2 and a1) and (abs(f2-frq)<10):
+			if a2 and (abs(f2-frq)<10):
 				#self.msg.setText("Set F:%.1f\tFitted F:%.1f"%(frq,f1))
-				self.freqs.append(f1)
-				self.amps.append(a2/a1)
-				p2=(p2)
-				p1=(p1)
-				dp=(p2-p1)-360
-				if dp<-360:dp+=360
-				self.dP.append(dp)
+				self.freqs.append(frq)
+				self.amps.append(a2)
 			else:
 				print ('err!')
-			print ('%d:\tF: %.2f,%.2f\tA: %.2f,%.2f\tP: %.1f,%.1f'%(frq,f1,f2,a1,a2,p1,p2))
 			#print chisq2[0]
 			self.curveAmp.setData(self.freqs,self.amps)
-			self.curvePhase.setData(self.freqs,self.dP)
 		if self.running:self.loop = self.delayedTask(10,self.newset)
 		
 		
@@ -183,7 +163,7 @@ class AppWindow(QtGui.QMainWindow, template_bandpass.Ui_MainWindow,utilitiesClas
 		self.displayObjectContents({'Frequency Response':np.column_stack([self.freqs,self.amps,self.dP])})
 
 	def savePlots(self):
-		self.saveDataWindow([self.curvePhase,self.curveAmp],self.plot2)
+		self.saveDataWindow([self.curveAmp],self.plot2)
 
 
 	def clearData(self):
@@ -191,7 +171,6 @@ class AppWindow(QtGui.QMainWindow, template_bandpass.Ui_MainWindow,utilitiesClas
 		self.amps=[]
 		self.dP=[]
 		self.curveAmp.clear()
-		self.curvePhase.clear()
 		self.frq=self.STARTFRQ
 		print ('cleared data')
 

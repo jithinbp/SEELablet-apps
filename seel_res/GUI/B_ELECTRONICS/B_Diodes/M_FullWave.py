@@ -46,6 +46,7 @@ class AppWindow(QtGui.QMainWindow, template_graph_nofft.Ui_MainWindow,utilitiesC
 		self.I.set_gain('CH1',2)
 		self.I.set_gain('CH2',2)
 		self.samples = 2000
+		self.max_samples=2000
 		self.setWindowTitle(self.I.H.version_string+' : '+params.get('name','').replace('\n',' ') )
 
 		self.plot=self.add2DPlot(self.plot_area)
@@ -60,8 +61,7 @@ class AppWindow(QtGui.QMainWindow, template_graph_nofft.Ui_MainWindow,utilitiesC
 		self.curveCH2 = self.addCurve(self.plot,'INPUT 2(CH2)')
 		self.curveCH3 = self.addCurve(self.plot,'OUTPUT(CH3)')
 
-		self.WidgetLayout.setAlignment(QtCore.Qt.AlignLeft)        
-
+		self.WidgetLayout.setAlignment(QtCore.Qt.AlignLeft)
 
 		self.sineSection = self.sineWidget(self.I)
 		self.WidgetLayout.addWidget(self.sineSection)
@@ -69,6 +69,7 @@ class AppWindow(QtGui.QMainWindow, template_graph_nofft.Ui_MainWindow,utilitiesC
 		self.sinewidget = self.addW1(self.I,self.updateLabels)
 		self.WidgetLayout.addWidget(self.sinewidget)
 		self.sinewidget.dial.setValue(500)
+		self.WidgetLayout.addWidget(self.addTimebase(self.I,self.set_timebase))
 
 
 		self.running=True
@@ -110,11 +111,20 @@ class AppWindow(QtGui.QMainWindow, template_graph_nofft.Ui_MainWindow,utilitiesC
 		self.sineSection.SINEPHASE.setValue(180)
 
 
-	def setTimebase(self,T):
-		self.tgs = [0.5,1,2,4,6,8,10,25,50,100]
-		self.tg = self.tgs[T]
-		self.tgLabel.setText(str(self.samples*self.tg*1e-3)+'mS')
-		self.plot.setLimits(xMax = self.samples*self.tg*1e-6)
+
+	def set_timebase(self,g):
+		try:
+			timebases = [1.5,2,4,8,16,32,128,256,512,1024]
+			self.prescalerValue=[0,0,0,0,1,1,2,2,3,3,3][g]
+			samplescaling=[1,1,1,1,1,0.5,0.4,0.3,0.2,0.2,0.1]
+			self.tg=timebases[g]
+			self.samples = int(self.max_samples*samplescaling[g])
+			xlen = self.samples*self.tg*1e-6
+			self.plot.setLimits(xMax = xlen)
+			self.plot.setXRange(0,xlen)
+			return xlen
+		except Exception,e:
+			print(e)
 		
 	def closeEvent(self, event):
 		self.running=False

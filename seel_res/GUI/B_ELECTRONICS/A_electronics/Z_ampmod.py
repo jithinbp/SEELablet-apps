@@ -59,9 +59,15 @@ class AppWindow(QtGui.QMainWindow, ampMod.Ui_MainWindow,utilitiesClass):
 		
 		self.plotF=self.add2DPlot(self.plot_area,enableMenu=False)
 		self.plotF.setLabel('bottom', 'Frequency', units='Hz')
+		self.FT=50
+		xlen = 1.e6/self.FT/2
+		self.plotF.autoRange();self.plotF.setXRange(0,min(10e3,xlen))
+		self.plotF.setLimits(xMin=0,xMax=min(10e3,xlen))
+		self.plot2.setMouseEnabled(True,True)
+		self.ftzoomout = self.rightClickToZoomOut(self.plotF)
+
 
 		self.plot.getPlotItem().setMouseEnabled(True,False)
-		self.plot2.setMouseEnabled(True,False)
 
 		#self.plot.getViewBox().setMouseMode(pg.ViewBox.RectMode)
 		self.plot.hideButtons();#self.plotF.hideButtons()
@@ -96,10 +102,12 @@ class AppWindow(QtGui.QMainWindow, ampMod.Ui_MainWindow,utilitiesClass):
 		self.legend = self.plot.addLegend(offset=(-10,30))
 		self.legend.addItem(self.curve1,'CH1');self.legend.addItem(self.curve2,'CH2');
 		
+		#self.I.load_equation('W2','sine',amp=0.7)
+		
 		self.WidgetLayout.setAlignment(QtCore.Qt.AlignLeft)
-		a1={'TITLE':'W2(Carrier)','MIN':10,'MAX':5000,'FUNC':self.I.set_sine2,'TYPE':'dial','UNITS':'Hz','TOOLTIP':'Frequency of waveform generator #2.\nUsed as the Carrier Wave'}
+		a1={'TITLE':'W2(Carrier)','MIN':10,'MAX':5000,'FUNC':self.I.set_w2,'TYPE':'dial','UNITS':'Hz','TOOLTIP':'Frequency of waveform generator #2.\nUsed as the Carrier Wave'}
 		self.w1 = self.dialAndDoubleSpinIcon(**a1);self.WidgetLayout.addWidget(self.w1);self.w1.dial.setValue(5000)
-		a1={'TITLE':'W1(Mod)','MIN':10,'MAX':500,'FUNC':self.I.set_sine1,'TYPE':'dial','UNITS':'Hz','TOOLTIP':'Frequency of waveform generator #1.\nUsed as the Modulation input'}
+		a1={'TITLE':'W1(Mod)','MIN':10,'MAX':500,'FUNC':self.I.set_w1,'TYPE':'dial','UNITS':'Hz','TOOLTIP':'Frequency of waveform generator #1.\nUsed as the Modulation input'}
 		self.w2 = self.dialAndDoubleSpinIcon(**a1);self.WidgetLayout.addWidget(self.w2);self.w2.dial.setValue(400)
 
 
@@ -113,12 +121,9 @@ class AppWindow(QtGui.QMainWindow, ampMod.Ui_MainWindow,utilitiesClass):
 		self.proxy = pg.SignalProxy(self.plot.scene().sigMouseClicked, rateLimit=60, slot=self.mouseClicked)
 		self.mousePoint=None
 
-		#add FFT curves
-		self.curveFft=[]
-		self.curveFft.append( self.addCurve(self.plotF,name='CH1 FFT'));
-		self.curveFft[0].setPen(color=self.trace_colors[0], width=1)
-		self.curveFft.append( self.addCurve(self.plotF,name='CH2 FFT'));
-		self.curveFft[1].setPen(color=self.trace_colors[1], width=1)
+		#add FFT curve
+		self.curveFft= self.addCurve(self.plotF,name='CH1 FFT')
+		self.curveFft.setPen(color=self.trace_colors[0], width=1)
 
 		#Add fit overlay curves
 		self.curveFL= self.addCurve(self.plot)
@@ -152,7 +157,7 @@ class AppWindow(QtGui.QMainWindow, ampMod.Ui_MainWindow,utilitiesClass):
 		self.autoRange()
 		self.timer = QtCore.QTimer()
 		self.finished=False
-		self.timer.singleShot(500,self.start_capture)
+		self.timer.singleShot(500,self.start_captureNORMAL)
 		self.enableShortcuts()
 
 
@@ -179,15 +184,14 @@ class AppWindow(QtGui.QMainWindow, ampMod.Ui_MainWindow,utilitiesClass):
 		#self.plot2.showGrid(True,False,0.7)
 		return
 				
-	def start_capture(self):
+	def start_captureNORMAL(self):
 		if self.finished:
 			return
 		if(self.freezeButton.isChecked()):
-			self.timer.singleShot(200,self.start_capture)
+			self.timer.singleShot(200,self.start_captureNORMAL)
 			return
 
 		try:
-			#self.plot.setTitle('%0.2f fps, 	%0.1f ^C' % (self.fps,self.I.get_temperature() ) )
 			self.channels_in_buffer=self.active_channels
 
 			a = self.CH1_ENABLE.isChecked()
@@ -204,19 +208,15 @@ class AppWindow(QtGui.QMainWindow, ampMod.Ui_MainWindow,utilitiesClass):
 			self.channel_states[1]=b
 			
 			if self.active_channels:
-				#if self.highresMode and self.active_channels == 1:
-				#	self.I.configure_trigger(self.trigger_channel,self.triggerChannelName,self.trigger_level,resolution=12,prescaler=self.prescalerValue)
-				#	self.I.capture_highres_traces('CH1',self.samples,self.timebase,trigger=self.triggerBox.isChecked())
-				#else:
 				self.I.configure_trigger(self.trigger_channel,self.triggerChannelName,self.trigger_level,resolution=10,prescaler=self.prescalerValue)
 				self.I.capture_traces(self.active_channels,self.samples,self.timebase,'CH1',0,trigger=self.triggerBox.isChecked())
 		except:
 			print ('error')
 			self.close()
 
-		self.timer.singleShot(self.samples*self.I.timebase*1e-3+10+self.prescalerValue*20,self.update)
+		self.timer.singleShot(self.samples*self.I.timebase*1e-3+10+self.prescalerValue*20,self.updateNORMAL)
 
-	def update(self):
+	def updateNORMAL(self):
 		n=0
 		try:
 			while(not self.I.oscilloscope_progress()[0]):
@@ -224,7 +224,7 @@ class AppWindow(QtGui.QMainWindow, ampMod.Ui_MainWindow,utilitiesClass):
 				print (self.timebase,'correction required',n)
 				n+=1
 				if n>10:
-					self.timer.singleShot(100,self.start_capture)
+					self.timer.singleShot(100,self.start_captureNORMAL)
 					return
 			for a in range(min(self.channels_in_buffer,3)): self.I.__fetch_channel__(a+1)
 		except:
@@ -271,11 +271,6 @@ class AppWindow(QtGui.QMainWindow, ampMod.Ui_MainWindow,utilitiesClass):
 				#self.curve3.setData(self.I.achans[pos].get_xaxis()*1e-6,self.I.achans[pos].get_yaxis(),connect='finite')
 			pos+=1
 
-		for a in range(2):self.curveFft[a].clear()
-		#UPDATE THE FOURIER TRANSFORMS
-		for a in range(2):
-			x,y = self.math.fft(self.I.achans[a].get_yaxis(),self.I.timebase*1e-6)
-			if self.channel_states[a]: self.curveFft[a].setData(x,y,connect='finite')
 
 
 		now = time.time()
@@ -308,7 +303,51 @@ class AppWindow(QtGui.QMainWindow, ampMod.Ui_MainWindow,utilitiesClass):
 				self.hLine.setPos(-1)
 
 
-		self.timer.singleShot(100,self.start_capture)
+		self.timer.singleShot(100,self.start_captureFFT)
+
+
+
+	def start_captureFFT(self):
+		if self.finished:
+			return
+		if(self.freezeButton.isChecked()):
+			self.timer.singleShot(200,self.start_captureFFT)
+			return
+
+		try:
+			self.channels_in_buffer=1
+			self.I.capture_traces(1,10000,self.FT,'CH1',0,trigger=False)
+		except:
+			print ('error')
+			self.close()
+
+		self.timer.singleShot(10000*self.FT*1e-3+10,self.updateFFT)
+
+
+
+
+
+	def updateFFT(self):
+		n=0
+		try:
+			while(not self.I.oscilloscope_progress()[0]):
+				time.sleep(0.1)
+				print (self.timebase,'correction required',n)
+				n+=1
+				if n>10:
+					self.timer.singleShot(100,self.start_captureNORMAL)
+					return
+			self.I.__fetch_channel__(1)
+		except:
+			self.message_label.setText ('communication error')
+			self.timer.singleShot(100,self.start_captureNORMAL)
+
+		self.curveFft.clear()
+		#UPDATE THE FOURIER TRANSFORMS
+		x,y = self.math.fft(self.I.achans[0].get_yaxis(),self.I.timebase*1e-6)
+		self.curveFft.setData(x,y,connect='finite')
+
+		self.timer.singleShot(100,self.start_captureNORMAL)
 
 
 
@@ -485,9 +524,6 @@ class AppWindow(QtGui.QMainWindow, ampMod.Ui_MainWindow,utilitiesClass):
 		self.plot2.setLimits(yMax=max(R2),yMin=min(R2))		
 		self.plot.setXRange(0,xlen)
 
-		xlen = 1.e6/self.timebase/2
-		self.plotF.autoRange();self.plotF.setXRange(0,xlen)
-		self.plotF.setLimits(xMin=0,xMax=xlen)
 
 
 
@@ -496,7 +532,7 @@ class AppWindow(QtGui.QMainWindow, ampMod.Ui_MainWindow,utilitiesClass):
 		self.saveDataWindow([self.curve1,self.curve2],self.plot)
 
 	def saveFft(self):
-		self.saveDataWindow(self.curveFft,self.plotF)
+		self.saveDataWindow([self.curveFft],self.plotF)
 
 
 	def closeEvent(self, event):

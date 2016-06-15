@@ -66,8 +66,8 @@ class AppWindow(QtGui.QMainWindow, template_graph.Ui_MainWindow,utilitiesClass):
 		self.WidgetLayout.addWidget(self.addPV3(self.I))
 
 
-		a1={'TITLE':'TIMEBASE','MIN':0,'MAX':9,'FUNC':self.set_timebase,'UNITS':'S','TOOLTIP':'Set Timebase of the oscilloscope'}
-		self.ControlsLayout.addWidget(self.dialIcon(**a1))
+		self.ControlsLayout.addWidget(self.addTimebase(self.I,self.set_timebase))
+
 
 		self.ControlsLayout.addWidget(self.gainIconCombined(FUNC=self.I.set_gain,LINK=self.gainChanged))
 

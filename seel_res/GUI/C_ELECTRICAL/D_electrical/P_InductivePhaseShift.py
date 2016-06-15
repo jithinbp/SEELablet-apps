@@ -12,7 +12,7 @@
 from __future__ import print_function
 from SEEL_Apps.utilitiesClass import utilitiesClass
 
-from .templates import template_xl
+from templates import template_xl
 
 import numpy as np
 from PyQt4 import QtGui,QtCore
@@ -22,7 +22,7 @@ import sys,functools,time
 params = {
 'image' : 'XLi.png',
 'helpfile': 'http://www.electronics-tutorials.ws/inductor/ac-inductors.html',
-'name':'LC Phase Shift',
+'name':'LR Phase Shift',
 'hint':'''
 	Study the phase shift caused by inductors, and also the ratio of input and output amplitudes and their dependence on frequency
 	'''
@@ -43,8 +43,8 @@ class AppWindow(QtGui.QMainWindow, template_xl.Ui_MainWindow,utilitiesClass):
 
 		self.p2=self.enableRightAxis(self.plot1)
 
-		self.plot1.getAxis('left').setLabel('Vc -->>', units='V', color='#ffffff')
-		self.plot1.getAxis('right').setLabel('VR -->>', units='V', color='#00ffff')
+		self.plot1.getAxis('left').setLabel('VL', units='V', color='#ffffff')
+		self.plot1.getAxis('right').setLabel('VR', units='V', color='#00ffff')
 		self.p1legend = self.plot1.addLegend(offset=(-1,1))
 
 		self.I.set_gain('CH1',3)
@@ -54,43 +54,42 @@ class AppWindow(QtGui.QMainWindow, template_xl.Ui_MainWindow,utilitiesClass):
 		self.p2.setYRange(-8.5,8.5)
 
 		self.curveCH1 = self.addCurve(self.plot1,'VC(CH1-CH2)')
-		self.curveCH2 = self.addCurve(self.p2,'VR(CH2)')
+		self.curveCH2 = self.addCurve(self.p2,'VR(CH2)',pen=(0,255,255))
 		self.p1legend.addItem(self.curveCH2,'VR(CH2)')
 
 		#setting up plot 2
 		self.plot2=self.add2DPlot(self.plot_area)
-		self.plot2.getAxis('left').setLabel('Vr -->>', units='V', color='#00ffff')
-		self.plot2.getAxis('bottom').setLabel('Vc -->>', units='V', color='#ffffff')
+		self.plot2.getAxis('left').setLabel('VR', units='V', color='#00ffff')
+		self.plot2.getAxis('bottom').setLabel('VL', units='V', color='#ffffff')
 		self.plot2.setYRange(-8.5,8.5)
 		self.plot2.setXRange(-8.5,8.5)
 		self.plot2.addLegend()
-		self.curveXY = self.addCurve(self.plot2,'Vc vs Vr',pen=[0,255,255])
+		self.curveXY = self.addCurve(self.plot2,'Vl vs Vr',pen=[0,255,255])
 
 
 		from SEEL.analyticsClass import analyticsClass
 		self.CC = analyticsClass()
 		self.I.configure_trigger(0,'CH1',0)
-		self.tg=20
+		self.tg=2
 		self.samples = 2000
-		self.setTimeGap(20)
+		self.max_samples = 2000
+
 		self.prescaler = 0
 		self.timer = QtCore.QTimer()
 
 		self.WidgetLayout.setAlignment(QtCore.Qt.AlignLeft)
 
-		a1={'TITLE':'Wave 1','MIN':0,'MAX':5000,'FUNC':self.I.set_sine1,'TYPE':'dial','UNITS':'Hz','TOOLTIP':'Frequency of waveform generator #1','LINK':self.updateLabels}
-		self.fdial = self.dialIcon(**a1)
+		self.fdial = self.addW1(self.I);
 		self.WidgetLayout.addWidget(self.fdial)
-		self.fspin = self.doubleSpinIcon(**a1)
-		self.WidgetLayout.addWidget(self.fspin)
+		self.fdial.dial.setValue(100)
 
-		#Set initial values
-		self.fdial.dial.setValue(100);self.fspin.doubleSpinBox.setValue(100)
+		self.TB = self.addTimebase(self.I,self.set_timebase)
+		self.WidgetLayout.addWidget(self.TB)
 
 		self.timer.singleShot(100,self.run)
 		self.resultsTable.setRowCount(50)
 		self.resultsTable.setColumnCount(4)
-		self.resultsTable.setHorizontalHeaderLabels(['F','Vc','Vr','dP = P(Vc)-P(Vr)'])
+		self.resultsTable.setHorizontalHeaderLabels(['F','Vl','Vr','dP = P(Vl)-P(Vr)'])
 		self.acquireParams = False
 		self.currentRow=0
 		self.running=True
@@ -102,23 +101,35 @@ class AppWindow(QtGui.QMainWindow, template_xl.Ui_MainWindow,utilitiesClass):
 	def savePlot(self):
 		self.saveDataWindow([self.curveCH1,self.curveCH2,self.curveXY])
 
-	def updateLabels(self,value,units=''):
-		self.fdial.value.setText('%.3f %s '%(value,units))
-		self.fspin.value.setText('%.3f %s '%(value,units))
-		if value:self.tg = 1e6*(5./value)/self.samples
-		if self.tg<2:self.tg=2
-		elif self.tg>200:self.tg=200
-		self.setTimeGap(self.tg)
         
-	def setTimeGap(self,tg):
-		self.tg = tg
-		self.plot1.setXRange(0,self.samples*self.tg*1e-6)
-		self.plot1.setLimits(yMax=8,yMin=-8,xMin=0,xMax=self.samples*self.tg*1e-6)
-		self.p2.setLimits(yMax=8,yMin=-8,xMin=0,xMax=self.samples*self.tg*1e-6)
+	def set_timebase(self,g):
+		timebases = [1.5,2,4,8,16,32,128,256,512,1024]
+		self.prescalerValue=[0,0,0,0,1,1,2,2,3,3,3][g]
+		samplescaling=[1,1,1,1,1,0.5,0.4,0.3,0.2,0.2,0.1]
+		self.tg=timebases[g]
+		self.samples = int(self.max_samples*samplescaling[g])
+		self.autoRange()
+		return self.samples*self.tg*1e-6
+
+	def autoRange(self):
+		xlen = self.tg*self.samples*1e-6
+		chan = self.I.analogInputSources['CH1']
+		R = [chan.calPoly10(0),chan.calPoly10(1023)]
+		R[0]=R[0]*.9;R[1]=R[1]*.9
+		self.plot1.setLimits(yMax=max(R),yMin=min(R),xMin=0,xMax=xlen)
+		self.plot1.setYRange(min(R),max(R))	
+		self.plot1.setXRange(0,xlen)
+		self.plot2.setXRange(min(R),max(R))	
+		
+		chan = self.I.analogInputSources['CH2']
+		R = [chan.calPoly10(0),chan.calPoly10(1023)]
+		R[0]=R[0]*.9;R[1]=R[1]*.9
+		self.p2.setYRange(min(R),max(R))
+		self.plot2.setYRange(min(R),max(R))
+		return self.samples*self.tg*1e-6
 
 
 	def fit(self):
-		print ("Adding...")
 		self.acquireParams = True
 		
 	def run(self):
@@ -141,7 +152,9 @@ class AppWindow(QtGui.QMainWindow, template_xl.Ui_MainWindow,utilitiesClass):
 		self.I.__fetch_channel__(2)
 		T = self.I.achans[0].get_xaxis()*1e-6
 		VCH1 = self.I.achans[0].get_yaxis()
+		self.I.__autoSelectRange__('CH1',max(abs(VCH1)));
 		VCH2 = self.I.achans[1].get_yaxis()
+		self.I.__autoSelectRange__('CH2',max(abs(VCH2))); self.autoRange()
 		VR = VCH2
 		VL = VCH1-VCH2 - (VR*self.resistanceInductor.value()/self.resistance.value())
 		self.curveCH1.setData(T,VL,connect='finite')
@@ -164,7 +177,7 @@ class AppWindow(QtGui.QMainWindow, template_xl.Ui_MainWindow,utilitiesClass):
 					item = QtGui.QTableWidgetItem();item.setText('%.3f'%(self.I.sine1freq));self.resultsTable.setItem(self.currentRow, 0, item);item.setFlags(QtCore.Qt.ItemIsSelectable|QtCore.Qt.ItemIsEnabled)
 					item = QtGui.QTableWidgetItem();item.setText('%.3f'%(a1));self.resultsTable.setItem(self.currentRow, 1, item);item.setFlags(QtCore.Qt.ItemIsSelectable|QtCore.Qt.ItemIsEnabled)
 					item = QtGui.QTableWidgetItem();item.setText('%.3f'%(a2));self.resultsTable.setItem(self.currentRow, 2, item);item.setFlags(QtCore.Qt.ItemIsSelectable|QtCore.Qt.ItemIsEnabled)
-					item = QtGui.QTableWidgetItem();item.setText('%.3f'%(dP));self.resultsTable.setItem(self.currentRow, 3, item);item.setFlags(QtCore.Qt.ItemIsSelectable|QtCore.Qt.ItemIsEnabled)
+					item = QtGui.QTableWidgetItem();item.setText('%.3f'%(dp));self.resultsTable.setItem(self.currentRow, 3, item);item.setFlags(QtCore.Qt.ItemIsSelectable|QtCore.Qt.ItemIsEnabled)
 					self.currentRow+=1
 					print ('F: %.2f,%.2f\tA: %.2f,%.2f\tP: %.1f,%.1f'%(f1,f2,a1,a2,p1,p2))
 					print ('Xc*F %.3f'%(f2*a1/a2))

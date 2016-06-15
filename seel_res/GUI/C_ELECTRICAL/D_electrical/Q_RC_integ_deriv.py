@@ -21,7 +21,6 @@ import sys,time
 
 params = {
 'image' : 'RCd.png',
-'helpfile': 'http://www.physics.ucla.edu/demoweb/demomanual/electricity_and_magnetism/ac_circuits/rc_integration_and_differentiation.html',
 'name':'RC Integrals,\nDerivatives',
 'hint':'''
 	Study integration and differentiation of square waves using an RC network.
@@ -36,83 +35,128 @@ class AppWindow(QtGui.QMainWindow, template_graph.Ui_MainWindow,utilitiesClass):
 		
 		self.setWindowTitle(self.I.H.version_string+' : '+params.get('name','').replace('\n',' ') )
 
-		self.plot1=self.add2DPlot(self.plot_area)
+		self.plot=self.add2DPlot(self.plot_area,enableMenu=False)
+		self.enableCrossHairs(self.plot,[])
 		labelStyle = {'color': 'rgb(255,255,255)', 'font-size': '11pt'}
-		self.plot1.setLabel('left','Voltage -->', units='V',**labelStyle)
-		self.plot1.setLabel('bottom','Time -->', units='S',**labelStyle)
-		self.plot1.setYRange(-8.5,8.5)
-		self.p1legend = self.plot1.addLegend(offset=(-1,1))
+		self.plot.setLabel('left','Voltage -->', units='V',**labelStyle)
+		self.plot.setLabel('bottom','Time -->', units='S',**labelStyle)
+		self.plot.setYRange(-8.5,8.5)
 		self.I.set_gain('CH1',1)
 		self.I.set_gain('CH2',1)
-		self.plot1.setLimits(yMax=8,yMin=-8,xMin=0,xMax=4e-3)
-
+		self.plot.setLimits(yMax=8,yMin=-8,xMin=0,xMax=4e-3)
+		self.fftMode = False
 
 		self.I.configure_trigger(0,'CH1',0)
 		self.tg=2
-		self.samples=2000
+		self.max_samples=2000
+		self.samples = self.max_samples
 		self.timer = QtCore.QTimer()
 
-		self.curveCH1 = self.addCurve(self.plot1,'INPUT(CH1)')
-		self.curveCH2 = self.addCurve(self.plot1,'OUTPUT(CH2)')
+		self.curveCH1 = self.addCurve(self.plot,'INPUT(CH1)')
+		self.curveCH2 = self.addCurve(self.plot,'OUTPUT(CH2)')
 		self.WidgetLayout.setAlignment(QtCore.Qt.AlignLeft)
 
-		#a1={'TITLE':'Triangle\n(W1)','MIN':10,'MAX':5000,'FUNC':self.I.set_sine1,'TYPE':'dial','UNITS':'Hz','TOOLTIP':'Frequency of waveform generator #1','LINK':self.updateLabels}
-		#self.WidgetLayout.addWidget(self.dialIcon(**a1))
-		a1={'TITLE':'SQR1','MIN':10,'MAX':5000,'FUNC':self.I.sqr1,'TYPE':'dial','UNITS':'Hz','TOOLTIP':'Frequency of square wave generator #1','LINK':self.updateLabels}
-		self.dial = self.dialIcon(**a1)
-		self.WidgetLayout.addWidget(self.dial)
-		self.dial.dial.setValue(100)
 
+		self.sqrwidget = self.addSQR1(self.I)
+		self.WidgetLayout.addWidget(self.sqrwidget)
+		self.sqrwidget.dial.setValue(1000)
+
+		self.ControlsLayout.addWidget(self.addTimebase(self.I,self.set_timebase))
+
+		self.ControlsLayout.addWidget(self.gainIconCombined(FUNC=self.I.set_gain,LINK=self.gainChanged))
+
+
+		#self.WidgetLayout.addWidget(self.experimentIcon('SEEL_Apps.utilityApps','outputs',self.launchOutputs))
 		self.running=True
 		self.timer.singleShot(100,self.run)
 
+	def gainChanged(self,g):
+		self.autoRange()
 
-	def updateLabels(self,value,units=''):
-		if value:self.tg = 1e6*(5./value)/self.samples
-		if self.tg<2:self.tg=2
-		elif self.tg>200:self.tg=200
-		self.setTimeGap(self.tg)
-		
-	def setTimeGap(self,tg):
-		self.tg = tg
-		self.plot1.setXRange(0,self.samples*self.tg*1e-6)
-		self.plot1.setLimits(yMax=8,yMin=-8,xMin=0,xMax=self.samples*self.tg*1e-6)
-		
+	def fft(self,v):
+		if v:
+			self.fftMode = True
+			for a in [self.curveCH1,self.curveCH2]:
+				a.setFftMode(True)
+			#self.curve4.setFftMode(True)
+			self.plot.setLabel('bottom', 'Frequency', units='Hz')
+			self.max_samples=5000
+		else:
+			self.fftMode = False
+			for a in [self.curveCH1,self.curveCH2]:
+				a.setFftMode(False)
+			self.max_samples=2000
+			self.plot.setLabel('bottom', 'Time', units='S')
+		self.autoRange()
+
+	def set_timebase(self,g):
+		timebases = [1.5,2,4,8,16,32,128,256,512,1024]
+		self.prescalerValue=[0,0,0,0,1,1,2,2,3,3,3][g]
+		samplescaling=[1,1,1,1,1,0.5,0.4,0.3,0.2,0.2,0.1]
+		self.tg=timebases[g]
+		self.samples = int(self.max_samples*samplescaling[g])
+		return self.autoRange()
+
+	def autoRange(self):
+		if not self.fftMode:
+			xlen = self.tg*self.samples*1e-6
+		else:
+			xlen = 1.e6/self.tg/2
+			self.plot.autoRange();
+		chan = self.I.analogInputSources['CH1']
+		R = [chan.calPoly10(0),chan.calPoly10(1023)]
+		R[0]=R[0]*.9;R[1]=R[1]*.9
+		self.plot.setLimits(yMax=max(R),yMin=min(R),xMin=0,xMax=xlen)
+		self.plot.setYRange(min(R),max(R))			
+		self.plot.setXRange(0,xlen)
+
+		return self.samples*self.tg*1e-6
+
+
+
 	def run(self):
-		if not self.running:return
-		self.I.configure_trigger(0,'CH1',0.2,resolution=10,prescaler=1)
-		self.I.capture_traces(2,self.samples,self.tg)
-		if self.running:self.timer.singleShot(self.samples*self.I.timebase*1e-3+20,self.plotData)
+		if not self.running: return
+		try:
+			self.I.capture_traces(2,self.samples,self.tg)
+			if self.running:self.timer.singleShot(self.samples*self.I.timebase*1e-3+10,self.plotData)
+		except:
+			pass
 
 	def plotData(self): 
+		if not self.running: return
 		try:
+			n=0
 			while(not self.I.oscilloscope_progress()[0]):
 				time.sleep(0.1)
-				print (self.I.timebase,'correction required',n)
 				n+=1
 				if n>10:
 					self.timer.singleShot(100,self.run)
 					return
 			self.I.__fetch_channel__(1)
 			self.I.__fetch_channel__(2)
+			
 			self.curveCH1.setData(self.I.achans[0].get_xaxis()*1e-6,self.I.achans[0].get_yaxis(),connect='finite')
 			self.curveCH2.setData(self.I.achans[1].get_xaxis()*1e-6,self.I.achans[1].get_yaxis(),connect='finite')
-			self.timer.singleShot(100,self.run)
-		except:
-			pass
+			
+			self.displayCrossHairData(self.plot,self.fftMode,self.samples,self.I.timebase,[self.I.achans[0].get_yaxis(),self.I.achans[1].get_yaxis()],[(0,255,0),(255,0,0)])
+			
+			if self.running:self.timer.singleShot(100,self.run)
+		except Exception,e:
+			print (e)
 
+	def saveData(self):
+		self.saveDataWindow([self.curveCH1,self.curveCH2],self.plot)
+
+		
 	def closeEvent(self, event):
+		self.running=False
 		self.timer.stop()
 		self.finished=True
-		self.running=False
-		
-	def savePlots(self):
-		self.saveDataWindow([self.curveCH1,self.curveCH2])
 		
 
 	def __del__(self):
 		self.timer.stop()
-		print ('bye')
+		print('bye')
 
 if __name__ == "__main__":
     from SEEL import interface
