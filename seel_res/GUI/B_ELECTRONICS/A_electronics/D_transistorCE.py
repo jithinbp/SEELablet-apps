@@ -10,7 +10,7 @@ from __future__ import print_function
 import time,sys,os
 
 from SEEL_Apps.utilitiesClass import utilitiesClass
-from templates import NFET
+from .templates import NFET
 from PyQt5 import QtCore, QtGui
 import pyqtgraph as pg
 

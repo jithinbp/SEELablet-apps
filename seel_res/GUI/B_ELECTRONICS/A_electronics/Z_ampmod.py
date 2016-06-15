@@ -11,7 +11,7 @@ from SEEL_Apps.utilitiesClass import utilitiesClass
 
 from PyQt5 import QtCore, QtGui
 import time,sys
-from templates import ampMod
+from .templates import ampMod
 
 import sys,os,string
 import time
