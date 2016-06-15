@@ -12,7 +12,7 @@ from SEEL_Apps.utilitiesClass import utilitiesClass
 from .templates import template_transient
 from SEEL.SENSORS import MPU6050
 import numpy as np
-from PyQt4 import QtGui,QtCore
+from PyQt5 import QtGui,QtCore
 import pyqtgraph as pg
 import sys
 

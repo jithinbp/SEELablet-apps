@@ -14,7 +14,7 @@ from SEEL_Apps.utilitiesClass import utilitiesClass
 from templates import calibration_loader
 
 import numpy as np
-from PyQt4 import QtGui,QtCore
+from PyQt5 import QtGui,QtCore
 import pyqtgraph as pg
 import sys,functools,os,random,struct,time
 

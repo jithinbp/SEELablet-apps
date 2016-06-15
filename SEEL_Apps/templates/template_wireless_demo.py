@@ -3,11 +3,11 @@
 # Form implementation generated from reading ui file 'nrf.ui'
 #
 # Created: Tue Jul 14 22:16:01 2015
-#      by: PyQt4 UI code generator 4.9.3
+#      by: PyQt5 UI code generator 4.9.3
 #
 # WARNING! All changes made in this file will be lost!
 
-from PyQt4 import QtCore, QtGui
+from PyQt5 import QtCore, QtGui
 
 try:
     _fromUtf8 = QtCore.QString.fromUtf8
@@ -96,4 +96,4 @@ class Ui_Form(object):
         self.pushButton.setText(QtGui.QApplication.translate("Form", "Refresh Node List", None, QtGui.QApplication.UnicodeUTF8))
         self.checkBox.setText(QtGui.QApplication.translate("Form", "Register New Nodes", None, QtGui.QApplication.UnicodeUTF8))
 
-from PyQt4 import QtWebKit
+from PyQt5 import QtWebKit

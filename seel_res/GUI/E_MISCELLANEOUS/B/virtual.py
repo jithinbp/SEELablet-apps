@@ -6,7 +6,7 @@ Virtual Lab using PubNub
 from __future__ import print_function
 import os
 
-from PyQt4 import QtCore, QtGui
+from PyQt5 import QtCore, QtGui
 import time,sys
 from templates import remote
 import sys,json,string

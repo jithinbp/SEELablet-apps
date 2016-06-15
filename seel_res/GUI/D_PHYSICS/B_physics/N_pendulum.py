@@ -13,7 +13,7 @@ from SEEL.analyticsClass import analyticsClass
 from .templates import simplePendulum
 
 import numpy as np
-from PyQt4 import QtGui,QtCore
+from PyQt5 import QtGui,QtCore
 import pyqtgraph as pg
 import sys,time
 

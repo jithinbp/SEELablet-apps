@@ -16,7 +16,7 @@ from SEEL.analyticsClass import analyticsClass
 from SEEL_Apps.templates import template_graph_nofft
 
 import numpy as np
-from PyQt4 import QtGui,QtCore
+from PyQt5 import QtGui,QtCore
 import pyqtgraph as pg
 import sys,functools,time
 

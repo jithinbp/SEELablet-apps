@@ -3,11 +3,11 @@
 # Form implementation generated from reading ui file 'sensorGrid.ui'
 #
 # Created: Thu Jun  9 17:23:23 2016
-#      by: PyQt4 UI code generator 4.11.3
+#      by: PyQt5 UI code generator 4.11.3
 #
 # WARNING! All changes made in this file will be lost!
 
-from PyQt4 import QtCore, QtGui
+from PyQt5 import QtCore, QtGui
 
 try:
     _fromUtf8 = QtCore.QString.fromUtf8

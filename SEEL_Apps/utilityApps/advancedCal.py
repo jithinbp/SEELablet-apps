@@ -11,7 +11,7 @@ sip.setapi("QString", 2)
 sip.setapi("QVariant", 2)
 
 
-from PyQt4 import QtCore, QtGui
+from PyQt5 import QtCore, QtGui
 from templates import advancedCal
 from SEEL_Apps.utilitiesClass import utilitiesClass
 
