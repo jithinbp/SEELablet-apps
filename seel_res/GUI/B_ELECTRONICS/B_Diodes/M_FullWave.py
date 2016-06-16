@@ -26,11 +26,11 @@ params = {
 'hint':'''
 	Study Full Wave rectifiers.<br>
 	Connect Wavegen 1 to a diode as well as CH1.<br>
-	Connect Wavegen 2 to a reversed diode as well as CH2.<br>
+	Connect Wavegen 2 to a diode as well as CH2.<br>
 	connect the other end of both the diodes to CH3.<br>
-	Provide a load resistor(1K) from CH2 to ground.<br>
+	Provide a load resistor(1K) from CH3 to ground.<br>
 	Set 180 phase difference between the wave generators and Observe full wave rectification.<br>
-	Add a capacitor in parallel to the load resistor and observe filter effects.
+	Add a capacitor in parallel to the load resistor and observe how it filters the output.
 	
 	'''
 
@@ -51,12 +51,13 @@ class AppWindow(QtGui.QMainWindow, template_graph_nofft.Ui_MainWindow,utilitiesC
 
 		self.plot=self.add2DPlot(self.plot_area)
 		labelStyle = {'color': 'rgb(255,255,255)', 'font-size': '11pt'}
-		self.plot.setLabel('left','Voltage -->', units='V',**labelStyle)
-		self.plot.setLabel('bottom','Time -->', units='S',**labelStyle)
+		self.plot.setLabel('left','Voltage', units='V',**labelStyle)
+		self.plot.setLabel('bottom','Time', units='S',**labelStyle)
 		self.plot.setYRange(-5.3,5.3)
 		self.plot.setLimits(yMax=5.3,yMin=-5.3,xMin=0, xMax = self.samples*self.tg*1e-6)
 		self.timer = QtCore.QTimer()
 
+		self.legend = self.plot.addLegend(offset=(-10,30))
 		self.curveCH1 = self.addCurve(self.plot,'INPUT 1(CH1)')
 		self.curveCH2 = self.addCurve(self.plot,'INPUT 2(CH2)')
 		self.curveCH3 = self.addCurve(self.plot,'OUTPUT(CH3)')
@@ -65,12 +66,10 @@ class AppWindow(QtGui.QMainWindow, template_graph_nofft.Ui_MainWindow,utilitiesC
 
 		self.sineSection = self.sineWidget(self.I)
 		self.WidgetLayout.addWidget(self.sineSection)
+		self.I.set_waves(500,180)
+		self.updateLabels(500,'Hz')
 
-		self.sinewidget = self.addW1(self.I,self.updateLabels)
-		self.WidgetLayout.addWidget(self.sinewidget)
-		self.sinewidget.dial.setValue(500)
 		self.WidgetLayout.addWidget(self.addTimebase(self.I,self.set_timebase))
-
 
 		self.running=True
 		self.timer.singleShot(100,self.run)

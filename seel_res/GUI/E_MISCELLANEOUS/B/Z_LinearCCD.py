@@ -47,11 +47,11 @@ class AppWindow(QtGui.QMainWindow, template_graph_nofft.Ui_MainWindow,utilitiesC
 		self.plot.setLabel('bottom','Time', units='S',**labelStyle)
 		self.plot.setYRange(-8.5,8.5)
 
-		self.I.configure_trigger(0,'CH3',0,prescaler = self.prescalerValue)
-		self.tg=1; self.icg=10000;self.tp=4
-		self.max_samples=2000
+		self.I.configure_trigger(0,'CAP',0,prescaler = self.prescalerValue)
+		self.sh=1; self.icg=10000; self.tg = 1
+		self.samples=3694
+		self.I.set_gain('CH1',1)
 		self.chan = 'CH1'
-		self.samples = self.max_samples
 		self.timer = QtCore.QTimer()
 
 		self.legend = self.plot.addLegend(offset=(-10,30))
@@ -65,15 +65,13 @@ class AppWindow(QtGui.QMainWindow, template_graph_nofft.Ui_MainWindow,utilitiesC
 		self.I.set_pv1(4)
 
 		#Control widgets
-		a1={'TITLE':'TIMEBASE','MIN':1,'MAX':10,'FUNC':self.set_timebase,'UNITS':'S','TOOLTIP':'Set Timebase of the oscilloscope'}
+		a1={'TITLE':'SH','MIN':1,'MAX':10,'FUNC':self.set_timebase,'UNITS':'S','TOOLTIP':'Set SH pulse width, and timebase'}
 		self.ControlsLayout.addWidget(self.dialIcon(**a1))
 
-		a1={'TITLE':'ICG','MIN':1,'MAX':10000,'UNITS':'S','FUNC':self.set_icg,'UNITS':'S','TOOLTIP':'Set ICG'}
+		a1={'TITLE':'ICG','MIN':1,'MAX':65000,'FUNC':self.set_icg,'UNITS':'S','TOOLTIP':'Set ICG'}
 		self.WidgetLayout.addWidget(self.dialIcon(**a1))
 
-		a1={'TITLE':'TP','MIN':64,'MAX':100,'UNITS':'S','FUNC':self.set_tp,'UNITS':'S','TOOLTIP':'Set TP'}
-		self.WidgetLayout.addWidget(self.dialIcon(**a1))
-
+		self.I.set_sine2(1000)
 
 		self.running=True
 		self.fit = False
@@ -82,17 +80,14 @@ class AppWindow(QtGui.QMainWindow, template_graph_nofft.Ui_MainWindow,utilitiesC
 
 
 	def set_timebase(self,g):
+		self.sh = g
 		self.tg=g
-		self.samples = int(self.max_samples)
 		return self.autoRange()
 
 	def set_icg(self,g):
 		self.icg = g
 		return g*1e-6
 
-	def set_tp(self,g):
-		self.tp = g
-		return g*1e-6
 
 	def autoRange(self):
 		xlen = self.tg*self.samples*1e-6
@@ -111,24 +106,18 @@ class AppWindow(QtGui.QMainWindow, template_graph_nofft.Ui_MainWindow,utilitiesC
 	def run(self):
 		if not self.running: return
 		try:
-			self.I.opticalArray(self.tg,self.icg,self.tp,channel = self.chan)
-			if self.running:self.timer.singleShot(self.samples*self.tg*1e-3+10+self.icg*1e-3,self.plotData)
+			self.I.opticalArray(self.sh,self.icg,channel = self.chan)
+			print (self.icg,self.sh)
+			if self.running:self.timer.singleShot(10,self.plotData)
 		except:
 			pass
 
 	def plotData(self): 
 		if not self.running: return
 		try:
-			n=0
-			while(not self.I.oscilloscope_progress()[0]):
-				time.sleep(0.1)
-				n+=1
-				if n>10:
-					self.timer.singleShot(100,self.run)
-					return
 			self.I.__fetch_channel__(1)
 			self.curveCH1.setData(self.I.achans[0].get_xaxis()*1e-6,self.I.achans[0].get_yaxis(),connect='finite')
-				
+			print (self.I.achans[0].get_yaxis())
 			
 			if self.running:self.timer.singleShot(200,self.run)
 		except Exception,e:

@@ -15,6 +15,7 @@ pyuic4 dial.ui -o dial.py
 #pyuic4 dialAndDoubleSpin.ui -o dialAndDoubleSpin.py 
 #pyuic4 pulseCounter.ui -o pulseCounter.py 
 #pyuic4 button.ui -o button.py
+pyuic4 widebutton.ui -o widebutton.py
 #pyuic4 sensorWidget.ui -o sensorWidget.py
 pyuic4 selectAndButton.ui -o selectAndButton.py
 #pyuic4 spinBox.ui -o spinBox.py

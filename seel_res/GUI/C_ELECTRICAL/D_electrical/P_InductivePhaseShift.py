@@ -203,10 +203,6 @@ class AppWindow(QtGui.QMainWindow, template_xl.Ui_MainWindow,utilitiesClass):
 	def saveFile(self):
 		self.saveToCSV(self.resultsTable)
 
-	def setTimebase(self,T):
-		self.tgs = [0.5,1,2,4,6,8,10,25,50,100]
-		self.tg = self.tgs[T]
-		self.tgLabel.setText(str(5000*self.tg*1e-3)+'mS')
 		
 	def closeEvent(self, event):
 		self.running=False

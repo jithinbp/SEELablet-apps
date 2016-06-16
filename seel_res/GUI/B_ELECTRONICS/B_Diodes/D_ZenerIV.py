@@ -21,7 +21,7 @@ params = {
 'image' : 'diodeIV.png',
 'helpfile': 'diodeIV.html',
 'name':'Zener IV\nCharacteristics',
-'hint':"Study Current-Voltage Characteristics of PN junctions.\n uses PV1 as the voltage source for sweeping voltage via a 1K current limiting resistor connected in series. \nThe voltage drop across the diode is monitored via CH3. "
+'hint':"Study Current-Voltage Characteristics of PN junctions.\n uses PV1 as the voltage source for sweeping voltage via a 1K current limiting resistor connected in series. \nThe voltage drop across the diode is monitored via CH1. "
 }
 
 class AppWindow(QtGui.QMainWindow, diodeIV.Ui_MainWindow,utilitiesClass):

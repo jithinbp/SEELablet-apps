@@ -9,7 +9,7 @@ sip.setapi("QVariant", 2)
 from PyQt4 import QtCore, QtGui
 import pyqtgraph as pg
 from SEEL_Apps.templates.widgets import dial,button,selectAndButton,sineWidget,pwmWidget,supplyWidget,setStateList,sensorWidget
-from SEEL_Apps.templates.widgets import spinBox,doubleSpinBox,dialAndDoubleSpin,pulseCounter,voltWidget,gainWidget,gainWidgetCombined
+from SEEL_Apps.templates.widgets import spinBox,doubleSpinBox,dialAndDoubleSpin,pulseCounter,voltWidget,gainWidget,gainWidgetCombined,widebutton
 from SEEL_Apps import saveProfile
 from SEEL.commands_proto import applySIPrefix
 import numpy as np
@@ -158,7 +158,7 @@ class utilitiesClass():
 		if plot.sceneBoundingRect().contains(pos) and evt[0].button() == QtCore.Qt.RightButton:
 			plot.enableAutoRange(True,True)
 
-	def enableCrossHairs(self,plot,curves):
+	def enableCrossHairs(self,plot,curves=[]):
 		plot.setTitle('')
 		vLine = pg.InfiniteLine(angle=90, movable=False,pen=[100,100,200,200])
 		plot.addItem(vLine, ignoreBounds=True)
@@ -542,10 +542,26 @@ class utilitiesClass():
 
 		def read(self):
 			retval = self.func()
-			#if abs(retval)<1e4 and abs(retval)>.01:self.value.setText('%.3f %s '%(retval,self.units))
-			#else: self.value.setText('%.3e %s '%(retval,self.units))
 			if isinstance(retval,numbers.Number):self.value.setText('%s'%(self.applySIPrefix(retval,self.units) ))
 			else: self.value.setText(str(retval))
+
+
+	class wideButtonIcon(QtGui.QFrame,widebutton.Ui_Form,utils):
+		def __init__(self,**args):
+			super(utilitiesClass.wideButtonIcon, self).__init__()
+			self.setupUi(self)
+			self.name = args.get('TITLE','')
+			self.title.setText(self.name)
+			self.func = args.get('FUNC',None)
+			self.units = args.get('UNITS','')
+			if 'TOOLTIP' in args:self.widgetFrameOuter.setToolTip(args.get('TOOLTIP',''))
+
+
+		def read(self):
+			retval = self.func()
+			if isinstance(retval,numbers.Number):self.value.setText('%s'%(self.applySIPrefix(retval,self.units) ))
+			else: self.value.setText(str(retval))
+
 
 	class selectAndButtonIcon(QtGui.QFrame,selectAndButton.Ui_Form,utils):
 		def __init__(self,**args):
@@ -927,7 +943,13 @@ class utilitiesClass():
 		T2.dial.setPageStep(1)
 		return T2
 
-
+	def addPauseButton(self,layout,func):
+		freezeButton = QtGui.QCheckBox(self)
+		freezeButton.setObjectName(_fromUtf8("freezeButton"))
+		freezeButton.setText("Pause")
+		layout.addWidget(freezeButton)
+		QtCore.QObject.connect(freezeButton, QtCore.SIGNAL(_fromUtf8("toggled(bool)")), func)
+		return freezeButton
 
 	def saveToCSV(self,table):
 		path = QtGui.QFileDialog.getSaveFileName(self, 'Save File', '~/', 'CSV(*.csv)')
