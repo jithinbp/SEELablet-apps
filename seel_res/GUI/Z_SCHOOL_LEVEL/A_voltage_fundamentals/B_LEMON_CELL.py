@@ -20,10 +20,10 @@ import pyqtgraph as pg
 import sys,functools,time
 
 params = {
-'image' : 'scope.png',
-'name':"Measure\nVoltages",
+'image' : 'lemon_cell.png',
+'name':"Lemon Cell",
 'hint':'''
-	Observe the difference between an AC voltage and a DC Voltage
+	Make a cell using a raw lemon and study the output voltage.
 	'''
 }
 
@@ -58,17 +58,8 @@ class AppWindow(QtGui.QMainWindow, template_graph_nofft.Ui_MainWindow,utilitiesC
 		self.autoRange()
 		self.timer = QtCore.QTimer()
 
-		self.sinewidget = self.addW1(self.I)
-		self.WidgetLayout.addWidget(self.sinewidget)
-		self.sinewidget.dial.setValue(500)
-
-		self.pvwidget = self.addPV1(self.I)
-		self.WidgetLayout.addWidget(self.pvwidget)
-		self.pvwidget.dial.setValue(2048)
-
 		self.legend = self.plot.addLegend(offset=(-10,30))
 		self.curve1 = self.addCurve(self.plot,'INPUT (CH1)')
-		self.curve2 = self.addCurve(self.plot,'INPUT (CH2)')
 
 		self.WidgetLayout.setAlignment(QtCore.Qt.AlignLeft)
 		#Control widgets
@@ -77,14 +68,10 @@ class AppWindow(QtGui.QMainWindow, template_graph_nofft.Ui_MainWindow,utilitiesC
 		self.voltmeter = self.wideButtonIcon(**a)
 		self.WidgetLayout.addWidget(self.voltmeter)
 
-		a={'TITLE':'Read CH2 Voltage','FUNC':self.readCH2,'UNITS':'V','TOOLTIP':'Read instantaneous voltage on CH2 using the voltmeter'}
-		self.voltmeter2 = self.wideButtonIcon(**a)
-		self.WidgetLayout.addWidget(self.voltmeter2)
-
 		self.addPauseButton(self.bottomLayout,self.pause)
 		self.running=True
 		self.paused=False
-		self.getv = False;self.getv2 = False
+		self.getv = False
 		self.timer.singleShot(100,self.run)
 
 	def pause(self,v):
@@ -92,10 +79,6 @@ class AppWindow(QtGui.QMainWindow, template_graph_nofft.Ui_MainWindow,utilitiesC
 
 	def readCH1(self):
 		self.getv=True
-		return 'measuring..'
-
-	def readCH2(self):
-		self.getv2=True
 		return 'measuring..'
 
 
@@ -116,17 +99,14 @@ class AppWindow(QtGui.QMainWindow, template_graph_nofft.Ui_MainWindow,utilitiesC
 		if self.getv:
 			self.getv=False
 			self.voltmeter.value.setText(self.applySIPrefix(self.I.get_average_voltage('CH1'),'V'))
-		if self.getv2:
-			self.getv2=False
-			self.voltmeter2.value.setText(self.applySIPrefix(self.I.get_average_voltage('CH2'),'V'))
 
 		if self.paused:
 			self.timer.singleShot(100,self.run)
 			return
 		
 		try:
-			self.I.configure_trigger(1,'CH2',0)
-			self.I.capture_traces(2,self.samples,self.tg)
+			self.I.configure_trigger(0,'CH1',0)
+			self.I.capture_traces(1,self.samples,self.tg)
 			if self.running:self.timer.singleShot(self.samples*self.I.timebase*1e-3+10,self.plotData)
 		except:
 			pass
@@ -142,11 +122,9 @@ class AppWindow(QtGui.QMainWindow, template_graph_nofft.Ui_MainWindow,utilitiesC
 					self.timer.singleShot(100,self.run)
 					return
 			self.I.__fetch_channel__(1)
-			self.I.__fetch_channel__(2)
 			
 			self.curve1.setData(self.I.achans[0].get_xaxis()*1e-6,self.I.achans[0].get_yaxis(),connect='finite')
-			self.curve2.setData(self.I.achans[1].get_xaxis()*1e-6,self.I.achans[1].get_yaxis(),connect='finite')
-			self.displayCrossHairData(self.plot,False,self.samples,self.I.timebase,[self.I.achans[0].get_yaxis(),self.I.achans[1].get_yaxis()],[(0,255,0),(255,0,0)])
+			self.displayCrossHairData(self.plot,False,self.samples,self.I.timebase,[self.I.achans[0].get_yaxis()],[(0,255,0)])
 		
 			if self.running:self.timer.singleShot(100,self.run)
 		except Exception,e:
@@ -158,10 +136,10 @@ class AppWindow(QtGui.QMainWindow, template_graph_nofft.Ui_MainWindow,utilitiesC
 			plot.mousePoint = plot.getPlotItem().vb.mapSceneToView(pos)
 			plot.vLine.setPos(plot.mousePoint.x())
 			plot.hLine.setPos(plot.mousePoint.y())
-			self.displayCrossHairData(plot,False,self.samples,self.I.timebase,[self.I.achans[0].get_yaxis(),self.I.achans[1].get_yaxis()],[(0,255,0),(255,0,0)])
+			self.displayCrossHairData(plot,False,self.samples,self.I.timebase,[self.I.achans[0].get_yaxis()],[(0,255,0)])
 
 	def saveData(self):
-		self.saveDataWindow([self.curve1,self.curve2],self.plot)
+		self.saveDataWindow([self.curve1],self.plot)
 
 		
 	def closeEvent(self, event):

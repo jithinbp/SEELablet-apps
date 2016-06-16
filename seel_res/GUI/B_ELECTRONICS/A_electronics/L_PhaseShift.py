@@ -20,10 +20,11 @@ import pyqtgraph as pg
 import sys,functools,time
 
 params = {
-'image' : 'scope.png',
-'name':"Measure\nVoltages",
+'image' : 'clipping.png',
+'name':"Phase Shift\nOscillator",
 'hint':'''
-	Observe the difference between an AC voltage and a DC Voltage
+	Study an op-amp based phase shift oscillator
+	
 	'''
 }
 
@@ -41,10 +42,9 @@ class AppWindow(QtGui.QMainWindow, template_graph_nofft.Ui_MainWindow,utilitiesC
 		self.prescalerValue=0
 
 		self.plot=self.add2DPlot(self.plot_area,enableMenu=False)
-		self.enableCrossHairs(self.plot)
 		labelStyle = {'color': 'rgb(255,255,255)', 'font-size': '11pt'}
-		self.plot.setLabel('left','Voltage', units='V',**labelStyle)
-		self.plot.setLabel('bottom','Time', units='S',**labelStyle)
+		self.plot.setLabel('left','Voltage -->', units='V',**labelStyle)
+		self.plot.setLabel('bottom','Time -->', units='S',**labelStyle)
 		self.plot.setYRange(-8.5,8.5)
 		self.I.set_gain('CH1',1)
 		self.I.set_gain('CH2',1)
@@ -52,52 +52,45 @@ class AppWindow(QtGui.QMainWindow, template_graph_nofft.Ui_MainWindow,utilitiesC
 		self.plot.setLimits(yMax=8,yMin=-8,xMin=0,xMax=4e-3)
 
 		self.I.configure_trigger(0,'CH1',0,prescaler = self.prescalerValue)
-		self.tg=5.
-		self.max_samples=2000
+		self.tg=1.
+		self.max_samples=5000
 		self.samples = self.max_samples
-		self.autoRange()
 		self.timer = QtCore.QTimer()
-
-		self.sinewidget = self.addW1(self.I)
-		self.WidgetLayout.addWidget(self.sinewidget)
-		self.sinewidget.dial.setValue(500)
-
-		self.pvwidget = self.addPV1(self.I)
-		self.WidgetLayout.addWidget(self.pvwidget)
-		self.pvwidget.dial.setValue(2048)
 
 		self.legend = self.plot.addLegend(offset=(-10,30))
 		self.curve1 = self.addCurve(self.plot,'INPUT (CH1)')
-		self.curve2 = self.addCurve(self.plot,'INPUT (CH2)')
 
 		self.WidgetLayout.setAlignment(QtCore.Qt.AlignLeft)
 		#Control widgets
+		a1={'TITLE':'TIMEBASE','MIN':0,'MAX':9,'FUNC':self.set_timebase,'UNITS':'S','TOOLTIP':'Set Timebase of the oscilloscope'}
+		self.WidgetLayout.addWidget(self.dialIcon(**a1))
 
-		a={'TITLE':'Read CH1 Voltage','FUNC':self.readCH1,'UNITS':'V','TOOLTIP':'Read instantaneous voltage on CH1 using the voltmeter'}
-		self.voltmeter = self.wideButtonIcon(**a)
-		self.WidgetLayout.addWidget(self.voltmeter)
+		self.WidgetLayout.addWidget(self.gainIconCombined(FUNC=self.I.set_gain,LINK=self.gainChanged))
 
-		a={'TITLE':'Read CH2 Voltage','FUNC':self.readCH2,'UNITS':'V','TOOLTIP':'Read instantaneous voltage on CH2 using the voltmeter'}
-		self.voltmeter2 = self.wideButtonIcon(**a)
-		self.WidgetLayout.addWidget(self.voltmeter2)
+		a1={'TITLE':'Analyse','FUNC':self.measureFreq,'TOOLTIP':'Curve fit the trace and find the frequency'}
+		self.ampGain = self.buttonIcon(**a1)
+		self.WidgetLayout.addWidget(self.ampGain)
 
-		self.addPauseButton(self.bottomLayout,self.pause)
+
 		self.running=True
-		self.paused=False
-		self.getv = False;self.getv2 = False
+		self.fit = False
 		self.timer.singleShot(100,self.run)
 
-	def pause(self,v):
-		self.paused = v
-
-	def readCH1(self):
-		self.getv=True
+	def measureFreq(self):
+		self.fit=True
 		return 'measuring..'
 
-	def readCH2(self):
-		self.getv2=True
-		return 'measuring..'
 
+	def gainChanged(self,g):
+		self.autoRange()
+
+	def set_timebase(self,g):
+		timebases = [1.0,2,4,8,16,32,128,256,512,1024]
+		self.prescalerValue=[0,0,0,0,1,1,2,2,3,3,3][g]
+		samplescaling=[1,1,1,1,1,0.5,0.4,0.3,0.2,0.2,0.1]
+		self.tg=timebases[g]
+		self.samples = int(self.max_samples*samplescaling[g])
+		return self.autoRange()
 
 	def autoRange(self):
 		xlen = self.tg*self.samples*1e-6
@@ -113,20 +106,9 @@ class AppWindow(QtGui.QMainWindow, template_graph_nofft.Ui_MainWindow,utilitiesC
 
 	def run(self):
 		if not self.running: return
-		if self.getv:
-			self.getv=False
-			self.voltmeter.value.setText(self.applySIPrefix(self.I.get_average_voltage('CH1'),'V'))
-		if self.getv2:
-			self.getv2=False
-			self.voltmeter2.value.setText(self.applySIPrefix(self.I.get_average_voltage('CH2'),'V'))
-
-		if self.paused:
-			self.timer.singleShot(100,self.run)
-			return
-		
 		try:
-			self.I.configure_trigger(1,'CH2',0)
-			self.I.capture_traces(2,self.samples,self.tg)
+			self.I.configure_trigger(0,'CH1',0,prescaler = self.prescalerValue)
+			self.I.capture_traces(1,self.samples,self.tg)
 			if self.running:self.timer.singleShot(self.samples*self.I.timebase*1e-3+10,self.plotData)
 		except:
 			pass
@@ -142,26 +124,29 @@ class AppWindow(QtGui.QMainWindow, template_graph_nofft.Ui_MainWindow,utilitiesC
 					self.timer.singleShot(100,self.run)
 					return
 			self.I.__fetch_channel__(1)
-			self.I.__fetch_channel__(2)
 			
 			self.curve1.setData(self.I.achans[0].get_xaxis()*1e-6,self.I.achans[0].get_yaxis(),connect='finite')
-			self.curve2.setData(self.I.achans[1].get_xaxis()*1e-6,self.I.achans[1].get_yaxis(),connect='finite')
-			self.displayCrossHairData(self.plot,False,self.samples,self.I.timebase,[self.I.achans[0].get_yaxis(),self.I.achans[1].get_yaxis()],[(0,255,0),(255,0,0)])
+
+
+			if self.fit:
+				self.fit = False
+				try:
+					fitres = self.math.sineFit(self.I.achans[0].get_xaxis(),self.I.achans[0].get_yaxis())
+					if fitres :
+						amp,freq,offset,phase = fitres
+						self.ampGain.value.setText('F=%.3f Hz'%(freq))
+					else: self.ampGain.value.setText('Fit Error')
+				except:
+					self.ampGain.value.setText('Fit Error')
+					pass
+
 		
 			if self.running:self.timer.singleShot(100,self.run)
 		except Exception,e:
 			print (e)
 
-	def crossHairEvent(self,plot,evt):
-		pos = evt[0].scenePos()  ## using signal proxy turns original arguments into a tuple
-		if plot.sceneBoundingRect().contains(pos):
-			plot.mousePoint = plot.getPlotItem().vb.mapSceneToView(pos)
-			plot.vLine.setPos(plot.mousePoint.x())
-			plot.hLine.setPos(plot.mousePoint.y())
-			self.displayCrossHairData(plot,False,self.samples,self.I.timebase,[self.I.achans[0].get_yaxis(),self.I.achans[1].get_yaxis()],[(0,255,0),(255,0,0)])
-
 	def saveData(self):
-		self.saveDataWindow([self.curve1,self.curve2],self.plot)
+		self.saveDataWindow([self.curve1],self.plot)
 
 		
 	def closeEvent(self, event):
