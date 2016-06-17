@@ -32,10 +32,8 @@ class AppWindow(QtGui.QMainWindow, template_graph_nofft.Ui_MainWindow,utilitiesC
 	def __init__(self, parent=None,**kwargs):
 		super(AppWindow, self).__init__(parent)
 		self.setupUi(self)
-		self.I=kwargs.get('I',None)
-		
+		self.I=kwargs.get('I',None)		
 		self.setWindowTitle(self.I.H.version_string+' : '+params.get('name','').replace('\n',' ') )
-
 		from SEEL.analyticsClass import analyticsClass
 		self.math = analyticsClass()
 		self.prescalerValue=0
@@ -51,11 +49,8 @@ class AppWindow(QtGui.QMainWindow, template_graph_nofft.Ui_MainWindow,utilitiesC
 		self.I.set_pv2(0);self.I.set_pv3(0)
 		self.plot.setLimits(yMax=8,yMin=-8,xMin=0,xMax=4e-3)
 
-		self.I.configure_trigger(0,'CH1',0,prescaler = self.prescalerValue)
-		self.tg=50.
-		self.max_samples=2000
-		self.samples = self.max_samples
-		self.autoRange()
+		self.I.configure_trigger(0,'CH1',0,prescaler = 1)
+		self.tg=50.; self.max_samples=2000;	self.samples = self.max_samples; self.autoRange()
 		self.timer = self.newTimer()
 
 		self.legend = self.plot.addLegend(offset=(-10,30))

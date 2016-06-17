@@ -188,7 +188,7 @@ class utilitiesClass():
 
 			maxIndex = ns			
 			if index > 0 and index < maxIndex:
-				coords=''' '''
+				coords="<span style='color: rgb(255,255,255)'>%s</span>,"%self.applySIPrefix(index*tg/1e6,'S')
 				for col,a in zip(cols,axes):
 						try: coords+="<span style='color: rgb%s'>%0.3fV</span>," %(col, a[index])
 						except: pass

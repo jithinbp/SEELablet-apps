@@ -15,15 +15,16 @@ from SEEL_Apps.utilitiesClass import utilitiesClass
 from SEEL_Apps.templates import template_graph_nofft
 
 import numpy as np
+from scipy.signal import butter, lfilter
 from PyQt4 import QtGui,QtCore
 import pyqtgraph as pg
 import sys,functools,time
 
 params = {
 'image' : 'scope.png',
-'name':"Measure\nVoltages",
+'name':"Piezo\nBuzzer",
 'hint':'''
-	Observe the difference between an AC voltage and a DC Voltage
+	Using a piezo buzzer with the function generator, and measuring its output using the microphone input
 	'''
 }
 
@@ -32,46 +33,43 @@ class AppWindow(QtGui.QMainWindow, template_graph_nofft.Ui_MainWindow,utilitiesC
 	def __init__(self, parent=None,**kwargs):
 		super(AppWindow, self).__init__(parent)
 		self.setupUi(self)
+
+		from SEEL.analyticsClass import analyticsClass
+		self.math = analyticsClass()
+
 		self.I=kwargs.get('I',None)
+		self.I.configure_trigger(0,'MIC',0,prescaler = 1)
+		
 		self.setWindowTitle(params.get('name','').replace('\n',' ') )
 		self.prescalerValue=0
 		self.plot=self.add2DPlot(self.plot_area,enableMenu=False)
 		self.enableCrossHairs(self.plot)
 		labelStyle = {'color': 'rgb(255,255,255)', 'font-size': '11pt'}
-		self.plot.setLabel('left','Voltage', units='V',**labelStyle)
+		self.plot.setLabel('left','V (CH1)', units='V',**labelStyle)
 		self.plot.setLabel('bottom','Time', units='S',**labelStyle)
-		self.plot.setYRange(-8.5,8.5)
-		self.I.set_gain('CH1',1)
-		self.I.set_gain('CH2',1)
-		self.I.set_pv2(0);self.I.set_pv3(0)
-		self.plot.setLimits(yMax=8,yMin=-8,xMin=0,xMax=4e-3)
 
-		self.I.configure_trigger(0,'CH1',0,prescaler = self.prescalerValue)
 		self.tg=5.
-		self.max_samples=2000
-		self.samples = self.max_samples
-		self.autoRange()
-		self.timer = self.newTimer()
-
-		self.sinewidget = self.addW1(self.I)
-		self.WidgetLayout.addWidget(self.sinewidget)
-		self.sinewidget.dial.setValue(500)
-
-		self.pvwidget = self.addPV1(self.I)
-		self.WidgetLayout.addWidget(self.pvwidget)
-		self.pvwidget.dial.setValue(2048)
+		self.max_samples=2000; self.samples = self.max_samples
+		self.plot.setLimits(yMax=3.3,yMin=-3.3,xMin=0,xMax=self.samples*self.tg*1e-6);self.plot.setYRange(-3.3,3.3)
 		
+		self.timer = self.newTimer()
 		self.legend = self.plot.addLegend(offset=(-10,30))
-		self.curve1 = self.addCurve(self.plot,'INPUT (CH1)')
+		self.curve1 = self.addCurve(self.plot,'INPUT (MIC)')
 		self.curve2 = self.addCurve(self.plot,'INPUT (CH2)')
 
 		self.WidgetLayout.setAlignment(QtCore.Qt.AlignLeft)
 		#Control widgets
+		self.w1 = self.addW1(self.I)
+		self.WidgetLayout.addWidget(self.w1)
 
-		self.voltmeter = self.displayIcon(TITLE = 'CH1 Voltage',UNITS='V',TOOLTIP='Displays instantaneous voltage on CH1 using the voltmeter')
-		self.WidgetLayout.addWidget(self.voltmeter)
-		self.voltmeter2 = self.displayIcon(TITLE = 'CH2 Voltage',UNITS='V',TOOLTIP='Displays instantaneous voltage on CH1 using the voltmeter')
-		self.WidgetLayout.addWidget(self.voltmeter2)
+		self.M1 = self.displayIcon(TITLE = 'CH2 Analysis',TOOLTIP="Displays amplitude, frequency of CH2 input")
+		self.WidgetLayout.addWidget(self.M1)
+
+		self.M2 = self.displayIcon(TITLE = 'MIC Analysis',TOOLTIP="Displays amplitude, frequency of MIC input")
+		self.WidgetLayout.addWidget(self.M2)
+
+		#self.dial = self.dialIcon(TITLE = 'F center',MIN=10,MAX=10000,FUNC=lambda x:x,TOOLTIP="Displays amplitude, frequency of MIC input")
+		#self.WidgetLayout.addWidget(self.dial)
 
 		self.addPauseButton(self.bottomLayout,self.pause)
 		self.running=True
@@ -83,30 +81,16 @@ class AppWindow(QtGui.QMainWindow, template_graph_nofft.Ui_MainWindow,utilitiesC
 
 
 
-	def autoRange(self):
-		xlen = self.tg*self.samples*1e-6
-		self.plot.autoRange();
-		chan = self.I.analogInputSources['CH1']
-		R = [chan.calPoly10(0),chan.calPoly10(1023)]
-		R[0]=R[0]*.9;R[1]=R[1]*.9
-		self.plot.setLimits(yMax=max(R),yMin=min(R),xMin=0,xMax=xlen)
-		self.plot.setYRange(min(R),max(R))			
-		self.plot.setXRange(0,xlen)
-
-		return self.samples*self.tg*1e-6
 
 	def run(self):
 		if not self.running: return
 		if self.paused:
 			self.timer.singleShot(100,self.run)
 			return
-		self.voltmeter.setValue(self.I.get_average_voltage('CH1'))
-		self.voltmeter2.setValue(self.I.get_average_voltage('CH2'))
 		
 		try:
-			self.I.configure_trigger(1,'CH2',0)
-			self.I.capture_traces(2,self.samples,self.tg)
-			if self.running:self.timer.singleShot(self.samples*self.I.timebase*1e-3+10,self.plotData)
+			self.I.capture_traces(2,self.samples,self.tg,'MIC')
+			if self.running:self.timer.singleShot(self.samples*self.I.timebase*1e-3+50,self.plotData)
 		except:
 			pass
 
@@ -122,11 +106,14 @@ class AppWindow(QtGui.QMainWindow, template_graph_nofft.Ui_MainWindow,utilitiesC
 					return
 			self.I.__fetch_channel__(1)
 			self.I.__fetch_channel__(2)
-			
-			self.curve1.setData(self.I.achans[0].get_xaxis()*1e-6,self.I.achans[0].get_yaxis(),connect='finite')
+			yaxis = self.I.achans[0].get_yaxis()
+			F_center = 50.#self.dial.dial.value()
+			yaxis = self.math.butter_notch_filter(yaxis,F_center-2,F_center+2,1e6/self.I.timebase,2)
+			self.curve1.setData(self.I.achans[0].get_xaxis()*1e-6,yaxis,connect='finite')
 			self.curve2.setData(self.I.achans[1].get_xaxis()*1e-6,self.I.achans[1].get_yaxis(),connect='finite')
-			self.displayCrossHairData(self.plot,False,self.samples,self.I.timebase,[self.I.achans[0].get_yaxis(),self.I.achans[1].get_yaxis()],[(0,255,0),(255,0,0)])
-		
+			self.math.sineFitAndDisplay(self.I.achans[0],self.M2)
+			self.math.sineFitAndDisplay(self.I.achans[1],self.M1)
+			self.displayCrossHairData(self.plot,False,self.samples,self.I.timebase,[self.I.achans[0].get_yaxis()],[(0,255,0),(255,0,0)])		
 			if self.running:self.timer.singleShot(100,self.run)
 		except Exception,e:
 			print (e)
@@ -140,7 +127,7 @@ class AppWindow(QtGui.QMainWindow, template_graph_nofft.Ui_MainWindow,utilitiesC
 			self.displayCrossHairData(plot,False,self.samples,self.I.timebase,[self.I.achans[0].get_yaxis(),self.I.achans[1].get_yaxis()],[(0,255,0),(255,0,0)])
 
 	def saveData(self):
-		self.saveDataWindow([self.curve1,self.curve2],self.plot)
+		self.saveDataWindow([self.curve1],self.plot)
 
 		
 	def closeEvent(self, event):

@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'displayWidget.ui'
 #
-# Created: Fri Jun 17 11:09:59 2016
+# Created: Fri Jun 17 19:24:15 2016
 #      by: PyQt4 UI code generator 4.11.3
 #
 # WARNING! All changes made in this file will be lost!
@@ -26,13 +26,13 @@ except AttributeError:
 class Ui_Form(object):
     def setupUi(self, Form):
         Form.setObjectName(_fromUtf8("Form"))
-        Form.resize(379, 80)
+        Form.resize(300, 80)
         sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Maximum, QtGui.QSizePolicy.Maximum)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(Form.sizePolicy().hasHeightForWidth())
         Form.setSizePolicy(sizePolicy)
-        Form.setMinimumSize(QtCore.QSize(100, 80))
+        Form.setMinimumSize(QtCore.QSize(300, 80))
         Form.setMaximumSize(QtCore.QSize(400, 105))
         Form.setStyleSheet(_fromUtf8("QFrame.PeripheralCollection{\n"
 "border-top-left-radius: 10px;\n"
@@ -99,7 +99,7 @@ class Ui_Form(object):
         self.gridLayout_3.setObjectName(_fromUtf8("gridLayout_3"))
         self.value = QtGui.QLabel(self.ImageFrame)
         font = QtGui.QFont()
-        font.setPointSize(18)
+        font.setPointSize(16)
         font.setBold(True)
         font.setWeight(75)
         self.value.setFont(font)
