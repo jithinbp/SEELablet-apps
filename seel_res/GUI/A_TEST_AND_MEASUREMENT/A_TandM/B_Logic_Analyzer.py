@@ -105,7 +105,7 @@ class AppWindow(QtGui.QMainWindow, digitalScopeNoTrig.Ui_MainWindow,utilitiesCla
 
 		self.showgrid()
 		self.set_digital_scope_time(0)
-		self.timer = QtCore.QTimer()
+		self.timer = self.newTimer()
 		self.finished=False
 		self.timer.timeout.connect(self.update)
 		self.timer.start(100)

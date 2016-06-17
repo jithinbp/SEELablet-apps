@@ -66,7 +66,7 @@ class AppWindow(QtGui.QMainWindow, sensorTemplate.Ui_MainWindow,utilitiesClass):
 		self.active_device_counter=0
 		self.right_axes=[]
 
-		self.looptimer = QtCore.QTimer()
+		self.looptimer = self.newTimer()
 		self.looptimer.timeout.connect(self.updatePlots)
 		self.looptimer.start(2)
 

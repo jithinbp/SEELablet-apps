@@ -40,7 +40,7 @@ class AppWindow(QtGui.QMainWindow, widget_layout.Ui_MainWindow,utilitiesClass):
 		self.WidgetLayout.addWidget(self.resmeter)
 
 		self.running=True
-		self.timer=QtCore.QTimer()
+		self.timer=self.newTimer()
 		self.timer.timeout.connect(self.run)
 		self.timer.start(100)
 

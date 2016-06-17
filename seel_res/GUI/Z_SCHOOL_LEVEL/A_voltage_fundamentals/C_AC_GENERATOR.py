@@ -56,7 +56,7 @@ class AppWindow(QtGui.QMainWindow, template_graph_nofft.Ui_MainWindow,utilitiesC
 		self.max_samples=2000
 		self.samples = self.max_samples
 		self.autoRange()
-		self.timer = QtCore.QTimer()
+		self.timer = self.newTimer()
 
 		self.legend = self.plot.addLegend(offset=(-10,30))
 		self.curve1 = self.addCurve(self.plot,'INPUT (CH1)')

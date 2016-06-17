@@ -38,7 +38,7 @@ class AppWindow(QtGui.QMainWindow, NFC.Ui_MainWindow):
 			self.present =False
 			self.key = [0xFF,0xFF,0xFF,0xFF,0xFF,0xFF]
 			
-			self.looptimer = QtCore.QTimer()
+			self.looptimer = self.newTimer()
 			self.looptimer.timeout.connect(self.autoscan)
 			self.looptimer.start(500)
 

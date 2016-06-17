@@ -52,7 +52,7 @@ class AppWindow(QtGui.QMainWindow, template_graph_nofft.Ui_MainWindow,utilitiesC
 		self.samples=3694
 		self.I.set_gain('CH1',1)
 		self.chan = 'CH1'
-		self.timer = QtCore.QTimer()
+		self.timer = self.newTimer()
 
 		self.legend = self.plot.addLegend(offset=(-10,30))
 		self.curveCH1 = self.addCurve(self.plot,'INPUT(CH1)')

@@ -55,7 +55,7 @@ class AppWindow(QtGui.QMainWindow, template_graph_nofft.Ui_MainWindow,utilitiesC
 		self.plot.setLabel('bottom','Time', units='S',**labelStyle)
 		self.plot.setYRange(-5.3,5.3)
 		self.plot.setLimits(yMax=5.3,yMin=-5.3,xMin=0, xMax = self.samples*self.tg*1e-6)
-		self.timer = QtCore.QTimer()
+		self.timer = self.newTimer()
 
 		self.legend = self.plot.addLegend(offset=(-10,30))
 		self.curveCH1 = self.addCurve(self.plot,'INPUT 1(CH1)')

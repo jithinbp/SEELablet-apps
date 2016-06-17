@@ -48,7 +48,7 @@ class AppWindow(QtGui.QMainWindow, sensorGrid.Ui_MainWindow,utilitiesClass):
 
 		self.foundSensors=[]
 		
-		self.looptimer = QtCore.QTimer()
+		self.looptimer = self.newTimer()
 		self.looptimer.timeout.connect(self.updateData)
 		self.looptimer.start(20)
 		self.deviceMenus=[]

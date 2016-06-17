@@ -59,7 +59,7 @@ class AppWindow(QtGui.QMainWindow):
 		self.last_chan = 100
 
 		self.setWindowTitle('Control RGB LEDs on Wireless Nodes')
-		self.timer = QtCore.QTimer()
+		self.timer = self.newTimer()
 		self.timer.timeout.connect(self.update)
 		self.timer.start(1)
 		

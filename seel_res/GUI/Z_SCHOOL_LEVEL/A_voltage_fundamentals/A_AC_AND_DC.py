@@ -54,7 +54,7 @@ class AppWindow(QtGui.QMainWindow, template_graph_nofft.Ui_MainWindow,utilitiesC
 		self.max_samples=2000
 		self.samples = self.max_samples
 		self.autoRange()
-		self.timer = QtCore.QTimer()
+		self.timer = self.newTimer()
 
 		self.sinewidget = self.addW1(self.I)
 		self.WidgetLayout.addWidget(self.sinewidget)

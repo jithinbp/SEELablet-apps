@@ -9,6 +9,7 @@
 
 """
 
+
 from __future__ import print_function
 from SEEL_Apps.utilitiesClass import utilitiesClass
 
@@ -23,10 +24,9 @@ params = {
 'image' : 'acgen.png',
 'name':"Human Body's\nResistance",
 'hint':'''
-	Observe that the human body has non zero resistance.
+	Observe that your skin has non zero electrical resistance. 
 	'''
 }
-
 
 class AppWindow(QtGui.QMainWindow, widget_layout.Ui_MainWindow,utilitiesClass):
 	def __init__(self, parent=None,**kwargs):
@@ -40,26 +40,19 @@ class AppWindow(QtGui.QMainWindow, widget_layout.Ui_MainWindow,utilitiesClass):
 		self.WidgetLayout.addWidget(self.resmeter)
 		self.I.set_pv3(3.0)
 		self.running=True
-		self.timer=QtCore.QTimer()
+		self.timer=self.newTimer()
 		self.timer.timeout.connect(self.run)
 		self.timer.start(100)
 
 	def run(self):
-		if not self.running: return
 		V=self.I.get_average_voltage('CH3',samples=100)
 		if V<0:return
 		R = 'Voltage(CH3)\t%s\nCurrent Flow\t%s\nResistance\t%s'%(self.applySIPrefix(V,'V'),self.applySIPrefix(V/1e6,'A'),self.applySIPrefix(1e6*(3.0-V)/V,u"\u03A9"))
 		self.resmeter.setValue(R)
 		
-	def saveData(self):
-		pass
 
-		
 	def closeEvent(self, event):
-		self.running=False
-		self.timer.stop()
-		self.finished=True
-		
+		pass
 
 	def __del__(self):
 		self.timer.stop()

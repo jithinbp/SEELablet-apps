@@ -155,7 +155,7 @@ class AppWindow(QtGui.QMainWindow, ampMod.Ui_MainWindow,utilitiesClass):
 		self.I.configure_trigger(self.trigger_channel,self.triggerChannelName,0,prescaler = self.prescalerValue)
 		
 		self.autoRange()
-		self.timer = QtCore.QTimer()
+		self.timer = self.newTimer()
 		self.finished=False
 		self.timer.singleShot(500,self.start_captureNORMAL)
 		self.enableShortcuts()

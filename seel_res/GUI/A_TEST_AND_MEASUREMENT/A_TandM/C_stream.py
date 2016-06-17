@@ -69,7 +69,7 @@ class AppWindow(QtGui.QMainWindow, arbitStream.Ui_MainWindow,utilitiesClass):
 		self.plot.addItem(self.arrow)
 		self.plot_area.addWidget(self.plot)
 
-		self.looptimer = QtCore.QTimer()
+		self.looptimer = self.newTimer()
 		self.looptimer.timeout.connect(self.acquire)
 		self.looptimer.start(1)
 
@@ -84,7 +84,7 @@ class AppWindow(QtGui.QMainWindow, arbitStream.Ui_MainWindow,utilitiesClass):
 		self.Y=np.zeros(self.totalpoints)
 		self.num=0
 
-		self.looptimer = QtCore.QTimer()
+		self.looptimer = self.newTimer()
 		self.looptimer.timeout.connect(self.acquire)
 		self.looptimer.start(1)
 

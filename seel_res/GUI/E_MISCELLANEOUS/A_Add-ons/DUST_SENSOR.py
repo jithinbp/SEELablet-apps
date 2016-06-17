@@ -55,7 +55,7 @@ class AppWindow(QtGui.QMainWindow, dsm501.Ui_MainWindow,utilitiesClass):
 		self.start_time = time.time()
 		self.samplingStartTime=time.time()
 
-		self.timer = QtCore.QTimer()
+		self.timer = self.newTimer()
 		self.running=True
 		self.timer.singleShot(0,self.run)
 		

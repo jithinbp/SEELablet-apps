@@ -254,7 +254,7 @@ class AppWindow(QtGui.QMainWindow, calibrator.Ui_MainWindow,utilitiesClass):
 		self.shortlist=[]
 		self.menu_entries=[]
 		self.menu_group=None
-		self.timer = QtCore.QTimer()
+		self.timer = self.newTimer()
 		self.timer.timeout.connect(self.locateDevices)
 		self.timer.start(500)
 

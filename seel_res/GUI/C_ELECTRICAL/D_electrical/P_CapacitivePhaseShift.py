@@ -73,7 +73,7 @@ class AppWindow(QtGui.QMainWindow, template_xc.Ui_MainWindow,utilitiesClass):
 		self.samples = 2000
 		self.max_samples = 2000
 		self.prescaler = 0
-		self.timer = QtCore.QTimer()
+		self.timer = self.newTimer()
 
 		self.WidgetLayout.setAlignment(QtCore.Qt.AlignLeft)
 

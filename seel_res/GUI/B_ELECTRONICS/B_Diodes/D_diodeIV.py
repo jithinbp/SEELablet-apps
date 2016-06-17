@@ -44,7 +44,7 @@ class AppWindow(QtGui.QMainWindow, diodeIV.Ui_MainWindow,utilitiesClass):
 				
 		self.curves=[]
 		self.curveLabels=[]
-		self.looptimer = QtCore.QTimer()
+		self.looptimer = self.newTimer()
 		self.looptimer.timeout.connect(self.acquire)
 
 

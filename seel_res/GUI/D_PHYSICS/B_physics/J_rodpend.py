@@ -43,7 +43,7 @@ class AppWindow(QtGui.QMainWindow, rodpendulum.Ui_MainWindow,utilitiesClass):
 				item = QtGui.QTableWidgetItem();self.resultsTable.setItem(x, 0, item);item.setFlags(QtCore.Qt.ItemIsSelectable|QtCore.Qt.ItemIsEnabled)
 
 		self.progressBar.setMaximum(self.max_points)
-		self.updatetimer = QtCore.QTimer()
+		self.updatetimer = self.newTimer()
 		self.updatetimer.timeout.connect(self.update)
 		self.updatetimer.start(200)
 

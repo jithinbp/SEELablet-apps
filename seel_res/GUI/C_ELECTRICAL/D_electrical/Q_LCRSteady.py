@@ -57,7 +57,7 @@ class AppWindow(QtGui.QMainWindow, template_xl.Ui_MainWindow,utilitiesClass):
 		self.samples = 2000
 		self.max_samples = 2000
 		self.prescaler = 0
-		self.timer = QtCore.QTimer()
+		self.timer = self.newTimer()
 
 		self.curveVL = self.addCurve(self.plot1,'VL(CH1-CH2)')
 		self.curveVC = self.addCurve(self.plot1,'VC(CH2-CH3)')

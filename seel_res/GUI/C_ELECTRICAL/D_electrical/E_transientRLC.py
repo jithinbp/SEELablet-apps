@@ -81,7 +81,7 @@ class AppWindow(QtGui.QMainWindow, template_transient.Ui_MainWindow,utilitiesCla
 		self.tgLabel.setText(str(5000*self.tg*1e-3)+'mS')
 		self.x=[]
 
-		self.looptimer=QtCore.QTimer()
+		self.looptimer=self.newTimer()
 		self.curveCH1 = self.addCurve(self.plot1,'CH1')
 		self.CH1Fit = self.addCurve(self.plot1,'CH1 Fit')
 		self.region = pg.LinearRegionItem([self.tg*50,self.tg*800])

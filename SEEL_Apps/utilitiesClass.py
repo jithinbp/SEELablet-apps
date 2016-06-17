@@ -406,9 +406,18 @@ class utilitiesClass():
 			timer.singleShot(interval,timerCallback)
 			self.timers.append(timer)
 
-
-
-
+	def killAllTimers(self):
+		for a in self.timers:
+			try:
+				a.stop()
+				self.timers.remove(a)
+			except:
+				pass
+				
+	def newTimer(self):
+		timer = QtCore.QTimer()
+		self.timers.append(timer)
+		return timer
 
 	def displayDialog(self,txt=''):
 			QtGui.QMessageBox.about(self, 'Message',  txt)

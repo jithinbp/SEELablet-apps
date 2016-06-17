@@ -53,7 +53,7 @@ class AppWindow(QtGui.QMainWindow, NFET.Ui_MainWindow,utilitiesClass):
 		
 		self.curves=[]
 		self.curveLabels=[]
-		self.looptimer = QtCore.QTimer()
+		self.looptimer = self.newTimer()
 		self.looptimer.timeout.connect(self.acquire)
 		self.running = True
 		self.START=0
