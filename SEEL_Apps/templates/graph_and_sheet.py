@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'graph_and_sheet.ui'
 #
-# Created: Sun Jun 12 00:07:46 2016
+# Created: Fri Jun 17 09:59:24 2016
 #      by: PyQt4 UI code generator 4.11.3
 #
 # WARNING! All changes made in this file will be lost!
@@ -127,6 +127,7 @@ class Ui_MainWindow(object):
         self.table_area.setMargin(0)
         self.table_area.setObjectName(_fromUtf8("table_area"))
         self.table = QtGui.QTableWidget(self.frame_5)
+        self.table.setMinimumSize(QtCore.QSize(300, 0))
         self.table.setObjectName(_fromUtf8("table"))
         self.table.setColumnCount(0)
         self.table.setRowCount(0)
@@ -147,6 +148,9 @@ class Ui_MainWindow(object):
         self.horizontalLayout_2.addWidget(self.pushButton)
         self.table_area.addWidget(self.frame_6)
         self.gridLayout.addWidget(self.frame_5, 1, 0, 2, 1)
+        self.gridLayout.setColumnStretch(0, 1)
+        self.gridLayout.setColumnStretch(1, 1)
+        self.gridLayout.setColumnStretch(2, 2)
         self.gridLayout_3.addWidget(self.widgetFrameOuter, 0, 0, 1, 1)
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtGui.QMenuBar(MainWindow)

@@ -38,7 +38,7 @@
       <property name="class" stdset="0">
        <string>PeripheralCollection</string>
       </property>
-      <layout class="QGridLayout" name="gridLayout">
+      <layout class="QGridLayout" name="gridLayout" columnstretch="1,1,2">
        <property name="verticalSpacing">
         <number>2</number>
        </property>
@@ -227,6 +227,12 @@
           </property>
           <item>
            <widget class="QTableWidget" name="table">
+            <property name="minimumSize">
+             <size>
+              <width>300</width>
+              <height>0</height>
+             </size>
+            </property>
             <attribute name="horizontalHeaderDefaultSectionSize">
              <number>85</number>
             </attribute>

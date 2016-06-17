@@ -8,12 +8,12 @@
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    version="1.1"
-   width="3.171912cm"
-   height="2.7476451cm"
-   viewBox="0 0 12487.851 10817.511"
+   width="26.555178mm"
+   height="11.442192mm"
+   viewBox="0 0 10454.802 4504.8045"
    id="svg2"
    inkscape:version="0.91 r13725"
-   sodipodi:docname="halfwave.sch.svg">
+   sodipodi:docname="ohms.svg">
   <metadata
      id="metadata428">
     <rdf:RDF>
@@ -41,17 +41,18 @@
      inkscape:window-height="1056"
      id="namedview424"
      showgrid="false"
-     fit-margin-top="0"
-     fit-margin-left="0"
-     fit-margin-right="0"
-     fit-margin-bottom="0"
-     inkscape:zoom="0.79823964"
-     inkscape:cx="-21.437634"
-     inkscape:cy="326.51312"
+     fit-margin-top="2"
+     fit-margin-left="2"
+     fit-margin-right="2"
+     fit-margin-bottom="2"
+     inkscape:zoom="3.1929586"
+     inkscape:cx="-36.374295"
+     inkscape:cy="57.687212"
      inkscape:window-x="65"
      inkscape:window-y="24"
      inkscape:window-maximized="1"
-     inkscape:current-layer="svg2" />
+     inkscape:current-layer="svg2"
+     units="mm" />
   <title
      id="title4">SVG Picture created as halfwave.sch.svg date 2016/06/12 00:14:14 </title>
   <desc
@@ -59,87 +60,87 @@
   <g
      style="fill:#000000;fill-opacity:1;stroke:#000000;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1"
      id="g8"
-     transform="translate(-51382.941,-17974.042)" />
+     transform="translate(-52302.601,-20372.598)" />
   <g
      style="fill:#000000;fill-opacity:0;stroke:#000000;stroke-width:60;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1"
      id="g10"
-     transform="translate(-51382.941,-17974.042)" />
+     transform="translate(-52302.601,-20372.598)" />
   <g
      style="fill:#840000;fill-opacity:0;stroke:#840000;stroke-width:0;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1"
      id="g58"
-     transform="translate(-51382.941,-17974.042)" />
+     transform="translate(-52302.601,-20372.598)" />
   <g
      style="fill:#840000;fill-opacity:0;stroke:#840000;stroke-width:0;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1"
      id="g74"
-     transform="translate(-51382.941,-17974.042)" />
+     transform="translate(-52302.601,-20372.598)" />
   <g
      style="fill:#008484;fill-opacity:0;stroke:#008484;stroke-width:0;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1"
      id="g100"
-     transform="translate(-51382.941,-17974.042)" />
+     transform="translate(-52302.601,-20372.598)" />
   <g
      style="fill:#840000;fill-opacity:0;stroke:#840000;stroke-width:0;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1"
      id="g102"
-     transform="translate(-51382.941,-17974.042)" />
+     transform="translate(-52302.601,-20372.598)" />
   <g
      style="fill:#840000;fill-opacity:0;stroke:#840000;stroke-width:60;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1"
      id="g154"
-     transform="translate(-51382.941,-17974.042)" />
+     transform="translate(-52302.601,-20372.598)" />
   <g
      style="fill:#840000;fill-opacity:0;stroke:#840000;stroke-width:0;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1"
      id="g218"
-     transform="translate(-51382.941,-17974.042)" />
+     transform="translate(-52302.601,-20372.598)" />
   <g
      style="fill:#840000;fill-opacity:0;stroke:#840000;stroke-width:0;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1"
      id="g234"
-     transform="translate(-51382.941,-17974.042)" />
+     transform="translate(-52302.601,-20372.598)" />
   <g
      style="fill:#840000;fill-opacity:0;stroke:#840000;stroke-width:60;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1"
      id="g270"
-     transform="translate(-51382.941,-17974.042)" />
+     transform="translate(-52302.601,-20372.598)" />
   <g
      style="fill:#008400;fill-opacity:0;stroke:#008400;stroke-width:0;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1"
      id="g280"
-     transform="translate(-51382.941,-17974.042)" />
+     transform="translate(-52302.601,-20372.598)" />
   <g
      style="fill:#008400;fill-opacity:1;stroke:#008400;stroke-width:60;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1"
      id="g286"
-     transform="translate(-51382.941,-17974.042)" />
+     transform="translate(-52302.601,-20372.598)" />
   <g
      style="fill:#008400;fill-opacity:0;stroke:#008400;stroke-width:0;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1"
      id="g292"
-     transform="translate(-51382.941,-17974.042)" />
+     transform="translate(-52302.601,-20372.598)" />
   <g
      style="fill:#008400;fill-opacity:1;stroke:#008400;stroke-width:60;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1"
      id="g298"
-     transform="translate(-51382.941,-17974.042)" />
+     transform="translate(-52302.601,-20372.598)" />
   <g
      style="fill:#0000c2;fill-opacity:0;stroke:#0000c2;stroke-width:60;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1"
      id="g306"
-     transform="translate(-51382.941,-17974.042)" />
+     transform="translate(-52302.601,-20372.598)" />
   <g
      style="fill:#0000c2;fill-opacity:0;stroke:#0000c2;stroke-width:60;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1"
      id="g312"
-     transform="translate(-51382.941,-17974.042)" />
+     transform="translate(-52302.601,-20372.598)" />
   <g
      style="fill:#008400;fill-opacity:0;stroke:#008400;stroke-width:0;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1"
      id="g320"
-     transform="translate(-51382.941,-17974.042)" />
+     transform="translate(-52302.601,-20372.598)" />
   <g
      style="fill:#008400;fill-opacity:1;stroke:#008400;stroke-width:60;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1"
      id="g326"
-     transform="translate(-51382.941,-17974.042)" />
+     transform="translate(-52302.601,-20372.598)" />
   <g
      style="fill:#008400;fill-opacity:0;stroke:#008400;stroke-width:0;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1"
      id="g332"
-     transform="translate(-51382.941,-17974.042)" />
+     transform="translate(-52302.601,-20372.598)" />
   <g
      style="fill:#008400;fill-opacity:1;stroke:#008400;stroke-width:60;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1"
      id="g338"
-     transform="translate(-51382.941,-17974.042)" />
+     transform="translate(-52302.601,-20372.598)" />
   <g
      style="fill:#840000;fill-opacity:0;stroke:#840000;stroke-width:60;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1"
      id="g348"
-     transform="translate(-51382.941,-17974.042)">
+     transform="translate(-52302.601,-20372.598)">
     <path
        d="m 53510,22020 0,-600 230,0 60,30 30,30 30,60 0,80 -30,60 -30,30 -60,30 -230,0"
        id="path350"
@@ -156,7 +157,7 @@
   <g
      style="fill:#840000;fill-opacity:0;stroke:#840000;stroke-width:100;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1"
      id="g356"
-     transform="translate(-51382.941,-17974.042)">
+     transform="translate(-52302.601,-20372.598)">
     <polyline
        fill="none;"
        points="55500,21750 55200,21210 53140,21210 53140,21750 53140,22290 55200,22290 55500,21750 "
@@ -165,7 +166,7 @@
   <g
      style="fill:#840000;fill-opacity:0;stroke:#840000;stroke-width:60;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1"
      id="g360"
-     transform="translate(-51382.941,-17974.042)">
+     transform="translate(-52302.601,-20372.598)">
     <path
        d="m 60350,21960 -30,30 -90,30 -60,0 -80,-30 -60,-50 -30,-60 -30,-120 0,-80 30,-120 30,-50 60,-60 80,-30 60,0 90,30 30,30"
        id="path362"
@@ -194,7 +195,7 @@
   <g
      style="fill:#840000;fill-opacity:0;stroke:#840000;stroke-width:100;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1"
      id="g374"
-     transform="translate(-51382.941,-17974.042)">
+     transform="translate(-52302.601,-20372.598)">
     <polyline
        fill="none;"
        points="59500,21750 59800,22290 61890,22290 61890,21750 61890,21210 59800,21210 59500,21750 "
@@ -203,7 +204,7 @@
   <g
      style="fill:#840000;fill-opacity:0;stroke:#840000;stroke-width:60;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1"
      id="g378"
-     transform="translate(-51382.941,-17974.042)">
+     transform="translate(-52302.601,-20372.598)">
     <path
        d="m 60320,23200 -60,-30 -90,0 -80,30 -60,60 -30,50 -30,120 0,80 30,120 30,60 60,50 80,30 60,0 90,-30 30,-30 0,-200 -120,0"
        id="path380"
@@ -220,7 +221,7 @@
   <g
      style="fill:#840000;fill-opacity:0;stroke:#840000;stroke-width:100;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1"
      id="g386"
-     transform="translate(-51382.941,-17974.042)">
+     transform="translate(-52302.601,-20372.598)">
     <polyline
        fill="none;"
        points="59500,23500 59800,24040 61920,24040 61920,23500 61920,22960 59800,22960 59500,23500 "
@@ -229,11 +230,11 @@
   <g
      style="fill:#840000;fill-opacity:0;stroke:#840000;stroke-width:0;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1"
      id="g390"
-     transform="translate(-51382.941,-17974.042)" />
+     transform="translate(-52302.601,-20372.598)" />
   <g
      style="fill:#840000;fill-opacity:0;stroke:#840000;stroke-width:100;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1"
      id="g392"
-     transform="translate(-51382.941,-17974.042)">
+     transform="translate(-52302.601,-20372.598)">
     <rect
        x="56000"
        y="23100"
@@ -245,7 +246,7 @@
   <g
      style="fill:#840000;fill-opacity:0;stroke:#840000;stroke-width:60;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1"
      id="g396"
-     transform="translate(-51382.941,-17974.042)">
+     transform="translate(-52302.601,-20372.598)">
     <path
        d="m 58000,23500 500,0"
        id="path398"
@@ -258,7 +259,7 @@
   <g
      style="fill:#008484;fill-opacity:0;stroke:#008484;stroke-width:60;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1"
      id="g402"
-     transform="translate(-51382.941,-17974.042)">
+     transform="translate(-52302.601,-20372.598)">
     <path
        d="m 56410,23700 -280,0"
        id="path404"
@@ -287,7 +288,7 @@
   <g
      style="fill:#008400;fill-opacity:0;stroke:#008400;stroke-width:60;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1"
      id="g416"
-     transform="translate(-51382.941,-17974.042)">
+     transform="translate(-52302.601,-20372.598)">
     <path
        d="m 55500,21750 0,1750"
        id="path418"

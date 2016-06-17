@@ -23,7 +23,8 @@ params = {
 'image' : 'lemon_cell.png',
 'name':"Lemon Cell",
 'hint':'''
-	Make a cell using a raw lemon and study the output voltage.
+	Make a cell using a lemon and study the output voltage.<br>
+	Measure its internal resistance, as well as connect a few cells in series to drive an LED.
 	'''
 }
 
@@ -36,8 +37,6 @@ class AppWindow(QtGui.QMainWindow, template_graph_nofft.Ui_MainWindow,utilitiesC
 		
 		self.setWindowTitle(self.I.H.version_string+' : '+params.get('name','').replace('\n',' ') )
 
-		from SEEL.analyticsClass import analyticsClass
-		self.math = analyticsClass()
 		self.prescalerValue=0
 
 		self.plot=self.add2DPlot(self.plot_area,enableMenu=False)
@@ -64,23 +63,16 @@ class AppWindow(QtGui.QMainWindow, template_graph_nofft.Ui_MainWindow,utilitiesC
 		self.WidgetLayout.setAlignment(QtCore.Qt.AlignLeft)
 		#Control widgets
 
-		a={'TITLE':'Read CH1 Voltage','FUNC':self.readCH1,'UNITS':'V','TOOLTIP':'Read instantaneous voltage on CH1 using the voltmeter'}
-		self.voltmeter = self.wideButtonIcon(**a)
+		self.voltmeter = self.displayIcon(TITLE = 'CH1 Voltage',UNITS='V',TOOLTIP='Displays instantaneous voltage on CH1 using the voltmeter')
 		self.WidgetLayout.addWidget(self.voltmeter)
 
 		self.addPauseButton(self.bottomLayout,self.pause)
 		self.running=True
 		self.paused=False
-		self.getv = False
 		self.timer.singleShot(100,self.run)
 
 	def pause(self,v):
 		self.paused = v
-
-	def readCH1(self):
-		self.getv=True
-		return 'measuring..'
-
 
 	def autoRange(self):
 		xlen = self.tg*self.samples*1e-6
@@ -96,13 +88,10 @@ class AppWindow(QtGui.QMainWindow, template_graph_nofft.Ui_MainWindow,utilitiesC
 
 	def run(self):
 		if not self.running: return
-		if self.getv:
-			self.getv=False
-			self.voltmeter.value.setText(self.applySIPrefix(self.I.get_average_voltage('CH1'),'V'))
-
 		if self.paused:
 			self.timer.singleShot(100,self.run)
 			return
+		self.voltmeter.setValue(self.I.get_average_voltage('CH1'))
 		
 		try:
 			self.I.configure_trigger(0,'CH1',0)

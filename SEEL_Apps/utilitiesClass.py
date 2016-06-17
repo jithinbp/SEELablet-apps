@@ -9,7 +9,7 @@ sip.setapi("QVariant", 2)
 from PyQt4 import QtCore, QtGui
 import pyqtgraph as pg
 from SEEL_Apps.templates.widgets import dial,button,selectAndButton,sineWidget,pwmWidget,supplyWidget,setStateList,sensorWidget
-from SEEL_Apps.templates.widgets import spinBox,doubleSpinBox,dialAndDoubleSpin,pulseCounter,voltWidget,gainWidget,gainWidgetCombined,widebutton
+from SEEL_Apps.templates.widgets import spinBox,doubleSpinBox,dialAndDoubleSpin,pulseCounter,voltWidget,gainWidget,gainWidgetCombined,widebutton,displayWidget
 from SEEL_Apps import saveProfile
 from SEEL.commands_proto import applySIPrefix
 import numpy as np
@@ -44,7 +44,9 @@ class utilitiesClass():
 		pass
 
 	def enableShortcuts(self):
-		self.connect(QtGui.QShortcut(QtGui.QKeySequence(dial._translate("MainWindow", "Ctrl+S", None)), self), QtCore.SIGNAL('activated()'), self.saveData)
+		self.saveSignal = QtGui.QShortcut(QtGui.QKeySequence(QtCore.QCoreApplication.translate("MainWindow", "Ctrl+S", None)), self)
+		self.saveSignal.activated.connect(self.saveData)
+		
 
 
 	def applySIPrefix(self,value, unit='',precision=2 ):
@@ -559,9 +561,26 @@ class utilitiesClass():
 
 		def read(self):
 			retval = self.func()
-			if isinstance(retval,numbers.Number):self.value.setText('%s'%(self.applySIPrefix(retval,self.units) ))
-			else: self.value.setText(str(retval))
+			try:
+				if isinstance(retval,numbers.Number):self.value.setText('%s'%(self.applySIPrefix(retval,self.units) ))
+				else: self.value.setText(retval)
+			except:self.value.setText(str(retval))
 
+
+	class displayIcon(QtGui.QFrame,displayWidget.Ui_Form,utils):
+		def __init__(self,**args):
+			super(utilitiesClass.displayIcon, self).__init__()
+			self.setupUi(self)
+			self.name = args.get('TITLE','')
+			self.title.setText(self.name)
+			self.units = args.get('UNITS','')
+			if 'TOOLTIP' in args:self.widgetFrameOuter.setToolTip(args.get('TOOLTIP',''))
+
+		def setValue(self,retval):
+			try:
+				if isinstance(retval,numbers.Number):self.value.setText('%s'%(self.applySIPrefix(retval,self.units) ))
+				else: self.value.setText(retval)
+			except:self.value.setText(str(retval))
 
 	class selectAndButtonIcon(QtGui.QFrame,selectAndButton.Ui_Form,utils):
 		def __init__(self,**args):
@@ -922,25 +941,31 @@ class utilitiesClass():
 
 
 	def addW1(self,I,link=None):
-		a={'TITLE':'Wave 1','MIN':1,'MAX':5000,'FUNC':self.I.set_w1,'TYPE':'dial','UNITS':'Hz','TOOLTIP':'Frequency of waveform generator #1'}
+		a={'TITLE':'Wave 1','MIN':1,'MAX':5000,'FUNC':self.I.set_w1,'UNITS':'Hz','TOOLTIP':'Frequency of waveform generator #1'}
 		if link: a['LINK'] = link
 		return self.dialAndDoubleSpinIcon(**a)
 
 
 	def addW2(self,I,link=None):
-		a={'TITLE':'Wave 2','MIN':1,'MAX':5000,'FUNC':self.I.set_w2,'TYPE':'dial','UNITS':'Hz','TOOLTIP':'Frequency of waveform generator #2'}
+		a={'TITLE':'Wave 2','MIN':1,'MAX':5000,'FUNC':self.I.set_w2,'UNITS':'Hz','TOOLTIP':'Frequency of waveform generator #2'}
 		if link: a['LINK'] = link
 		return self.dialAndDoubleSpinIcon(**a)
 
 	def addSQR1(self,I,link=None):
-		a={'TITLE':'SQR 1','MIN':1,'MAX':100000,'FUNC':self.I.sqr1,'TYPE':'dial','UNITS':'Hz','TOOLTIP':'Frequency of SQR1'}
+		a={'TITLE':'SQR 1','MIN':1,'MAX':100000,'FUNC':self.I.sqr1,'UNITS':'Hz','TOOLTIP':'Frequency of SQR1'}
 		if link: a['LINK'] = link
 		return self.dialAndDoubleSpinIcon(**a)
 
 	def addTimebase(self,I,func):
-		a={'TITLE':'TIMEBASE','MIN':0,'MAX':9,'FUNC':func,'TYPE':'dial','UNITS':'S','TOOLTIP':'Set Timebase of the oscilloscope'}
+		a={'TITLE':'TIMEBASE','MIN':0,'MAX':9,'FUNC':func,'UNITS':'S','TOOLTIP':'Set Timebase of the oscilloscope'}
 		T2 = self.dialIcon(**a)
 		T2.dial.setPageStep(1)
+		return T2
+
+	def addRes(self,I,wide=None):
+		a={'TITLE':'RESISTANCE','FUNC':I.get_resistance,'UNITS':u"\u03A9",'TOOLTIP':'Read Resistance connected to SEN input '}
+		if wide: T2 = self.wideButtonIcon(**a)
+		else: T2 = self.buttonIcon(**a)
 		return T2
 
 	def addPauseButton(self,layout,func):
@@ -970,21 +995,6 @@ class utilitiesClass():
 							rowdata.append('')
 					writer.writerow(rowdata)
 
-	'''
-	def saveDataWindow(self,curveList,plot=None):
-		from utilityApps import spreadsheet
-		info = spreadsheet.AppWindow(self)
-		colnum=0;labels=[]
-		for a in curveList:
-			x,y = a.getData()
-			name = a.name()
-			if x!=None and y!=None:
-				info.setColumn(colnum,x);colnum+=1
-				info.setColumn(colnum,y);colnum+=1
-				labels.append('%s(X)'%(name));labels.append('%s(Y)'%(name));
-		info.table.setHorizontalHeaderLabels(labels)
-		info.show()
-	'''
 	
 	def saveDataWindow(self,curveList,plot=None):
 		from utilityApps import plotSaveWindow

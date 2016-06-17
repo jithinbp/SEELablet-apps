@@ -164,7 +164,7 @@ class AppWindow(QtGui.QMainWindow, template_graph_nofft.Ui_MainWindow,utilitiesC
 					if fitres and fitres2:
 						amp,freq,offset,phase = fitres
 						amp2,freq2,offset2,phase2 = fitres2
-						if abs(freq<freq2)<10: #Within error
+						if abs(freq-freq2)<10: #Within error
 							self.ampGain.value.setText('CH1=%s\nCH2=%s\nGain = %.3f'%(self.applySIPrefix(amp,'V'),self.applySIPrefix(amp2,'V'),amp2/amp))
 						else: self.ampGain.value.setText('Fit Error')
 				except:
