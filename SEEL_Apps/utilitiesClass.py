@@ -998,6 +998,23 @@ class utilitiesClass():
 		QtCore.QObject.connect(freezeButton, QtCore.SIGNAL(_fromUtf8("toggled(bool)")), func)
 		return freezeButton
 
+
+
+	def addHelpImageToLayout(self,layout,filename):
+		imgurl = pkg_resources.resource_filename('seel_res.HTML.images',filename)
+		return self.addPixMapToLayout(layout,QtGui.QPixmap(imgurl))
+
+	def addPixMapToLayout(self,layout,pixmap):
+		pic = QtGui.QLabel(self)
+		pic.setGeometry(10, 10, 250, 120)
+		self.setPixMapOnLabel(pic,pixmap)
+		layout.addWidget(pic)
+		return pic
+
+	def setPixMapOnLabel(self,pic,pixmap):
+		pic.setPixmap(pixmap.scaled(pic.size(), QtCore.Qt.KeepAspectRatio)) 
+
+
 	def saveToCSV(self,table):
 		path = QtGui.QFileDialog.getSaveFileName(self, 'Save File', '~/', 'CSV(*.csv)')
 		sections = path.split('.')
@@ -1045,5 +1062,14 @@ class utilitiesClass():
 		filename = QtGui.QFileDialog.getOpenFileName(self,  "Load a Profile", expanduser("."), 'INI(*.ini)')
 		if filename :
 			saveProfile.guirestore(self, QtCore.QSettings(filename, QtCore.QSettings.IniFormat))
+
+	def getFile(self,filetype=None):
+		from os.path import expanduser
+		if filetype:
+			filename = QtGui.QFileDialog.getOpenFileName(self,  "Select File", expanduser("."))
+		else:
+			filename = QtGui.QFileDialog.getOpenFileName(self,  "Select File", expanduser("."),filetype)
+		return filename
+
 
 

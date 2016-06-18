@@ -62,7 +62,7 @@ class AppWindow(QtGui.QMainWindow, template_graph_nofft.Ui_MainWindow,utilitiesC
 		self.I.set_state(SQR1=1)
 
 	def get_voltage(self):
-		return self.I.get_voltage('CH1')
+		return self.I.get_voltage('CAP')
 
 	def pause(self,v):
 		self.paused = v
@@ -107,9 +107,9 @@ class AppWindow(QtGui.QMainWindow, template_graph_nofft.Ui_MainWindow,utilitiesC
 		print('bye')
 
 if __name__ == "__main__":
-    from SEEL import interface
-    app = QtGui.QApplication(sys.argv)
-    myapp = AppWindow(I=interface.connect())
-    myapp.show()
-    sys.exit(app.exec_())
+	from SEEL import interface
+	app = QtGui.QApplication(sys.argv)
+	myapp = AppWindow(I=interface.connect())
+	myapp.show()
+	sys.exit(app.exec_())
 
