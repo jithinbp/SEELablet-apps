@@ -8,6 +8,7 @@ from __future__ import print_function
 import os
 
 from PyQt4 import QtCore, QtGui
+from SEEL_Apps.utilitiesClass import utilitiesClass
 import time,sys
 from .templates import NFC
 import sys
@@ -15,11 +16,10 @@ import sys
 
 params = {
 'image' : 'mf522.png',
-'helpfile': 'diodeIV.html',
 'name':'RFID Reader\nMF522'
 }
 
-class AppWindow(QtGui.QMainWindow, NFC.Ui_MainWindow):
+class AppWindow(QtGui.QMainWindow, NFC.Ui_MainWindow,utilitiesClass):
 	def __init__(self, parent=None,**kwargs):
 		super(AppWindow, self).__init__(parent)
 		self.setupUi(self)

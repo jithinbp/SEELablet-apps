@@ -33,7 +33,7 @@ class AppWindow(QtGui.QMainWindow, ipy.Ui_MainWindow):
 		self.msg = QtGui.QLabel()
 		self.statusbar.addWidget(self.msg)
 		self.msg.setText('Hi!')
-		self.timer = self.newTimer()
+		self.timer = QtCore.QTimer()
 
 		self.showSplash();self.updateSplash(10,'Importing iPython Widgets...')
 		try:

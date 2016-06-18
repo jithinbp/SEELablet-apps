@@ -24,14 +24,8 @@ params = {
 'image' : 'fullwave.png',
 'name':'Full Wave\nRectifier',
 'hint':'''
-	Study Full Wave rectifiers.<br>
-	Connect Wavegen 1 to a diode as well as CH1.<br>
-	Connect Wavegen 2 to a diode as well as CH2.<br>
-	connect the other end of both the diodes to CH3.<br>
-	Provide a load resistor(1K) from CH3 to ground.<br>
-	Set 180 phase difference between the wave generators and Observe full wave rectification.<br>
-	Add a capacitor in parallel to the load resistor and observe how it filters the output.
-	
+	Study Full Wave rectifiers using the sine wave generators.<br>
+	Also study the effects of adding a filtering capacitor.
 	'''
 
 }

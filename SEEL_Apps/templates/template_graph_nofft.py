@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'template_graph_nofft.ui'
 #
-# Created: Thu Jun 16 16:02:26 2016
+# Created: Sat Jun 18 16:44:46 2016
 #      by: PyQt4 UI code generator 4.11.3
 #
 # WARNING! All changes made in this file will be lost!
@@ -114,6 +114,10 @@ class Ui_MainWindow(object):
         self.bottomLayout.setSpacing(2)
         self.bottomLayout.setContentsMargins(3, 0, 3, 0)
         self.bottomLayout.setObjectName(_fromUtf8("bottomLayout"))
+        self.msg = QtGui.QLabel(self.bottomFrame)
+        self.msg.setText(_fromUtf8(""))
+        self.msg.setObjectName(_fromUtf8("msg"))
+        self.bottomLayout.addWidget(self.msg)
         spacerItem = QtGui.QSpacerItem(40, 20, QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Minimum)
         self.bottomLayout.addItem(spacerItem)
         self.pushButton_2 = QtGui.QPushButton(self.bottomFrame)

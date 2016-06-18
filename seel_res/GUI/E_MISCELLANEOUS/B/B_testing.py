@@ -19,6 +19,7 @@ sip.setapi("QVariant", 2)
 from PyQt4 import QtCore, QtGui
 import time,sys
 from .templates import arbitStream
+from SEEL_Apps.utilitiesClass import utilitiesClass
 
 import sys,os,string
 import time
@@ -42,7 +43,7 @@ params = {
 'hint':'A continuous data acquisition utility to visualize time dependent behaviour of any of the measurement functions contained in the SEELablet python library.\nThese include get_freq,get_capacitance, and get_average_voltage'
 }
 
-class AppWindow(QtGui.QMainWindow, arbitStream.Ui_MainWindow):
+class AppWindow(QtGui.QMainWindow, arbitStream.Ui_MainWindow,utilitiesClass):
 	def __init__(self, parent=None,**kwargs):
 		super(AppWindow, self).__init__(parent)
 		self.setupUi(self)

@@ -8,7 +8,7 @@ sip.setapi("QVariant", 2)
 
 from PyQt4 import QtCore, QtGui
 import pyqtgraph as pg
-from SEEL_Apps.templates.widgets import dial,button,selectAndButton,sineWidget,pwmWidget,supplyWidget,setStateList,sensorWidget
+from SEEL_Apps.templates.widgets import dial,button,selectAndButton,sineWidget,pwmWidget,supplyWidget,setStateList,sensorWidget,simpleButton
 from SEEL_Apps.templates.widgets import spinBox,doubleSpinBox,dialAndDoubleSpin,pulseCounter,voltWidget,gainWidget,gainWidgetCombined,widebutton,displayWidget
 from SEEL_Apps import saveProfile
 from SEEL.commands_proto import applySIPrefix
@@ -555,6 +555,19 @@ class utilitiesClass():
 			retval = self.func()
 			if isinstance(retval,numbers.Number):self.value.setText('%s'%(self.applySIPrefix(retval,self.units) ))
 			else: self.value.setText(str(retval))
+
+	class simpleButtonIcon(QtGui.QFrame,simpleButton.Ui_Form):
+		def __init__(self,**args):
+			super(utilitiesClass.simpleButtonIcon, self).__init__()
+			self.setupUi(self)
+			self.button.setText(args.get('TITLE','CLICK'))
+			self.func = args.get('FUNC',None)
+			if 'TOOLTIP' in args:self.widgetFrameOuter.setToolTip(args.get('TOOLTIP',''))
+
+		def clicked(self):
+			retval = self.func()
+			self.value.setText(str(retval))
+
 
 
 	class wideButtonIcon(QtGui.QFrame,widebutton.Ui_Form,utils):

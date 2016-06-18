@@ -111,6 +111,10 @@ class AppWindow(QtGui.QMainWindow, template_transient.Ui_MainWindow,utilitiesCla
 
 	def showData(self):
 		self.displayDialog('nothing')
+
+	def saveData(self):
+		self.saveDataWindow([self.curveGx,self.curveGy,self.curveGz,self.curveAx,self.curveAy,self.curveAz],self.plot1)
+
 		
 if __name__ == "__main__":
 	from SEEL import interface

@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'single_col_exp.ui'
 #
-# Created: Tue Jun 14 10:24:09 2016
+# Created: Sat Jun 18 16:45:11 2016
 #      by: PyQt4 UI code generator 4.11.3
 #
 # WARNING! All changes made in this file will be lost!
@@ -26,7 +26,7 @@ except AttributeError:
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName(_fromUtf8("MainWindow"))
-        MainWindow.resize(434, 667)
+        MainWindow.resize(433, 627)
         MainWindow.setMinimumSize(QtCore.QSize(0, 0))
         MainWindow.setMaximumSize(QtCore.QSize(16777215, 16777215))
         MainWindow.setStyleSheet(_fromUtf8(""))
@@ -69,6 +69,12 @@ class Ui_MainWindow(object):
         self.verticalLayout_4.setMargin(0)
         self.verticalLayout_4.setObjectName(_fromUtf8("verticalLayout_4"))
         self.subSections = QtGui.QComboBox(self.frame)
+        self.subSections.setMinimumSize(QtCore.QSize(0, 30))
+        font = QtGui.QFont()
+        font.setPointSize(12)
+        font.setBold(False)
+        font.setWeight(50)
+        self.subSections.setFont(font)
         self.subSections.setDuplicatesEnabled(True)
         self.subSections.setFrame(False)
         self.subSections.setObjectName(_fromUtf8("subSections"))
@@ -85,7 +91,7 @@ class Ui_MainWindow(object):
         self.ExperimentScrollArea.setAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft|QtCore.Qt.AlignTop)
         self.ExperimentScrollArea.setObjectName(_fromUtf8("ExperimentScrollArea"))
         self.SCF1 = QtGui.QWidget()
-        self.SCF1.setGeometry(QtCore.QRect(0, 0, 401, 418))
+        self.SCF1.setGeometry(QtCore.QRect(0, 0, 400, 416))
         sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Preferred, QtGui.QSizePolicy.MinimumExpanding)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -111,8 +117,9 @@ class Ui_MainWindow(object):
         self.gridLayout_7.setSpacing(5)
         self.gridLayout_7.setObjectName(_fromUtf8("gridLayout_7"))
         self.ExperimentLayout = QtGui.QGridLayout()
-        self.ExperimentLayout.setMargin(5)
-        self.ExperimentLayout.setSpacing(7)
+        self.ExperimentLayout.setMargin(3)
+        self.ExperimentLayout.setHorizontalSpacing(5)
+        self.ExperimentLayout.setVerticalSpacing(7)
         self.ExperimentLayout.setObjectName(_fromUtf8("ExperimentLayout"))
         self.gridLayout_7.addLayout(self.ExperimentLayout, 0, 0, 1, 1)
         self.gridLayout_5.addWidget(self.frame_5, 0, 0, 1, 1)
@@ -140,7 +147,7 @@ class Ui_MainWindow(object):
         sizePolicy.setHeightForWidth(self.hintText.sizePolicy().hasHeightForWidth())
         self.hintText.setSizePolicy(sizePolicy)
         self.hintText.setMinimumSize(QtCore.QSize(0, 30))
-        self.hintText.setMaximumSize(QtCore.QSize(16777215, 16777215))
+        self.hintText.setMaximumSize(QtCore.QSize(16777215, 150))
         self.hintText.setVerticalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOff)
         self.hintText.setHorizontalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOff)
         self.hintText.setTextInteractionFlags(QtCore.Qt.LinksAccessibleByKeyboard|QtCore.Qt.LinksAccessibleByMouse)
@@ -215,7 +222,7 @@ class Ui_MainWindow(object):
         self.horizontalLayout.setMargin(0)
         self.horizontalLayout.setObjectName(_fromUtf8("horizontalLayout"))
         self.pushButton = QtGui.QPushButton(self.frame_2)
-        self.pushButton.setMinimumSize(QtCore.QSize(94, 0))
+        self.pushButton.setMinimumSize(QtCore.QSize(86, 0))
         self.pushButton.setMaximumSize(QtCore.QSize(50, 25))
         self.pushButton.setObjectName(_fromUtf8("pushButton"))
         self.horizontalLayout.addWidget(self.pushButton)
@@ -245,7 +252,7 @@ class Ui_MainWindow(object):
         self.verticalLayout_2.addWidget(self.tabWidget)
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtGui.QMenuBar(MainWindow)
-        self.menubar.setGeometry(QtCore.QRect(0, 0, 434, 25))
+        self.menubar.setGeometry(QtCore.QRect(0, 0, 433, 25))
         self.menubar.setObjectName(_fromUtf8("menubar"))
         self.menuUtilities = QtGui.QMenu(self.menubar)
         self.menuUtilities.setObjectName(_fromUtf8("menuUtilities"))

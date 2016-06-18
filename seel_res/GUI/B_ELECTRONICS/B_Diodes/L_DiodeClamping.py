@@ -63,7 +63,7 @@ class AppWindow(QtGui.QMainWindow, template_graph.Ui_MainWindow,utilitiesClass):
 		self.WidgetLayout.addWidget(self.sinewidget)
 		self.sinewidget.dial.setValue(200)
 
-		self.WidgetLayout.addWidget(self.addPV3(self.I))
+		self.pv = self.addPV2(self.I);self.WidgetLayout.addWidget(self.pv);self.pv.dial.setValue(2048)
 
 
 		self.ControlsLayout.addWidget(self.addTimebase(self.I,self.set_timebase))

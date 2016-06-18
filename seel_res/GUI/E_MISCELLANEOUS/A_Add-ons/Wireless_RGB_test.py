@@ -7,10 +7,10 @@ Check the range of your RF Nodes by counting dropped packets.
 
 import sys,time,functools
 from PyQt4 import QtGui, QtCore
+from SEEL_Apps.utilitiesClass import utilitiesClass
 import numpy as np
 params = {
 'image' : 'rgbled.png',
-'helpfile': '',
 'name':'Wireless\nRGB lights',
 'hint':'''
 	Displays alternating shades on the onboard colored LEDs of selected wireless nodes.<br>
@@ -18,7 +18,7 @@ params = {
 	'''
 }
 
-class AppWindow(QtGui.QMainWindow):
+class AppWindow(QtGui.QMainWindow,utilitiesClass):
 	def __init__(self,parent=None,**kwargs):
 		super(AppWindow, self).__init__(parent)
 		self.I=kwargs.get('I',None)
