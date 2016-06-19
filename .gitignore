@@ -1,4 +1,6 @@
 *~
 *.pyc
 __pycache__
+SEEL_Apps.egg-info
+build
 ui_*.py
