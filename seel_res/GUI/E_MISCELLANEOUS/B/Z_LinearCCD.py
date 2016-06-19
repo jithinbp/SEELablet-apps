@@ -120,7 +120,7 @@ class AppWindow(QtGui.QMainWindow, template_graph_nofft.Ui_MainWindow,utilitiesC
 			print (self.I.achans[0].get_yaxis())
 			
 			if self.running:self.timer.singleShot(200,self.run)
-		except Exception,e:
+		except Exception as e:
 			print (e)
 
 	def saveData(self):

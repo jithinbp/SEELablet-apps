@@ -407,7 +407,7 @@ class AppWindow(QtGui.QMainWindow, calibration_loader.Ui_MainWindow,utilitiesCla
 					else:
 						print ('Done',V,C,CT)
 						return C
-		except Exception, ex:
+		except Exception as  ex:
 			self.displayDialog(ex.message)
 
 

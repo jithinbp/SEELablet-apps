@@ -118,7 +118,7 @@ class AppWindow(QtGui.QMainWindow, template_graph_nofft.Ui_MainWindow,utilitiesC
 			self.math.sineFitAndDisplay(self.I.achans[0],self.fitmeter)
 
 			if self.running:self.timer.singleShot(100,self.run)
-		except Exception,e:
+		except Exception as e:
 			print (e)
 
 	def crossHairEvent(self,plot,evt):

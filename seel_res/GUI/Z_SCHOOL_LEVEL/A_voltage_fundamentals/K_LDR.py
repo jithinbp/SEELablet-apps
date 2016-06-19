@@ -102,7 +102,7 @@ class AppWindow(QtGui.QMainWindow, template_graph_nofft.Ui_MainWindow,utilitiesC
 			self.voltmeter.setValue(self.math.RMS(R))
 			self.displayCrossHairData(self.plot,False,self.samples,self.I.timebase,[V],[(0,255,0)])		
 			if self.running:self.timer.singleShot(100,self.run)
-		except Exception,e:
+		except Exception as e:
 			print (e)
 
 	def crossHairEvent(self,plot,evt):
