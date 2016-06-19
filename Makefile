@@ -19,7 +19,7 @@ all:  $(UIfiles)
 
 ui_%.py: %.ui
 	@echo compiling UI : $@
-	@pyuic4 $< > $@
+	@pyuic5 $< > $@
 
 showUifiles:
 	@echo $(UIfiles) | tr " " "\n"
