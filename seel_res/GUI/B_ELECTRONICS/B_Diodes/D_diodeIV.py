@@ -9,7 +9,7 @@ import os
 from SEEL_Apps.utilitiesClass import utilitiesClass
 from PyQt4 import QtCore, QtGui
 import time,sys
-from templates import diodeIV
+from templates import ui_diodeIV
 
 import sys
 

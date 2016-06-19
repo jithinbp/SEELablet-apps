@@ -18,7 +18,7 @@ sip.setapi("QVariant", 2)
 
 from PyQt4 import QtCore, QtGui
 import time,sys
-from .templates import arbitStream
+from .templates import ui_arbitStream
 from SEEL_Apps.utilitiesClass import utilitiesClass
 import sys,os,string
 import time
