@@ -10,7 +10,7 @@ refer to SENSORS.supported
 from __future__ import print_function
 
 from SEEL_Apps.utilitiesClass import utilitiesClass
-from .templates import hackYourOwn
+from templates import ui_hackYourOwn
 
 
 import pyqtgraph as pg

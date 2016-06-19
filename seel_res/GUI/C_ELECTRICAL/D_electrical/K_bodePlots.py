@@ -16,7 +16,7 @@ import time,sys
 import sys
 
 import pyqtgraph as pg
-from .templates import template_bandpass
+from SEEL_Apps.templates import ui_template_bandpass
 
 import numpy as np
 

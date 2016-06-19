@@ -10,7 +10,7 @@ refer to SENSORS.supported
 from __future__ import print_function
 
 from SEEL_Apps.utilitiesClass import utilitiesClass
-from .templates import sensorGrid
+from .templates import ui_sensorGrid
 
 
 import pyqtgraph as pg

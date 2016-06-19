@@ -28,7 +28,7 @@ except AttributeError:
 
 from SEEL_Apps.stylesheets import styles
 from SEEL_Apps.utilitiesClass import utilitiesClass
-from SEEL_Apps.templates import single_col_exp
+from SEEL_Apps.templates import ui_single_col_exp
 
 import os,string,time,pkgutil,importlib,functools,pkg_resources
 

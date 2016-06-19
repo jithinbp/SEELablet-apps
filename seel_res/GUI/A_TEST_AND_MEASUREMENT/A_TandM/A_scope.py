@@ -11,7 +11,11 @@ from SEEL_Apps.utilitiesClass import utilitiesClass
 
 from PyQt5 import QtCore, QtGui
 import time,sys
+<<<<<<< HEAD
 from .templates import analogScope
+=======
+from templates import ui_analogScope
+>>>>>>> 9656905... make adjustments for Python UI files
 
 import sys,os,string
 import time

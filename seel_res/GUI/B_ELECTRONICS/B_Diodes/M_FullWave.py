@@ -13,7 +13,7 @@ from __future__ import print_function
 from SEEL_Apps.utilitiesClass import utilitiesClass
 from SEEL.analyticsClass import analyticsClass
 
-from SEEL_Apps.templates import template_graph_nofft
+from SEEL_Apps.templates import ui_template_graph_nofft
 
 import numpy as np
 from PyQt5 import QtGui,QtCore

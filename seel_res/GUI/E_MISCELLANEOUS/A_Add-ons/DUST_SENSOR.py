@@ -11,7 +11,7 @@
 from __future__ import print_function
 from SEEL_Apps.utilitiesClass import utilitiesClass
 
-from .templates import dsm501
+from .templates import ui_dsm501
 
 import numpy as np
 from PyQt5 import QtGui,QtCore
