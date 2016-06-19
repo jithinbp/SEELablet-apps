@@ -147,7 +147,7 @@ class utilitiesClass():
 				try:
 					for d in plot.axisItems:  #Go through any additional axes, and set colors there too
 						d.setPen('k')
-				except Exception,ex: print ('error while changing scheme',ex)
+				except Exception as ex: print ('error while changing scheme',ex)
 
 
 	def rightClickToZoomOut(self,plot):
@@ -233,7 +233,7 @@ class utilitiesClass():
 				try:
 					for d in plot.axisItems:  #Go through any additional axes, and set colors there too
 						d.setPen('w')
-				except Exception,ex: print ('error while changing scheme',ex)
+				except Exception as ex: print ('error while changing scheme',ex)
 
 
 
@@ -494,7 +494,7 @@ class utilitiesClass():
 		def setValue(self,val):
 			try:
 				retval = self.func(val)
-			except Exception,err:
+			except Exception as err:
 				retval = 'err'
 
 			if isinstance(retval,numbers.Number):
@@ -848,7 +848,7 @@ class utilitiesClass():
 			retval = self.I.sqrPWM(self.SQRSF.value(),D1,P2,D2,P3,D3,P4,D4)
 			try:
 				self.SQRSF.setValue(retval)
-			except Exception,e:
+			except Exception as e:
 				print (e.message)
 
 		def fireSQR1(self):
