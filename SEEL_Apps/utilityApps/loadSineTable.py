@@ -15,7 +15,7 @@ sip.setapi("QVariant", 2)
 from PyQt5 import QtCore, QtGui
 from .templates import loadSineTable
 =======
-from PyQt4 import QtCore, QtGui
+from PyQt5 import QtCore, QtGui
 from .templates import ui_loadSineTable
 >>>>>>> 9656905... make adjustments for Python UI files
 import sys,os,string,functools,time
