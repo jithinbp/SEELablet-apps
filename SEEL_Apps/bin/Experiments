@@ -305,7 +305,7 @@ class MyMainWindow(QtGui.QMainWindow, single_col_exp.Ui_MainWindow,utilitiesClas
 				if self.runningApp:
 					self.runningApp.close()
 					self.killAllTimers()
-			except Exception,e: print(e)
+			except Exception as e: print(e)
 			
 			FILE = importlib.import_module(fname)
 			inst = FILE.AppWindow(self,I=self.I)
@@ -381,7 +381,7 @@ class MyMainWindow(QtGui.QMainWindow, single_col_exp.Ui_MainWindow,utilitiesClas
 		if self.I:
 			try:
 				self.I.reconnect(port = sel)
-			except Exception,e:
+			except Exception as e:
 				self.updateSplash(30,'Connection Error!')
 				#self.SCF1.setStyleSheet(_fromUtf8(styles.disconnected))
 				self.styleText = pkg_resources.resource_string('SEEL_Apps', "stylesheets/overall_disconnected.css").decode("utf-8")
