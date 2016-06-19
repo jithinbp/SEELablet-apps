@@ -3,3 +3,4 @@ build
 *~
 *.pyc
 __pycache__
+ui_*.py
