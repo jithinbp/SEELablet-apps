@@ -17,7 +17,7 @@ import pyqtgraph as pg
 import numpy as np
 from PyQt4 import QtCore, QtGui
 
-from .templates import ui_wirelessTemplate
+from .templates import ui_wirelessTemplate as wirelessTemplate
 
 import time,sys,functools
 

@@ -12,7 +12,7 @@
 from __future__ import print_function
 from SEEL_Apps.utilitiesClass import utilitiesClass
 
-from SEEL_Apps.templates import ui_graph_and_sheet
+from SEEL_Apps.templates import ui_graph_and_sheet as graph_and_sheet
 
 import numpy as np
 from PyQt4 import QtGui,QtCore
