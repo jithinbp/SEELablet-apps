@@ -9,7 +9,7 @@ from __future__ import print_function
 
 
 from SEEL_Apps.utilitiesClass import utilitiesClass
-from SEEL_Apps.templates.widgets.nodeList import Ui_Form as nodeWidget
+from SEEL_Apps.templates.widgets.ui_nodeList import Ui_Form as nodeWidget
 from SEEL.SENSORS import HMC5883L,MPU6050,MLX90614,BMP180,TSL2561,SHT21
 from SEEL.SENSORS.supported import supported
 from SEEL.sensorlist import sensors as sensorHints

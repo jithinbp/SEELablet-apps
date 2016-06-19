@@ -15,7 +15,7 @@ Currently Supports:\n
 '''
 from __future__ import print_function
 
-from SEEL_Apps.templates.widgets.clicking import Ui_Form as Ui_Clicking
+from SEEL_Apps.templates.widgets.ui_clicking import Ui_Form as Ui_Clicking
 from .templates import ui_sensorTemplate as sensorTemplate
 
 from SEEL.SENSORS.supported import supported

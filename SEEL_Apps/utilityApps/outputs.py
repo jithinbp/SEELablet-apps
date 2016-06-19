@@ -14,7 +14,7 @@ sip.setapi("QVariant", 2)
 from PyQt5 import QtCore, QtGui
 import time,sys
 from SEEL_Apps.templates import ui_controlWidgets as controlWidgets
-from SEEL_Apps.templates.widgets import dial,button,selectAndButton
+from SEEL_Apps.templates.widgets import ui_dial as dial, ui_button as button, ui_selectAndButton as selectAndButton
 from SEEL_Apps.utilitiesClass import utilitiesClass
 
 import sys,os,string,functools
