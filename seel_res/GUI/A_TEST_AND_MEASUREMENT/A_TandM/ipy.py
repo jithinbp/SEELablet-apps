@@ -13,7 +13,7 @@ sip.setapi("QVariant", 2)
 
 from PyQt5 import QtCore, QtGui
 import time,sys
-from .templates import ui_ipy
+from .templates import ui_ipy as ipy
 
 import sys,os,string
 import time

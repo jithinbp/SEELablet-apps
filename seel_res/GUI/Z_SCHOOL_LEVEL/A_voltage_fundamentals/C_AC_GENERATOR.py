@@ -12,7 +12,7 @@
 from __future__ import print_function
 from SEEL_Apps.utilitiesClass import utilitiesClass
 
-from SEEL_Apps.templates import ui_template_graph_nofft
+from SEEL_Apps.templates import ui_template_graph_nofft as template_graph_nofft
 
 import numpy as np
 from PyQt5 import QtGui,QtCore
@@ -118,7 +118,7 @@ class AppWindow(QtGui.QMainWindow, template_graph_nofft.Ui_MainWindow,utilitiesC
 			self.math.sineFitAndDisplay(self.I.achans[0],self.fitmeter)
 
 			if self.running:self.timer.singleShot(100,self.run)
-		except Exception,e:
+		except Exception as e:
 			print (e)
 
 	def crossHairEvent(self,plot,evt):

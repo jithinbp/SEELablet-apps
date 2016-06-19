@@ -8,8 +8,8 @@ sip.setapi("QVariant", 2)
 
 from PyQt5 import QtCore, QtGui
 import pyqtgraph as pg
-from SEEL_Apps.templates.widgets import dial,button,selectAndButton,sineWidget,pwmWidget,supplyWidget,setStateList,sensorWidget
-from SEEL_Apps.templates.widgets import spinBox,doubleSpinBox,dialAndDoubleSpin,pulseCounter,voltWidget,gainWidget,gainWidgetCombined
+from SEEL_Apps.templates.widgets import ui_dial as dial,ui_button as button,ui_selectAndButton as selectAndButton,ui_sineWidget as sineWidget,ui_pwmWidget as pwmWidget,ui_supplyWidget as supplyWidget,ui_setStateList as setStateList,ui_sensorWidget as sensorWidget,ui_simpleButton as simpleButton
+from SEEL_Apps.templates.widgets import ui_spinBox as spinBox,ui_doubleSpinBox as doubleSpinBox,ui_dialAndDoubleSpin as dialAndDoubleSpin,ui_pulseCounter as pulseCounter,ui_voltWidget as voltWidget,ui_gainWidget as gainWidget,ui_gainWidgetCombined as gainWidgetCombined,ui_widebutton as widebutton,ui_displayWidget as displayWidget
 from SEEL_Apps import saveProfile
 from SEEL.commands_proto import applySIPrefix
 import numpy as np

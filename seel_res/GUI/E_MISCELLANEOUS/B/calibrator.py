@@ -22,7 +22,7 @@ Connected to AIN5
 """
 #from __future__ import print_function
 from SEEL_Apps.utilitiesClass import utilitiesClass
-from .templates import ui_calibrator
+from .templates import ui_calibrator as calibrator
 
 import numpy as np
 from PyQt5 import QtGui,QtCore

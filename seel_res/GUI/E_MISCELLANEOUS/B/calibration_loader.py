@@ -11,7 +11,7 @@
 """
 from __future__ import print_function
 from SEEL_Apps.utilitiesClass import utilitiesClass
-from templates import ui_calibration_loader
+from templates import ui_calibration_loader as calibration_loader
 
 import numpy as np
 from PyQt5 import QtGui,QtCore
@@ -407,7 +407,7 @@ class AppWindow(QtGui.QMainWindow, calibration_loader.Ui_MainWindow,utilitiesCla
 					else:
 						print ('Done',V,C,CT)
 						return C
-		except Exception, ex:
+		except Exception as  ex:
 			self.displayDialog(ex.message)
 
 

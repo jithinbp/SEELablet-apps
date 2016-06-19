@@ -12,7 +12,7 @@ sip.setapi("QVariant", 2)
 
 
 from PyQt5 import QtCore, QtGui
-from templates import ui_advancedCal
+from templates import ui_advancedCal as advancedCal
 from SEEL_Apps.utilitiesClass import utilitiesClass
 
 import sys,os,string,time,struct
@@ -112,7 +112,7 @@ class AppWindow(QtGui.QMainWindow, advancedCal.Ui_MainWindow,utilitiesClass):
 					else:
 						print ('Done',V,C,CT)
 						return C
-		except Exception, ex:
+		except Exception as ex:
 			self.displayDialog(ex.message)
 
 
