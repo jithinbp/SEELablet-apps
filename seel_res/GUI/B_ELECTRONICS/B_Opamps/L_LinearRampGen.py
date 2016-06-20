@@ -4,7 +4,7 @@
 
 ::
 
-    This experiment is used to study non-inverting amplifiers
+    An Op-Amp based linear ramp generator that integrates a step signal issued via SQR1 to make a smooth ramp output.
 
 """
 
@@ -105,6 +105,7 @@ class AppWindow(QtGui.QMainWindow, template_graph_nofft.Ui_MainWindow,utilitiesC
 			self.ampGain.value.setText('reading...')
 			self.I.configure_trigger(0,'CH1',0,prescaler = self.prescalerValue)
 			x,y = self.I.capture1('CH1',self.samples,self.tg,'SET_HIGH')
+			print(x,y)
 			self.curveCH1.setData(x*1e-6,y)
 			#self.displayCrossHairData(self.plot,False,self.samples,self.I.timebase,[y],[(0,255,0)])
 			self.I.set_state(SQR1=False) #Set SQR1 to 0

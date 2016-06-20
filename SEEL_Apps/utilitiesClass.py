@@ -8,7 +8,7 @@ sip.setapi("QVariant", 2)
 
 from PyQt4 import QtCore, QtGui
 import pyqtgraph as pg
-from SEEL_Apps.templates.widgets import dial,button,selectAndButton,sineWidget,pwmWidget,supplyWidget,setStateList,sensorWidget,simpleButton
+from SEEL_Apps.templates.widgets import dial,button,selectAndButton,sineWidget,pwmWidget,supplyWidget,setStateList,sensorWidget,simpleButton,dualButton
 from SEEL_Apps.templates.widgets import spinBox,doubleSpinBox,dialAndDoubleSpin,pulseCounter,voltWidget,gainWidget,gainWidgetCombined,widebutton,displayWidget
 from SEEL_Apps import saveProfile
 from SEEL.commands_proto import applySIPrefix
@@ -19,6 +19,15 @@ try:
 except AttributeError:
     def _fromUtf8(s):
         return s
+
+try:
+    _encoding = QtGui.QApplication.UnicodeUTF8
+    def _translate(context, text, disambig):
+        return QtGui.QApplication.translate(context, text, disambig, _encoding)
+except AttributeError:
+    def _translate(context, text, disambig):
+        return QtGui.QApplication.translate(context, text, disambig)
+
 
 class utilitiesClass():
 	"""
@@ -32,16 +41,19 @@ class utilitiesClass():
 	plots2D={}
 	total_plot_areas=0
 	funcList=[]
+	interactivePlots=[]
 	gl=None
 	black_trace_colors=[(0,255,20),(255,0,0),(255,255,100),(10,255,255)]
 	white_trace_colors=[(0,255,20),(255,0,0),(255,255,100),(10,255,255)]
 	black_trace_colors+=[QtGui.QColor(random.randint(50,255),random.randint(50,255),random.randint(50,255)) for a in range(50)]
 	white_trace_colors+=[QtGui.QColor(random.randint(50,200),random.randint(50,200),random.randint(50,200)) for a in range(50)]
 	
+	studioPlots={}
+	studioWidgets={}
 	properties={'colorScheme':'black'}
 	def __init__(self):
 		sys.path.append('/usr/share/seelablet')
-		pass
+
 
 	def enableShortcuts(self):
 		self.saveSignal = QtGui.QShortcut(QtGui.QKeySequence(QtCore.QCoreApplication.translate("MainWindow", "Ctrl+S", None)), self)
@@ -568,6 +580,23 @@ class utilitiesClass():
 			retval = self.func()
 			self.value.setText(str(retval))
 
+	class dualButtonIcon(QtGui.QFrame,dualButton.Ui_Form):
+		def __init__(self,**args):
+			super(utilitiesClass.dualButtonIcon, self).__init__()
+			self.setupUi(self)
+			self.title.setText(args.get('TITLE','select'))
+			self.funcA = args.get('FUNCA',None)
+			self.funcB = args.get('FUNCB',None)
+			self.buttonA.setText(args.get('A','A'))
+			self.buttonB.setText(args.get('B','B'))
+			if 'TOOLTIP' in args:self.widgetFrameOuter.setToolTip(args.get('TOOLTIP',''))
+
+		def clickedA(self):
+			retval = self.funcA()
+
+		def clickedB(self):
+			retval = self.funcB()
+
 
 
 	class wideButtonIcon(QtGui.QFrame,widebutton.Ui_Form,utils):
@@ -963,18 +992,18 @@ class utilitiesClass():
 
 
 	def addW1(self,I,link=None):
-		a={'TITLE':'Wave 1','MIN':1,'MAX':5000,'FUNC':self.I.set_w1,'UNITS':'Hz','TOOLTIP':'Frequency of waveform generator #1'}
+		a={'TITLE':'Wave 1','MIN':1,'MAX':5000,'FUNC':I.set_w1,'UNITS':'Hz','TOOLTIP':'Frequency of waveform generator #1'}
 		if link: a['LINK'] = link
 		return self.dialAndDoubleSpinIcon(**a)
 
 
 	def addW2(self,I,link=None):
-		a={'TITLE':'Wave 2','MIN':1,'MAX':5000,'FUNC':self.I.set_w2,'UNITS':'Hz','TOOLTIP':'Frequency of waveform generator #2'}
+		a={'TITLE':'Wave 2','MIN':1,'MAX':5000,'FUNC':I.set_w2,'UNITS':'Hz','TOOLTIP':'Frequency of waveform generator #2'}
 		if link: a['LINK'] = link
 		return self.dialAndDoubleSpinIcon(**a)
 
 	def addSQR1(self,I,link=None):
-		a={'TITLE':'SQR 1','MIN':1,'MAX':100000,'FUNC':self.I.sqr1,'UNITS':'Hz','TOOLTIP':'Frequency of SQR1'}
+		a={'TITLE':'SQR 1','MIN':1,'MAX':100000,'FUNC':I.sqr1,'UNITS':'Hz','TOOLTIP':'Frequency of SQR1'}
 		if link: a['LINK'] = link
 		return self.dialAndDoubleSpinIcon(**a)
 
@@ -997,6 +1026,14 @@ class utilitiesClass():
 		layout.addWidget(freezeButton)
 		QtCore.QObject.connect(freezeButton, QtCore.SIGNAL(_fromUtf8("toggled(bool)")), func)
 		return freezeButton
+
+	def addRegularButton(self,layout,func,name):
+		Button = QtGui.QPushButton(self)
+		Button.setObjectName(_fromUtf8("button"))
+		Button.setText(name)
+		layout.addWidget(Button)
+		QtCore.QObject.connect(Button, QtCore.SIGNAL(_fromUtf8("clicked()")), func)
+		return Button
 
 
 
@@ -1071,5 +1108,25 @@ class utilitiesClass():
 			filename = QtGui.QFileDialog.getOpenFileName(self,  "Select File", expanduser("."),filetype)
 		return filename
 
+
+
+	######################### high level functions ##################################
+
+	def addWG(self,I,widget,layout):
+		studioCMDS = {'W1':self.addW1,'W2':self.addW2,'PV1':self.addPV1,'PV2':self.addPV2,'PV3':self.addPV3,'PCS':self.addPCS,'SQR1':self.addSQR1,'VOLTMETER':self.addVoltmeter,'OHMMETER':self.addRes}
+		name = widget.get('name',None)
+		TP = widget.get('type',None)
+		if not TP or not name: return
+		
+		if TP in studioCMDS.keys():
+			LINK = widget.get('LINK',None)
+			if LINK:
+				WG = studioCMDS[TP](I,LINK)
+			else:
+				WG = studioCMDS[TP](I)
+			layout.addWidget(WG)
+			self.studioWidgets[name]=WG
+			return WG
+		return None
 
 

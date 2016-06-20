@@ -151,8 +151,7 @@ class AppWindow(QtGui.QMainWindow, template_graph_nofft.Ui_MainWindow,utilitiesC
 				except:
 					self.ampGain.value.setText('Fit Error')
 					pass
-				
-			
+							
 			if self.running:self.timer.singleShot(100,self.run)
 		except Exception,e:
 			print (e)

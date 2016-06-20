@@ -13,7 +13,7 @@
    viewBox="0 0 23959.316 11656.077"
    id="svg2"
    inkscape:version="0.91 r13725"
-   sodipodi:docname="filter.sch.svg">
+   sodipodi:docname="multiple-feedback1.svg">
   <metadata
      id="metadata422">
     <rdf:RDF>
@@ -45,9 +45,9 @@
      fit-margin-left="0"
      fit-margin-right="0"
      fit-margin-bottom="0"
-     inkscape:zoom="1.1288813"
-     inkscape:cx="160.46055"
-     inkscape:cy="-61.989071"
+     inkscape:zoom="6.385917"
+     inkscape:cx="97.881613"
+     inkscape:cy="61.613943"
      inkscape:window-x="65"
      inkscape:window-y="24"
      inkscape:window-maximized="1"
@@ -67,7 +67,7 @@
   <g
      style="fill:#840000;fill-opacity:0;stroke:#840000;stroke-width:60;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1"
      id="g12"
-     transform="translate(-4900.3905,-9036.481)">
+     transform="translate(-4882.9911,-15004.48)">
     <path
        d="m 21170,18170 200,600 200,-600"
        id="path14"
@@ -89,7 +89,7 @@
   <g
      style="fill:#840000;fill-opacity:0;stroke:#840000;stroke-width:60;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1"
      id="g22"
-     transform="translate(-4900.3905,-9036.481)">
+     transform="translate(-4848.1923,-2998.884)">
     <path
        d="m 21170,12170 200,600 200,-600"
        id="path24"

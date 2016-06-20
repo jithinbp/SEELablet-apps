@@ -37,21 +37,21 @@
      guidetolerance="10"
      inkscape:pageopacity="0"
      inkscape:pageshadow="2"
-     inkscape:window-width="891"
-     inkscape:window-height="373"
+     inkscape:window-width="1855"
+     inkscape:window-height="1056"
      id="namedview1196"
      showgrid="false"
      fit-margin-top="0"
      fit-margin-left="0"
      fit-margin-right="0"
      fit-margin-bottom="0"
-     inkscape:zoom="4.5155254"
-     inkscape:cx="200.69635"
-     inkscape:cy="59.676743"
-     inkscape:window-x="406"
-     inkscape:window-y="104"
-     inkscape:window-maximized="0"
-     inkscape:current-layer="g768" />
+     inkscape:zoom="9.0310508"
+     inkscape:cx="149.31989"
+     inkscape:cy="60.751711"
+     inkscape:window-x="65"
+     inkscape:window-y="24"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg2" />
   <title
      id="title4">SVG Picture created as filter.sch.svg date 2016/06/12 19:07:46 </title>
   <desc
@@ -163,7 +163,7 @@
   <g
      style="fill:#840000;fill-opacity:0;stroke:#840000;stroke-width:60;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1"
      id="g680"
-     transform="translate(-29738.066,-7534.3926)">
+     transform="translate(-29651.943,-13526.072)">
     <path
        d="m 46920,17670 200,600 200,-600"
        id="path682"
@@ -185,7 +185,7 @@
   <g
      style="fill:#840000;fill-opacity:0;stroke:#840000;stroke-width:60;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1"
      id="g690"
-     transform="translate(-29738.066,-7534.3926)">
+     transform="translate(-29725.762,-1518.1064)">
     <path
        d="m 46920,11670 200,600 200,-600"
        id="path692"

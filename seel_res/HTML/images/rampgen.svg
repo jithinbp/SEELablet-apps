@@ -13,7 +13,7 @@
    viewBox="0 0 20409.993 12750.427"
    id="svg2"
    inkscape:version="0.91 r13725"
-   sodipodi:docname="filter.sch.svg">
+   sodipodi:docname="rampgen.svg">
   <metadata
      id="metadata2350">
     <rdf:RDF>
@@ -41,13 +41,13 @@
      inkscape:window-height="1056"
      id="namedview2346"
      showgrid="false"
-     inkscape:zoom="1.5964793"
-     inkscape:cx="158.28526"
-     inkscape:cy="146.95729"
+     inkscape:zoom="6.3859172"
+     inkscape:cx="102.79547"
+     inkscape:cy="63.009079"
      inkscape:window-x="65"
      inkscape:window-y="24"
      inkscape:window-maximized="1"
-     inkscape:current-layer="g2154"
+     inkscape:current-layer="svg2"
      fit-margin-top="0"
      fit-margin-left="0"
      fit-margin-right="0"
@@ -291,7 +291,7 @@
   <g
      style="fill:#840000;fill-opacity:0;stroke:#840000;stroke-width:60;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1"
      id="g1698"
-     transform="translate(-33530.02,-24839.573)">
+     transform="translate(-33460.422,-30824.972)">
     <path
        d="m 46920,35670 200,600 200,-600"
        id="path1700"
@@ -313,7 +313,7 @@
   <g
      style="fill:#840000;fill-opacity:0;stroke:#840000;stroke-width:60;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1"
      id="g1708"
-     transform="translate(-33530.02,-24839.573)">
+     transform="translate(-33443.023,-18801.976)">
     <path
        d="m 46920,29670 200,600 200,-600"
        id="path1710"

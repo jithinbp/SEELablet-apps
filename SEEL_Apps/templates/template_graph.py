@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'template_graph.ui'
 #
-# Created: Sun Jun 12 00:07:45 2016
+# Created: Mon Jun 20 12:57:16 2016
 #      by: PyQt4 UI code generator 4.11.3
 #
 # WARNING! All changes made in this file will be lost!
@@ -55,7 +55,7 @@ class Ui_MainWindow(object):
         self.WidgetLayout = QtGui.QHBoxLayout()
         self.WidgetLayout.setObjectName(_fromUtf8("WidgetLayout"))
         self.verticalLayout.addLayout(self.WidgetLayout)
-        self.gridLayout.addWidget(self.frame, 0, 0, 1, 1)
+        self.gridLayout.addWidget(self.frame, 0, 0, 1, 1, QtCore.Qt.AlignLeft)
         self.frame_4 = QtGui.QFrame(self.widgetFrameOuter)
         sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Maximum, QtGui.QSizePolicy.Preferred)
         sizePolicy.setHorizontalStretch(0)
@@ -70,7 +70,7 @@ class Ui_MainWindow(object):
         self.ControlsLayout.setSpacing(6)
         self.ControlsLayout.setMargin(0)
         self.ControlsLayout.setObjectName(_fromUtf8("ControlsLayout"))
-        self.gridLayout.addWidget(self.frame_4, 0, 1, 1, 1)
+        self.gridLayout.addWidget(self.frame_4, 0, 1, 1, 1, QtCore.Qt.AlignRight)
         self.frame_2 = QtGui.QFrame(self.widgetFrameOuter)
         sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Preferred, QtGui.QSizePolicy.Preferred)
         sizePolicy.setHorizontalStretch(0)
