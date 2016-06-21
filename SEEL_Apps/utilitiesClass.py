@@ -738,7 +738,7 @@ class utilitiesClass():
 			except:
 				imgloc = ''
 			self.hintText = '''
-			<img src="%s" align="left" width="120" style="margin: 0 20"/><strong>%s</strong><br>%s
+			<img src="%s" align="left" width="150" style="margin: 0 20"/><strong>%s</strong><br>%s
 			'''%(imgloc,genName.replace('\n',' '),self.hintText)
 			self.func = launchfunc			
 			self.clicked.connect(self.func)
@@ -1011,6 +1011,7 @@ class utilitiesClass():
 		a={'TITLE':'TIMEBASE','MIN':0,'MAX':9,'FUNC':func,'UNITS':'S','TOOLTIP':'Set Timebase of the oscilloscope'}
 		T2 = self.dialIcon(**a)
 		T2.dial.setPageStep(1)
+		T2.dial.setValue(0)
 		return T2
 
 	def addRes(self,I,wide=None):

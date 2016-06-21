@@ -21,7 +21,7 @@ import numpy as np
 from PyQt4 import QtCore, QtGui
 
 params = {
-'image' : 'sensors.png',
+'image' : 'staticSensors.png',
 'name':'Sensor\nQuickView',
 'hint':'''
 	Display values returned by sensors connected to the I2C input.</br>

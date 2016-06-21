@@ -34,7 +34,7 @@ dacval=0
 from SEEL.commands_proto import *
 from SEEL_Apps.utilitiesClass import utilitiesClass
 params = {
-'image' : 'logic.png',
+'image' : 'logicAnalyzer.png',
 'name':'Logic\nAnalyzer',
 'hint':'4-Channel Logic analyzer that uses inputs ID1 through ID4. Capable of detecting various level changes in the input signal, and recording timestamps'
 }

@@ -45,7 +45,7 @@ class AppWindow(QtGui.QMainWindow, template_graph_nofft.Ui_MainWindow,utilitiesC
 		labelStyle = {'color': 'rgb(255,255,255)', 'font-size': '11pt'}
 		self.plot.setLabel('left','Points', units='',**labelStyle)
 		self.plot.setLabel('bottom','Voltage', units='V',**labelStyle)
-		self.plot.enableAutoRange(False,True)
+		self.plot.enableAutoRange(True,True)
 		self.I.set_gain('CH1',1)
 		self.plot.setLimits(xMin=-6,xMax=6)
 		self.timer = self.newTimer()
@@ -57,7 +57,9 @@ class AppWindow(QtGui.QMainWindow, template_graph_nofft.Ui_MainWindow,utilitiesC
 		self.WidgetLayout.addWidget(self.dualButtonIcon(A='START',B='STOP',FUNCA=self.start,FUNCB=self.stop,TITLE='sampling'))
 		self.WidgetLayout.addWidget(self.dualButtonIcon(A='Sinusoidal',B='Triangular',FUNCA=self.set_sine,FUNCB=self.set_tria,TITLE='W1 type'))
 		self.WidgetLayout.addWidget(self.simpleButtonIcon(FUNC=self.clear,TITLE='CLEAR\nPLOT'))
-		self.WidgetLayout.addWidget(self.dialIcon(FUNC=self.setBins,TITLE='# of Bins',MIN=10,MAX=300))
+		self.binIcon = self.dialIcon(FUNC=self.setBins,TITLE='# of Bins',MIN=10,MAX=300)
+		self.binIcon.dial.setValue(200)
+		self.WidgetLayout.addWidget(self.binIcon)
 
 		self.W1 = self.addWG(self.I,{'type':'W1','name':'SINE1'},self.ControlsLayout)
 		self.SQR1 =self.addWG(self.I,{'type':'SQR1','name':'SQR1'},self.ControlsLayout)
@@ -76,6 +78,7 @@ class AppWindow(QtGui.QMainWindow, template_graph_nofft.Ui_MainWindow,utilitiesC
 		return b
 
 	def clear(self):
+		self.plot.enableAutoRange(True,True)
 		self.timer.stop()
 		self.vals=[]
 		self.curve1.clear()
@@ -97,7 +100,7 @@ class AppWindow(QtGui.QMainWindow, template_graph_nofft.Ui_MainWindow,utilitiesC
 		self.vals.append(self.I.get_average_voltage('CH1'))
 		if len(self.vals)%100==0:
 			if len(self.vals)>10:
-				y,x = np.histogram(self.vals, bins=np.linspace(-6, 6, self.bins))
+				y,x = np.histogram(self.vals, bins=np.linspace(min(self.vals), max(self.vals), self.bins))
 				self.curve1.setData(x,y, stepMode=True, fillLevel=0, brush=(0,0,255,150))
 		time.sleep(random.random()*1e-6)
 

@@ -21,9 +21,9 @@ import sys,functools,time
 
 params = {
 'image' : 'clipping.png',
-'name':"Colpitts\nOscillator",
+'name':"Wien Bridge\nOscillator",
 'hint':'''
-	Study an op-amp based colpitts oscillator
+	Study an op-amp based Wien Bridge Oscillator
 	
 	'''
 }
@@ -53,12 +53,14 @@ class AppWindow(QtGui.QMainWindow, template_graph_nofft.Ui_MainWindow,utilitiesC
 
 		self.I.configure_trigger(0,'CH1',0,prescaler = self.prescalerValue)
 		self.tg=1.
-		self.max_samples=5000
+		self.max_samples=2000
 		self.samples = self.max_samples
 		self.timer = self.newTimer()
 
 		self.legend = self.plot.addLegend(offset=(-10,30))
-		self.curve1 = self.addCurve(self.plot,'INPUT (CH1)')
+		self.curve1 = self.addCurve(self.plot,'Oscillator Output (CH1)')
+		self.curve2 = self.addCurve(self.plot,'Monitor #1 (CH2)')
+		self.curve3 = self.addCurve(self.plot,'Monitor #2 (CH3)')
 
 		self.WidgetLayout.setAlignment(QtCore.Qt.AlignLeft)
 		#Control widgets
@@ -66,7 +68,7 @@ class AppWindow(QtGui.QMainWindow, template_graph_nofft.Ui_MainWindow,utilitiesC
 
 		self.WidgetLayout.addWidget(self.gainIconCombined(FUNC=self.I.set_gain,LINK=self.gainChanged))
 
-		a1={'TITLE':'Analyse','FUNC':self.measureFreq,'TOOLTIP':'Curve fit the trace and find the frequency'}
+		a1={'TITLE':'Analyse CH1','FUNC':self.measureFreq,'TOOLTIP':'Curve fit the trace and find the frequency'}
 		self.ampGain = self.buttonIcon(**a1)
 		self.WidgetLayout.addWidget(self.ampGain)
 
@@ -107,7 +109,7 @@ class AppWindow(QtGui.QMainWindow, template_graph_nofft.Ui_MainWindow,utilitiesC
 		if not self.running: return
 		try:
 			self.I.configure_trigger(0,'CH1',0,prescaler = self.prescalerValue)
-			self.I.capture_traces(1,self.samples,self.tg)
+			self.I.capture_traces(3,self.samples,self.tg)
 			if self.running:self.timer.singleShot(self.samples*self.I.timebase*1e-3+10,self.plotData)
 		except:
 			pass
@@ -123,8 +125,12 @@ class AppWindow(QtGui.QMainWindow, template_graph_nofft.Ui_MainWindow,utilitiesC
 					self.timer.singleShot(100,self.run)
 					return
 			self.I.__fetch_channel__(1)
+			self.I.__fetch_channel__(2)
+			self.I.__fetch_channel__(3)
 			
 			self.curve1.setData(self.I.achans[0].get_xaxis()*1e-6,self.I.achans[0].get_yaxis(),connect='finite')
+			self.curve2.setData(self.I.achans[0].get_xaxis()*1e-6,self.I.achans[1].get_yaxis(),connect='finite')
+			self.curve3.setData(self.I.achans[0].get_xaxis()*1e-6,self.I.achans[2].get_yaxis(),connect='finite')
 
 
 			if self.fit:
