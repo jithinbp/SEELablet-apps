@@ -18,7 +18,7 @@ import sip
 sip.setapi("QString", 2)
 sip.setapi("QVariant", 2)
 from PyQt4 import QtCore, QtGui
-##from PyQt4 import QtWebKit
+from PyQt4 import QtWebKit
 
 try:
     _fromUtf8 = QtCore.QString.fromUtf8
@@ -165,8 +165,8 @@ class MyMainWindow(QtGui.QMainWindow, single_col_exp.Ui_MainWindow,utilitiesClas
 		self.menu_entries=[]
 		self.menu_group=None
 
-		##self.helpView = QtWebKit.QWebView()
-		##self.helpLayout.addWidget(self.helpView)
+		self.helpView = QtWebKit.QWebView()
+		self.helpLayout.addWidget(self.helpView)
 
 		self.shortlist=[]
 		self.timer = QtCore.QTimer()
