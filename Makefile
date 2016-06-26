@@ -17,6 +17,7 @@ all:  $(UIfiles)
 	python setup.py build
 	python3 setup.py build
 
+
 ui_%.py: %.ui
 	@echo compiling UI : $@
 	@pyuic4 $< > $@
