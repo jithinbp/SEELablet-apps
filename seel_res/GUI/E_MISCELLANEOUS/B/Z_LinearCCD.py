@@ -48,14 +48,14 @@ class AppWindow(QtGui.QMainWindow, template_graph_nofft.Ui_MainWindow,utilitiesC
 		self.plot.setYRange(-8.5,8.5)
 
 		self.I.configure_trigger(0,'CAP',0,prescaler = self.prescalerValue)
-		self.sh=1; self.icg=10000; self.tg = 1
-		self.samples=3694
+		self.sh=2; self.icg=2;
+		self.samples=3694; self.tweak = 1
 		self.I.set_gain('CH1',1)
-		self.chan = 'CH1'
+		self.chan = 'CAP'
 		self.timer = self.newTimer()
 
 		self.legend = self.plot.addLegend(offset=(-10,30))
-		self.curveCH1 = self.addCurve(self.plot,'INPUT(CH1)')
+		self.curveCH1 = self.addCurve(self.plot,'INPUT(%s)'%self.chan)
 		self.autoRange()
 		
 		self.WidgetLayout.setAlignment(QtCore.Qt.AlignLeft)
@@ -65,8 +65,14 @@ class AppWindow(QtGui.QMainWindow, template_graph_nofft.Ui_MainWindow,utilitiesC
 		self.I.set_pv1(4)
 
 		#Control widgets
-		a1={'TITLE':'SH','MIN':1,'MAX':10,'FUNC':self.set_timebase,'UNITS':'S','TOOLTIP':'Set SH pulse width, and timebase'}
+		a1={'TITLE':'SH','MIN':2,'MAX':10,'FUNC':self.set_timebase,'UNITS':'S','TOOLTIP':'Set SH pulse width, and timebase'}
 		self.ControlsLayout.addWidget(self.dialIcon(**a1))
+
+		a1={'TITLE':'tweak','MIN':0,'MAX':30,'FUNC':self.set_tweak,'UNITS':'*15nS','TOOLTIP':'Tweak ADC speed by 15nS*tweak'}
+		T = self.dialIcon(**a1)
+		T.dial.setPageStep(1)
+		T.dial.setValue(14)
+		self.ControlsLayout.addWidget(T)
 
 		a1={'TITLE':'ICG','MIN':1,'MAX':65000,'FUNC':self.set_icg,'UNITS':'S','TOOLTIP':'Set ICG'}
 		self.WidgetLayout.addWidget(self.dialIcon(**a1))
@@ -79,9 +85,14 @@ class AppWindow(QtGui.QMainWindow, template_graph_nofft.Ui_MainWindow,utilitiesC
 
 
 
+
+	def set_tweak(self,g):
+		self.tweak = g
+		return g
+
 	def set_timebase(self,g):
 		self.sh = g
-		self.tg=g
+		print (self.sh)
 		return self.autoRange()
 
 	def set_icg(self,g):
@@ -90,7 +101,7 @@ class AppWindow(QtGui.QMainWindow, template_graph_nofft.Ui_MainWindow,utilitiesC
 
 
 	def autoRange(self):
-		xlen = self.tg*self.samples*1e-6
+		xlen = self.sh*self.samples*1e-6
 		self.plot.autoRange();
 		chan = self.I.analogInputSources[self.chan]
 		R = [chan.calPoly10(0),chan.calPoly10(1023)]
@@ -99,14 +110,14 @@ class AppWindow(QtGui.QMainWindow, template_graph_nofft.Ui_MainWindow,utilitiesC
 		self.plot.setYRange(min(R),max(R))			
 		self.plot.setXRange(0,xlen)
 
-		return self.samples*self.tg*1e-6
+		return self.samples*self.sh*1e-6
 
 
 
 	def run(self):
 		if not self.running: return
 		try:
-			self.I.opticalArray(self.sh,self.icg,channel = self.chan)
+			self.I.opticalArray(self.sh,self.icg,self.chan,resolution=12,tweak=self.tweak)
 			print (self.icg,self.sh)
 			if self.running:self.timer.singleShot(10,self.plotData)
 		except:
@@ -117,14 +128,13 @@ class AppWindow(QtGui.QMainWindow, template_graph_nofft.Ui_MainWindow,utilitiesC
 		try:
 			self.I.__fetch_channel__(1)
 			self.curveCH1.setData(self.I.achans[0].get_xaxis()*1e-6,self.I.achans[0].get_yaxis(),connect='finite')
-			print (self.I.achans[0].get_yaxis())
 			
 			if self.running:self.timer.singleShot(200,self.run)
 		except Exception,e:
 			print (e)
 
 	def saveData(self):
-		self.saveDataWindow([self.curveCH1,self.curveCH2],self.plot)
+		self.saveDataWindow([self.curveCH1],self.plot)
 
 		
 	def closeEvent(self, event):

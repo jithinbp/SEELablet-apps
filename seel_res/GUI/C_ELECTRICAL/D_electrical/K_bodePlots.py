@@ -71,7 +71,7 @@ class AppWindow(QtGui.QMainWindow, template_bandpass.Ui_MainWindow,utilitiesClas
 		self.CC = analyticsClass()
 		self.I.configure_trigger(0,'CH1',0)
 		self.I.set_sine1(5000)
-		self.I.__autoRangeScope__(2)
+		#self.I.__autoRangeScope__(2)
 		self.I.set_sine1(2)
 
 		self.freqs=[]
@@ -150,12 +150,12 @@ class AppWindow(QtGui.QMainWindow, template_bandpass.Ui_MainWindow,utilitiesClas
 		if(not self.running):return
 		x,y=self.I.fetch_trace(1)
 		self.curve1.setData(x*1e-6,y)
-		self.I.__autoSelectRange__('CH1',max(abs(y)))
+		#self.I.__autoSelectRange__('CH1',max(abs(y)))
 		pars1 = self.CC.sineFit(x,y)
 
 		x,y=self.I.fetch_trace(2)
 		self.curve2.setData(x*1e-6,y)
-		self.I.__autoSelectRange__('CH2',max(abs(y)))
+		#self.I.__autoSelectRange__('CH2',max(abs(y)))
 		pars2 = self.CC.sineFit(x,y)#),freq=self.frq)
 		if pars1 and pars2:
 			a1,f1,o1,p1 = pars1
