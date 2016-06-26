@@ -12,7 +12,7 @@
 from __future__ import print_function
 from SEEL_Apps.utilitiesClass import utilitiesClass
 
-from SEEL_Apps.templates import template_graph
+from SEEL_Apps.templates import ui_template_graph as template_graph
 
 import numpy as np
 from PyQt4 import QtGui,QtCore
@@ -144,7 +144,7 @@ class AppWindow(QtGui.QMainWindow, template_graph.Ui_MainWindow,utilitiesClass):
 			self.displayCrossHairData(self.plot,self.fftMode,self.samples,self.I.timebase,[self.I.achans[0].get_yaxis(),self.I.achans[1].get_yaxis()],[(0,255,0),(255,0,0)])
 			
 			if self.running:self.timer.singleShot(100,self.run)
-		except Exception,e:
+		except Exception as e:
 			print (e)
 
 	def saveData(self):

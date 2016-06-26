@@ -12,7 +12,7 @@
 from __future__ import print_function
 from SEEL_Apps.utilitiesClass import utilitiesClass
 
-from SEEL_Apps.templates import template_graph_nofft
+from SEEL_Apps.templates import ui_template_graph_nofft as template_graph_nofft
 
 import numpy as np
 from PyQt4 import QtGui,QtCore
@@ -130,7 +130,7 @@ class AppWindow(QtGui.QMainWindow, template_graph_nofft.Ui_MainWindow,utilitiesC
 			self.displayCrossHairData(self.plot,False,self.samples,self.I.timebase,[self.I.achans[0].get_yaxis(),self.I.achans[1].get_yaxis()],[(0,255,0),(255,0,0)])
 		
 			if self.running:self.timer.singleShot(100,self.run)
-		except Exception,e:
+		except Exception as e:
 			print (e)
 
 	def crossHairEvent(self,plot,evt):

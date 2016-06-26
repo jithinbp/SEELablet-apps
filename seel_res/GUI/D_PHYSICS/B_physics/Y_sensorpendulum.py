@@ -9,7 +9,7 @@
 from __future__ import print_function
 from SEEL_Apps.utilitiesClass import utilitiesClass
 
-from .templates import template_transient
+from .templates import ui_template_transient as template_transient
 from SEEL.SENSORS import MPU6050
 import numpy as np
 from PyQt4 import QtGui,QtCore

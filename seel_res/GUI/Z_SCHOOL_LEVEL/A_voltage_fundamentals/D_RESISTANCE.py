@@ -12,7 +12,7 @@
 from __future__ import print_function
 from SEEL_Apps.utilitiesClass import utilitiesClass
 
-from SEEL_Apps.templates import widget_layout
+from SEEL_Apps.templates import ui_widget_layout as widget_layout
 
 import numpy as np
 from PyQt4 import QtGui,QtCore

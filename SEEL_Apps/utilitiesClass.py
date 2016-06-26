@@ -8,8 +8,8 @@ sip.setapi("QVariant", 2)
 
 from PyQt4 import QtCore, QtGui
 import pyqtgraph as pg
-from SEEL_Apps.templates.widgets import dial,button,selectAndButton,sineWidget,pwmWidget,supplyWidget,setStateList,sensorWidget,simpleButton,dualButton
-from SEEL_Apps.templates.widgets import spinBox,doubleSpinBox,dialAndDoubleSpin,pulseCounter,voltWidget,gainWidget,gainWidgetCombined,widebutton,displayWidget
+from SEEL_Apps.templates.widgets import ui_dial as dial,ui_button as button,ui_selectAndButton as selectAndButton,ui_sineWidget as sineWidget,ui_pwmWidget as pwmWidget,ui_supplyWidget as supplyWidget,ui_setStateList as setStateList,ui_sensorWidget as sensorWidget,ui_simpleButton as simpleButton, ui_dualButton as dualButton
+from SEEL_Apps.templates.widgets import ui_spinBox as spinBox,ui_doubleSpinBox as doubleSpinBox,ui_dialAndDoubleSpin as dialAndDoubleSpin,ui_pulseCounter as pulseCounter,ui_voltWidget as voltWidget,ui_gainWidget as gainWidget,ui_gainWidgetCombined as gainWidgetCombined,ui_widebutton as widebutton,ui_displayWidget as displayWidget
 from SEEL_Apps import saveProfile
 from SEEL.commands_proto import applySIPrefix
 import numpy as np
@@ -159,7 +159,7 @@ class utilitiesClass():
 				try:
 					for d in plot.axisItems:  #Go through any additional axes, and set colors there too
 						d.setPen('k')
-				except Exception,ex: print ('error while changing scheme',ex)
+				except Exception as ex: print ('error while changing scheme',ex)
 
 
 	def rightClickToZoomOut(self,plot):
@@ -245,7 +245,7 @@ class utilitiesClass():
 				try:
 					for d in plot.axisItems:  #Go through any additional axes, and set colors there too
 						d.setPen('w')
-				except Exception,ex: print ('error while changing scheme',ex)
+				except Exception as ex: print ('error while changing scheme',ex)
 
 
 
@@ -506,7 +506,7 @@ class utilitiesClass():
 		def setValue(self,val):
 			try:
 				retval = self.func(val)
-			except Exception,err:
+			except Exception as err:
 				retval = 'err'
 
 			if isinstance(retval,numbers.Number):
@@ -877,7 +877,7 @@ class utilitiesClass():
 			retval = self.I.sqrPWM(self.SQRSF.value(),D1,P2,D2,P3,D3,P4,D4)
 			try:
 				self.SQRSF.setValue(retval)
-			except Exception,e:
+			except Exception as e:
 				print (e.message)
 
 		def fireSQR1(self):

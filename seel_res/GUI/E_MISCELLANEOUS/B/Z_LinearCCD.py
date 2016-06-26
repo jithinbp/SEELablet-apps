@@ -11,7 +11,7 @@
 from __future__ import print_function
 from SEEL_Apps.utilitiesClass import utilitiesClass
 
-from SEEL_Apps.templates import template_graph_nofft
+from SEEL_Apps.templates import ui_template_graph_nofft as template_graph_nofft
 
 import numpy as np
 from PyQt4 import QtGui,QtCore
@@ -130,7 +130,7 @@ class AppWindow(QtGui.QMainWindow, template_graph_nofft.Ui_MainWindow,utilitiesC
 			self.curveCH1.setData(self.I.achans[0].get_xaxis()*1e-6,self.I.achans[0].get_yaxis(),connect='finite')
 			
 			if self.running:self.timer.singleShot(200,self.run)
-		except Exception,e:
+		except Exception as e:
 			print (e)
 
 	def saveData(self):
