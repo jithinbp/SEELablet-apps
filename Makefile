@@ -8,12 +8,14 @@ DESTDIR =
 CUSTOM = $(shell cd ..; if [ -x /usr/bin/dh_testroot -a -x /usr/bin/dh_testdir ] && dh_testroot && dh_testdir; then echo false; else echo true; fi)
 
 UI_SOURCES = $(shell find . -name "*.ui")
+
 UIfiles    = $(shell for f in $(UI_SOURCES); do path=$$(dirname $$f); g=$$(basename $$f); echo $$path/ui_$$g | sed 's/ui$$/py/'; done)
 oldUIfiles    = $(patsubst %.ui, %.py, $(UI_SOURCES))
 
 all:  $(UIfiles)
 	#make -C docs html
 	#make -C docs/misc all
+	@echo $(UI_SOURCES)
 	python setup.py build
 	python3 setup.py build
 
