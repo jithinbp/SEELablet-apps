@@ -40,7 +40,7 @@ class AppWindow(QtGui.QMainWindow, template_graph_nofft.Ui_MainWindow,utilitiesC
 		self.math = analyticsClass()
 		self.prescalerValue=0
 
-		self.plot=self.add2DPlot(self.plot_area,enableMenu=False)
+		self.plot=self.add2DPlot(self.plot_area,enableMenu=True)
 		self.enableCrossHairs(self.plot,[])
 		labelStyle = {'color': 'rgb(255,255,255)', 'font-size': '11pt'}
 		self.plot.setLabel('left','V (CH1)', units='V',**labelStyle)
@@ -82,6 +82,8 @@ class AppWindow(QtGui.QMainWindow, template_graph_nofft.Ui_MainWindow,utilitiesC
 		self.running=True
 		self.fit = False
 		self.timer.singleShot(100,self.run)
+		self.Y = np.zeros(3648)
+		self.num = 0
 
 
 
@@ -101,7 +103,7 @@ class AppWindow(QtGui.QMainWindow, template_graph_nofft.Ui_MainWindow,utilitiesC
 
 
 	def autoRange(self):
-		xlen = self.sh*self.samples*1e-6
+		xlen = 3648
 		self.plot.autoRange();
 		chan = self.I.analogInputSources[self.chan]
 		R = [chan.calPoly10(0),chan.calPoly10(1023)]
@@ -110,28 +112,28 @@ class AppWindow(QtGui.QMainWindow, template_graph_nofft.Ui_MainWindow,utilitiesC
 		self.plot.setYRange(min(R),max(R))			
 		self.plot.setXRange(0,xlen)
 
-		return self.samples*self.sh*1e-6
+		return 3648
 
 
 
 	def run(self):
 		if not self.running: return
 		try:
-			self.I.opticalArray(self.sh,self.icg,self.chan,resolution=12,tweak=self.tweak)
-			print (self.icg,self.sh)
-			if self.running:self.timer.singleShot(10,self.plotData)
-		except:
+			self.Y = np.zeros(3648)
+			self.num = 1
+			for a in range(self.num):
+				self.I.opticalArray(self.sh,self.icg,self.chan,resolution=12,tweak=self.tweak)
+				self.I.__fetch_channel__(1)
+				self.Y+=self.I.achans[0].get_yaxis()[32:-14]
+
+			x = range(3648)
+			self.curveCH1.setData(x,self.Y/self.num,connect='finite')
+			#print (x,self.Y/self.num)
+		except Exception as b:
+			#print (b)
 			pass
 
-	def plotData(self): 
-		if not self.running: return
-		try:
-			self.I.__fetch_channel__(1)
-			self.curveCH1.setData(self.I.achans[0].get_xaxis()*1e-6,self.I.achans[0].get_yaxis(),connect='finite')
-			
-			if self.running:self.timer.singleShot(200,self.run)
-		except Exception as e:
-			print (e)
+		if self.running:self.timer.singleShot(200,self.run)
 
 	def saveData(self):
 		self.saveDataWindow([self.curveCH1],self.plot)

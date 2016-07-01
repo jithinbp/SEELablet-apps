@@ -45,9 +45,9 @@
      fit-margin-left="0"
      fit-margin-right="0"
      fit-margin-bottom="0"
-     inkscape:zoom="3.1929585"
-     inkscape:cx="100.09913"
-     inkscape:cy="124.04352"
+     inkscape:zoom="2.2577626"
+     inkscape:cx="30.038823"
+     inkscape:cy="155.54892"
      inkscape:window-x="65"
      inkscape:window-y="24"
      inkscape:window-maximized="1"
@@ -227,7 +227,7 @@
   <g
      style="fill:#840000;fill-opacity:0;stroke:#840000;stroke-width:100;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1"
      id="g994"
-     transform="translate(-864.92596,-28327.969)">
+     transform="translate(-420.48108,-27883.525)">
     <circle
        cx="16500"
        cy="35750"
@@ -237,7 +237,7 @@
   <g
      style="fill:#840000;fill-opacity:0;stroke:#840000;stroke-width:60;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1"
      id="g998"
-     transform="translate(-864.92596,-28327.969)">
+     transform="translate(-420.48108,-27883.525)">
     <polyline
        fill="none;"
        points="16000,35750 16250,35750 "
@@ -254,7 +254,7 @@
   <g
      style="fill:#840000;fill-opacity:0;stroke:#840000;stroke-width:200;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1"
      id="g1006"
-     transform="translate(-864.92596,-28327.969)">
+     transform="translate(-420.48108,-27883.525)">
     <polyline
        fill="none;"
        points="16250,35000 16250,36500 16250,36500 "
@@ -263,7 +263,7 @@
   <g
      style="fill:#840000;fill-opacity:0;stroke:#840000;stroke-width:60;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1"
      id="g1010"
-     transform="translate(-864.92596,-28327.969)">
+     transform="translate(-420.48108,-27883.525)">
     <polyline
        fill="none;"
        points="16950,36700 16750,36500 16750,36500 "
@@ -272,7 +272,7 @@
   <g
      style="fill:#840000;fill-opacity:1;stroke:#840000;stroke-width:60;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1"
      id="g1014"
-     transform="translate(-864.92596,-28327.969)">
+     transform="translate(-420.48108,-27883.525)">
     <polyline
        style="fill-rule:evenodd"
        points="16550,36500 16750,36300 16950,36700 16550,36500 16550,36500 "
@@ -281,7 +281,7 @@
   <g
      style="fill:#840000;fill-opacity:0;stroke:#840000;stroke-width:60;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1"
      id="g1018"
-     transform="translate(-864.92596,-28327.969)">
+     transform="translate(-420.48108,-27883.525)">
     <path
        d="m 16000,35750 -2000,0"
        id="path1020"
@@ -290,7 +290,7 @@
   <g
      style="fill:#008484;fill-opacity:0;stroke:#008484;stroke-width:60;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1"
      id="g1022"
-     transform="translate(-864.92596,-28327.969)">
+     transform="translate(-420.48108,-27883.525)">
     <path
        d="m 15040,35360 70,30 20,20 20,50 0,70 -20,50 -20,20 -50,30 -190,0 0,-500 170,0 40,20 30,20 20,50 0,50 -20,50 -30,20 -40,20 -170,0"
        id="path1024"
@@ -299,7 +299,7 @@
   <g
      style="fill:#840000;fill-opacity:0;stroke:#840000;stroke-width:60;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1"
      id="g1026"
-     transform="translate(-864.92596,-28327.969)">
+     transform="translate(-420.48108,-27883.525)">
     <path
        d="m 15140,36330 -280,0"
        id="path1028"
@@ -316,7 +316,7 @@
   <g
      style="fill:#008484;fill-opacity:0;stroke:#008484;stroke-width:60;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1"
      id="g1034"
-     transform="translate(-864.92596,-28327.969)">
+     transform="translate(-420.48108,-27883.525)">
     <path
        d="m 16610,37350 0,-170"
        id="path1036"
@@ -329,7 +329,7 @@
   <g
      style="fill:#840000;fill-opacity:0;stroke:#840000;stroke-width:60;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1"
      id="g1040"
-     transform="translate(-864.92596,-28327.969)">
+     transform="translate(-420.48108,-27883.525)">
     <path
        d="m 17120,37390 -20,-20 -20,-50 0,-120 20,-40 20,-30 50,-20 50,0 70,20 290,290 0,-310"
        id="path1042"
@@ -342,7 +342,7 @@
   <g
      style="fill:#008484;fill-opacity:0;stroke:#008484;stroke-width:60;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1"
      id="g1046"
-     transform="translate(-864.92596,-28327.969)">
+     transform="translate(-420.48108,-27883.525)">
     <path
        d="m 16830,34100 20,20 30,70 0,50 -30,70 -50,50 -40,20 -100,20 -70,0 -90,-20 -50,-20 -50,-50 -20,-70 0,-50 20,-70 20,-20"
        id="path1048"
@@ -351,7 +351,7 @@
   <g
      style="fill:#840000;fill-opacity:0;stroke:#840000;stroke-width:60;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1"
      id="g1050"
-     transform="translate(-864.92596,-28327.969)">
+     transform="translate(-420.48108,-27883.525)">
     <path
        d="m 17080,34420 0,-310 190,170 0,-80 20,-40 20,-30 50,-20 120,0 50,20 20,30 30,40 0,150 -30,40 -20,30"
        id="path1052"
@@ -360,7 +360,7 @@
   <g
      style="fill:#008484;fill-opacity:0;stroke:#008484;stroke-width:60;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1"
      id="g1054"
-     transform="translate(-864.92596,-28327.969)">
+     transform="translate(-420.48108,-27883.525)">
     <path
        d="m 17870,35950 0,-500 190,0 50,20 20,20 20,50 0,70 -20,50 -20,20 -50,30 -190,0"
        id="path1056"
@@ -405,7 +405,7 @@
   <g
      style="fill:#840000;fill-opacity:0;stroke:#840000;stroke-width:100;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1"
      id="g1076"
-     transform="translate(-864.92596,-28327.969)">
+     transform="translate(-420.48108,-27883.525)">
     <rect
        x="16600"
        y="30750"
@@ -417,7 +417,7 @@
   <g
      style="fill:#840000;fill-opacity:0;stroke:#840000;stroke-width:60;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1"
      id="g1080"
-     transform="translate(-864.92596,-28327.969)">
+     transform="translate(-420.48108,-27883.525)">
     <path
        d="m 17000,30750 0,-500"
        id="path1082"
@@ -430,7 +430,7 @@
   <g
      style="fill:#008484;fill-opacity:0;stroke:#008484;stroke-width:60;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1"
      id="g1086"
-     transform="translate(-864.92596,-28327.969)">
+     transform="translate(-420.48108,-27883.525)">
     <path
        d="m 17200,31860 0,280"
        id="path1088"
@@ -463,7 +463,7 @@
   <g
      style="fill:#840000;fill-opacity:0;stroke:#840000;stroke-width:100;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1"
      id="g1102"
-     transform="translate(-864.92596,-28327.969)">
+     transform="translate(-420.48108,-27883.525)">
     <rect
        x="10750"
        y="33850"
@@ -475,7 +475,7 @@
   <g
      style="fill:#840000;fill-opacity:0;stroke:#840000;stroke-width:60;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1"
      id="g1106"
-     transform="translate(-864.92596,-28327.969)">
+     transform="translate(-420.48108,-27883.525)">
     <path
        d="m 10750,34250 -500,0"
        id="path1108"
@@ -488,7 +488,7 @@
   <g
      style="fill:#008484;fill-opacity:0;stroke:#008484;stroke-width:60;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1"
      id="g1112"
-     transform="translate(-864.92596,-28327.969)">
+     transform="translate(-420.48108,-27883.525)">
     <path
        d="m 10880,34050 20,-20 50,-20 120,0 40,20 30,20 20,50 0,50 -20,70 -290,290 310,0"
        id="path1114"
@@ -525,7 +525,7 @@
   <g
      style="fill:#840000;fill-opacity:0;stroke:#840000;stroke-width:200;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1"
      id="g1130"
-     transform="translate(-864.92596,-28327.969)">
+     transform="translate(-420.48108,-27883.525)">
     <polyline
        fill="none;"
        points="11450,36200 11450,37800 "
@@ -538,7 +538,7 @@
   <g
      style="fill:#840000;fill-opacity:0;stroke:#840000;stroke-width:60;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1"
      id="g1136"
-     transform="translate(-864.92596,-28327.969)">
+     transform="translate(-420.48108,-27883.525)">
     <path
        d="m 12150,37000 1100,0"
        id="path1138"
@@ -551,7 +551,7 @@
   <g
      style="fill:#008484;fill-opacity:0;stroke:#008484;stroke-width:60;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1"
      id="g1142"
-     transform="translate(-864.92596,-28327.969)">
+     transform="translate(-420.48108,-27883.525)">
     <path
        d="m 11380,38700 -280,0"
        id="path1144"
@@ -580,7 +580,7 @@
   <g
      style="fill:#840000;fill-opacity:0;stroke:#840000;stroke-width:60;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1"
      id="g1156"
-     transform="translate(-864.92596,-28327.969)">
+     transform="translate(-420.48108,-27883.525)">
     <path
        d="m 12220,30520 0,-600 230,0 60,30 30,30 30,60 0,80 -30,60 -30,30 -60,30 -230,0"
        id="path1158"
@@ -617,7 +617,7 @@
   <g
      style="fill:#840000;fill-opacity:0;stroke:#840000;stroke-width:100;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1"
      id="g1174"
-     transform="translate(-864.92596,-28327.969)">
+     transform="translate(-420.48108,-27883.525)">
     <polyline
        fill="none;"
        points="16000,30250 15700,29710 11850,29710 11850,30250 11850,30790 15700,30790 16000,30250 "
@@ -626,7 +626,7 @@
   <g
      style="fill:#840000;fill-opacity:0;stroke:#840000;stroke-width:60;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1"
      id="g1178"
-     transform="translate(-864.92596,-28327.969)">
+     transform="translate(-420.48108,-27883.525)">
     <path
        d="m 7720,36670 140,600 110,-430 120,430 140,-600"
        id="path1180"
@@ -643,7 +643,7 @@
   <g
      style="fill:#840000;fill-opacity:0;stroke:#840000;stroke-width:100;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1"
      id="g1186"
-     transform="translate(-864.92596,-28327.969)">
+     transform="translate(-420.48108,-27883.525)">
     <polyline
        fill="none;"
        points="9250,37000 8950,36460 7400,36460 7400,37000 7400,37540 8950,37540 9250,37000 "
@@ -652,7 +652,7 @@
   <g
      style="fill:#840000;fill-opacity:0;stroke:#840000;stroke-width:60;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1"
      id="g1190"
-     transform="translate(-864.92596,-28327.969)">
+     transform="translate(-420.48108,-27883.525)">
     <path
        d="m 7850,34520 0,-600 230,0 60,30 30,30 30,60 0,80 -30,60 -30,30 -60,30 -230,0"
        id="path1192"
@@ -669,7 +669,7 @@
   <g
      style="fill:#840000;fill-opacity:0;stroke:#840000;stroke-width:100;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1"
      id="g1198"
-     transform="translate(-864.92596,-28327.969)">
+     transform="translate(-420.48108,-27883.525)">
     <polyline
        fill="none;"
        points="9750,34250 9450,33710 7480,33710 7480,34250 7480,34790 9450,34790 9750,34250 "
@@ -682,7 +682,7 @@
   <g
      style="fill:#840000;fill-opacity:0;stroke:#840000;stroke-width:60;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1"
      id="g1274"
-     transform="translate(-864.92596,-28327.969)">
+     transform="translate(-420.48108,-27883.525)">
     <path
        d="m 20100,33960 -30,30 -90,30 -60,0 -80,-30 -60,-50 -30,-60 -30,-120 0,-80 30,-120 30,-50 60,-60 80,-30 60,0 90,30 30,30"
        id="path1276"
@@ -707,7 +707,7 @@
   <g
      style="fill:#840000;fill-opacity:0;stroke:#840000;stroke-width:100;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1"
      id="g1286"
-     transform="translate(-864.92596,-28327.969)">
+     transform="translate(-420.48108,-27883.525)">
     <polyline
        fill="none;"
        points="19250,33750 19550,34290 21640,34290 21640,33750 21640,33210 19550,33210 19250,33750 "
@@ -716,7 +716,7 @@
   <g
      style="fill:#840000;fill-opacity:0;stroke:#840000;stroke-width:60;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1"
      id="g1290"
-     transform="translate(-864.92596,-28327.969)">
+     transform="translate(-420.48108,-27883.525)">
     <path
        d="m 19320,39450 -60,-30 -90,0 -80,30 -60,60 -30,50 -30,120 0,80 30,120 30,60 60,50 80,30 60,0 90,-30 30,-30 0,-200 -120,0"
        id="path1292"
@@ -733,7 +733,7 @@
   <g
      style="fill:#840000;fill-opacity:0;stroke:#840000;stroke-width:100;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1"
      id="g1298"
-     transform="translate(-864.92596,-28327.969)">
+     transform="translate(-420.48108,-27883.525)">
     <polyline
        fill="none;"
        points="18500,39750 18800,40290 20920,40290 20920,39750 20920,39210 18800,39210 18500,39750 "
@@ -742,7 +742,7 @@
   <g
      style="fill:#840000;fill-opacity:0;stroke:#840000;stroke-width:60;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1"
      id="g1302"
-     transform="translate(-864.92596,-28327.969)">
+     transform="translate(-420.48108,-27883.525)">
     <path
        d="m 8080,39710 -30,30 -90,30 -60,0 -80,-30 -60,-50 -30,-60 -30,-120 0,-80 30,-120 30,-50 60,-60 80,-30 60,0 90,30 30,30"
        id="path1304"
@@ -771,7 +771,7 @@
   <g
      style="fill:#840000;fill-opacity:0;stroke:#840000;stroke-width:100;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1"
      id="g1316"
-     transform="translate(-864.92596,-28327.969)">
+     transform="translate(-420.48108,-27883.525)">
     <polyline
        fill="none;"
        points="9750,39500 9450,38960 7360,38960 7360,39500 7360,40040 9450,40040 9750,39500 "
@@ -892,7 +892,7 @@
   <g
      style="fill:#008400;fill-opacity:0;stroke:#008400;stroke-width:60;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1"
      id="g1530"
-     transform="translate(-864.92596,-28327.969)">
+     transform="translate(-420.48108,-27883.525)">
     <path
        d="m 13250,34250 750,0"
        id="path1532"
@@ -913,7 +913,7 @@
   <g
      style="fill:#008400;fill-opacity:1;stroke:#008400;stroke-width:100;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1"
      id="g1540"
-     transform="translate(-864.92596,-28327.969)">
+     transform="translate(-420.48108,-27883.525)">
     <circle
        cx="14000"
        cy="35750"
@@ -927,7 +927,7 @@
   <g
      style="fill:#008400;fill-opacity:0;stroke:#008400;stroke-width:60;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1"
      id="g1546"
-     transform="translate(-864.92596,-28327.969)">
+     transform="translate(-420.48108,-27883.525)">
     <path
        d="m 9750,34250 500,0"
        id="path1548"
@@ -976,7 +976,7 @@
   <g
      style="fill:#840000;fill-opacity:0;stroke:#840000;stroke-width:100;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1"
      id="g1570"
-     transform="translate(-864.92596,-28327.969)">
+     transform="translate(-642.70352,-25883.524)">
     <circle
        cx="16500"
        cy="48500"
@@ -986,7 +986,7 @@
   <g
      style="fill:#840000;fill-opacity:0;stroke:#840000;stroke-width:60;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1"
      id="g1574"
-     transform="translate(-864.92596,-28327.969)">
+     transform="translate(-642.70352,-25883.524)">
     <polyline
        fill="none;"
        points="16000,48500 16250,48500 "
@@ -1003,7 +1003,7 @@
   <g
      style="fill:#840000;fill-opacity:0;stroke:#840000;stroke-width:200;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1"
      id="g1582"
-     transform="translate(-864.92596,-28327.969)">
+     transform="translate(-642.70352,-25883.524)">
     <polyline
        fill="none;"
        points="16250,47750 16250,49250 16250,49250 "
@@ -1012,7 +1012,7 @@
   <g
      style="fill:#840000;fill-opacity:0;stroke:#840000;stroke-width:60;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1"
      id="g1586"
-     transform="translate(-864.92596,-28327.969)">
+     transform="translate(-642.70352,-25883.524)">
     <polyline
        fill="none;"
        points="16950,49450 16750,49250 16750,49250 "
@@ -1021,7 +1021,7 @@
   <g
      style="fill:#840000;fill-opacity:1;stroke:#840000;stroke-width:60;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1"
      id="g1590"
-     transform="translate(-864.92596,-28327.969)">
+     transform="translate(-642.70352,-25883.524)">
     <polyline
        style="fill-rule:evenodd"
        points="16550,49250 16750,49050 16950,49450 16550,49250 16550,49250 "
@@ -1030,7 +1030,7 @@
   <g
      style="fill:#840000;fill-opacity:0;stroke:#840000;stroke-width:60;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1"
      id="g1594"
-     transform="translate(-864.92596,-28327.969)">
+     transform="translate(-642.70352,-25883.524)">
     <path
        d="m 16000,48500 -2000,0"
        id="path1596"
@@ -1039,7 +1039,7 @@
   <g
      style="fill:#008484;fill-opacity:0;stroke:#008484;stroke-width:60;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1"
      id="g1598"
-     transform="translate(-864.92596,-28327.969)">
+     transform="translate(-642.70352,-25883.524)">
     <path
        d="m 15040,48110 70,30 20,20 20,50 0,70 -20,50 -20,20 -50,30 -190,0 0,-500 170,0 40,20 30,20 20,50 0,50 -20,50 -30,20 -40,20 -170,0"
        id="path1600"
@@ -1048,7 +1048,7 @@
   <g
      style="fill:#840000;fill-opacity:0;stroke:#840000;stroke-width:60;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1"
      id="g1602"
-     transform="translate(-864.92596,-28327.969)">
+     transform="translate(-642.70352,-25883.524)">
     <path
        d="m 15140,49080 -280,0"
        id="path1604"
@@ -1065,7 +1065,7 @@
   <g
      style="fill:#008484;fill-opacity:0;stroke:#008484;stroke-width:60;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1"
      id="g1610"
-     transform="translate(-864.92596,-28327.969)">
+     transform="translate(-642.70352,-25883.524)">
     <path
        d="m 16610,50100 0,-170"
        id="path1612"
@@ -1078,7 +1078,7 @@
   <g
      style="fill:#840000;fill-opacity:0;stroke:#840000;stroke-width:60;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1"
      id="g1616"
-     transform="translate(-864.92596,-28327.969)">
+     transform="translate(-642.70352,-25883.524)">
     <path
        d="m 17120,50140 -20,-20 -20,-50 0,-120 20,-40 20,-30 50,-20 50,0 70,20 290,290 0,-310"
        id="path1618"
@@ -1091,7 +1091,7 @@
   <g
      style="fill:#008484;fill-opacity:0;stroke:#008484;stroke-width:60;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1"
      id="g1622"
-     transform="translate(-864.92596,-28327.969)">
+     transform="translate(-642.70352,-25883.524)">
     <path
        d="m 16830,46850 20,20 30,70 0,50 -30,70 -50,50 -40,20 -100,20 -70,0 -90,-20 -50,-20 -50,-50 -20,-70 0,-50 20,-70 20,-20"
        id="path1624"
@@ -1100,7 +1100,7 @@
   <g
      style="fill:#840000;fill-opacity:0;stroke:#840000;stroke-width:60;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1"
      id="g1626"
-     transform="translate(-864.92596,-28327.969)">
+     transform="translate(-642.70352,-25883.524)">
     <path
        d="m 17080,47170 0,-310 190,170 0,-80 20,-40 20,-30 50,-20 120,0 50,20 20,30 30,40 0,150 -30,40 -20,30"
        id="path1628"
@@ -1109,7 +1109,7 @@
   <g
      style="fill:#008484;fill-opacity:0;stroke:#008484;stroke-width:60;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1"
      id="g1630"
-     transform="translate(-864.92596,-28327.969)">
+     transform="translate(-642.70352,-25883.524)">
     <path
        d="m 17870,48700 0,-500 190,0 50,20 20,20 20,50 0,70 -20,50 -20,20 -50,30 -190,0"
        id="path1632"
@@ -1154,7 +1154,7 @@
   <g
      style="fill:#840000;fill-opacity:0;stroke:#840000;stroke-width:100;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1"
      id="g1652"
-     transform="translate(-864.92596,-28327.969)">
+     transform="translate(-642.70352,-25883.524)">
     <rect
        x="16600"
        y="43500"
@@ -1166,7 +1166,7 @@
   <g
      style="fill:#840000;fill-opacity:0;stroke:#840000;stroke-width:60;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1"
      id="g1656"
-     transform="translate(-864.92596,-28327.969)">
+     transform="translate(-642.70352,-25883.524)">
     <path
        d="m 17000,43500 0,-500"
        id="path1658"
@@ -1179,7 +1179,7 @@
   <g
      style="fill:#008484;fill-opacity:0;stroke:#008484;stroke-width:60;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1"
      id="g1662"
-     transform="translate(-864.92596,-28327.969)">
+     transform="translate(-642.70352,-25883.524)">
     <path
        d="m 17200,44610 0,280"
        id="path1664"
@@ -1212,7 +1212,7 @@
   <g
      style="fill:#840000;fill-opacity:0;stroke:#840000;stroke-width:100;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1"
      id="g1678"
-     transform="translate(-864.92596,-28327.969)">
+     transform="translate(-642.70352,-25883.524)">
     <rect
        x="10750"
        y="46600"
@@ -1224,7 +1224,7 @@
   <g
      style="fill:#840000;fill-opacity:0;stroke:#840000;stroke-width:60;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1"
      id="g1682"
-     transform="translate(-864.92596,-28327.969)">
+     transform="translate(-642.70352,-25883.524)">
     <path
        d="m 10750,47000 -500,0"
        id="path1684"
@@ -1237,7 +1237,7 @@
   <g
      style="fill:#008484;fill-opacity:0;stroke:#008484;stroke-width:60;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1"
      id="g1688"
-     transform="translate(-864.92596,-28327.969)">
+     transform="translate(-642.70352,-25883.524)">
     <path
        d="m 10880,46800 20,-20 50,-20 120,0 40,20 30,20 20,50 0,50 -20,70 -290,290 310,0"
        id="path1690"
@@ -1274,7 +1274,7 @@
   <g
      style="fill:#840000;fill-opacity:0;stroke:#840000;stroke-width:200;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1"
      id="g1706"
-     transform="translate(-864.92596,-28327.969)">
+     transform="translate(-642.70352,-25883.524)">
     <polyline
        fill="none;"
        points="11450,48950 11450,50550 "
@@ -1287,7 +1287,7 @@
   <g
      style="fill:#840000;fill-opacity:0;stroke:#840000;stroke-width:60;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1"
      id="g1712"
-     transform="translate(-864.92596,-28327.969)">
+     transform="translate(-642.70352,-25883.524)">
     <path
        d="m 12150,49750 1100,0"
        id="path1714"
@@ -1300,7 +1300,7 @@
   <g
      style="fill:#008484;fill-opacity:0;stroke:#008484;stroke-width:60;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1"
      id="g1718"
-     transform="translate(-864.92596,-28327.969)">
+     transform="translate(-642.70352,-25883.524)">
     <path
        d="m 11380,51450 -280,0"
        id="path1720"
@@ -1329,7 +1329,7 @@
   <g
      style="fill:#840000;fill-opacity:0;stroke:#840000;stroke-width:60;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1"
      id="g1732"
-     transform="translate(-864.92596,-28327.969)">
+     transform="translate(-642.70352,-25883.524)">
     <path
        d="m 12220,43270 0,-600 230,0 60,30 30,30 30,60 0,80 -30,60 -30,30 -60,30 -230,0"
        id="path1734"
@@ -1366,7 +1366,7 @@
   <g
      style="fill:#840000;fill-opacity:0;stroke:#840000;stroke-width:100;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1"
      id="g1750"
-     transform="translate(-864.92596,-28327.969)">
+     transform="translate(-642.70352,-25883.524)">
     <polyline
        fill="none;"
        points="16000,43000 15700,42460 11850,42460 11850,43000 11850,43540 15700,43540 16000,43000 "
@@ -1375,7 +1375,7 @@
   <g
      style="fill:#840000;fill-opacity:0;stroke:#840000;stroke-width:60;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1"
      id="g1754"
-     transform="translate(-864.92596,-28327.969)">
+     transform="translate(-642.70352,-25883.524)">
     <path
        d="m 7850,47270 0,-600 230,0 60,30 30,30 30,60 0,80 -30,60 -30,30 -60,30 -230,0"
        id="path1756"
@@ -1392,7 +1392,7 @@
   <g
      style="fill:#840000;fill-opacity:0;stroke:#840000;stroke-width:100;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1"
      id="g1762"
-     transform="translate(-864.92596,-28327.969)">
+     transform="translate(-642.70352,-25883.524)">
     <polyline
        fill="none;"
        points="9750,47000 9450,46460 7480,46460 7480,47000 7480,47540 9450,47540 9750,47000 "
@@ -1401,7 +1401,7 @@
   <g
      style="fill:#840000;fill-opacity:0;stroke:#840000;stroke-width:60;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1"
      id="g1786"
-     transform="translate(-864.92596,-28327.969)">
+     transform="translate(-642.70352,-25883.524)">
     <path
        d="m 19320,52200 -60,-30 -90,0 -80,30 -60,60 -30,50 -30,120 0,80 30,120 30,60 60,50 80,30 60,0 90,-30 30,-30 0,-200 -120,0"
        id="path1788"
@@ -1418,7 +1418,7 @@
   <g
      style="fill:#840000;fill-opacity:0;stroke:#840000;stroke-width:100;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1"
      id="g1794"
-     transform="translate(-864.92596,-28327.969)">
+     transform="translate(-642.70352,-25883.524)">
     <polyline
        fill="none;"
        points="18500,52500 18800,53040 20920,53040 20920,52500 20920,51960 18800,51960 18500,52500 "
@@ -1427,7 +1427,7 @@
   <g
      style="fill:#840000;fill-opacity:0;stroke:#840000;stroke-width:60;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1"
      id="g1798"
-     transform="translate(-864.92596,-28327.969)">
+     transform="translate(-642.70352,-25883.524)">
     <path
        d="m 7580,49960 -30,30 -90,30 -60,0 -80,-30 -60,-50 -30,-60 -30,-120 0,-80 30,-120 30,-50 60,-60 80,-30 60,0 90,30 30,30"
        id="path1800"
@@ -1456,7 +1456,7 @@
   <g
      style="fill:#840000;fill-opacity:0;stroke:#840000;stroke-width:100;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1"
      id="g1812"
-     transform="translate(-864.92596,-28327.969)">
+     transform="translate(-642.70352,-25883.524)">
     <polyline
        fill="none;"
        points="9250,49750 8950,49210 6860,49210 6860,49750 6860,50290 8950,50290 9250,49750 "
@@ -1469,7 +1469,7 @@
   <g
      style="fill:#008400;fill-opacity:0;stroke:#008400;stroke-width:60;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1"
      id="g1818"
-     transform="translate(-864.92596,-28327.969)">
+     transform="translate(-642.70352,-25883.524)">
     <path
        d="m 13250,47000 750,0"
        id="path1820"
@@ -1490,7 +1490,7 @@
   <g
      style="fill:#008400;fill-opacity:1;stroke:#008400;stroke-width:100;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1"
      id="g1828"
-     transform="translate(-864.92596,-28327.969)">
+     transform="translate(-642.70352,-25883.524)">
     <circle
        cx="14000"
        cy="48500"
@@ -1504,7 +1504,7 @@
   <g
      style="fill:#008400;fill-opacity:0;stroke:#008400;stroke-width:60;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1"
      id="g1834"
-     transform="translate(-864.92596,-28327.969)">
+     transform="translate(-642.70352,-25883.524)">
     <path
        d="m 9750,47000 500,0"
        id="path1836"
@@ -1545,7 +1545,7 @@
   <g
      style="fill:#840000;fill-opacity:0;stroke:#840000;stroke-width:60;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1"
      id="g1854"
-     transform="translate(-864.92596,-28327.969)">
+     transform="translate(-642.70352,-25883.524)">
     <polyline
        fill="none;"
        points="17500,58750 16000,60250 16000,54250 17500,55750 "
@@ -1554,7 +1554,7 @@
   <g
      style="fill:#840000;fill-opacity:1;stroke:#840000;stroke-width:60;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1"
      id="g1858"
-     transform="translate(-864.92596,-28327.969)">
+     transform="translate(-642.70352,-25883.524)">
     <polyline
        style="fill-rule:evenodd"
        points="19500,58750 17500,58750 17500,55750 19500,55750 19500,58750 "
@@ -1563,7 +1563,7 @@
   <g
      style="fill:#840000;fill-opacity:0;stroke:#840000;stroke-width:60;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1"
      id="g1862"
-     transform="translate(-864.92596,-28327.969)">
+     transform="translate(-642.70352,-25883.524)">
     <path
        d="m 19500,58250 2000,0"
        id="path1864"
@@ -1572,7 +1572,7 @@
   <g
      style="fill:#008484;fill-opacity:0;stroke:#008484;stroke-width:60;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1"
      id="g1866"
-     transform="translate(-864.92596,-28327.969)">
+     transform="translate(-642.70352,-25883.524)">
     <path
        d="m 20610,58130 -220,0"
        id="path1868"
@@ -1585,7 +1585,7 @@
   <g
      style="fill:#840000;fill-opacity:0;stroke:#840000;stroke-width:60;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1"
      id="g1872"
-     transform="translate(-864.92596,-28327.969)">
+     transform="translate(-642.70352,-25883.524)">
     <path
        d="m 19500,56250 2000,0"
        id="path1874"
@@ -1594,7 +1594,7 @@
   <g
      style="fill:#008484;fill-opacity:0;stroke:#008484;stroke-width:60;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1"
      id="g1876"
-     transform="translate(-864.92596,-28327.969)">
+     transform="translate(-642.70352,-25883.524)">
     <path
        d="m 20390,55770 20,-20 30,-20 100,0 40,20 20,20 10,40 0,40 -10,50 -230,230 240,0"
        id="path1878"
@@ -1635,7 +1635,7 @@
   <g
      style="fill:#840000;fill-opacity:0;stroke:#840000;stroke-width:60;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1"
      id="g1896"
-     transform="translate(-864.92596,-28327.969)">
+     transform="translate(-642.70352,-25883.524)">
     <path
        d="m 18520,59700 -60,-30 -90,0 -80,30 -60,60 -30,50 -30,120 0,80 30,120 30,60 60,50 80,30 60,0 90,-30 30,-30 0,-200 -120,0"
        id="path1898"
@@ -1652,7 +1652,7 @@
   <g
      style="fill:#840000;fill-opacity:0;stroke:#840000;stroke-width:100;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1"
      id="g1904"
-     transform="translate(-864.92596,-28327.969)">
+     transform="translate(-642.70352,-25883.524)">
     <polyline
        fill="none;"
        points="20250,60000 19950,59460 17830,59460 17830,60000 17830,60540 19950,60540 20250,60000 "
@@ -1665,7 +1665,7 @@
   <g
      style="fill:#008400;fill-opacity:0;stroke:#008400;stroke-width:60;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1"
      id="g1910"
-     transform="translate(-864.92596,-28327.969)">
+     transform="translate(-642.70352,-25883.524)">
     <path
        d="m 21500,58250 0,1750"
        id="path1912"
@@ -1674,7 +1674,7 @@
   <g
      style="fill:#840000;fill-opacity:0;stroke:#840000;stroke-width:60;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1"
      id="g1914"
-     transform="translate(-864.92596,-28327.969)">
+     transform="translate(-642.70352,-25883.524)">
     <path
        d="m 20100,46710 -30,30 -90,30 -60,0 -80,-30 -60,-50 -30,-60 -30,-120 0,-80 30,-120 30,-50 60,-60 80,-30 60,0 90,30 30,30"
        id="path1916"
@@ -1699,7 +1699,7 @@
   <g
      style="fill:#840000;fill-opacity:0;stroke:#840000;stroke-width:100;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1"
      id="g1926"
-     transform="translate(-864.92596,-28327.969)">
+     transform="translate(-642.70352,-25883.524)">
     <polyline
        fill="none;"
        points="19250,46500 19550,47040 21640,47040 21640,46500 21640,45960 19550,45960 19250,46500 "
@@ -1712,7 +1712,7 @@
   <g
      style="fill:#840000;fill-opacity:0;stroke:#840000;stroke-width:60;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1"
      id="g1932"
-     transform="translate(-864.92596,-28327.969)">
+     transform="translate(-642.70352,-25883.524)">
     <polyline
        fill="none;"
        points="10500,56000 12000,54500 12000,60500 10500,59000 "
@@ -1721,7 +1721,7 @@
   <g
      style="fill:#840000;fill-opacity:1;stroke:#840000;stroke-width:60;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1"
      id="g1936"
-     transform="translate(-864.92596,-28327.969)">
+     transform="translate(-642.70352,-25883.524)">
     <polyline
        style="fill-rule:evenodd"
        points="8500,56000 10500,56000 10500,59000 8500,59000 8500,56000 "
@@ -1730,7 +1730,7 @@
   <g
      style="fill:#840000;fill-opacity:0;stroke:#840000;stroke-width:60;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1"
      id="g1940"
-     transform="translate(-864.92596,-28327.969)">
+     transform="translate(-642.70352,-25883.524)">
     <path
        d="m 8500,56500 -2000,0"
        id="path1942"
@@ -1739,7 +1739,7 @@
   <g
      style="fill:#008484;fill-opacity:0;stroke:#008484;stroke-width:60;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1"
      id="g1944"
-     transform="translate(-864.92596,-28327.969)">
+     transform="translate(-642.70352,-25883.524)">
     <path
        d="m 7610,56380 -220,0"
        id="path1946"
@@ -1752,7 +1752,7 @@
   <g
      style="fill:#840000;fill-opacity:0;stroke:#840000;stroke-width:60;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1"
      id="g1950"
-     transform="translate(-864.92596,-28327.969)">
+     transform="translate(-642.70352,-25883.524)">
     <path
        d="m 8500,58500 -2000,0"
        id="path1952"
@@ -1761,7 +1761,7 @@
   <g
      style="fill:#008484;fill-opacity:0;stroke:#008484;stroke-width:60;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1"
      id="g1954"
-     transform="translate(-864.92596,-28327.969)">
+     transform="translate(-642.70352,-25883.524)">
     <path
        d="m 7390,58020 20,-20 30,-20 100,0 40,20 20,20 10,40 0,40 -10,50 -230,230 240,0"
        id="path1956"
@@ -1822,7 +1822,7 @@
   <g
      style="fill:#008400;fill-opacity:0;stroke:#008400;stroke-width:60;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1"
      id="g1984"
-     transform="translate(-864.92596,-28327.969)">
+     transform="translate(-642.70352,-25883.524)">
     <path
        d="m 21500,60000 -1250,0"
        id="path1986"
@@ -1831,7 +1831,7 @@
   <g
      style="fill:#840000;fill-opacity:0;stroke:#840000;stroke-width:60;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1"
      id="g1988"
-     transform="translate(-864.92596,-28327.969)">
+     transform="translate(-642.70352,-25883.524)">
     <path
        d="m 8570,60200 -60,-30 -90,0 -80,30 -60,60 -30,50 -30,120 0,80 30,120 30,60 60,50 80,30 60,0 90,-30 30,-30 0,-200 -120,0"
        id="path1990"
@@ -1848,7 +1848,7 @@
   <g
      style="fill:#840000;fill-opacity:0;stroke:#840000;stroke-width:100;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1"
      id="g1996"
-     transform="translate(-864.92596,-28327.969)">
+     transform="translate(-642.70352,-25883.524)">
     <polyline
        fill="none;"
        points="7750,60500 8050,61040 10170,61040 10170,60500 10170,59960 8050,59960 7750,60500 "
@@ -1861,7 +1861,7 @@
   <g
      style="fill:#008400;fill-opacity:0;stroke:#008400;stroke-width:60;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1"
      id="g2002"
-     transform="translate(-864.92596,-28327.969)">
+     transform="translate(-642.70352,-25883.524)">
     <path
        d="m 6500,58500 0,2000"
        id="path2004"
@@ -1886,7 +1886,7 @@
   <g
      style="fill:#840000;fill-opacity:0;stroke:#840000;stroke-width:60;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1"
      id="g1178-7"
-     transform="translate(13623.81,-9103.6385)">
+     transform="translate(13846.032,-6659.1913)">
     <path
        d="m 7720,36670 140,600 110,-430 120,430 140,-600"
        id="path1180-8"
@@ -1903,10 +1903,38 @@
   <g
      style="fill:#840000;fill-opacity:0;stroke:#840000;stroke-width:100;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1"
      id="g1794-0"
-     transform="translate(2116.1263,-24628.245)">
+     transform="translate(2338.3487,-22183.8)">
     <polyline
        fill="none;"
        points="18500,52500 18800,53040 20920,53040 20920,52500 20920,51960 18800,51960 18500,52500 "
        id="polyline1796-5" />
   </g>
+  <text
+     xml:space="preserve"
+     style="font-style:normal;font-weight:normal;font-size:1250.0012207px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+     x="3381.4536"
+     y="1134.7854"
+     id="text8502"
+     sodipodi:linespacing="125%"><tspan
+       sodipodi:role="line"
+       id="tspan8504"
+       x="3381.4536"
+       y="1134.7854">Simple Amplifier with bias control</tspan></text>
+  <text
+     xml:space="preserve"
+     style="font-style:normal;font-weight:normal;font-size:1250.00109863px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+     x="14122.503"
+     y="14412.364"
+     id="text8502-0"
+     sodipodi:linespacing="125%"><tspan
+       sodipodi:role="line"
+       id="tspan8504-2"
+       x="14321.478"
+       y="14412.364"
+       style="text-align:center;text-anchor:middle">Practical amplifier using a speaker </tspan><tspan
+       sodipodi:role="line"
+       x="14122.503"
+       y="15974.865"
+       id="tspan8524"
+       style="text-align:center;text-anchor:middle">as a microphone</tspan></text>
 </svg>

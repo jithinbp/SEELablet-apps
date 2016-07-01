@@ -13,7 +13,7 @@
    viewBox="0 0 8970.4237 12811.851"
    id="svg2"
    inkscape:version="0.91 r13725"
-   sodipodi:docname="diodes.sch.svg">
+   sodipodi:docname="fullwave.svg">
   <metadata
      id="metadata1078">
     <rdf:RDF>
@@ -45,9 +45,9 @@
      fit-margin-left="0"
      fit-margin-right="0"
      fit-margin-bottom="0"
-     inkscape:zoom="1.1288813"
-     inkscape:cx="30.177021"
-     inkscape:cy="20.390416"
+     inkscape:zoom="4.5155252"
+     inkscape:cx="35.215191"
+     inkscape:cy="21.055182"
      inkscape:window-x="65"
      inkscape:window-y="24"
      inkscape:window-maximized="1"
@@ -359,16 +359,6 @@
      inkscape:connector-curvature="0"
      id="path632"
      d="m 1000.4069,5080.4273 140,600 110,-430 120,430 140,-600" />
-  <path
-     style="fill:#840000;fill-opacity:0;stroke:#840000;stroke-width:60;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1"
-     inkscape:connector-curvature="0"
-     id="path634"
-     d="m 2060.4069,5680.4273 -350,0" />
-  <path
-     style="fill:#840000;fill-opacity:0;stroke:#840000;stroke-width:60;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1"
-     inkscape:connector-curvature="0"
-     id="path636"
-     d="m 1890.4069,5680.4273 0,-600 -60,90 -60,50 -60,30" />
   <polyline
      style="fill:#840000;fill-opacity:0;stroke:#840000;stroke-width:100;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1"
      id="polyline640"
@@ -513,4 +503,9 @@
      r="200"
      cy="7910.4272"
      cx="6030.4067" />
+  <path
+     style="fill:#840000;fill-opacity:0;stroke:#840000;stroke-width:59.99998856;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1"
+     inkscape:connector-curvature="0"
+     id="path502-3"
+     d="m 1713.9201,5142.2994 30,-30 60,-30 139.9999,0 60,30 30,30 30,60 0,50 -30,90 -339.9999,339.9999 369.9999,0" />
 </svg>
