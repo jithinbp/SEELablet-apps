@@ -25,6 +25,9 @@ import inspect
 def guisave(ui, settings):
 	#for child in ui.children():  # works like getmembers, but because it traverses the hierarachy, you would have to call guisave recursively to traverse down the tree
 	for name, obj in inspect.getmembers(ui):
+		trySave(name,obj,settings)
+
+def trySave(name,obj,settings):
 		if isinstance(obj, QtGui.QComboBox):
 			name   = obj.objectName()      # get combobox name
 			index  = obj.currentIndex()    # get current index from combobox

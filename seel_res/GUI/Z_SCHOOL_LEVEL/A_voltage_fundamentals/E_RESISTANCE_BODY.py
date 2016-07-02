@@ -46,7 +46,9 @@ class AppWindow(QtGui.QMainWindow, widget_layout.Ui_MainWindow,utilitiesClass):
 
 	def run(self):
 		V=self.I.get_average_voltage('CH3',samples=100)
-		if V<0:return
+		if V<0:
+			self.resmeter.setValue('Disconnected')
+			return
 		R = 'Voltage(CH3)\t%s\nCurrent Flow\t%s\nResistance\t%s'%(self.applySIPrefix(V,'V'),self.applySIPrefix(V/1e6,'A'),self.applySIPrefix(1e6*(3.0-V)/V,u"\u03A9"))
 		self.resmeter.setValue(R)
 		

@@ -4,11 +4,16 @@ design experiments
 
 '''
 from __future__ import print_function
-from SEEL_Apps.utilitiesClass import utilitiesClass
 
+from SEEL.SENSORS.supported import supported as I2CSensors
+from SEEL.SENSORS.supported import nameMap as I2CSensorsNameMap
+
+from SEEL_Apps.utilitiesClass import utilitiesClass
 from SEEL_Apps.templates import ui_designer as designer
 from SEEL_Apps.templates.widgets.ui_sweep import Ui_Form as ui_sweep
 from SEEL_Apps.templates.widgets.ui_customFunc import Ui_Form as ui_custom
+from SEEL_Apps.templates.widgets.ui_customSensor import Ui_Form as ui_customSensor
+from SEEL_Apps.templates.widgets.ui_customSweep import Ui_Form as ui_customSweep
 
 import pyqtgraph as pg
 import time,random,functools,numbers
@@ -32,34 +37,24 @@ class AppWindow(QtGui.QMainWindow, designer.Ui_MainWindow,utilitiesClass):
 		self.I=kwargs.get('I',None)
 		self.setWindowTitle(self.I.H.version_string+' : '+params.get('name','').replace('\n',' ') )
 
+		self.statics={}
 		self.sweeps={}
-		self.statics=[]
 		self.monitors={}
-		self.staticMap = {'W1':self.addW1,'W2':self.addW2,'PV1':self.addPV1,'PV2':self.addPV2,'PV3':self.addPV3,'PCS':self.addPCS,'SQR1':self.addSQR1,'VOLTMETER':self.addVoltmeter,'OHMMETER':self.addRes}
+		self.staticMap = {'W1':self.addW1,'W2':self.addW2,'PV1':self.addPV1,'PV2':self.addPV2,'PV3':self.addPV3,'PCS':self.addPCS,'SQR1':self.addSQR1}#,'VOLTMETER':self.addVoltmeter,'OHMMETER':self.addRes}
 		self.widgets={}
 		self.customWidgetCount=0
 		self.evalGlobals={}
 		self.evalGlobals = {k: getattr(self.I, k) for k in dir(self.I)}
-		self.evalGlobals['CH1']=self.I.get_version()#functools.partial(self.I.get_voltage,'CH1')
-		#print (self.evalGlobals)
-		#eval('print(CH1)',globals(),self.evalGlobals)
 		
 		###################################POPULATE MONITORS LIST################################
-		mons = self.I.allAnalogChannels
+		mons = self.I.allAnalogChannels[:] #Shallow copy, since we will be removing elements
 		mons.remove('MIC')
-		num=0
+		self.totalReadBacks=0
 		self.monitorLayout.setAlignment(QtCore.Qt.AlignTop)
 		for a in mons:
-			box=QtGui.QCheckBox('%s'%a)
-			box.setChecked(False)
-			#action.setStyleSheet("background-color:rgb%s;"%(str(curves[a].opts['pen'].color().getRgb())))
-			self.sampleReadbacks.addWidget(box,num%3,num/3)
-			self.monitors[a] = [box,'voltage']
-			self.evalGlobals[a]=functools.partial(self.I.get_voltage,a)
-			num+=1
-		
-		self.addParamButton = QtGui.QPushButton(); self.addParamButton.setText('Create New Parameter');self.monitorLayout.addWidget(self.addParamButton)
-		self.addParamButton.clicked.connect(self.addCustom)
+			self.addReadBackWidget(a)		
+		self.addParamButton = QtGui.QPushButton(); self.addParamButton.setText('Add a Derived Channel');self.monitorLayout.addWidget(self.addParamButton)
+		self.addParamButton.clicked.connect(self.addCustomMonitor)
 
 		
 		self.columnFuncs=[]  #A collection of tuples on how to evaluate each column
@@ -78,20 +73,22 @@ class AppWindow(QtGui.QMainWindow, designer.Ui_MainWindow,utilitiesClass):
 		self.outputs['W2']['func'] = self.I.set_w2
 		self.outputs['SQR1']['func'] = self.I.sqr1
 
-		for a in self.outputs.keys()+['VOLTMETER','OHMMETER']:
+		for a in self.outputs.keys():
 			box=QtGui.QCheckBox('%s'%a)
 			box.setChecked(False)
 			#action.setStyleSheet("background-color:rgb%s;"%(str(curves[a].opts['pen'].color().getRgb())))
 			self.staticLayout.addWidget(box)
-			self.statics.append(box)
+			self.statics[a]=box
 
 		###################################POPULATE SWEEP LIST##################################
 		for a in self.outputs:
 			out = self.outputs[a]
 			box=self.sweepHandler(title=a,**out)
 			self.sweepLayout.addWidget(box)
-			self.sweeps[a]=box
-
+			self.sweeps[a]=[box,'normal']
+		self.addParamButton2 = QtGui.QPushButton(); self.addParamButton2.setText('Add Custom Sweep Output');self.sweepLayout.addWidget(self.addParamButton2)
+		self.addParamButton2.clicked.connect(self.addCustomSweep)
+		
 		###################################CREATE PLOT#########################################
 		self.plot=self.add2DPlot(self.plot_area)
 		self.plot.getAxis('left').setLabel('Time',units='S')
@@ -102,23 +99,40 @@ class AppWindow(QtGui.QMainWindow, designer.Ui_MainWindow,utilitiesClass):
 		###################################   LOAD A PRESET LIST  #########################
 		preset = kwargs.get('preset',[])
 		for p in preset:
-			cstm = self.addCustom()
-			cstm.cmd.setText(p['cmd'])
-			cstm.name.setText(p['name'])
-			cstm.enable.setChecked(True)
+			cstm = self.addCustomMonitor()
+			if cstm:
+				cstm.cmd.setText(p['cmd'])
+				cstm.name.setText(p['name'])
+				cstm.enable.setChecked(True)
 
-	class customHandler(QtGui.QFrame,ui_custom):
+				
+	def addReadBackWidget(self,a):
+		if a not in self.I.allAnalogChannels:
+			print (a,' is not an analog channel. Error!')
+			return
+		box=QtGui.QCheckBox('%s'%a)
+		box.setChecked(False)
+		self.sampleReadbacks.addWidget(box,self.totalReadBacks%3,self.totalReadBacks/3)
+		self.monitors[a] = [box,'voltage']
+		self.evalGlobals[a]=functools.partial(self.I.get_voltage,a)
+		self.totalReadBacks+=1
+		return box
+
+	class customMonitorHandler(QtGui.QFrame,ui_custom):
 		def __init__(self,**kwargs):
-			super(AppWindow.customHandler, self).__init__()
+			super(AppWindow.customMonitorHandler, self).__init__()
 			self.setupUi(self)
 			self.I = kwargs.get('I',None)
 			self.evalGlobals = kwargs.get('evalGlobals',None)
 
 		def remove(self):
+			self.enable.setChecked(False)
 			self.setParent(None)
 
 		def getFunc(self):
 			tx = self.cmd.text()
+			if len(tx)==0:
+				return None
 			def fn():
 				return eval(tx,globals(),self.evalGlobals)
 			return fn
@@ -129,14 +143,133 @@ class AppWindow(QtGui.QMainWindow, designer.Ui_MainWindow,utilitiesClass):
 		def text(self):
 			return self.name.text()
 
-	def addCustom(self):
-		cstm = self.customHandler(I = self.I,evalGlobals = self.evalGlobals)
+
+	class customSensorMonitorHandler(QtGui.QFrame,ui_customSensor):
+		def __init__(self,**kwargs):
+			super(AppWindow.customSensorMonitorHandler, self).__init__()
+			self.setupUi(self)
+			self.SEN = kwargs.get('sen',None)
+			if not hasattr(self.SEN,'getRaw'):
+				raise Exception#QtGui.QMessageBox.about(self, 'Error',  'This Sensor does not have a read option')
+				
+			self.evalGlobals = kwargs.get('evalGlobals',None)
+			self.title.setText('%s|%s'%(hex(self.SEN.ADDRESS),self.SEN.name))
+			self.dataOptions.addItems(self.SEN.PLOTNAMES)
+
+		def remove(self):
+			self.enable.setChecked(False)
+			self.setParent(None)
+
+		def getFunc(self):
+			try:
+				method = getattr(self.SEN,'getRaw')
+				return lambda:method()[self.dataOptions.currentIndex()]
+			except:
+				return None
+
+		def isChecked(self):
+			return self.enable.isChecked()
+
+		def text(self):
+			return self.dataOptions.currentText()+' : '+hex(self.SEN.ADDRESS)
+
+
+	def addCustomMonitorGeneric(self):
+		cstm = self.customMonitorHandler(I = self.I,evalGlobals = self.evalGlobals)
 		self.monitorLayout.addWidget(cstm)
 		self.monitors['CSTM'+str(self.customWidgetCount)] = [cstm,'custom']
 		self.customWidgetCount+=1
 		return cstm
 
+	def addCustomMonitor(self):
+		mons = ['generic expression','I2C sensor']
+		item, ok = QtGui.QInputDialog.getItem(self, "Read Backs", "select the type of data you would like to record", mons, 0, False)
+		if ok:
+			if item=='generic expression':
+				return self.addCustomMonitorGeneric()
+			elif item == 'I2C sensor':
+				import inspect
+				mons = {}
+				names = []
+				for a in I2CSensors:
+					m=inspect.getmembers(I2CSensors[a], inspect.isclass)
+					for b in m:
+						if hasattr(b[1], 'name'):
+							mons[b[1].name+' | '+b[0]]=(I2CSensors[a])
+							break
+				item, ok = QtGui.QInputDialog.getItem(self, "Sensors", "select the type of sensor", mons.keys(), 0, False)
+				if ok:
+					try:
+						cstm = self.customSensorMonitorHandler(sen = mons[item].connect(self.I.I2C))
+						if cstm.SEN.ADDRESS not in self.I.I2C.scan(): #Sensor not connected
+							reply = QtGui.QMessageBox.question(self, 'Warning', 'Sensor Not detected. Use anyway?', QtGui.QMessageBox.No, QtGui.QMessageBox.Yes)
+							if reply == QtGui.QMessageBox.No:
+								return None
+						self.monitorLayout.addWidget(cstm)
+						self.monitors['CSTM'+str(self.customWidgetCount)] = [cstm,'custom']
+						self.customWidgetCount+=1
+						return cstm
+					except Exception as e:print (e)
 
+	def addCustomMonitorSensor(self,classname):
+		if classname in I2CSensorsNameMap:
+			cstm = self.customSensorMonitorHandler(sen = I2CSensorsNameMap[classname].connect(self.I.I2C))
+			self.monitorLayout.addWidget(cstm)
+			self.monitors['CSTM'+str(self.customWidgetCount)] = [cstm,'custom']
+			self.customWidgetCount+=1
+			return cstm
+		else:
+			print ('invalid sensor',classname)
+			return None
+
+	class sweepHandler(QtGui.QFrame,ui_sweep):
+		def __init__(self,**kwargs):
+			super(AppWindow.sweepHandler, self).__init__()
+			self.setupUi(self)
+			self.func = kwargs.get('func',None)
+			self.enable.setText(kwargs.get('title','Not Set'))
+			self.startBox.setMinimum(kwargs.get('min',0));self.startBox.setMaximum(kwargs.get('max',1));self.startBox.setValue(kwargs.get('min',0))
+			self.stopBox.setMinimum(kwargs.get('min',0));self.stopBox.setMaximum(kwargs.get('max',1));self.stopBox.setValue(kwargs.get('max',0))
+			self.setToolTip(kwargs.get('tooltip',''))
+
+		def text(self):
+			return self.enable.text()
+
+
+	class customSweepHandler(QtGui.QFrame,ui_customSweep):
+		def __init__(self,**kwargs):
+			super(AppWindow.customSweepHandler, self).__init__()
+			self.setupUi(self)
+			self.I = kwargs.get('I',None)
+			self.func = kwargs.get('func',None)
+			self.name.setText(kwargs.get('title',''))
+			self.cmd.setText('set_pv1')
+			self.setToolTip(kwargs.get('tooltip',''))
+
+		def remove(self):
+			self.enable.setChecked(False)
+			self.setParent(None)
+
+		def getFunc(self):
+			tx = self.cmd.text()
+			try:
+				method = getattr(self.I,tx)
+				return method
+			except:
+				return None
+
+		def isChecked(self):
+			return self.enable.isChecked()
+
+		def text(self):
+			return self.name.text()
+
+	def addCustomSweep(self):
+		cstm = self.customSweepHandler(I = self.I)
+		self.sweepLayout.addWidget(cstm)
+		self.sweeps['CSTM'+str(self.customWidgetCount)] = [cstm,'custom']
+		self.customWidgetCount+=1
+		return cstm
 
 
 	def prepare(self):
@@ -159,17 +292,25 @@ class AppWindow(QtGui.QMainWindow, designer.Ui_MainWindow,utilitiesClass):
 		tblheaders = []
 		#Sweep inputs
 		for a in self.sweeps:
-			if self.sweeps[a].title.isChecked():
-				tblheaders.append(a)
-				self.columnFuncs.append([1,self.outputs[a]['func']])  # 1= output , function to use
+			widget = self.sweeps[a][0]
+			if widget.enable.isChecked():
+				if self.sweeps[a][1]=='normal': func =  widget.func
+				if self.sweeps[a][1]=='custom':
+					func =  widget.getFunc()
+					if func==None:
+						self.displayDialog('Invalid function : '+str(widget.text()) )
+				tblheaders.append(str(widget.text()))
+				self.columnFuncs.append([1,func])  # 1= output , function to use
 			
 		#############    prepare monitor readback commands    ################ 
 		for a in self.monitors:
-			widget = self.monitors[a][0]
-			if self.monitors[a][1]=='voltage': func =  functools.partial(self.I.get_voltage,a)
-			if self.monitors[a][1]=='custom':  func =  widget.getFunc()
-			
+			widget = self.monitors[a][0]		
 			if widget.isChecked():
+				if self.monitors[a][1]=='voltage': func =  functools.partial(self.I.get_voltage,a)
+				if self.monitors[a][1]=='custom':
+					func =  widget.getFunc()
+					if func==None:
+						self.displayDialog('Invalid function : '+str(widget.text()) )
 				tblheaders.append(str(widget.text()))
 				self.columnFuncs.append([0,func])  # 0= input , function to use
 		tblheaders.append('Evaluate')
@@ -180,8 +321,10 @@ class AppWindow(QtGui.QMainWindow, designer.Ui_MainWindow,utilitiesClass):
 
 		##############    populate sweep columns    #############
 		for a in self.sweeps:
-			if self.sweeps[a].title.isChecked():
-				vals = np.linspace(self.sweeps[a].startBox.value(),self.sweeps[a].stopBox.value(),self.sweeps[a].numBox.value() )				
+			widget = self.sweeps[a][0]
+		
+			if widget.enable.isChecked():
+				vals = np.linspace(widget.startBox.value(),widget.stopBox.value(),widget.numBox.value() )				
 				self.maxrows = max(len(vals),self.maxrows)
 				self.tbl.setRowCount(self.maxrows)				
 				for num in range(len(vals)):
@@ -210,11 +353,11 @@ class AppWindow(QtGui.QMainWindow, designer.Ui_MainWindow,utilitiesClass):
 		###################  Make the static widgets  ######################
 		row=0;col=0
 		for a in self.statics:
-			if a.isChecked():
-				print (a.text())
-				widget = self.staticMap[str(a.text())](self.I)
-				self.controlsLayout.addWidget(widget,row,col)
-				self.widgets[str(a.text())] = widget
+			widget = self.statics[a]
+			if widget.isChecked():
+				newWidget = self.staticMap[str(widget.text())](self.I)
+				self.controlsLayout.addWidget(newWidget,row,col)
+				self.widgets[str(widget.text())] = newWidget
 				col+=1
 				if col==3:
 					col=0;row+=1
@@ -255,18 +398,6 @@ class AppWindow(QtGui.QMainWindow, designer.Ui_MainWindow,utilitiesClass):
 		if self.evaluatorLocation==self.maxrows:
 			self.evaluatorLocation=None
 			self.timer.stop()
-
-
-	class sweepHandler(QtGui.QFrame,ui_sweep):
-		def __init__(self,**kwargs):
-			super(AppWindow.sweepHandler, self).__init__()
-			self.setupUi(self)
-			self.title.setText(kwargs.get('title','Not Set'))
-			self.startBox.setMinimum(kwargs.get('min',0));self.startBox.setMaximum(kwargs.get('max',1));self.startBox.setValue(kwargs.get('min',0))
-			self.stopBox.setMinimum(kwargs.get('min',0));self.stopBox.setMaximum(kwargs.get('max',1));self.stopBox.setValue(kwargs.get('max',0))
-			self.setToolTip(kwargs.get('tooltip',''))
-
-		
 
 	#Just a little something to enable copying data from the table
 	def keyPressEvent(self, e):
@@ -350,11 +481,78 @@ class AppWindow(QtGui.QMainWindow, designer.Ui_MainWindow,utilitiesClass):
 	def saveProfile(self):
 		from SEEL_Apps import saveProfile
 		from os.path import expanduser
-		path = QtGui.QFileDialog.getSaveFileName(self, 'Save Profile',  expanduser("./"), 'INI(*.ini)')
+		#path = QtGui.QFileDialog.getSaveFileName(self, 'Save Profile',  expanduser("./"), 'CONF(*.conf)')
+		path = '/home/jithin/pro.conf'
+
 		if path:
 			sections = path.split('.')
-			if(sections[-1]!='ini'):path+='.ini'
-			saveProfile.guisave(self.selectTab, QtCore.QSettings(path, QtCore.QSettings.IniFormat))
+			if(sections[-1]!='conf'):path+='.conf'
+			settings = QtCore.QSettings(path, QtCore.QSettings.IniFormat)
+			saveProfile.guisave(self, settings)
+		print (path)
+
+
+	def loadProfile(self):
+		from os.path import expanduser
+		filename = QtGui.QFileDialog.getOpenFileName(self,  "Load a Profile", expanduser("."), 'CONF(*.conf)')
+		if filename :
+			from itertools import takewhile
+			is_tab = '\t'.__eq__
+			inFile = open(filename)
+			source = inFile.read()
+			lines = iter(source.split('\n'))
+			stack = []
+			for line in lines:
+				indent = len(list(takewhile(is_tab, line)))
+				stack[indent:] = [line.lstrip()]
+				self.loadPresets(stack)
+			self.eTabs.setCurrentIndex(1) #Switch to design tab
+
+
+	def loadPresets(self,P):
+		if len(P)!=3 :return
+		if P[0]=='STATIC':   #P = ['STATIC','SOMETHING','PV1'] . creates knobs
+			if P[2] in self.statics:
+				self.statics[P[2]].setChecked(True)
+		elif P[0]=='MONITOR':  #P  = ['MONITOR','VOLTAGE','NAME CHANNEL'] or ['MONITOR','SENSOR','MAG HMC5883L 1'] etc
+			if P[1]=='VOLTAGE':
+				chan = P[2].strip()
+				if chan in self.monitors:
+					self.monitors[chan][0].setChecked(True)
+				else:
+					box=self.addReadBackWidget(chan)
+					box.setChecked(True)
+			elif P[1]=='CUSTOM':
+				name,cmd = P[2].strip().split(' ')
+				box = self.addCustomMonitorGeneric()
+				box.enable.setChecked(True)
+				box.name.setText(name)
+				box.cmd.setText(cmd)
+			elif P[1]=='SENSOR':
+				sensor,plotnum = P[2].strip().split(' ')
+				box = self.addCustomMonitorSensor(sensor)
+				box.enable.setChecked(True)
+				box.dataOptions.setCurrentIndex(int(plotnum))
+
+		elif P[0]=='SWEEP':		#P = ['SWEEP', 'STANDARD', 'PV2 1 2 10']
+			if P[1]=='STANDARD':
+				name,st,en,pt = P[2].strip().split(' ')
+				if name in self.sweeps:
+					self.sweeps[name][0].enable.setChecked(True)
+					self.sweeps[name][0].startBox.setValue(float(st))
+					self.sweeps[name][0].stopBox.setValue(float(en))
+					self.sweeps[name][0].numBox.setValue(float(pt))
+			elif P[1]=='CUSTOM':
+				name,cmd,st,en,pt = P[2].strip().split(' ')
+				box = self.addCustomSweep()
+				box.enable.setChecked(True)
+				box.name.setText(cmd)
+				box.cmd.setText(cmd)
+				box.startBox.setValue(float(st))
+				box.stopBox.setValue(float(en))
+				box.numBox.setValue(float(pt))
+
+
 		
 	def __del__(self):
 		self.timer.stop()

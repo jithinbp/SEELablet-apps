@@ -36,7 +36,7 @@
     <number>2</number>
    </property>
    <item>
-    <widget class="QCheckBox" name="title">
+    <widget class="QCheckBox" name="enable">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
        <horstretch>0</horstretch>
