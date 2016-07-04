@@ -52,13 +52,13 @@ class utilitiesClass():
 	studioWidgets={}
 	properties={'colorScheme':'black'}
 	outputs = {
-		'W1':{'min':1,'max':5000,'tooltip':'Wavegen 1'},
-		'W2':{'min':1,'max':5000,'tooltip':'Wavegen 2'},
-		'SQR1':{'min':10,'max':100000,'tooltip':'Square Wave'},
-		'PV1':{'min':-5,'max':5,'tooltip':'Programmable Voltage #1'},
-		'PV2':{'min':-3.3,'max':3.3,'tooltip':'Programmable Voltage #2'},
-		'PV3':{'min':0,'max':3.3,'tooltip':'Programmable Voltage #3'},
-		'PCS':{'min':0,'max':2,'tooltip':'Programmable Current source'},
+		'W1':{'min':1,'max':5000,'tooltip':'Set the frequency of Wavegen 1(W1)'},
+		'W2':{'min':1,'max':5000,'tooltip':'Set the frequency of Wavegen 2(W2)'},
+		'SQR1':{'min':10,'max':100000,'tooltip':'Set the frequency of a Square Wave(SQR1)'},
+		'PV1':{'min':-5,'max':5,'tooltip':'Set the voltage of Programmable Voltage #1(PV1)'},
+		'PV2':{'min':-3.3,'max':3.3,'tooltip':'Set the voltage of Programmable Voltage #2(PV2)'},
+		'PV3':{'min':0,'max':3.3,'tooltip':'Set the voltage of Programmable Voltage #3(PV3)'},
+		'PCS':{'min':0,'max':2,'tooltip':'Set the current of Programmable Current source(PCS)\nSubject to load resistance!'},
 	}
 
 	def __init__(self):

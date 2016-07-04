@@ -291,6 +291,13 @@ class MyMainWindow(QtGui.QMainWindow, single_col_exp.Ui_MainWindow,utilitiesClas
 
 			self.col=0;self.row+=1
 
+	def setHelpUrl(self,fname): #fname must reside in seel_res.HTML
+		helpurl = pkg_resources.resource_filename('seel_res.HTML',fname)
+		if not os.path.isfile(helpurl): helpurl=None
+		self.helpView.setUrl(QtCore.QUrl(helpurl))          
+		self.tabWidget.setCurrentIndex(1)
+		
+
 	def clearExperimentIcons(self):
 		while self.ExperimentLayout.count():
 			item = self.ExperimentLayout.takeAt(0)
@@ -370,9 +377,6 @@ class MyMainWindow(QtGui.QMainWindow, single_col_exp.Ui_MainWindow,utilitiesClas
 					print (reply)
 					self.selectDevice()
 
-
-
-
 	def selectDevice(self):
 		sel = self.deviceCombo.currentText()
 		if ( not ('ACM' in sel  or 'USB' in sel)):
@@ -431,7 +435,6 @@ class MyMainWindow(QtGui.QMainWindow, single_col_exp.Ui_MainWindow,utilitiesClas
 			self.splash.setStyleSheet(css)
 		self.splash.setMask(splash_pix.mask())
 		self.splash.show()
-
 
 	def resetDevice(self):
 		if self.I:

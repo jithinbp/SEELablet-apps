@@ -11,6 +11,7 @@ from SEEL.SENSORS.supported import nameMap as I2CSensorsNameMap
 from SEEL_Apps.utilitiesClass import utilitiesClass
 from SEEL_Apps.templates import ui_designer as designer
 from SEEL_Apps.templates.widgets.ui_sweep import Ui_Form as ui_sweep
+from SEEL_Apps.templates.widgets.ui_sweepTitle import Ui_Form as ui_sweepTitle
 from SEEL_Apps.templates.widgets.ui_customFunc import Ui_Form as ui_custom
 from SEEL_Apps.templates.widgets.ui_customSensor import Ui_Form as ui_customSensor
 from SEEL_Apps.templates.widgets.ui_customSweep import Ui_Form as ui_customSweep
@@ -32,6 +33,7 @@ params = {
 }
 
 class AppWindow(QtGui.QMainWindow, designer.Ui_MainWindow,utilitiesClass):
+	helpLoader = QtCore.pyqtSignal(str,name='helpChanged')
 	def __init__(self, parent=None,**kwargs):
 		super(AppWindow, self).__init__(parent)
 		self.setupUi(self)
@@ -46,8 +48,9 @@ class AppWindow(QtGui.QMainWindow, designer.Ui_MainWindow,utilitiesClass):
 		self.customWidgetCount=0
 		self.evalGlobals={}
 		self.evalGlobals = {k: getattr(self.I, k) for k in dir(self.I)}
-		
-
+		try:
+			if self.parent:self.helpLoader.connect(self.parent().setHelpUrl)
+		except:print('standalone')
 
 		###################################READ AND LIST PROFILE FILES(.CONF)####################
 		self.confTable.setHorizontalHeaderLabels(['File name','Path'])
@@ -75,7 +78,7 @@ class AppWindow(QtGui.QMainWindow, designer.Ui_MainWindow,utilitiesClass):
 		self.maxcols = 0
 		self.evaluatorLocation = None
 		self.timer = self.newTimer()
-		self.timer.timeout.connect(self.evaluator)
+		#self.timer.timeout.connect(self.evaluator)
 
 		###################################POPULATE STATIC OUTPUTS LIST##########################
 		self.outputs['PV1']['func'] = self.I.set_pv1
@@ -85,6 +88,7 @@ class AppWindow(QtGui.QMainWindow, designer.Ui_MainWindow,utilitiesClass):
 		self.outputs['W1']['func'] = self.I.set_w1
 		self.outputs['W2']['func'] = self.I.set_w2
 		self.outputs['SQR1']['func'] = self.I.sqr1
+		self.outputs['STEPS']={'min':0,'max':10000,'tooltip':'Generate a sequence of numbers.\nUseful if you want to simply record data in\na table without setting any parameter','func':lambda x:x}
 
 		for a in self.outputs.keys():
 			box=QtGui.QCheckBox('%s'%a)
@@ -94,6 +98,7 @@ class AppWindow(QtGui.QMainWindow, designer.Ui_MainWindow,utilitiesClass):
 			self.statics[a]=box
 
 		###################################POPULATE SWEEP LIST##################################
+		self.sweepLayout.addWidget(self.sweepTitle())
 		for a in self.outputs:
 			out = self.outputs[a]
 			box=self.sweepHandler(title=a,**out)
@@ -117,7 +122,6 @@ class AppWindow(QtGui.QMainWindow, designer.Ui_MainWindow,utilitiesClass):
 				cstm.cmd.setText(p['cmd'])
 				cstm.name.setText(p['name'])
 				cstm.enable.setChecked(True)
-
 
 	def populateResources(self,confList):
 		num=0
@@ -153,7 +157,6 @@ class AppWindow(QtGui.QMainWindow, designer.Ui_MainWindow,utilitiesClass):
 		def text(self):
 			return self.name.text()
 
-
 	class customSensorMonitorHandler(QtGui.QFrame,ui_customSensor):
 		def __init__(self,**kwargs):
 			super(AppWindow.customSensorMonitorHandler, self).__init__()
@@ -182,8 +185,6 @@ class AppWindow(QtGui.QMainWindow, designer.Ui_MainWindow,utilitiesClass):
 
 		def text(self):
 			return self.dataOptions.currentText()+' : '+hex(self.SEN.ADDRESS)
-
-
 
 	def addCustomMonitor(self):   #Final wrapper that interacts with the user
 		mons = ['generic expression','I2C sensor']
@@ -215,7 +216,6 @@ class AppWindow(QtGui.QMainWindow, designer.Ui_MainWindow,utilitiesClass):
 						return cstm
 					except Exception as e:print (e)
 
-
 	def addCustomMonitorGeneric(self):
 		cstm = self.customMonitorHandler(I = self.I,evalGlobals = self.evalGlobals)
 		self.monitorLayout.addWidget(cstm)
@@ -234,7 +234,6 @@ class AppWindow(QtGui.QMainWindow, designer.Ui_MainWindow,utilitiesClass):
 			print ('invalid sensor',classname)
 			return None
 
-
 	class monitorHandler(QtGui.QCheckBox):
 		def __init__(self,**kwargs):
 			super(AppWindow.monitorHandler, self).__init__()
@@ -251,8 +250,6 @@ class AppWindow(QtGui.QMainWindow, designer.Ui_MainWindow,utilitiesClass):
 		def getFunc(self):
 			return self.func
 
-
-
 	def addReadBackWidget(self,a):
 		box=self.monitorHandler(chan = a,I=self.I)
 		box.setChecked(False)
@@ -261,8 +258,6 @@ class AppWindow(QtGui.QMainWindow, designer.Ui_MainWindow,utilitiesClass):
 		self.evalGlobals[a] = box.getFunc()
 		self.totalReadBacks+=1
 		return box
-
-
 
 	class sweepHandler(QtGui.QFrame,ui_sweep):
 		def __init__(self,**kwargs):
@@ -280,7 +275,10 @@ class AppWindow(QtGui.QMainWindow, designer.Ui_MainWindow,utilitiesClass):
 		def text(self):
 			return self.enable.text()
 
-
+	class sweepTitle(QtGui.QFrame,ui_sweepTitle):
+		def __init__(self,**kwargs):
+			super(AppWindow.sweepTitle, self).__init__()
+			self.setupUi(self)
 
 
 	class customSweepHandler(QtGui.QFrame,ui_customSweep):
@@ -292,7 +290,7 @@ class AppWindow(QtGui.QMainWindow, designer.Ui_MainWindow,utilitiesClass):
 			self.name.setText(kwargs.get('title',''))
 			self.cmd.setText('set_pv1')
 			self.setToolTip(kwargs.get('tooltip',''))
-
+			
 		def remove(self):
 			self.enable.setChecked(False)
 			self.setParent(None)
@@ -404,16 +402,20 @@ class AppWindow(QtGui.QMainWindow, designer.Ui_MainWindow,utilitiesClass):
 					col=0;row+=1
 
 
-	def evaluateRow(self,row):
+	def	solveRowOutputs(self,row):
 		for a in range(self.maxcols):
 			tp = self.columnFuncs[a]
-			if tp[0]:  #Set output
+			if tp[0]:  #Set all outputs
 				try:
 					item = self.tbl.item(row,a)
 					item.setText('%.3e'%tp[1](float(item.text())) )
 				except:
 					pass
-			else:  #read input
+
+	def	solveRowInputs(self,row):
+		for a in range(self.maxcols):
+			tp = self.columnFuncs[a]
+			if not tp[0]:  #Read all inputs
 				try:
 					val = tp[1]()
 					item = self.tbl.item(row,a); 
@@ -421,24 +423,33 @@ class AppWindow(QtGui.QMainWindow, designer.Ui_MainWindow,utilitiesClass):
 					else: item.setText(val)
 				except:pass
 
+	def evaluateRow(self,row):
+		self.solveRowOutputs(row)
+		time.sleep(self.delayBox.value()*1e-3) #allow settling time
+		self.solveRowInputs(row)
+
+
 	def clearColumn(self):
 		pass
 
 	def runAll(self):
 		self.evaluatorLocation = 0
-		self.timer.start(self.delayBox.value())
+		self.timer.singleShot(0,self.evaluator)
 
 	def evaluator(self):
-		if self.evaluatorLocation==None:
-			print ('evaluation finished')
-			self.timer.stop()
-			return
 		self.tbl.selectRow(self.evaluatorLocation)
-		self.evaluateRow(self.evaluatorLocation)
+		#self.evaluateRow(self.evaluatorLocation)
+		if self.evaluatorLocation:self.solveRowInputs(self.evaluatorLocation-1)  #Evaluate the inputs for the previous row
+		self.solveRowOutputs(self.evaluatorLocation) #Evaluate the outputs for the current row, and evaluate the next row after a settling delay
 		self.evaluatorLocation+=1
 		if self.evaluatorLocation==self.maxrows:
+			time.sleep(1e-3*self.delayBox.value())
+			self.solveRowInputs(self.evaluatorLocation-1)  #Solve the last row's inputs after allowing a settling delay
+			print('stopping')
 			self.evaluatorLocation=None
 			self.timer.stop()
+			return
+		self.timer.singleShot(self.delayBox.value(),self.evaluator)
 
 	#Just a little something to enable copying data from the table
 	def keyPressEvent(self, e):
@@ -559,7 +570,12 @@ class AppWindow(QtGui.QMainWindow, designer.Ui_MainWindow,utilitiesClass):
 
 
 	def loadPresets(self,P):
-		if len(P)!=3 :return
+		if len(P)!=3:
+			if len(P)==2:
+				P[0].strip();P[1].strip()
+				if P[0]=='HELPFILE': self.helpLoader.emit(P[1])
+			return
+		P[0].strip();P[1].strip();P[2].strip()
 		if P[0]=='STATIC':   #P = ['STATIC','SOMETHING','PV1'] . creates knobs
 			if P[2] in self.statics:
 				self.statics[P[2]].setChecked(True)

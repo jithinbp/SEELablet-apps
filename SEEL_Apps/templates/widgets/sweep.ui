@@ -6,12 +6,12 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>354</width>
-    <height>30</height>
+    <width>395</width>
+    <height>29</height>
    </rect>
   </property>
   <property name="sizePolicy">
-   <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
+   <sizepolicy hsizetype="MinimumExpanding" vsizetype="Preferred">
     <horstretch>0</horstretch>
     <verstretch>0</verstretch>
    </sizepolicy>
@@ -30,24 +30,29 @@
     <number>2</number>
    </property>
    <property name="rightMargin">
-    <number>5</number>
+    <number>1</number>
    </property>
    <property name="bottomMargin">
-    <number>2</number>
+    <number>1</number>
    </property>
    <item>
     <widget class="QCheckBox" name="enable">
      <property name="sizePolicy">
-      <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+      <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
        <horstretch>0</horstretch>
        <verstretch>0</verstretch>
       </sizepolicy>
      </property>
      <property name="minimumSize">
       <size>
-       <width>100</width>
+       <width>70</width>
        <height>0</height>
       </size>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>10</pointsize>
+      </font>
      </property>
      <property name="text">
       <string>title</string>
@@ -57,7 +62,7 @@
    <item>
     <widget class="QDoubleSpinBox" name="startBox">
      <property name="sizePolicy">
-      <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+      <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
        <horstretch>0</horstretch>
        <verstretch>0</verstretch>
       </sizepolicy>
@@ -74,13 +79,16 @@
        <weight>50</weight>
        <bold>false</bold>
       </font>
+     </property>
+     <property name="prefix">
+      <string/>
      </property>
     </widget>
    </item>
    <item>
     <widget class="QDoubleSpinBox" name="stopBox">
      <property name="sizePolicy">
-      <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+      <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
        <horstretch>0</horstretch>
        <verstretch>0</verstretch>
       </sizepolicy>
@@ -97,13 +105,16 @@
        <weight>50</weight>
        <bold>false</bold>
       </font>
+     </property>
+     <property name="prefix">
+      <string/>
      </property>
     </widget>
    </item>
    <item>
     <widget class="QSpinBox" name="numBox">
      <property name="sizePolicy">
-      <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+      <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
        <horstretch>0</horstretch>
        <verstretch>0</verstretch>
       </sizepolicy>
@@ -120,6 +131,9 @@
        <weight>50</weight>
        <bold>false</bold>
       </font>
+     </property>
+     <property name="suffix">
+      <string/>
      </property>
      <property name="minimum">
       <number>2</number>
