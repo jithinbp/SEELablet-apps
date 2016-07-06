@@ -45,13 +45,13 @@ class AppWindow(QtGui.QMainWindow, template_graph_nofft.Ui_MainWindow,utilitiesC
 		labelStyle = {'color': 'rgb(255,255,255)', 'font-size': '11pt'}
 		self.plot.setLabel('left','V (CH1)', units='V',**labelStyle)
 		self.plot.setLabel('bottom','Time', units='S',**labelStyle)
-		self.plot.setYRange(-8.5,8.5)
+		self.hLine = pg.InfiniteLine(angle=0, movable=False,pen=[255,10,20,255])
+		self.plot.addItem(self.hLine, ignoreBounds=True)
+		self.hLine.setPos(3.3)
 
-		self.I.configure_trigger(0,'CAP',0,prescaler = self.prescalerValue)
 		self.sh=2; self.icg=2;
 		self.samples=3694; self.tweak = 1
-		self.I.set_gain('CH1',1)
-		self.chan = 'CAP'
+		self.chan = 'AN8'
 		self.timer = self.newTimer()
 
 		self.legend = self.plot.addLegend(offset=(-10,30))
@@ -60,6 +60,7 @@ class AppWindow(QtGui.QMainWindow, template_graph_nofft.Ui_MainWindow,utilitiesC
 		
 		self.WidgetLayout.setAlignment(QtCore.Qt.AlignLeft)
 		self.ControlsLayout.setAlignment(QtCore.Qt.AlignRight)
+		self.ControlsLayout.addWidget(self.setStateIcon(I=self.I))
 
 		#Utility widgets
 		self.I.set_pv1(4)
@@ -67,11 +68,12 @@ class AppWindow(QtGui.QMainWindow, template_graph_nofft.Ui_MainWindow,utilitiesC
 		#Control widgets
 		a1={'TITLE':'SH','MIN':2,'MAX':10,'FUNC':self.set_timebase,'UNITS':'S','TOOLTIP':'Set SH pulse width, and timebase'}
 		self.ControlsLayout.addWidget(self.dialIcon(**a1))
+		self.set_timebase(2)
 
-		a1={'TITLE':'tweak','MIN':0,'MAX':30,'FUNC':self.set_tweak,'UNITS':'*15nS','TOOLTIP':'Tweak ADC speed by 15nS*tweak'}
+		a1={'TITLE':'Average','MIN':1,'MAX':5,'FUNC':self.set_tweak,'UNITS':' times','TOOLTIP':'Average samples before displaying'}
 		T = self.dialIcon(**a1)
 		T.dial.setPageStep(1)
-		T.dial.setValue(14)
+		T.dial.setValue(1)
 		self.ControlsLayout.addWidget(T)
 
 		a1={'TITLE':'ICG','MIN':1,'MAX':65000,'FUNC':self.set_icg,'UNITS':'S','TOOLTIP':'Set ICG'}
@@ -94,7 +96,6 @@ class AppWindow(QtGui.QMainWindow, template_graph_nofft.Ui_MainWindow,utilitiesC
 
 	def set_timebase(self,g):
 		self.sh = g
-		print (self.sh)
 		return self.autoRange()
 
 	def set_icg(self,g):
@@ -107,7 +108,7 @@ class AppWindow(QtGui.QMainWindow, template_graph_nofft.Ui_MainWindow,utilitiesC
 		self.plot.autoRange();
 		chan = self.I.analogInputSources[self.chan]
 		R = [chan.calPoly10(0),chan.calPoly10(1023)]
-		R[0]=R[0]*.9;R[1]=R[1]*.9
+		R[0]=R[0]*.9;R[1]=R[1]*1.1
 		self.plot.setLimits(yMax=max(R),yMin=min(R),xMin=0,xMax=xlen)
 		self.plot.setYRange(min(R),max(R))			
 		self.plot.setXRange(0,xlen)
@@ -120,9 +121,9 @@ class AppWindow(QtGui.QMainWindow, template_graph_nofft.Ui_MainWindow,utilitiesC
 		if not self.running: return
 		try:
 			self.Y = np.zeros(3648)
-			self.num = 1
+			self.num = self.tweak
 			for a in range(self.num):
-				self.I.opticalArray(self.sh,self.icg,self.chan,resolution=12,tweak=self.tweak)
+				self.I.opticalArray(self.sh,self.icg,self.chan,resolution=12)
 				self.I.__fetch_channel__(1)
 				self.Y+=self.I.achans[0].get_yaxis()[32:-14]
 
