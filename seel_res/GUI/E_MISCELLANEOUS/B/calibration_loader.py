@@ -391,8 +391,11 @@ class AppWindow(QtGui.QMainWindow, calibration_loader.Ui_MainWindow,utilitiesCla
 		self.I.__calibrate_ctmu__([1.,1.,1.,1.])
 		self.I.SOCKET_CAPACITANCE = 0
 		self.I.resistanceScaling = 1.
-		#Re read socket capacitance
-		self.calSock()
+		self.I.SOCKET_CAPACITANCE = 42e-12 #magic number that's usually accurate to +/-2pF for this board design. It should still be calibrated though.
+		item = self.table.item(0,0)
+		item.setText('%.3e'%self.socketCap)
+		item = self.table.item(0,1)
+		item.setText('%.3e'%self.socketCap)
 
 
 	def get_capacitance(self,CR): #read capacitance using various current ranges

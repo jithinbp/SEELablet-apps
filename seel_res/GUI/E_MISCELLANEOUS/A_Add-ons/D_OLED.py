@@ -34,8 +34,6 @@ class AppWindow(QtGui.QMainWindow, widget_layout.Ui_MainWindow,utilitiesClass):
 		self.setupUi(self)
 		self.I=kwargs.get('I',None)
 		from SEEL.SENSORS import SSD1306
-		print (self.I.I2C.scan())
-		self.I.I2C.config(100e3)
 		self.OLED = SSD1306.SSD1306(self.I.I2C)
 		self.setWindowTitle(self.I.H.version_string+' : '+params.get('name','').replace('\n',' ') )
 		

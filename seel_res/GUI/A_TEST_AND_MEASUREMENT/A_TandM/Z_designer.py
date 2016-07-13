@@ -481,6 +481,7 @@ class AppWindow(QtGui.QMainWindow, designer.Ui_MainWindow,utilitiesClass):
 		selected = self.tbl.selectedRanges()
 		x=[]
 		y=[]
+		xname='' ; yname = ''
 		if len(selected)==0:
 			self.displayDialog('Please Select at least two columns')
 			return
@@ -491,17 +492,34 @@ class AppWindow(QtGui.QMainWindow, designer.Ui_MainWindow,utilitiesClass):
 				return
 			for a in xrange(selected[0].topRow(), selected[0].bottomRow()+1): x.append(float(self.tbl.item(a,selected[0].leftColumn()).text()))
 			for a in xrange(selected[0].topRow(), selected[0].bottomRow()+1): y.append(float(self.tbl.item(a,selected[0].leftColumn()+1).text()))
-			name = str(self.tbl.horizontalHeaderItem(selected[0].leftColumn()).text())+' vs '+ str(self.tbl.horizontalHeaderItem(selected[0].leftColumn()+1).text())
+			xname = str(self.tbl.horizontalHeaderItem(selected[0].leftColumn()).text())
+			yname = str(self.tbl.horizontalHeaderItem(selected[0].leftColumn()+1).text())
 		elif len(selected)==2:
 			for a in xrange(selected[0].topRow(), selected[0].bottomRow()+1): x.append(float(self.tbl.item(a,selected[0].leftColumn()).text()))
 			for a in xrange(selected[1].topRow(), selected[1].bottomRow()+1): y.append(float(self.tbl.item(a,selected[1].leftColumn()).text()))
-			name = str(self.tbl.horizontalHeaderItem(selected[0].leftColumn()).text())+' vs '+ str(self.tbl.horizontalHeaderItem(selected[1].leftColumn()).text())
+			xname = str(self.tbl.horizontalHeaderItem(selected[0].leftColumn()).text())
+			yname = str(self.tbl.horizontalHeaderItem(selected[1].leftColumn()).text())
+
+		msgBox = QtGui.QMessageBox()
+		msgBox.setText("Plotting \nxaxis : %s\nyaxis : %s"%(xname, yname))
+		msgBox.setStandardButtons(QtGui.QMessageBox.Cancel)
+		noRev = msgBox.addButton(self.tr("Plot"), QtGui.QMessageBox.ActionRole)
+		rev = msgBox.addButton(self.tr("Swap Axes and plot"), QtGui.QMessageBox.ActionRole)
+
+		ret = msgBox.exec_()
+		if msgBox.clickedButton() == rev:
+			tmp = y; y=x;x=tmp
+			tmp = yname; yname=xname;xname=tmp			
+		elif ret == QtGui.QMessageBox.Cancel:
+			return
+
+
 
 		AllItems = [self.plotList.itemText(i) for i in range(self.plotList.count())]
 		num=1
-		self.plot.getAxis('bottom').setLabel(name.split(' vs ')[0])
-		self.plot.getAxis('left').setLabel(name.split(' vs ')[1])
-
+		self.plot.getAxis('bottom').setLabel(xname)
+		self.plot.getAxis('left').setLabel(yname)
+		name = xname + ' vs ' + yname
 		while name+' #'+str(num) in AllItems:
 			num+=1
 		name = name+' #'+str(num)
