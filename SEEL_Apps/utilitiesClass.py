@@ -575,7 +575,7 @@ class utilitiesClass():
 
 		def read(self):
 			retval = self.func()
-			if isinstance(retval,numbers.Number):self.value.setText('%s'%(self.applySIPrefix(retval,self.units) ))
+			if isinstance(retval,numbers.Number) and retval != np.Inf:self.value.setText('%s'%(self.applySIPrefix(retval,self.units) ))
 			else: self.value.setText(str(retval))
 
 	class simpleButtonIcon(QtGui.QFrame,simpleButton.Ui_Form):
@@ -623,7 +623,7 @@ class utilitiesClass():
 		def read(self):
 			retval = self.func()
 			try:
-				if isinstance(retval,numbers.Number):self.value.setText('%s'%(self.applySIPrefix(retval,self.units) ))
+				if isinstance(retval,numbers.Number) and retval != np.Inf:self.value.setText('%s'%(self.applySIPrefix(retval,self.units) ))
 				else: self.value.setText(retval)
 			except:self.value.setText(str(retval))
 
@@ -660,7 +660,7 @@ class utilitiesClass():
 			retval = self.func(self.optionBox.currentText())
 			#if abs(retval)<1e4 and abs(retval)>.01:self.value.setText('%.3f %s '%(retval,self.units))
 			#else: self.value.setText('%.3e %s '%(retval,self.units))
-			if isinstance(retval,numbers.Number):self.value.setText('%s'%(self.applySIPrefix(retval,self.units) ))
+			if isinstance(retval,numbers.Number) and retval != np.Inf:self.value.setText('%s'%(self.applySIPrefix(retval,self.units) ))
 			else: self.value.setText(str(retval))
 			if self.linkFunc:
 				self.linkFunc(retval)

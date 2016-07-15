@@ -8,7 +8,7 @@ import os
 
 from PyQt4 import QtCore, QtGui
 import time,sys
-from .templates import ui_remote as remote
+from templates import ui_remote as remote
 import sys,json,string
 import numpy as np
 
@@ -30,7 +30,7 @@ params = {
 'image' : 'mf522.png',
 'helpfile': '',
 'name':'Remote\nAccess',
-'hint':'This listens on a PubNub channel <incoming> on\<br>pub-c-22260663-a169-4935-9c74-22925f4398af<br>sub-c-3431f4ba-2984-11e6-a01f-0619f8945a4f<br> and responds with data after executing received commands.\nYou can also publish to ThingSpeak'
+'hint':'This listens on a PubNub channel <incoming> on\<br>pub-c-22260663-a169-4935-9c74-22925f4398af<br>sub-c-3431f4ba-2984-11e6-a01f-0619f8945a4f<br> and responds with data after executing received commands.\n\nYou can also publish data to ThingSpeak'
 }
 
 class AppWindow(QtGui.QMainWindow, remote.Ui_MainWindow):
@@ -111,9 +111,30 @@ class AppWindow(QtGui.QMainWindow, remote.Ui_MainWindow):
 			self.results_2.append('Set Error : %s'%( e.message))
 			pass
 
-	def callback(self,message, channel):
-		msg_type = message[0]
-		message = str(message)[1:]
+
+	def setListenState(self,state):
+		if state: #Enable listen
+			try:
+				self.pubnub.subscribe(self.I.hexid,callback = self.callback)
+			except Exception as e:
+				self.responseLabel.setText (e)
+		else:
+			self.pubnub.unsubscribe(self.I.hexid)
+			
+	def resetKeys(self):
+		try:
+			from pubnub import Pubnub
+			self.pubnub = Pubnub(
+				publish_key = str(self.pubEdit.text()),
+				subscribe_key = str(self.subEdit.text()))
+		except Exception as e:
+			self.responseLabel.setText (e)
+
+
+	def callback(self,full_message, channel):
+		msg_type = full_message[0]
+		senderId = str(full_message)[1:19]
+		message = str(full_message)[19:]
 		try:
 			if msg_type == 'Q' : #Query
 				self.resSlot.emit(message,'in')		
@@ -135,10 +156,10 @@ class AppWindow(QtGui.QMainWindow, remote.Ui_MainWindow):
 					result=method(*total_args)		
 					#self.hw_lock=False
 					jsonres = json.dumps(result,cls=NumpyEncoder)
-					self.pubnub.publish(channel = self.I.hexid,message = 'R'+jsonres)  #R stands for response . Q for Query
+					self.pubnub.publish(channel = senderId,message = 'R'+self.I.hexid+jsonres)  #R stands for response . Q for Query
 					self.resSlot.emit('%s %s %s %d %s... %s'%(method.__name__,str(total_args),str(type(jsonres)),len(jsonres),str(jsonres[:20]),self.I.hexid+'response'),'out')
 			elif msg_type == 'R':
-				self.resSlot.emit(str(message),'reply')		
+				self.resSlot.emit(senderId+' > '+message,'reply')		
 				
 		except Exception as e:
 			self.responseLabel.setText (e.message)
@@ -153,38 +174,21 @@ class AppWindow(QtGui.QMainWindow, remote.Ui_MainWindow):
 
 	def execRemote(self):
 		chan = hex(0x1000000000000000|int(str(self.sendID.text()),16)) ; msg = str(self.cmdEdit.text())
-		self.pubnub.publish(channel = chan,message = 'Q'+msg)
+		self.pubnub.publish(channel = chan,message = 'Q'+self.I.hexid+msg)
 		self.resSlot.emit('[' + chan + ']: ' + msg,'out')
 
-	def setListenState(self,state):
-		if state: #Enable listen
-			try:
-				self.pubnub.subscribe(self.I.hexid,callback = self.callback)
-			except Exception as e:
-				self.responseLabel.setText (e)
-		else:
-			self.pubnub.unsubscribe(self.I.hexid)			
-			
-	def resetKeys(self):
-		try:
-			from pubnub import Pubnub
-			self.pubnub = Pubnub(
-				publish_key = str(self.pubEdit.text()),
-				subscribe_key = str(self.subEdit.text()))
-		except Exception as e:
-			self.responseLabel.setText (e)
 
 	def __del__(self):
 		try:self.pubnub.unsubscribe(self.I.hexid)
 		except:pass
-		#try:self.pubnub.unsubscribe(self.I.hexid+'response')
-		#except:pass
+		try:self.pubnub.unsubscribe(self.I.hexid+'response')
+		except:pass
 
 	def closeEvent(self, event):
 		try:self.pubnub.unsubscribe(self.I.hexid)
 		except:pass
-		#try:self.pubnub.unsubscribe(self.I.hexid+'response')
-		#except:pass
+		try:self.pubnub.unsubscribe(self.I.hexid+'response')
+		except:pass
 		
 		self.finished=True
 
