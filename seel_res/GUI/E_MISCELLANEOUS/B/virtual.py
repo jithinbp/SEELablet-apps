@@ -115,7 +115,7 @@ class AppWindow(QtGui.QMainWindow, remote.Ui_MainWindow):
 	def setListenState(self,state):
 		if state: #Enable listen
 			try:
-				self.pubnub.subscribe(self.I.hexid,callback = self.callback)
+				self.pubnub.subscribe(self.I.hexid,callback = self.callback, error=self._error, connect=self._connect, reconnect=self._reconnect, disconnect=self._disconnect)
 			except Exception as e:
 				self.responseLabel.setText (e)
 		else:
@@ -171,11 +171,27 @@ class AppWindow(QtGui.QMainWindow, remote.Ui_MainWindow):
 			self.results.append('SEND:<span style="background-color: #00FF00">' + txt +'</span')
 		elif t == 'reply':
 			self.results.append('GOT :<span style="background-color: #00FFFF">' + txt +'</span')
+		elif t == 'msg':
+			self.results.append('MSG :<span style="background-color: #000;color:#FFF">' + txt +'</span')
+
 
 	def execRemote(self):
 		chan = hex(0x1000000000000000|int(str(self.sendID.text()),16)) ; msg = str(self.cmdEdit.text())
 		self.pubnub.publish(channel = chan,message = 'Q'+self.I.hexid+msg)
 		self.resSlot.emit('[' + chan + ']: ' + msg,'out')
+
+
+	def _connect(self,m):
+		self.resSlot.emit("Connected to PubNub! Listening on "+m,'msg')
+
+	def _reconnect(self,m):
+		self.resSlot.emit("Reconnected to PubNub!",'msg')
+
+	def _disconnect(self,m):
+		self.resSlot.emit("Disconnected from PubNub!",'msg')
+
+	def _error(self,m):
+		self.resSlot.emit(" PubNub Error!",'msg')
 
 
 	def __del__(self):
