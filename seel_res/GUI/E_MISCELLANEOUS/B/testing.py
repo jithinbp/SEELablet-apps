@@ -55,17 +55,18 @@ class AppWindow(QtGui.QMainWindow, testing.Ui_MainWindow,utilitiesClass):
 		self.tests = [
 		['I2C scan',[96],self.I2CScan],
 		['SQR-ID',1e6,self.SQRID],
-		['SEN',1e3,self.SEN],
 		['CAP_SOCK',0,self.CAP_SOCK],
 		['PV1-CH1','graph',self.PV1CH1],
 		['PV2-CH2','graph',self.PV2CH2],
 		['PV3-CH3','graph',self.PV3CH3],
 		#group 2 begins
+		['SEN',1e3,self.SEN],
 		['CAP',329.5e-12,self.CAP],
 		['W1-CH1',1e3,self.W1CH1],
 		['W2-CH2',1e3,self.W2CH2],
 		['PCS-CH3',1e3,self.PCSCH3],
 		]
+		self.group1size = 6
 		self.tbl.setVerticalHeaderLabels([row[0] for row in self.tests])
 		self.tbl.setHorizontalHeaderLabels(['Expected','read',''])
 		self.tbl.setColumnWidth(0, 80)
@@ -78,14 +79,14 @@ class AppWindow(QtGui.QMainWindow, testing.Ui_MainWindow,utilitiesClass):
 		self.RESISTANCE_SCALING=1
 		self.CR0=1;self.CR1=1;self.CR2=1;self.CR3=1
 		
-		self.G1Tests = []
-		self.G2Tests = []
+		self.G1Tests = {}
+		self.G2Tests = {}
 		for n in range(len(self.tests)) :
 			self.tbl.item(n,0).setText(str(self.tests[n][1]))
 			################# make readback buttons ##############
 			fn = functools.partial(self.tests[n][2],n)
-			if n<7: self.G1Tests.append(fn)
-			else: self.G2Tests.append(fn)
+			if n<self.group1size: self.G1Tests[self.tests[n][0]]=(fn)
+			else: self.G2Tests[self.tests[n][0]]=(fn)
 			item = QtGui.QPushButton();item.setText('test'); item.clicked.connect(fn)
 			self.tbl.setCellWidget(n, 2, item)
 
@@ -140,10 +141,10 @@ class AppWindow(QtGui.QMainWindow, testing.Ui_MainWindow,utilitiesClass):
 			item.setText('failed'); self.setSuccess(item,0)
 
 	def eval1(self):
-		for a in self.G1Tests: a()
+		for a in self.G1Tests: self.G1Tests[a]()
 
 	def eval2(self):
-		for a in self.G2Tests: a()
+		for a in self.G2Tests: self.G2Tests[a]()
 
 	def SEN(self,row):
 		res = self.I.get_resistance()
@@ -253,6 +254,8 @@ class AppWindow(QtGui.QMainWindow, testing.Ui_MainWindow,utilitiesClass):
 		self.I.__calibrate_ctmu__(self.scalers[3:])
 		self.I.DAC.CHANS['PCS'].load_calibration_twopoint(self.scalers[1],self.scalers[2]) #Slope and offset for current source
 		self.I.resistanceScaling = self.scalers[3]
+		self.G2Tests['SEN']()
+		self.G2Tests['PCS-CH3']()
 
 
 	def __del__(self):
