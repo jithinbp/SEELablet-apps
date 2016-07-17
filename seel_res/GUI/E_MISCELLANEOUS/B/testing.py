@@ -139,6 +139,7 @@ class AppWindow(QtGui.QMainWindow, testing.Ui_MainWindow,utilitiesClass):
 		except Exception as e:
 			print (e)
 			item.setText('failed'); self.setSuccess(item,0)
+		self.I.set_waves(1e3,0) #1KHz test
 
 	def eval1(self):
 		for a in self.G1Tests: self.G1Tests[a]()
@@ -223,7 +224,7 @@ class AppWindow(QtGui.QMainWindow, testing.Ui_MainWindow,utilitiesClass):
 
 	def __WCH__(self,WG,ADC,row):
 		self.I.set_wave(WG,1e3) #1KHz test
-		self.I.select_range(ADC,'4')
+		self.I.select_range(ADC,4)
 		x,y = self.I.capture1(ADC,1000,5)#get about five cycles
 		self.WCurves[WG].setData(x,y)
 		self.tbl.item(row,0).setText('1 KHz')
