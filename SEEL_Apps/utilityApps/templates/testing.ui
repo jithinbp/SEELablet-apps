@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>831</width>
-    <height>561</height>
+    <width>934</width>
+    <height>541</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -37,6 +37,23 @@
         <property name="spacing">
          <number>0</number>
         </property>
+        <item row="0" column="1" rowspan="3">
+         <widget class="QFrame" name="frame">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="MinimumExpanding" vsizetype="Preferred">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="frameShape">
+           <enum>QFrame::NoFrame</enum>
+          </property>
+          <property name="frameShadow">
+           <enum>QFrame::Raised</enum>
+          </property>
+          <layout class="QGridLayout" name="plot_area"/>
+         </widget>
+        </item>
         <item row="0" column="0">
          <widget class="QFrame" name="frame_2">
           <property name="frameShape">
@@ -54,12 +71,18 @@
              <property name="text">
               <string>Evaluate Group 1</string>
              </property>
+             <property name="shortcut">
+              <string>Ctrl+1</string>
+             </property>
             </widget>
            </item>
            <item>
             <widget class="QPushButton" name="pushButton_2">
              <property name="text">
               <string>Evaluate Group 2</string>
+             </property>
+             <property name="shortcut">
+              <string>Ctrl+2</string>
              </property>
             </widget>
            </item>
@@ -98,6 +121,9 @@
           <attribute name="verticalHeaderDefaultSectionSize">
            <number>25</number>
           </attribute>
+          <attribute name="verticalHeaderStretchLastSection">
+           <bool>false</bool>
+          </attribute>
           <row/>
           <row/>
           <row/>
@@ -123,21 +149,42 @@
           <column/>
          </widget>
         </item>
-        <item row="0" column="1" rowspan="2">
-         <widget class="QFrame" name="frame">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="MinimumExpanding" vsizetype="Preferred">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
+        <item row="3" column="0">
+         <widget class="QFrame" name="frame_3">
           <property name="frameShape">
            <enum>QFrame::NoFrame</enum>
           </property>
           <property name="frameShadow">
            <enum>QFrame::Raised</enum>
           </property>
-          <layout class="QGridLayout" name="plot_area"/>
+          <layout class="QHBoxLayout" name="horizontalLayout_3">
+           <property name="margin">
+            <number>0</number>
+           </property>
+           <item>
+            <widget class="QPushButton" name="pushButton_3">
+             <property name="text">
+              <string>Apply Corrections</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="pushButton_4">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="text">
+              <string>Save Screenshot</string>
+             </property>
+             <property name="shortcut">
+              <string>Ctrl+S</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
          </widget>
         </item>
        </layout>
@@ -145,11 +192,6 @@
       <widget class="QWidget" name="tab2">
        <attribute name="title">
         <string>Advanced tests</string>
-       </attribute>
-      </widget>
-      <widget class="QWidget" name="tab3">
-       <attribute name="title">
-        <string>Capacitance</string>
        </attribute>
       </widget>
      </widget>
@@ -170,7 +212,7 @@
      <y>49</y>
     </hint>
     <hint type="destinationlabel">
-     <x>-6</x>
+     <x>0</x>
      <y>77</y>
     </hint>
    </hints>
@@ -187,7 +229,39 @@
     </hint>
     <hint type="destinationlabel">
      <x>406</x>
-     <y>-8</y>
+     <y>0</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_3</sender>
+   <signal>clicked()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>correct()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>250</x>
+     <y>529</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>247</x>
+     <y>540</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_4</sender>
+   <signal>clicked()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>save()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>432</x>
+     <y>527</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>429</x>
+     <y>557</y>
     </hint>
    </hints>
   </connection>
@@ -195,5 +269,7 @@
  <slots>
   <slot>eval1()</slot>
   <slot>eval2()</slot>
+  <slot>correct()</slot>
+  <slot>save()</slot>
  </slots>
 </ui>

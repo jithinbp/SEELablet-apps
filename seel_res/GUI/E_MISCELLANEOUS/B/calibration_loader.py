@@ -11,7 +11,7 @@
 """
 from __future__ import print_function
 from SEEL_Apps.utilitiesClass import utilitiesClass
-from .templates import ui_calibration_loader as calibration_loader
+from templates import ui_calibration_loader as calibration_loader
 
 import numpy as np
 from PyQt4 import QtGui,QtCore
@@ -393,9 +393,9 @@ class AppWindow(QtGui.QMainWindow, calibration_loader.Ui_MainWindow,utilitiesCla
 		self.I.resistanceScaling = 1.
 		self.I.SOCKET_CAPACITANCE = 42e-12 #magic number that's usually accurate to +/-2pF for this board design. It should still be calibrated though.
 		item = self.table.item(0,0)
-		item.setText('%.3e'%self.socketCap)
+		item.setText('%.3e'%self.I.SOCKET_CAPACITANCE)
 		item = self.table.item(0,1)
-		item.setText('%.3e'%self.socketCap)
+		item.setText('%.3e'%self.I.SOCKET_CAPACITANCE)
 
 
 	def get_capacitance(self,CR): #read capacitance using various current ranges
@@ -539,12 +539,11 @@ class AppWindow(QtGui.QMainWindow, calibration_loader.Ui_MainWindow,utilitiesCla
 			self.displayDialog('Cap and PCS calibration invalid')
 
 	def upload(self):
-		vals = [self.socketCap]
+		vals = [self.I.SOCKET_CAPACITANCE]
 		for a in range(7):
 			item = self.table.item(a+4,2)
 			vals.append(float(item.text()))
 		cap_and_pcs=self.I.write_bulk_flash(self.I.CAP_AND_PCS,self.stoa('READY'+struct.pack('8f',*vals)))  #READY+calibration_string
-
 		self.I.SOCKET_CAPACITANCE = vals[0]
 		self.I.__calibrate_ctmu__(vals[3:])
 		self.I.DAC.CHANS['PCS'].load_calibration_twopoint(vals[1],vals[2]) #Slope and offset for current source
