@@ -261,6 +261,8 @@ class AppWindow(QtGui.QMainWindow, testing.Ui_MainWindow,utilitiesClass):
 
 	def __del__(self):
 		print ('bye')
+	def closeEvent(self,e):
+		self.save()
 
 	def save(self):
 		p = QtGui.QPixmap.grabWindow(self.tab1.winId())
