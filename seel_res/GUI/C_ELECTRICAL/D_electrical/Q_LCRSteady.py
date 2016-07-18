@@ -19,7 +19,7 @@ import pyqtgraph as pg
 import sys,functools,time
 
 params = {
-'image' : 'LCRsteady.png',
+'image' : 'scope.png',
 'helpfile': 'http://www.electronics-tutorials.ws/capacitor/cap_8.html',
 'name':'LCR Steady State',
 'hint':'''

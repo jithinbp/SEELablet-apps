@@ -31,7 +31,7 @@ import numpy as np
 from PyQt4 import QtCore, QtGui
 
 params = {
-'image' : 'sensors.png',
+'image' : 'ico_sensor.png',
 'name':'Sensor\ntmp Logger',
 'hint':'''
 	Temporary application to monitor MPU6050 and other I2C sensors

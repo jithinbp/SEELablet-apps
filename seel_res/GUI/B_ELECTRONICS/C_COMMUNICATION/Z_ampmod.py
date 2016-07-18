@@ -32,7 +32,7 @@ dacval=0
 from SEEL.commands_proto import *
 
 params = {
-'image' : 'scope.png',
+'image' : 'ampmod.png',
 'name':'Amplitude\nModulation',
 'hint':'Study amplitude modulation using the AD633 analog multiplier IC . W1 is the carrier, and W2 is the modulator waveform'
 }

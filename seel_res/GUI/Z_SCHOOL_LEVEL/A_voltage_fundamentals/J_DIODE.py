@@ -20,7 +20,7 @@ import pyqtgraph as pg
 import sys,functools,time
 
 params = {
-'image' : 'scope.png',
+'image' : 'halfwave.png',
 'name':"Semiconductor\nDiode",
 'hint':'''
 	Study how a diode works by using DC and AC voltage sources<br>

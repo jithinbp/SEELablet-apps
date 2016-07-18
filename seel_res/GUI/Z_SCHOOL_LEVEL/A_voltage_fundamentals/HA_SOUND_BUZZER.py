@@ -21,7 +21,7 @@ import pyqtgraph as pg
 import sys,functools,time
 
 params = {
-'image' : 'scope.png',
+'image' : 'beats.png',
 'name':"Piezo\nBuzzer",
 'hint':'''
 	Using a piezo buzzer with the function generator, and measuring its output using the microphone input

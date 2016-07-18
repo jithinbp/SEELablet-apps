@@ -21,7 +21,7 @@ import sys
 
 
 params = {
-'image' : 'servo.jpg',
+'image' : 'micro.jpg',
 'name' : 'Stepper\nMotors',
 'hint':'''
 	Control 4-wire stepper motors via SQR1-4.<br>

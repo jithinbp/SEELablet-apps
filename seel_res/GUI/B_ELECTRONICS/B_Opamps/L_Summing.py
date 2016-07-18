@@ -20,7 +20,7 @@ import pyqtgraph as pg
 import sys,functools,time
 
 params = {
-'image' : 'clipping.png',
+'image' : 'scope.png',
 'name':"Summing Junction",
 'hint':'''
 	Study summing junctions using op-amps

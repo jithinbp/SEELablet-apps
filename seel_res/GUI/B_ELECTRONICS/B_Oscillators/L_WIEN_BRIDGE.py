@@ -20,7 +20,7 @@ import pyqtgraph as pg
 import sys,functools,time
 
 params = {
-'image' : 'clipping.png',
+'image' : 'ico_osc.png',
 'name':"Wien Bridge\nOscillator",
 'hint':'''
 	Study an op-amp based Wien Bridge Oscillator

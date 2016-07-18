@@ -8,8 +8,7 @@ import sys,time
 from PyQt4 import QtGui, QtCore
 
 params = {
-'image' : 'servo.jpg',
-'helpfile': 'servos.html',
+'image' : 'sg-90.jpg',
 'name':'Servo Motors',
 'hint':'''
 	Control servo motors such as SG-90.<br>

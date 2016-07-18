@@ -20,7 +20,7 @@ import pyqtgraph as pg
 import sys,functools,time
 
 params = {
-'image' : 'acgen.png',
+'image' : 'cap.png',
 'name':"Capacitance\nMeasurement",
 'hint':'''
 	Make a parallel plate capacitor and measure it<br>

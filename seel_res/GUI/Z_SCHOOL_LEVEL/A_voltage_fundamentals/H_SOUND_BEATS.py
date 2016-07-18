@@ -21,7 +21,7 @@ import pyqtgraph as pg
 import sys,functools,time
 
 params = {
-'image' : 'scope.png',
+'image' : 'ampmod.png',
 'name':"Sound Beats\nPhenomenon",
 'hint':'''
 	Using two buzzers set to relatively close frequencies, study the beat phenomenon.

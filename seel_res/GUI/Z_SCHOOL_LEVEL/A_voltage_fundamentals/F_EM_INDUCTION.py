@@ -38,7 +38,7 @@ class AppWindow(QtGui.QMainWindow, template_graph_nofft.Ui_MainWindow,utilitiesC
 		self.math = analyticsClass()
 		self.prescalerValue=0
 
-		self.plot=self.add2DPlot(self.plot_area,enableMenu=False); self.plot.setMouseEnabled(False,False)
+		self.plot=self.add2DPlot(self.plot_area,enableMenu=False); self.plot.setMouseEnabled(False,True)
 		labelStyle = {'color': 'rgb(255,255,255)', 'font-size': '11pt'}
 		self.plot.setLabel('left','Voltage', units='V',**labelStyle)
 		self.plot.setLabel('bottom','Time', units='S',**labelStyle)
@@ -74,6 +74,7 @@ class AppWindow(QtGui.QMainWindow, template_graph_nofft.Ui_MainWindow,utilitiesC
 		self.num+=1
 		if self.num%10==0:
 			self.curve1.setData(self.X,self.Y)
+			self.plot.enableAutoRange(axis = self.plot.plotItem.vb.XAxis)
 
 
 	def saveData(self):

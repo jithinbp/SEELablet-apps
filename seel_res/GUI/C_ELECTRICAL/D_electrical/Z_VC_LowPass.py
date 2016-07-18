@@ -21,7 +21,7 @@ from SEEL_Apps.templates import ui_template_bandpass as template_bandpass
 import numpy as np
 
 params = {
-'image' : 'bodeplot.jpg',
+'image' : 'ico_bode.jpg',
 'name':'Voltage\nControlled\nLow-Pass Filter',
 'hint':'''
 	Make and Study a voltage controlled low pass filter using an analog multiplier IC such as AD633.<br>

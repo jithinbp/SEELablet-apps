@@ -19,7 +19,7 @@ import pyqtgraph as pg
 import sys,functools,time
 
 params = {
-'image' : 'halfwave.png',
+'image' : '.png',
 'name':'Ramp\nGenerator',
 'hint':'''
 	An Op-Amp based linear ramp generator that integrates a step signal issued via SQR1 to make a smooth ramp output.<br>

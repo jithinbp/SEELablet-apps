@@ -21,7 +21,7 @@ import pyqtgraph as pg
 import sys,functools,time
 
 params = {
-'image' : 'acgen.png',
+'image' : 'res.png',
 'name':"Human Body's\nResistance",
 'hint':'''
 	Observe that your skin has non zero electrical resistance. 

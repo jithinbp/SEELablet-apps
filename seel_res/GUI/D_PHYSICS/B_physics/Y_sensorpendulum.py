@@ -17,8 +17,7 @@ import pyqtgraph as pg
 import sys
 
 params = {
-'image' : 'transient.png',
-#'helpfile': 'https://en.wikipedia.org/wiki/LC_circuit',
+'image' : 'ico_sensor.png',
 'name':'MPU6050 IMU\nPendulum',
 'hint':'''
 	Use an accelerometer and gyroscope(MPU6050) to study position versus time, and velocity versus time of pendulums.

@@ -22,7 +22,7 @@ from .templates import ui_wirelessTemplate as wirelessTemplate
 import time,sys,functools
 
 params = {
-'image' : 'stream.png',
+'image' : 'ico_sensor_w.png',
 'helpfile': 'http://seelablet.jithinbp.in',
 'name':'wireless\nsensors',
 'hint':'''

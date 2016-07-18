@@ -21,7 +21,7 @@ import pyqtgraph as pg
 import sys,functools,time
 
 params = {
-'image' : 'scope.png',
+'image' : 'ampmod.png',
 'name':"Frequency of\nSound",
 'hint':'''
 	Study various sounds, and analyze their frequencies

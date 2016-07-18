@@ -21,7 +21,7 @@ import sys,functools,time
 import random
 
 params = {
-'image' : 'random_sampling.png',
+'image' : 'ico_random.png',
 'name':"Random\nSampling",
 'hint':'''
 	measure voltages of an input signal at random intervals, and plot a histogram that shows the time spent in each amplitude range	

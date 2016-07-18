@@ -20,7 +20,7 @@ import pyqtgraph as pg
 import sys,functools,time
 
 params = {
-'image' : '',
+'image' : 'ldr.png',
 'name':"Light Dependent\nResistor",
 'hint':'''
 	Observe the workings of a light dependent Resistor.<br>

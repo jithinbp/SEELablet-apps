@@ -20,7 +20,7 @@ import pyqtgraph as pg
 import sys,functools
 
 params = {
-'image' : 'clipping.png',
+'image' : 'res.png',
 'name':"Ohm's Law",
 'hint':'''
 	Study Ohm's Law using resistors and the programmable current source(PCS).<br>

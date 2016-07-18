@@ -38,7 +38,7 @@ dacval=0
 
 
 params = {
-'image' : 'stream.png',
+'image' : 'scope.png',
 'name':'Testing',
 'hint':'A continuous data acquisition utility to visualize time dependent behaviour of any of the measurement functions contained in the SEELablet python library.\nThese include get_freq,get_capacitance, and get_average_voltage'
 }

@@ -19,7 +19,7 @@ import pyqtgraph as pg
 import sys,functools,os,random,struct,time
 
 params = {
-'image' : 'sensors.png',
+'image' : 'calib.png',
 'name':'Calibration\nLoader',
 'hint':'A utility to process the calibration data obtained using calibrator utility, and write them to flash. Not for regular users!\nAlso allow recalibrating capacitance measurements'
 

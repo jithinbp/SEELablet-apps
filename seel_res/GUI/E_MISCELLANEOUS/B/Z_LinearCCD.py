@@ -19,7 +19,7 @@ import pyqtgraph as pg
 import sys,functools,time
 
 params = {
-'image' : 'halfwave.png',
+'image' : 'tcd.png',
 'name':'TCD1304AP\nCCD',
 'hint':'''
 	Acquire and plot data from a linear CCD array TCD1304AP.<br>

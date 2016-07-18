@@ -20,7 +20,7 @@ import pyqtgraph as pg
 import sys,functools,time
 
 params = {
-'image' : 'scope.png',
+'image' : 'water.png',
 'name':"Resistance of\nWater",
 'hint':'''
 	Measure the AC , and DC resistance of water.

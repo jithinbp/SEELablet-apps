@@ -19,7 +19,7 @@ import pyqtgraph as pg
 import sys,functools,time
 
 params = {
-'image' : 'halfwave.png',
+'image' : 'ico_mono.png',
 'name':'Speed of\nSound',
 'hint':'''
 	Measure speed of sound using a 40KHz transmit piezo and receiver.<br>

@@ -30,7 +30,7 @@ import numpy as np
 from PyQt4 import QtCore, QtGui
 
 params = {
-'image' : 'sensors.png',
+'image' : 'ico_sensor.png',
 'name':'Sensor\nData Logger',
 'hint':'''
 	Plot values returned by sensors connected to the I2C input.</br>

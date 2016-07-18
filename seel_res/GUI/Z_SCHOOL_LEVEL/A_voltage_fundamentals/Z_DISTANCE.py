@@ -20,7 +20,7 @@ import pyqtgraph as pg
 import sys,functools,time
 
 params = {
-'image' : 'acgen.png',
+'image' : 'HCSR04.png',
 'name':"Ultrasonic\nRange Finder",
 'hint':'''
 	Measure distances using an ultrasound based distance sensor HC-SR04<br> This sensor measures distances to flat surfaces placed in front of it by bouncing sound pulses off it, and measuring the round trip delay

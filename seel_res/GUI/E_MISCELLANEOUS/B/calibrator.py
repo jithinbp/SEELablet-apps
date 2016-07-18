@@ -31,7 +31,7 @@ import sys,functools,os,random,struct,time,serial.tools.list_ports
 
 
 params = {
-'image' : 'sensors.png',
+'image' : 'calib.png',
 'name':'Device\nCalibrator',
 'hint':'''Calibrate your device using a plugged in AD7718 24-bit ADC and save values to a directory. Use the calibration loader utility to process the results and write to flash. Not for regular users!
 	AIN7AINCOM: Connected to AN8 , PV3 

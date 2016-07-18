@@ -21,7 +21,7 @@ from SEEL_Apps.templates import ui_template_bandpass as template_bandpass
 import numpy as np
 
 params = {
-'image' : 'bodeplot.jpg',
+'image' : 'ico_bode.jpg',
 'helpfile': 'transistorCE.html',
 'name':'Filter\nCharacteristics',
 'hint':'''

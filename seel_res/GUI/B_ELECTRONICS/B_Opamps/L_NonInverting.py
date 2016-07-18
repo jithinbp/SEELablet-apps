@@ -19,7 +19,7 @@ import pyqtgraph as pg
 import sys,functools,time
 
 params = {
-'image' : 'halfwave.png',
+'image' : 'ico_transamp.png',
 'name':'Non-Inverting\nOp-Amp',
 'hint':'''
 	Study Op-Amps in Non-inverting configuration.<br>

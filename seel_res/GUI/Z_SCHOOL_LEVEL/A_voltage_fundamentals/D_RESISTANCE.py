@@ -20,7 +20,7 @@ import pyqtgraph as pg
 import sys,functools,time
 
 params = {
-'image' : 'acgen.png',
+'image' : 'res.png',
 'name':"Resistance\nMeasurement",
 'hint':'''
 	Study resistors in series and parallel. Cross check with theory<br>

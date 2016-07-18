@@ -20,7 +20,7 @@ import pyqtgraph as pg
 import sys,functools,time
 
 params = {
-'image' : 'acgen.png',
+'image' : 'cap.png',
 'name':"Capacitor\nDischarge",
 'hint':'''
 	Observe the voltage across a slowly discharging capacitor.<br>Also study how charge distributes across capacitors connected in parallel

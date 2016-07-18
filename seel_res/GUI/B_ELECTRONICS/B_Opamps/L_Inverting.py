@@ -19,7 +19,7 @@ import pyqtgraph as pg
 import sys,functools,time
 
 params = {
-'image' : 'halfwave.png',
+'image' : 'scope.png',
 'name':'Inverting\nOp-Amp',
 'hint':'''
 
