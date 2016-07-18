@@ -18,7 +18,7 @@ from SEEL_Apps.templates import ui_template_bandpass as template_bandpass
 import numpy as np
 
 params = {
-'image' : 'ico_bode.jpg',
+'image' : 'ico_bode.png',
 'helpfile': 'transistorCE.html',
 'name':'Piezo Bandwidth\nCharacteristics',
 'hint':'''
