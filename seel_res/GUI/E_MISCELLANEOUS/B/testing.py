@@ -36,6 +36,9 @@ class AppWindow(QtGui.QMainWindow, testing.Ui_MainWindow,utilitiesClass):
 		self.I=kwargs.get('I',None)
 		self.I.set_wave('W1',1e3) #1KHz test
 		self.I.set_wave('W2',1e3) #1KHz test
+		self.I.select_range('CH1',8)
+		self.I.select_range('CH2',8)
+
 		cap_and_pcs=self.I.read_bulk_flash(self.I.CAP_AND_PCS,8*4+5)  #READY+calibration_string
 		if cap_and_pcs[:5]=='READY':
 			self.scalers = list(struct.unpack('8f',cap_and_pcs[5:]))
@@ -221,7 +224,7 @@ class AppWindow(QtGui.QMainWindow, testing.Ui_MainWindow,utilitiesClass):
 		for a in np.linspace(*rng):
 			actuals.append( self.I.DAC.setVoltage(DAC,a) )
 			time.sleep(0.001)
-			read.append (self.I.get_voltage(ADC,samples=5) )
+			read.append (self.I.get_average_voltage(ADC,samples=5) )
 		read = np.array(read)
 		actuals = np.array(actuals)
 		self.DacCurves[DAC].setData(actuals,read-actuals)
@@ -243,7 +246,7 @@ class AppWindow(QtGui.QMainWindow, testing.Ui_MainWindow,utilitiesClass):
 		for a in np.linspace(.2e-3,1.5e-3,20):
 			actuals.append( self.I.DAC.setCurrent(a) )
 			time.sleep(0.001)
-			read.append (self.I.get_voltage('CH3',samples=5))
+			read.append (self.I.get_average_voltage('CH3',samples=5))
 		read = np.array(read)/resistance 
 		actuals = np.array(actuals)
 		sread = read*1e3
@@ -261,7 +264,6 @@ class AppWindow(QtGui.QMainWindow, testing.Ui_MainWindow,utilitiesClass):
 
 	def __WCH__(self,WG,ADC,row):
 		self.I.set_wave(WG,1e3) #1KHz test
-		self.I.select_range(ADC,4)
 		x,y = self.I.capture1(ADC,1000,5)#get about five cycles
 		self.WCurves[WG].setData(x,y)
 		self.tbl.item(row,0).setText('1 KHz')
