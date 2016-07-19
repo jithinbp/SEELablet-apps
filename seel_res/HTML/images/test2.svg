@@ -9,9 +9,9 @@
    xmlns="http://www.w3.org/2000/svg"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="20.168663mm"
-   height="19.686064mm"
-   viewBox="0 0 71.463767 69.753769"
+   width="20.259363mm"
+   height="28.895378mm"
+   viewBox="0 0 71.785145 102.3852"
    id="svg10254"
    version="1.1"
    inkscape:version="0.91 r13725"
@@ -25,9 +25,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="0.35"
-     inkscape:cx="-622.12526"
-     inkscape:cy="-50.837401"
+     inkscape:zoom="5.6"
+     inkscape:cx="35.175423"
+     inkscape:cy="46.462118"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
@@ -440,6 +440,224 @@
          inkscape:connector-curvature="0"
          d="m 49250,14250 -3000,0"
          id="path2088" />
+    </g>
+    <g
+       style="fill:#840000;fill-opacity:0;stroke:#840000;stroke-width:60;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1"
+       id="g1736"
+       inkscape:export-xdpi="112.198"
+       inkscape:export-ydpi="112.198"
+       transform="matrix(0.00899999,0,0,0.00899999,-3.3906051,312.64586)">
+      <path
+         d="m 34420,19960 -30,30 -90,30 -60,0 -80,-30 -60,-50 -30,-60 -30,-120 0,-80 30,-120 30,-50 60,-60 80,-30 60,0 90,30 30,30"
+         id="path1738"
+         inkscape:connector-curvature="0" />
+      <path
+         d="m 34640,19850 290,0"
+         id="path1740"
+         inkscape:connector-curvature="0" />
+      <path
+         d="m 34590,20020 200,-600 200,600"
+         id="path1742"
+         inkscape:connector-curvature="0" />
+      <path
+         d="m 35180,20020 0,-600 230,0 60,30 30,30 30,60 0,80 -30,60 -30,30 -60,30 -230,0"
+         id="path1744"
+         inkscape:connector-curvature="0" />
+    </g>
+    <g
+       style="fill:#840000;fill-opacity:0;stroke:#840000;stroke-width:100;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1"
+       id="g1746"
+       inkscape:export-xdpi="112.198"
+       inkscape:export-ydpi="112.198"
+       transform="matrix(0.00899999,0,0,0.00899999,-3.3906051,312.64586)">
+      <polyline
+         fill="none;"
+         points="36000,19750 35700,19210 33700,19210 33700,19750 33700,20290 35700,20290 36000,19750 "
+         id="polyline1748" />
+    </g>
+    <g
+       style="fill:#840000;fill-opacity:0;stroke:#840000;stroke-width:60;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1"
+       id="g1750"
+       inkscape:export-xdpi="112.198"
+       inkscape:export-ydpi="112.198"
+       transform="matrix(0.00899999,0,0,0.00899999,-7.3906051,312.64586)">
+      <path
+         d="m 40320,19450 -60,-30 -90,0 -80,30 -60,60 -30,50 -30,120 0,80 30,120 30,60 60,50 80,30 60,0 90,-30 30,-30 0,-200 -120,0"
+         id="path1752"
+         inkscape:connector-curvature="0" />
+      <path
+         d="m 40600,20020 0,-600 350,600 0,-600"
+         id="path1754"
+         inkscape:connector-curvature="0" />
+      <path
+         d="m 41230,20020 0,-600 150,0 80,30 60,60 30,50 30,120 0,80 -30,120 -30,60 -60,50 -80,30 -150,0"
+         id="path1756"
+         inkscape:connector-curvature="0" />
+    </g>
+    <g
+       style="fill:#840000;fill-opacity:0;stroke:#840000;stroke-width:100;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1"
+       id="g1758"
+       inkscape:export-xdpi="112.198"
+       inkscape:export-ydpi="112.198"
+       transform="matrix(0.00899999,0,0,0.00899999,-7.3906051,312.64586)">
+      <polyline
+         fill="none;"
+         points="39500,19750 39800,20290 41920,20290 41920,19750 41920,19210 39800,19210 39500,19750 "
+         id="polyline1760" />
+    </g>
+    <g
+       style="fill:#840000;fill-opacity:0;stroke:#840000;stroke-width:200;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1"
+       id="g1764"
+       inkscape:export-xdpi="112.198"
+       inkscape:export-ydpi="112.198"
+       transform="matrix(0.00899999,0,0,0.00899999,-5.3906051,312.64586)">
+      <polyline
+         fill="none;"
+         points="38050,20550 38050,18950 "
+         id="polyline1766" />
+      <polyline
+         fill="none;"
+         points="37450,20550 37450,18950 "
+         id="polyline1768" />
+    </g>
+    <g
+       style="fill:#840000;fill-opacity:0;stroke:#840000;stroke-width:60;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1"
+       id="g1770"
+       inkscape:export-xdpi="112.198"
+       inkscape:export-ydpi="112.198"
+       transform="matrix(0.00899999,0,0,0.00899999,-5.3906051,312.64586)">
+      <path
+         d="m 37350,19750 -1100,0"
+         id="path1772"
+         inkscape:connector-curvature="0" />
+      <path
+         d="m 38150,19750 1100,0"
+         id="path1774"
+         inkscape:connector-curvature="0" />
+    </g>
+    <g
+       style="fill:#840000;fill-opacity:0;stroke:#840000;stroke-width:100;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1"
+       id="g1680"
+       inkscape:export-xdpi="112.198"
+       inkscape:export-ydpi="112.198"
+       transform="matrix(0.00899999,0,0,0.00899999,-7.5829349,344.59642)">
+      <rect
+         x="37000"
+         y="17850"
+         width="2000"
+         height="800"
+         rx="0"
+         id="rect1682" />
+    </g>
+    <g
+       style="fill:#840000;fill-opacity:0;stroke:#840000;stroke-width:60;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1"
+       id="g1684"
+       inkscape:export-xdpi="112.198"
+       inkscape:export-ydpi="112.198"
+       transform="matrix(0.00899999,0,0,0.00899999,-7.5829349,344.59642)">
+      <path
+         d="m 37000,18250 -500,0"
+         id="path1686"
+         inkscape:connector-curvature="0" />
+      <path
+         d="m 39000,18250 500,0"
+         id="path1688"
+         inkscape:connector-curvature="0" />
+    </g>
+    <g
+       style="fill:#008484;fill-opacity:0;stroke:#008484;stroke-width:60;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1"
+       id="g1690"
+       inkscape:export-xdpi="112.198"
+       inkscape:export-ydpi="112.198"
+       transform="matrix(0.00899999,0,0,0.00899999,-7.5829349,344.59642)">
+      <path
+         d="m 37650,18510 -280,0"
+         id="path1692"
+         inkscape:connector-curvature="0" />
+      <path
+         d="m 37510,18510 0,-500 -50,70 -50,50 -40,20"
+         id="path1694"
+         inkscape:connector-curvature="0" />
+      <path
+         d="m 37960,18010 50,0 50,20 20,20 30,50 20,100 0,120 -20,90 -30,50 -20,20 -50,30 -50,0 -40,-30 -30,-20 -20,-50 -20,-90 0,-120 20,-100 20,-50 30,-20 40,-20"
+         id="path1696"
+         inkscape:connector-curvature="0" />
+      <path
+         d="m 38350,18510 0,-500"
+         id="path1698"
+         inkscape:connector-curvature="0" />
+      <path
+         d="m 38630,18510 -210,-290"
+         id="path1700"
+         inkscape:connector-curvature="0" />
+      <path
+         d="m 38630,18010 -280,280"
+         id="path1702"
+         inkscape:connector-curvature="0" />
+    </g>
+    <g
+       style="fill:#840000;fill-opacity:0;stroke:#840000;stroke-width:60;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1"
+       id="g1704"
+       inkscape:export-xdpi="112.198"
+       inkscape:export-ydpi="112.198"
+       transform="matrix(0.00899999,0,0,0.00899999,-3.5829349,344.59642)">
+      <path
+         d="m 34010,18490 90,30 140,0 60,-30 30,-30 30,-50 0,-60 -30,-60 -30,-30 -60,-20 -110,-30 -60,-30 -30,-30 -30,-60 0,-50 30,-60 30,-30 60,-30 140,0 90,30"
+         id="path1706"
+         inkscape:connector-curvature="0" />
+      <path
+         d="m 34610,18210 200,0"
+         id="path1708"
+         inkscape:connector-curvature="0" />
+      <path
+         d="m 34900,18520 -290,0 0,-600 290,0"
+         id="path1710"
+         inkscape:connector-curvature="0" />
+      <path
+         d="m 35150,18520 0,-600 350,600 0,-600"
+         id="path1712"
+         inkscape:connector-curvature="0" />
+    </g>
+    <g
+       style="fill:#840000;fill-opacity:0;stroke:#840000;stroke-width:100;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1"
+       id="g1714"
+       inkscape:export-xdpi="112.198"
+       inkscape:export-ydpi="112.198"
+       transform="matrix(0.00899999,0,0,0.00899999,-3.5829349,344.59642)">
+      <polyline
+         fill="none;"
+         points="36000,18250 35700,17710 33670,17710 33670,18250 33670,18790 35700,18790 36000,18250 "
+         id="polyline1716" />
+    </g>
+    <g
+       style="fill:#840000;fill-opacity:0;stroke:#840000;stroke-width:60;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1"
+       id="g1718"
+       inkscape:export-xdpi="112.198"
+       inkscape:export-ydpi="112.198"
+       transform="matrix(0.00899999,0,0,0.00899999,-7.5829349,344.59642)">
+      <path
+         d="m 40320,17950 -60,-30 -90,0 -80,30 -60,60 -30,50 -30,120 0,80 30,120 30,60 60,50 80,30 60,0 90,-30 30,-30 0,-200 -120,0"
+         id="path1720"
+         inkscape:connector-curvature="0" />
+      <path
+         d="m 40600,18520 0,-600 350,600 0,-600"
+         id="path1722"
+         inkscape:connector-curvature="0" />
+      <path
+         d="m 41230,18520 0,-600 150,0 80,30 60,60 30,50 30,120 0,80 -30,120 -30,60 -60,50 -80,30 -150,0"
+         id="path1724"
+         inkscape:connector-curvature="0" />
+    </g>
+    <g
+       style="fill:#840000;fill-opacity:0;stroke:#840000;stroke-width:100;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1"
+       id="g1726"
+       inkscape:export-xdpi="112.198"
+       inkscape:export-ydpi="112.198"
+       transform="matrix(0.00899999,0,0,0.00899999,-7.5829349,344.59642)">
+      <polyline
+         fill="none;"
+         points="39500,18250 39800,18790 41920,18790 41920,18250 41920,17710 39800,17710 39500,18250 "
+         id="polyline1728" />
     </g>
   </g>
 </svg>

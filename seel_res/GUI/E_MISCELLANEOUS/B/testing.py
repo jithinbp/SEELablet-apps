@@ -52,6 +52,7 @@ class AppWindow(QtGui.QMainWindow, testing.Ui_MainWindow,utilitiesClass):
 		for a in range(50):
 			for b in range(3):
 				item = QtGui.QTableWidgetItem();self.tbl.setItem(a,b,item);	item.setText('')
+		self.group1size = 6
 		self.tests = [
 		['I2C scan',[96],self.I2CScan],
 		['SQR-ID',1e6,self.SQRID],
@@ -66,7 +67,6 @@ class AppWindow(QtGui.QMainWindow, testing.Ui_MainWindow,utilitiesClass):
 		['W2-CH2',1e3,self.W2CH2],
 		['PCS-CH3',1e3,self.PCSCH3],
 		]
-		self.group1size = 6
 		self.tbl.setVerticalHeaderLabels([row[0] for row in self.tests])
 		self.tbl.setHorizontalHeaderLabels(['Expected','read',''])
 		self.tbl.setColumnWidth(0, 80)
