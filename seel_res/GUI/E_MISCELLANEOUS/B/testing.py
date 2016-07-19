@@ -162,6 +162,35 @@ class AppWindow(QtGui.QMainWindow, testing.Ui_MainWindow,utilitiesClass):
 			item.setText('Open')
 			self.setSuccess(item,0) 
 
+	def get_capacitance(self,CR): #read capacitance using various current ranges
+		GOOD_VOLTS=[2.5,2.8]
+		CT=10
+		iterations = 0
+		start_time=time.time()
+		try:
+			while (time.time()-start_time)<1:
+				if CT>65000:
+					self.displayDialog('CT too high')
+					return 0
+				V,C = self.I.__get_capacitance__(CR,0,CT)
+				if V>GOOD_VOLTS[0] and V<GOOD_VOLTS[1]:
+					print ('Done',V,C)
+					return C
+				elif CT>30000 and V<0.1:
+					self.displayDialog('Capacitance too high for this method')
+					return 0
+				elif V<GOOD_VOLTS[0] and V>0.01 and CT<30000:
+					if GOOD_VOLTS[0]/V >1.1 and iterations<10:
+						CT=int(CT*GOOD_VOLTS[0]/V)
+						iterations+=1
+					elif iterations==10:
+						return 0
+					else:
+						print ('Done',V,C,CT)
+						return C
+		except Exception as  ex:
+			self.displayDialog(ex.message)
+
 	def CAP_SOCK(self,row):
 		cap = self.I.get_capacitance()
 		item = self.tbl.item(row,1)
@@ -172,11 +201,19 @@ class AppWindow(QtGui.QMainWindow, testing.Ui_MainWindow,utilitiesClass):
 		else :	self.setSuccess(item,0) 
 
 	def CAP(self,row):
-		res = self.I.get_capacitance()
-		print (res)
-		item = self.tbl.item(row,1)
-		item.setText(self.applySIPrefix(res,'F'))
-		if abs(res-float(self.tbl.item(row,0).text() ))<self.CAPACITANCE_ERROR : self.setSuccess(item,1) #capacitance within error margins
+		actual = float(self.tbl.item(row,0).text() )
+		cap1 = self.get_capacitance(1)
+		self.I.__charge_cap__(0,50000)
+		cap2 = self.get_capacitance(2)
+		if cap1 and cap2:
+			item = self.tbl.item(row,1)
+			item.setText('%s,%s'%(self.applySIPrefix(cap1,'F'),self.applySIPrefix(cap2,'F')))
+			self.CR1 = cap1/actual
+			self.CR2 = cap2/actual
+		else:
+			self.displayDialog ("Capacitance invalid. \nIf a 330pF capacitor is plugged correctly into CAP socket, this may be an issue.")
+
+		if abs(cap1-actual)<self.CAPACITANCE_ERROR : self.setSuccess(item,1) #capacitance within error margins
 		else :	self.setSuccess(item,0) 
 
 	def __PVCH__(self,DAC,ADC,row,rng):
@@ -249,10 +286,10 @@ class AppWindow(QtGui.QMainWindow, testing.Ui_MainWindow,utilitiesClass):
 		self.scalers[3] = self.scalers[3]*self.RESISTANCE_SCALING
 		self.scalers[4]*=self.CR0;self.scalers[5]*=self.CR1;self.scalers[6]*=self.CR2;self.scalers[7]*=self.CR3;
 		
-		self.displayDialog('loading %s\n%s\n%s'%(self.scalers,self.PCS_SLOPE,self.PCS_OFFSET))
+		self.displayDialog('loading %s\nPCS SLOPE:%s\nPCS OFFSET:%s\nCR0 : %.3f\nCR1 : %.3f\nCR2 : %.3f\nCR3 : %.3f\nRES : %.3f\n'%(self.scalers,self.PCS_SLOPE,self.PCS_OFFSET,self.CR0,self.CR1,self.CR2,self.CR3,self.RESISTANCE_SCALING))
 		cap_and_pcs=self.I.write_bulk_flash(self.I.CAP_AND_PCS,self.I.__stoa__('READY'+struct.pack('8f',*self.scalers)))  #READY+calibration_string
 		self.I.SOCKET_CAPACITANCE = self.scalers[0]
-		self.I.__calibrate_ctmu__(self.scalers[3:])
+		self.I.__calibrate_ctmu__(self.scalers[4:])
 		self.I.DAC.CHANS['PCS'].load_calibration_twopoint(self.scalers[1],self.scalers[2]) #Slope and offset for current source
 		self.I.resistanceScaling = self.scalers[3]
 		self.G2Tests['SEN']()

@@ -545,7 +545,7 @@ class AppWindow(QtGui.QMainWindow, calibration_loader.Ui_MainWindow,utilitiesCla
 			vals.append(float(item.text()))
 		cap_and_pcs=self.I.write_bulk_flash(self.I.CAP_AND_PCS,self.stoa('READY'+struct.pack('8f',*vals)))  #READY+calibration_string
 		self.I.SOCKET_CAPACITANCE = vals[0]
-		self.I.__calibrate_ctmu__(vals[3:])
+		self.I.__calibrate_ctmu__(vals[4:])
 		self.I.DAC.CHANS['PCS'].load_calibration_twopoint(vals[1],vals[2]) #Slope and offset for current source
 		self.I.resistanceScaling = vals[3]
 
