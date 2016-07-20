@@ -372,7 +372,7 @@ class MyMainWindow(QtGui.QMainWindow, single_col_exp.Ui_MainWindow,utilitiesClas
 						self.I.connected = False
 
 			elif len(self.menu_entries):
-				reply = QtGui.QMessageBox.question(self, 'Connection', 'New Device Found. Connect?', QtGui.QMessageBox.No, QtGui.QMessageBox.Yes)
+				reply = QtGui.QMessageBox.question(self, 'Connection', 'New Device Found. Connect?', QtGui.QMessageBox.Yes, QtGui.QMessageBox.No)
 				if reply == QtGui.QMessageBox.Yes:
 					print (reply)
 					self.selectDevice()

@@ -22,7 +22,6 @@ params = {
 'image' : '',
 'name':'Device\nTesting',
 'hint':"A utility to test the device's features.\n These include digital I/O, analog I/O, capacitance measurement, Resistance, W1,W2 and I2C port."
-
 }
 
 
@@ -45,7 +44,19 @@ class AppWindow(QtGui.QMainWindow, testing.Ui_MainWindow,utilitiesClass):
 		else:
 			self.displayDialog('Cap and PCS calibration invalid')
 			self.scalers = [self.I.SOCKET_CAPACITANCE,1,0,1,1,1,1,1]
-		
+
+		self.original_slopes = self.I.read_bulk_flash(self.I.ADC_POLYNOMIALS_LOCATION,2048)
+		self.POLY = self.original_slopes.split('STOP')
+		self.DAC_CALS = {}
+		self.DAC_CHANS=[]
+		self.DAC_RELOADS = {}
+		if self.POLY[0][:9]!='SEELablet':
+			self.displayDialog('ADC and DAC not calibrated')
+		else:
+			for a in self.POLY[1].split('>|')[1:] :
+				self.DAC_CALS[a[:3]] = a[5:]
+				self.DAC_CHANS.append(a[:3])
+
 		
 		from SEEL.analyticsClass import analyticsClass
 		self.math = analyticsClass()
@@ -60,9 +71,9 @@ class AppWindow(QtGui.QMainWindow, testing.Ui_MainWindow,utilitiesClass):
 		['I2C scan',[96],self.I2CScan],
 		['SQR-ID',1e6,self.SQRID],
 		['CAP_SOCK',0,self.CAP_SOCK],
-		['PV1-CH1','graph',self.PV1CH1],
-		['PV2-CH2','graph',self.PV2CH2],
-		['PV3-CH3','graph',self.PV3CH3],
+		['PV1-CH1','graph',self.PV1CH1,self.fixPV1CH1],
+		['PV2-CH2','graph',self.PV2CH2,self.fixPV2CH2],
+		['PV3-CH3','graph',self.PV3CH3,self.fixPV3CH3],
 		#group 2 begins
 		['SEN',1e3,self.SEN],
 		['CAP',329.5e-12,self.CAP],
@@ -71,7 +82,7 @@ class AppWindow(QtGui.QMainWindow, testing.Ui_MainWindow,utilitiesClass):
 		['PCS-CH3',1e3,self.PCSCH3],
 		]
 		self.tbl.setVerticalHeaderLabels([row[0] for row in self.tests])
-		self.tbl.setHorizontalHeaderLabels(['Expected','read',''])
+		self.tbl.setHorizontalHeaderLabels(['Expected','read','','More'])
 		self.tbl.setColumnWidth(0, 80)
 		self.tbl.setColumnWidth(1, 150)
 		
@@ -92,6 +103,10 @@ class AppWindow(QtGui.QMainWindow, testing.Ui_MainWindow,utilitiesClass):
 			else: self.G2Tests[self.tests[n][0]]=(fn)
 			item = QtGui.QPushButton();item.setText('test'); item.clicked.connect(fn)
 			self.tbl.setCellWidget(n, 2, item)
+			if len(self.tests[n])==4:
+				fn = functools.partial(self.tests[n][3],n)
+				item = QtGui.QPushButton();item.setText('Recal'); item.clicked.connect(fn)
+				self.tbl.setCellWidget(n, 3, item)
 
 
 
@@ -108,6 +123,7 @@ class AppWindow(QtGui.QMainWindow, testing.Ui_MainWindow,utilitiesClass):
 		self.rebuildLegend(self.DACPLOT)
 		for a in self.I.DAC.CHANS:
 			self.DacCurves[a] = self.addCurve(self.DACPLOT,a)
+		self.p1 = self.addCurve(self.DACPLOT,'tmp')
 
 		self.WCurves={}
 		self.rebuildLegend(self.WPLOT)
@@ -115,10 +131,9 @@ class AppWindow(QtGui.QMainWindow, testing.Ui_MainWindow,utilitiesClass):
 			self.WCurves[a] = self.addCurve(self.WPLOT,a)
 
 
-
 	def setSuccess(self,item,val):
-		if val : item.setBackground(QtCore.Qt.green);
-		else:item.setBackground(QtCore.Qt.red);
+		if val : item.setBackground(QtCore.Qt.green)
+		else:item.setBackground(QtCore.Qt.red)
 
 	def I2CScan(self,row):
 		res = self.I.I2C.scan()
@@ -138,7 +153,7 @@ class AppWindow(QtGui.QMainWindow, testing.Ui_MainWindow,utilitiesClass):
 			avg = np.average(res)
 			item.setText('%.3e'%avg)
 			if abs(avg-float(self.tbl.item(row,0).text() ))<20:	 self.setSuccess(item,1)
-			else:	 self.setSuccess(item,1)				
+			else:	 self.setSuccess(item,0)				
 		except Exception as e:
 			print (e)
 			item.setText('failed'); self.setSuccess(item,0)
@@ -223,7 +238,7 @@ class AppWindow(QtGui.QMainWindow, testing.Ui_MainWindow,utilitiesClass):
 		actuals=[];read=[]
 		for a in np.linspace(*rng):
 			actuals.append( self.I.DAC.setVoltage(DAC,a) )
-			time.sleep(0.001)
+			#time.sleep(0.001)
 			read.append (self.I.get_average_voltage(ADC,samples=5) )
 		read = np.array(read)
 		actuals = np.array(actuals)
@@ -232,13 +247,79 @@ class AppWindow(QtGui.QMainWindow, testing.Ui_MainWindow,utilitiesClass):
 		self.tbl.item(row,1).setText(string.join(['%.3f'%a for a in read-actuals],' '))
 		if np.any(abs(read-actuals)>10e-3):self.setSuccess(self.tbl.item(row,1),0)
 		else: self.setSuccess(self.tbl.item(row,1),1)
+
+	def __RegenPOLY__(self):
+		#print ('#################\n\n',self.DAC_CALS.keys(),'\n\n',self.POLY[1])
+		self.POLY[1] = ''
+		for a in self.DAC_CHANS:
+			self.POLY[1]+='>|'+a+'|<'
+			self.POLY[1]+=self.DAC_CALS[a]
+		#print ('#################\n\n',self.POLY[1])
+	def __resavePOLY__(self):
+		self.__RegenPOLY__()
+		polystr = self.I.__stoa__(string.join(self.POLY,'STOP'))
+		print (list(np.array(self.I.__stoa__(self.original_slopes))-np.array(polystr)))
+		print('Writing slopes and offsets to Flash.....'+str(len(polystr)))
+		self.I.write_bulk_flash(self.I.ADC_POLYNOMIALS_LOCATION,polystr)
 		
+
+	def __fixPVCH__(self,DAC,ADC,row):
+		reply = QtGui.QMessageBox.question(self, 'Recalibrating...', 'Wait for 20 seconds or so?', QtGui.QMessageBox.Yes, QtGui.QMessageBox.No)
+		if reply == QtGui.QMessageBox.No:
+			return
+		self.I.DAC.__ignoreCalibration__(DAC)
+		correct=np.zeros(4096)
+		for a in range(4096):
+			self.I.DAC.__setRawVoltage__(DAC,a) 
+			correct[a] = self.I.get_average_voltage(ADC,samples=5) 
+		CHAN = self.I.DAC.CHANS[DAC]
+		X= np.linspace(CHAN.range[0],CHAN.range[1],4096)
+		
+		fitvals = np.polyfit(X,correct,3)
+		fitfn = np.poly1d(fitvals)
+		DIFF = (fitfn(X)-correct)
+		intercept = DIFF.min()
+		slope = (DIFF.max()-DIFF.min())/255.
+		OFF = np.int16((( DIFF-intercept)/slope)) # compress the errors into an unsigned BYTE each
+		print (min(OFF),max(OFF),len(OFF))
+
+		self.p1.setData(X,correct-X)
+		self.DACPLOT.enableAutoRange(axis = self.DACPLOT.plotItem.vb.YAxis)
+		reply = QtGui.QMessageBox.question(self, 'Cross Check','Does the plot look okay? proceed with writing to flash?', QtGui.QMessageBox.Yes, QtGui.QMessageBox.No)
+		if reply == QtGui.QMessageBox.No:
+			return False
+		
+		self.DAC_CALS[DAC]=struct.pack('6f',slope,intercept,fitvals[0],fitvals[1],fitvals[2],fitvals[3])
+		self.DAC_RELOADS[DAC] = OFF
+		print( '\n','>'*20,DAC,'<'*20)
+		print('Offsets :',OFF[:20],'...')
+		fitfn = np.poly1d(fitvals)
+		YDATA = fitfn(X) - (OFF*slope+intercept)
+		LOOKBEHIND = 100;LOOKAHEAD=100                      
+		OFF=np.array([np.argmin(np.fabs(YDATA[max(B-LOOKBEHIND,0):min(4095,B+LOOKAHEAD)]-X[B]) )- (B-max(B-LOOKBEHIND,0)) for B in range(0,4096)])
+		CHAN.load_calibration_table(OFF)
+		self.tbl.item(row,2).setBackground(QtCore.Qt.blue)
+		return True
+
 	def PV1CH1(self,row):
-		self.__PVCH__('PV1','CH1',row,[-4,4,10])
+		self.__PVCH__('PV1','CH1',row,[-4,4,20])
 	def PV2CH2(self,row):
-		self.__PVCH__('PV2','CH2',row,[-2.5,2.5,10])
+		self.__PVCH__('PV2','CH2',row,[-2.5,2.5,20])
 	def PV3CH3(self,row):
-		self.__PVCH__('PV3','CH3',row,[0.2,2.8,10])
+		self.__PVCH__('PV3','CH3',row,[0.2,2.8,20])
+
+	#recalibration of entire DAC channels
+	def fixPV1CH1(self,row):
+		rep = self.__fixPVCH__('PV1','CH1',row)
+		if rep : self.__PVCH__('PV1','CH1',row,[-4,4,200]) #Check if fixed
+
+	def fixPV2CH2(self,row):
+		rep = self.__fixPVCH__('PV2','CH2',row)
+		if rep : self.__PVCH__('PV2','CH2',row,[-2.5,2.5,200]) #Check if fixed
+
+	def fixPV3CH3(self,row):
+		rep = self.__fixPVCH__('PV3','CH3',row)
+		if rep : self.__PVCH__('PV3','CH3',row,[-.2,2.8,200]) #Check if fixed
 
 	def PCSCH3(self,row):
 		actuals=[];read=[]
@@ -301,6 +382,15 @@ class AppWindow(QtGui.QMainWindow, testing.Ui_MainWindow,utilitiesClass):
 	def __del__(self):
 		print ('bye')
 	def closeEvent(self,e):
+		if len(self.DAC_RELOADS): #some DACs were recalibrated. write them to flash
+			self.__resavePOLY__()
+			for DAC in self.DAC_RELOADS:
+				TABLE = self.I.__atos__( self.DAC_RELOADS[DAC])
+				print('DAC WRITING',DAC,self.I.LOC_DICT[DAC][0],self.I.LOC_DICT[DAC][1],TABLE[:50])
+				print('Writing DAC shifts to Flash.....(first half)')
+				self.I.write_bulk_flash(self.I.LOC_DICT[DAC][0],TABLE[:2048])
+				print('Writing DAC shifts to Flash.....(second half)')
+				self.I.write_bulk_flash(self.I.LOC_DICT[DAC][1],TABLE[2048:])
 		self.save()
 
 	def save(self):
@@ -315,7 +405,7 @@ class AppWindow(QtGui.QMainWindow, testing.Ui_MainWindow,utilitiesClass):
 if __name__ == "__main__":
     from SEEL import interface
     app = QtGui.QApplication(sys.argv)
-    myapp = AppWindow(I=interface.connect(verbose=True))
+    myapp = AppWindow(I=interface.connect())
     myapp.show()
     sys.exit(app.exec_())
 
