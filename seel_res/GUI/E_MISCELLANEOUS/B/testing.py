@@ -25,6 +25,23 @@ params = {
 }
 
 
+class Worker(QtCore.QThread):
+	prog = QtCore.pyqtSignal(int)
+	calResult = QtCore.pyqtSignal(tuple)
+	def setup(self,**kwargs):
+		self.I = kwargs.get('I')
+		self.DAC = kwargs.get('DAC')
+		self.ADC = kwargs.get('ADC')
+
+	def run(self):
+		correct=np.zeros(4096)
+		for a in range(4096):
+			self.I.DAC.__setRawVoltage__(self.DAC,a) 
+			correct[a] = self.I.get_average_voltage(self.ADC,samples=5) 
+			if a%100==0:
+				self.prog.emit(a)
+		self.prog.emit(a)
+		self.calResult.emit((self.ADC,self.DAC,correct))
 
 class AppWindow(QtGui.QMainWindow, testing.Ui_MainWindow,utilitiesClass):
 	RESISTANCE_ERROR = 10
@@ -85,6 +102,8 @@ class AppWindow(QtGui.QMainWindow, testing.Ui_MainWindow,utilitiesClass):
 		self.tbl.setHorizontalHeaderLabels(['Expected','read','','More'])
 		self.tbl.setColumnWidth(0, 80)
 		self.tbl.setColumnWidth(1, 150)
+		self.tbl.setColumnWidth(2, 100)
+		self.tbl.setColumnWidth(3, 80)
 		
 		#Nominal values for calibration constants
 		self.PCS_SLOPE=1
@@ -264,14 +283,25 @@ class AppWindow(QtGui.QMainWindow, testing.Ui_MainWindow,utilitiesClass):
 		
 
 	def __fixPVCH__(self,DAC,ADC,row):
-		reply = QtGui.QMessageBox.question(self, 'Recalibrating...', 'Wait for 20 seconds or so?', QtGui.QMessageBox.Yes, QtGui.QMessageBox.No)
-		if reply == QtGui.QMessageBox.No:
-			return
+		self.curdacrow = row
+		pg = QtGui.QProgressBar()
+		pg.setMaximum(4096)
+		self.evalLayout.addWidget(pg)
 		self.I.DAC.__ignoreCalibration__(DAC)
-		correct=np.zeros(4096)
-		for a in range(4096):
-			self.I.DAC.__setRawVoltage__(DAC,a) 
-			correct[a] = self.I.get_average_voltage(ADC,samples=5) 
+		self.tabs.setEnabled(False)
+
+		########Experimental thread########
+		def slot(p): pg.setValue(p)
+		self.thread = Worker()
+		self.thread.setup(I=self.I,DAC=DAC,ADC=ADC)
+		self.thread.prog.connect(slot)
+		self.thread.calResult.connect(self.calFinished)
+		self.thread.finished.connect(self.wrapUpDACCal)
+		self.thread.start()		
+		########Experimental thread########
+
+	def calFinished(self,items):
+		ADC,DAC,correct = items
 		CHAN = self.I.DAC.CHANS[DAC]
 		X= np.linspace(CHAN.range[0],CHAN.range[1],4096)
 		
@@ -298,8 +328,12 @@ class AppWindow(QtGui.QMainWindow, testing.Ui_MainWindow,utilitiesClass):
 		LOOKBEHIND = 100;LOOKAHEAD=100                      
 		OFF=np.array([np.argmin(np.fabs(YDATA[max(B-LOOKBEHIND,0):min(4095,B+LOOKAHEAD)]-X[B]) )- (B-max(B-LOOKBEHIND,0)) for B in range(0,4096)])
 		CHAN.load_calibration_table(OFF)
-		self.tbl.item(row,2).setBackground(QtCore.Qt.blue)
-		return True
+		self.tabs.setEnabled(True)
+
+		self.__PVCH__(DAC,ADC,self.curdacrow,[CHAN.CodeToV(100),CHAN.CodeToV(4000),200]) #Check if fixed
+
+	def wrapUpDACCal(self):
+		print ('done')
 
 	def PV1CH1(self,row):
 		self.__PVCH__('PV1','CH1',row,[-4,4,20])
@@ -311,15 +345,12 @@ class AppWindow(QtGui.QMainWindow, testing.Ui_MainWindow,utilitiesClass):
 	#recalibration of entire DAC channels
 	def fixPV1CH1(self,row):
 		rep = self.__fixPVCH__('PV1','CH1',row)
-		if rep : self.__PVCH__('PV1','CH1',row,[-4,4,200]) #Check if fixed
 
 	def fixPV2CH2(self,row):
 		rep = self.__fixPVCH__('PV2','CH2',row)
-		if rep : self.__PVCH__('PV2','CH2',row,[-2.5,2.5,200]) #Check if fixed
 
 	def fixPV3CH3(self,row):
 		rep = self.__fixPVCH__('PV3','CH3',row)
-		if rep : self.__PVCH__('PV3','CH3',row,[-.2,2.8,200]) #Check if fixed
 
 	def PCSCH3(self,row):
 		actuals=[];read=[]

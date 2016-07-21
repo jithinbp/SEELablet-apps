@@ -45,7 +45,7 @@
           <property name="frameShadow">
            <enum>QFrame::Raised</enum>
           </property>
-          <layout class="QHBoxLayout" name="horizontalLayout">
+          <layout class="QHBoxLayout" name="evalLayout">
            <property name="margin">
             <number>3</number>
            </property>
