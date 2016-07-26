@@ -201,8 +201,8 @@ class acquirer():
 
 		#########################----UPDATE PLOTS AND TABLE----######################
 		if self.vv%50==0:  
-			self.parent.curves['PV3'].setData(self.ADC24['AIN7'],self.DAC_VALS['PV3']-self.ADC24['AIN7'])
-			self.parent.curves['INL'].setData(self.ADC24['AIN7'],self.ADCPIC_INL-self.ADC24['AIN7'])
+			self.parent.curves['PV3'].setData(self.ADC24['AIN7'],np.array(self.DAC_VALS['PV3'])-np.array(self.ADC24['AIN7']))
+			self.parent.curves['INL'].setData(self.ADC24['AIN7'],np.array(self.ADCPIC_INL)-np.array(self.ADC24['AIN7']))
 			for a in self.INPUTS:
 				if self.I.analogInputSources[a].gainEnabled:
 					for b in range(8):
@@ -288,15 +288,11 @@ class AppWindow(QtGui.QMainWindow, calibrator.Ui_MainWindow,utilitiesClass):
 		#self.plot.setYRange(-.1,.1)
 		self.curves={}
 
-		name = 'INL'
-		self.curves[name]={}
-		self.curves[name][0]=self.addCurve(self.plot,pen=pg.mkPen([255,255,255], width=1),name=name)
-		item = self.addLabel(name,[255,255,255]);	self.curves[name][0].curve.setClickable(True);	self.curves[name][0].sigClicked.connect(functools.partial(self.selectItem,item))
+		self.curves['INL']=self.addCurve(self.plot,pen=pg.mkPen([255,255,255], width=1),name='INL')
+		item = self.addLabel('INL',[255,255,255]);	self.curves['INL'].curve.setClickable(True);	self.curves['INL'].sigClicked.connect(functools.partial(self.selectItem,item))
 
-		name = 'PV3'
-		self.curves[name]={}
-		self.curves[name][0]=self.addCurve(self.plot,pen=pg.mkPen([255,255,255], width=1),name=name)
-		item = self.addLabel(name,[255,255,255]);	self.curves[name][0].curve.setClickable(True);	self.curves[name][0].sigClicked.connect(functools.partial(self.selectItem,item))
+		self.curves['PV3']=self.addCurve(self.plot,pen=pg.mkPen([255,255,255], width=1),name='PV3')
+		item = self.addLabel('PV3',[255,255,255]); self.curves['PV3'].curve.setClickable(True);	self.curves['PV3'].sigClicked.connect(functools.partial(self.selectItem,item))
 
 		
 		for a in self.INPUTS:
