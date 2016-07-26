@@ -206,14 +206,14 @@ class acquirer():
 					for b in range(8):
 							X = np.array(self.ADC24['AIN6'])[self.ADC_ACTUALS[a][b]]
 							if len(X)>3:
-								#Y = np.array(self.ADC_VALUES[a][b])
+								Y = np.array(self.ADC_VALUES[a][b])
 								#fitvals = np.polyfit(X,Y,2)
 								#fitfn = np.poly1d(fitvals)
 								self.parent.curves[a][b].setData(X,Y-X)#fitfn(X) )
 				else:
 							X = np.array(self.ADC24['AIN6'])[self.ADC_ACTUALS[a][0]]
 							if len(X)>3:
-								#Y = np.array(self.ADC_VALUES[a][0])
+								Y = np.array(self.ADC_VALUES[a][0])
 								#fitvals = np.polyfit(X,Y,2)
 								#fitfn = np.poly1d(fitvals)
 								self.parent.curves[a][0].setData(X,Y-X)#fitfn(X) )
