@@ -297,7 +297,6 @@ class MyMainWindow(QtGui.QMainWindow, single_col_exp.Ui_MainWindow,utilitiesClas
 		self.helpView.setUrl(QtCore.QUrl(helpurl))          
 		self.tabWidget.setCurrentIndex(1)
 		
-
 	def clearExperimentIcons(self):
 		while self.ExperimentLayout.count():
 			item = self.ExperimentLayout.takeAt(0)
@@ -342,8 +341,6 @@ class MyMainWindow(QtGui.QMainWindow, single_col_exp.Ui_MainWindow,utilitiesClas
 			info.show()
 		else:
 			print (self.setWindowTitle('Device Not Connected!'))
-
-
 
 	def locateDevices(self):
 		L = self.I.H.listPorts()
