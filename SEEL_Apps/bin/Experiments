@@ -282,7 +282,9 @@ class MyMainWindow(QtGui.QMainWindow, single_col_exp.Ui_MainWindow,utilitiesClas
 				except:
 					pass
 
-				fn = functools.partial(self.launchFunc,appLocation,helpurl)
+				tmp = importlib.import_module(appLocation)
+				exclusive = 'persist' not in tmp.params
+				fn = functools.partial(self.launchFunc,appLocation,helpurl,exclusive)
 				self.funcs.append(fn)
 				icon = self.experimentIcon(submodule,app,fn)
 				self.ExperimentLayout.addWidget(icon,self.row,self.col)
@@ -308,12 +310,12 @@ class MyMainWindow(QtGui.QMainWindow, single_col_exp.Ui_MainWindow,utilitiesClas
 	def setHint(self,t):
 		self.hintText.setHtml(t)
 
-	def launchFunc(self,fname,helpurl):
+	def launchFunc(self,fname,helpurl,exclusive=True):
 		if self.I.connected:
 			try:
-				if self.runningApp:
+				if self.runningApp and exclusive:
 					self.runningApp.close()
-					self.killAllTimers()
+					#self.killAllTimers()
 			except Exception as e: print(e)
 			
 			FILE = importlib.import_module(fname)
@@ -322,7 +324,7 @@ class MyMainWindow(QtGui.QMainWindow, single_col_exp.Ui_MainWindow,utilitiesClas
 			size = inst.geometry()
 			inst.setGeometry(500, 50,size.width(), size.height())
 
-			self.runningApp = inst
+			if exclusive: self.runningApp = inst
 			#Load help HTML if found
 			self.helpView.setUrl(QtCore.QUrl(helpurl))          
 			self.tabWidget.setCurrentIndex(1)

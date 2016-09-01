@@ -413,6 +413,9 @@ class AppWindow(QtGui.QMainWindow, testing.Ui_MainWindow,utilitiesClass):
 	def __del__(self):
 		print ('bye')
 	def closeEvent(self,e):
+		pass
+
+	def save(self):
 		if len(self.DAC_RELOADS): #some DACs were recalibrated. write them to flash
 			self.__resavePOLY__()
 			for DAC in self.DAC_RELOADS:
@@ -422,9 +425,6 @@ class AppWindow(QtGui.QMainWindow, testing.Ui_MainWindow,utilitiesClass):
 				self.I.write_bulk_flash(self.I.LOC_DICT[DAC][0],TABLE[:2048])
 				print('Writing DAC shifts to Flash.....(second half)')
 				self.I.write_bulk_flash(self.I.LOC_DICT[DAC][1],TABLE[2048:])
-		self.save()
-
-	def save(self):
 		p = QtGui.QPixmap.grabWindow(self.tab1.winId())
 		from os.path import expanduser
 		home = expanduser("~")

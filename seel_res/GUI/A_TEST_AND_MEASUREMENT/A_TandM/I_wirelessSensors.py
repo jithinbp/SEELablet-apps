@@ -66,14 +66,13 @@ class AppWindow(QtGui.QMainWindow, sensorGrid.Ui_MainWindow,utilitiesClass):
 	def scan(self):
 		lst = self.I.NRF.get_nodelist()
 		x=self.I.readLog()
-		print (lst,x)		
 		for a in self.sensorWidgets:
 			a.setParent(None)
 		self.sensorWidgets=[]
 		row=0;col=0;colLimit=3
 		self.ExperimentLayout.setAlignment(QtCore.Qt.AlignTop)
 		for a in lst:
-			for b in lst[a]:
+			for b in lst[a][0]:
 				cls_module = self.supported.get(b,None)
 				if cls_module:
 					new = self.I.newRadioLink(address=a)

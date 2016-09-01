@@ -17,7 +17,7 @@ import pyqtgraph as pg
 import numpy as np
 from PyQt4 import QtCore, QtGui
 
-from .templates import ui_wirelessTemplate as wirelessTemplate
+from templates import ui_wirelessTemplate as wirelessTemplate
 
 import time,sys,functools
 
@@ -25,6 +25,7 @@ params = {
 'image' : 'ico_sensor_w.png',
 'helpfile': 'http://seelablet.jithinbp.in',
 'name':'wireless\nsensors',
+'persist':True,
 'hint':'''
 	Plot values returned by sensors connected to the I2C input of wireless nodes.</br>
 	Support sensors include MPU6050(3-axis Accel/gyro), TSL2561(luminosity),<br>
@@ -56,7 +57,7 @@ class AppWindow(QtGui.QMainWindow, wirelessTemplate.Ui_MainWindow,utilitiesClass
 		self.fps=0;self.lastTime=time.time();self.updatepos=0
 		self.active_device_counter=0
 		self.right_axes=[]
-		self.loopTask(2,self.updatePlots)
+		self.timer = self.loopTask(2,self.updatePlots)
 		self.updatepos=0
 		self.refreshTimer = self.loopTask(200,self.updateLogWindow)
 		self.deviceMenus=[]
@@ -142,12 +143,12 @@ class AppWindow(QtGui.QMainWindow, wirelessTemplate.Ui_MainWindow,utilitiesClass
 		self.deviceMenus.append(sub_menu)
 	
 	class nodeHandler(QtGui.QFrame,nodeWidget):
-		def __init__(self,addr,I2Cs,evaluator):
+		def __init__(self,addr,I2Cs,evaluator,batLevel):
 			super(AppWindow.nodeHandler, self).__init__()
 			self.setupUi(self)
 			#self.cmd = getattr(self.I,cmd)
 			#self.cmdname=cmd
-			self.label.setText(hex(addr))
+			self.label.setText(hex(addr)+' %d%%'%(batLevel))
 			self.addr=addr
 			self.cmd = evaluator
 			for i in I2Cs:
@@ -167,7 +168,7 @@ class AppWindow(QtGui.QMainWindow, wirelessTemplate.Ui_MainWindow,utilitiesClass
 		table.GeneratedTable {width:100%;background-color:#FFFFFF;border-collapse:collapse;
 		border-width:1px;border-color:#336600;	border-style:solid;	color:#009900;	}
 		table.GeneratedTable td, table.GeneratedTable th {
-		border-width:1px;border-color:#336600;border-style:solid;padding:3px;}
+		border-width:1px;border-color:#336600;border-style:solid;padding:1px;}
 		table.GeneratedTable thead {background-color:#CCFF99;}
 		</style>
 
@@ -177,10 +178,10 @@ class AppWindow(QtGui.QMainWindow, wirelessTemplate.Ui_MainWindow,utilitiesClass
 		'''
 		for a in lst:
 			T+='<tr><td>'
-			T+=hex(a)
+			T+='''<span style="font-size:11pt">%s %d%%</span>'''%(hex(a),lst[a][1])
 			T+='</td><td>'
-			for b in lst[a]:
-				T+='''<span title="%s">'''%(sensorHints.get(b,'No clue'))+hex(b)+'. </span>'
+			for b in lst[a][0]:
+				T+='''<span title="%s" style="font-size:11pt">'''%(sensorHints.get(b,'No clue'))+hex(b)+'. </span>'
 			T+='</td></tr>'
 		
 		
@@ -198,8 +199,7 @@ class AppWindow(QtGui.QMainWindow, wirelessTemplate.Ui_MainWindow,utilitiesClass
 		self.nodeWidgets=[]
 		for a in lst:
 			new = self.I.newRadioLink(address=a)
-			print (new.I2C_scan())
-			newNode=self.nodeHandler(a,lst[a],self.addPlot)
+			newNode=self.nodeHandler(a,lst[a][0],self.addPlot,lst[a][1])
 			self.nodeArea.insertWidget(0,newNode)
 			self.nodeWidgets.append(newNode)
 
@@ -250,15 +250,17 @@ class AppWindow(QtGui.QMainWindow, wirelessTemplate.Ui_MainWindow,utilitiesClass
 			self.refreshTimer.stop()
 
 	def __del__(self):
+		self.timer.stop()
 		self.refreshTimer.stop()
 		print ('bye')
 
 	def __exit__(self):
 		print ('CYA')
-		self.I.NRF.stop_token_manager()
-		self.I.restoreStandalone()		
+		self.timer.stop()
 
 	def closeEvent(self, event):
+		self.timer.stop()
+		self.I.NRF.stop_token_manager()
 		self.refreshTimer.stop()
 
 

@@ -12,6 +12,7 @@ import numpy as np
 params = {
 'image' : 'rgbled.png',
 'name':'Wireless\nRGB lights',
+'persist':True,
 'hint':'''
 	Displays alternating shades on the onboard colored LEDs of selected wireless nodes.<br>
 	Also shows the signal quality based on dropped packet count.

@@ -11,7 +11,7 @@
 from __future__ import print_function
 from SEEL_Apps.utilitiesClass import utilitiesClass
 
-from SEEL_Apps.templates import ui_template_graph_nofft as template_graph_nofft
+from templates import ui_ccd as ccd
 
 import numpy as np
 from PyQt4 import QtGui,QtCore
@@ -28,7 +28,7 @@ params = {
 
 }
 
-class AppWindow(QtGui.QMainWindow, template_graph_nofft.Ui_MainWindow,utilitiesClass):
+class AppWindow(QtGui.QMainWindow, ccd.Ui_MainWindow,utilitiesClass):
 	def __init__(self, parent=None,**kwargs):
 		super(AppWindow, self).__init__(parent)
 		self.setupUi(self)
@@ -92,6 +92,8 @@ class AppWindow(QtGui.QMainWindow, template_graph_nofft.Ui_MainWindow,utilitiesC
 		self.setRefFlag = False
 		self.num = 0
 
+		self.x = range(3648,0,-1)
+
 
 	def setRef(self):
 		self.setRefFlag = True
@@ -124,7 +126,8 @@ class AppWindow(QtGui.QMainWindow, template_graph_nofft.Ui_MainWindow,utilitiesC
 
 		return 3648
 
-
+	def applyCalibration(self):
+		pass
 
 	def run(self):
 		if not self.running: return
@@ -136,7 +139,6 @@ class AppWindow(QtGui.QMainWindow, template_graph_nofft.Ui_MainWindow,utilitiesC
 				self.I.__fetch_channel__(1)
 				self.Y+=self.I.achans[0].get_yaxis()[32:-14]
 
-			x = range(3648,0,-1)
 			self.Y = self.Y/self.num
 			self.Y = 3.3-self.Y
 			
@@ -150,14 +152,13 @@ class AppWindow(QtGui.QMainWindow, template_graph_nofft.Ui_MainWindow,utilitiesC
 					self.Y = np.log10(self.Y/ref)
 				else:
 					self.Y -= self.REFY
-			self.curveCH1.setData(x,self.Y,connect='finite')
+			self.curveCH1.setData(self.x,self.Y,connect='finite')
 			#print (x,self.Y/self.num)
 		except Exception as b:
 			#print (b)
 			pass
 
 		if self.running:self.timer.singleShot(200,self.run)
-
 
 	def saveData(self):
 		self.saveDataWindow([self.curveCH1],self.plot)
