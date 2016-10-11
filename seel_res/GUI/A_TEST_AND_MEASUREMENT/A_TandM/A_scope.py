@@ -11,7 +11,7 @@ from SEEL_Apps.utilitiesClass import utilitiesClass
 
 from PyQt4 import QtCore, QtGui
 import time,sys
-from .templates import ui_analogScope as analogScope
+from templates import ui_analogScope as analogScope
 
 import sys,os,string
 import time
@@ -266,31 +266,36 @@ class AppWindow(QtGui.QMainWindow, analogScope.Ui_MainWindow,utilitiesClass):
 		self.curveFR.clear()
 
 		msg='';pos=0;phaseA=0
-		for fitsel in [self.fit_select_box,self.fit_select_box_2]:
-			if fitsel.currentIndex()<4:
-				if len(msg)>0:msg+='\n'
-				if self.channel_states[fitsel.currentIndex()]:
-					if fitsel.currentText()=='CH2':
-						ed = self.fitData(self.I.achans[fitsel.currentIndex()].get_xaxis(),	self.I.achans[fitsel.currentIndex()].get_yaxis(),self.curveFR)
+		try:
+			for fitsel in [self.fit_select_box,self.fit_select_box_2]:
+				if fitsel.currentIndex()<4:
+					if len(msg)>0:msg+='\n'
+					if self.channel_states[fitsel.currentIndex()]:
+						if fitsel.currentText()=='CH2':
+							ed = self.fitData(self.I.achans[fitsel.currentIndex()].get_xaxis(),	self.I.achans[fitsel.currentIndex()].get_yaxis(),self.curveFR)
+						else:
+							ed = self.fitData(self.I.achans[fitsel.currentIndex()].get_xaxis(),self.I.achans[fitsel.currentIndex()].get_yaxis(),self.curveF[pos])
+
+						if len(ed)==4:
+							if self.fit_type_box.currentIndex()==0: #Sine
+								dp=''
+								if not len(msg): phaseA = ed[3]
+								else:dp = '(%.3f)'%(ed[3]-phaseA)								
+								msg+='Fit %c:Amp = %0.3fV \tFreq=%0.2fHz \tOffset=%0.3fV \tPhase=%0.1f%c'%(pos+65,ed[0],ed[1],ed[2],ed[3],176)
+								msg+=dp
+							elif self.fit_type_box.currentIndex()==1: #square
+								msg+='Fit %c:Amp = %0.3fV \tFreq=%0.2fHz \tOffset=%0.3fV \tDC=%0.3f'%(pos+65,ed[0],ed[1],ed[2],ed[3])
+						else:
+							msg+='Fit Failed'+str(ed)
+
 					else:
-						ed = self.fitData(self.I.achans[fitsel.currentIndex()].get_xaxis(),self.I.achans[fitsel.currentIndex()].get_yaxis(),self.curveF[pos])
+						msg+='FIT '+chr(pos+65)+': Channel Unavailable'
 
-					if len(ed)==4:
-						dp=''
-						if not len(msg): phaseA = ed[3]
-						else:dp = '(%.3f)'%(ed[3]-phaseA)
-							
-						msg+='Fit %c:Amp = %0.3fV \tFreq=%0.2fHz \tOffset=%0.3fV \tPhase=%0.1f%c'%(pos+65,ed[0],ed[1],ed[2],ed[3],176)
-						msg+=dp
-					else:
-						msg+='Fit Failed'
-
-				else:
-					msg+='FIT '+chr(pos+65)+': Channel Unavailable'
-
-			pos+=1
-		if len(msg):
-			self.message_label.setText(msg)
+				pos+=1
+			if len(msg):
+				self.message_label.setText(msg)
+		except Exception as e:
+			self.message_label.setText('Fit err')
 		pos=0
 
 		if self.Liss_show.isChecked():
@@ -427,9 +432,9 @@ class AppWindow(QtGui.QMainWindow, analogScope.Ui_MainWindow,utilitiesClass):
 				if(self.overlay_fit_button.isChecked()):
 					x=np.linspace(0,xReal[-1],50000)
 					curve.setData(x*1e-6,self.math.squareFunc(x,amp,frequency,phase,dc,offset))
-				return 'Amp = %0.3fV \tFreq=%0.2fHz \tDC=%0.3fV \tOffset=%0.3fV'%(amp, freq,dc,offset)
+				return [amp, freq, offset,dc]
 			else:
-				return 'fit failed'
+				return []
 		else:
 				return 'fit failed'
 

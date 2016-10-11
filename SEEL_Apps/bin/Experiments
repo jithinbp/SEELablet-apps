@@ -108,7 +108,7 @@ class MyMainWindow(QtGui.QMainWindow, single_col_exp.Ui_MainWindow,utilitiesClas
 		autogenControls.append({'TITLE':'Wave 1','MIN':1,'MAX':5000,'FUNC':self.I.set_w1,'TYPE':'dial2','UNITS':'Hz','TOOLTIP':'Frequency of waveform generator #1','LINK':self.updateWAVE1_FREQ})
 		autogenControls.append({'TITLE':'Wave 2','MIN':1,'MAX':5000,'FUNC':self.I.set_w2,'TYPE':'dial2','UNITS':'Hz','TOOLTIP':'Frequency of waveform generator #2','LINK':self.updateWAVE2_FREQ})
 		autogenControls.append({'TITLE':'square 1','MIN':0,'MAX':50000,'FUNC':self.modifiedSqr1,'TYPE':'dial','UNITS':'Hz','TOOLTIP':'Frequency of square wave generator #1\n0 for switched off, Max for On state'})
-		autogenControls.append({'TITLE':'SQR1 Phase','MIN':0,'MAX':4000,'FUNC':self.sqr1Phase,'TYPE':'dial','UNITS':'V','TOOLTIP':'Phase of square wave generator #1'})
+		autogenControls.append({'TITLE':'SQR1 PWM','MIN':0,'MAX':1000,'FUNC':self.sqr1Duty,'TYPE':'dial','UNITS':'','TOOLTIP':'Duty Cycle of square wave generator #1'})
 
 		tmpfunc = functools.partial(self.I.DAC.__setRawVoltage__,'PV1')
 		autogenControls.append({'TITLE':'PV1','MIN':0,'MAX':4095,'FUNC':tmpfunc,'TYPE':'dial','UNITS':'V','TOOLTIP':'Programmable Voltage Source ','LINK':self.updatePV1_LABEL})
@@ -189,12 +189,15 @@ class MyMainWindow(QtGui.QMainWindow, single_col_exp.Ui_MainWindow,utilitiesClas
 			self.I.set_state(SQR1=1)
 			return 'HIGH'
 		else:
-			v = self.I.sqr1(val)
+			v = self.I.sqr1(val,self.I.sqrduty['SQR1'])
 			return v
 
-	def sqr1Phase(self,val):
-		self.I.sqr1(self.I.sqrfreq['SQR1'],val/40.)
-		return 3.3*val/4000.
+	def sqr1Duty(self,val):
+		if self.I.sqrfreq['SQR1']:
+			self.I.sqr1(self.I.sqrfreq['SQR1'],val/1000.)
+			return '%.2f%%'%(val/10.)
+		else:
+			return 'Set Freq?'
 
 
 	def loadList(self,basepackage):
