@@ -10,6 +10,8 @@ from __future__ import print_function
 
 from SEEL_Apps.utilitiesClass import utilitiesClass
 from SEEL_Apps.templates.widgets.ui_nodeList import Ui_Form as nodeWidget
+from SEEL_Apps.templates.widgets import ui_wirelessWidget as wirelessWidget
+
 from SEEL.SENSORS import HMC5883L,MPU6050,MLX90614,BMP180,TSL2561,SHT21
 from SEEL.SENSORS.supported import supported
 from SEEL.sensorlist import sensors as sensorHints
@@ -17,7 +19,9 @@ import pyqtgraph as pg
 import numpy as np
 from PyQt4 import QtCore, QtGui
 
-from templates import ui_wirelessTemplate as wirelessTemplate
+import SEEL.commands_proto as CP
+
+from templates import ui_wirelessTemplate2 as wirelessTemplate
 
 import time,sys,functools
 
@@ -68,15 +72,26 @@ class AppWindow(QtGui.QMainWindow, wirelessTemplate.Ui_MainWindow,utilitiesClass
 		self.Running =True
 
 
+		self.colbtn = pg.ColorButton()
+		self.colbtn.setMaximumWidth(30);self.colbtn.setMinimumHeight(25);self.colbtn.setStyleSheet("border-radius: 0px;padding: 0px;")
+		self.horizontalLayout_3.addWidget(self.colbtn)
+		self.colbtn.sigColorChanging.connect(self.setRGB)
+
+	def setRGB(self):
+		self.I.NRF.WS2812B([list(self.colbtn.color().getRgb())])
+
+
 	class plotItem:
 		def __init__(self,handle,ydata,curves):
+			'''
+			Handle must have a getRaw method
+			'''
 			self.handle = handle
 			self.ydata = ydata
 			self.curves=curves
 
-
-	def addPlot(self,addr,param):
-		newNode = self.I.newRadioLink(address=addr)
+	def addPlot(self,newNode,param):
+		addr = newNode.ADDRESS
 		self.nodeList.append(newNode)
 		print ('made link',addr,param)
 		#newNode.write_register(self.I.NRF.RF_SETUP,0x0E)
@@ -117,13 +132,36 @@ class AppWindow(QtGui.QMainWindow, wirelessTemplate.Ui_MainWindow,utilitiesClass
 			self.acquireList.append(self.plotItem(cls,np.zeros((cls.NUMPLOTS,self.POINTS)), curves)) 
 			self.active_device_counter+=1
 
+	def addCustomPlot(self,fn,labels,axisTitle=''):
+			totalplots = len(labels)
+			if not self.active_device_counter:
+				self.plot.setLabel('left', axisTitle if len(labels)>1 else labels[0])
+				curves=[self.addCurve(self.plot,a) for a in labels]
+			else:
+				colStr = lambda col: hex(col[0])[2:]+hex(col[1])[2:]+hex(col[2])[2:]
+				newplt = self.addAxis(self.plot,label=axisTitle if len(labels)>1 else labels[0])#,color='#'+colStr(cols[0].getRgb()))
+				self.right_axes.append(newplt)
+				curves=[self.addCurve(newplt,a) for a in labels]
+			
+			for a in range(totalplots):
+				curves[a].checked=True
+				Callback = functools.partial(self.setTraceVisibility,curves[a])		
+				action=QtGui.QCheckBox(labels[a]) 
+				action.toggled[bool].connect(Callback)
+				action.setChecked(True)
+				action.setStyleSheet("background-color:rgb%s;"%(str(curves[0].opts['pen'].color().getRgb())))
+				self.paramMenus.insertWidget(1,action)
+				self.actionWidgets.append(action)
+			self.acquireList.append(self.plotItem(fn,np.zeros((1,self.POINTS)), curves)) 
+			self.active_device_counter+=1
 
 
+	
 	def setTraceVisibility(self,curve,status):
 		curve.clear()
 		curve.setEnabled(status)
 		curve.checked=status
-
+	
 	class PermanentMenu(QtGui.QMenu):
 		def hideEvent(self, event):
 			self.show()
@@ -142,24 +180,63 @@ class AppWindow(QtGui.QMainWindow, wirelessTemplate.Ui_MainWindow,utilitiesClass
 		self.deviceMenus.append(menu)
 		self.deviceMenus.append(sub_menu)
 	
-	class nodeHandler(QtGui.QFrame,nodeWidget):
-		def __init__(self,addr,I2Cs,evaluator,batLevel):
-			super(AppWindow.nodeHandler, self).__init__()
+	class nrfHandler(QtGui.QWidget,wirelessWidget.Ui_Form):
+		def __init__(self,node,I2Cs,evaluator,batLevel,fallbackEvaluator):
+			super(AppWindow.nrfHandler, self).__init__()
 			self.setupUi(self)
-			#self.cmd = getattr(self.I,cmd)
-			#self.cmdname=cmd
-			self.label.setText(hex(addr)+' %d%%'%(batLevel))
-			self.addr=addr
+			self.node = node
+			self.title.setText(hex(node.ADDRESS)+' %d%%'%(batLevel))
+			self.title.setStyleSheet("* {color: white; background: qlineargradient( x1:0 y1:0, x2:2 y2:0, stop:0 green, stop:%.1f red);}"%(batLevel/100.));
 			self.cmd = evaluator
+			self.cmd2 = fallbackEvaluator
 			for i in I2Cs:
-				self.items.addItem(hex(i))
+				self.items.addItem('I2C:'+hex(i))
+			self.items.addItems(['ADC:CS3','ADC:BAT'])
 
+			self.colbtn = pg.ColorButton()
+			self.colbtn.setMaximumWidth(30);self.colbtn.setMinimumHeight(25);self.colbtn.setStyleSheet("border-radius: 0px;padding: 0px;")
+			self.horizontalLayout.addWidget(self.colbtn)
+			self.colbtn.sigColorChanging.connect(self.setRGB)
+
+		class tmp:
+			pass
+			
 		def clicked(self):
 			val = self.items.currentText()
-			self.cmd(self.addr,int(str(val),0))
+			if val[:3]=='I2C':
+				self.cmd(self.node,int(str(val[4:]),0))
+			if val[:3]=='ADC':
+				T = self.tmp()
+				T.getRaw = lambda : [self.node.readADC(val[4:])]
+				self.cmd2( T , ['%s:ADC(CS3)'%(hex(self.node.ADDRESS))] )
+
+		def setRGB(self):
+			self.node.WS2812B([list(self.colbtn.color().getRgb())])
+		def setDAC(self,val):
+			v=self.node.setDAC(val*3.3/31)
+			self.DACLabel.setText('DAC:%.1f V'%(v))
+		def setCS1(self,st):
+			if(st):st=1  #Qt button state is 0 for unchecked , 2 for checked. 
+			self.node.setIO(CS1 = st)
+		def setCS2(self,st):
+			if(st):st=1
+			self.node.setIO(CS2 = st)
+		def getFreq(self):
+			self.freqBtn.setText('FREQ(CS3): '+CP.applySIPrefix(self.node.readFrequency(),'Hz'))
+		def getADC(self):
+			self.adcBtn.setText('ADC(CS3): '+CP.applySIPrefix(self.node.readADC('CS3'),'V'))
 			
+	def ping(self):
+		last_state  = self.checkBox.isChecked()
+		self.checkBox.setChecked(True); self.toggleListen(True)
+		self.I.NRF.broadcastPing()
+		time.sleep(0.1)
+		self.updateLogWindow()
+		self.checkBox.setChecked(last_state); self.toggleListen(last_state)
 
 	def updateLogWindow(self):
+		pass
+		"""
 		x=self.I.readLog()
 		if len(x):print ('Log:',x)
 		lst = self.I.NRF.get_nodelist()
@@ -189,8 +266,7 @@ class AppWindow(QtGui.QMainWindow, wirelessTemplate.Ui_MainWindow,utilitiesClass
 		</tbody></table>
 		'''
 		self.logs.setHtml(T)
-
-	def reloadNodeList(self):
+		"""
 		lst = self.I.NRF.get_nodelist()
 		x=self.I.readLog()
 		if len(x):print (x)
@@ -199,7 +275,7 @@ class AppWindow(QtGui.QMainWindow, wirelessTemplate.Ui_MainWindow,utilitiesClass
 		self.nodeWidgets=[]
 		for a in lst:
 			new = self.I.newRadioLink(address=a)
-			newNode=self.nodeHandler(a,lst[a][0],self.addPlot,lst[a][1])
+			newNode=self.nrfHandler(new,lst[a][0],self.addPlot,lst[a][1],self.addCustomPlot)
 			self.nodeArea.insertWidget(0,newNode)
 			self.nodeWidgets.append(newNode)
 
@@ -211,6 +287,7 @@ class AppWindow(QtGui.QMainWindow, wirelessTemplate.Ui_MainWindow,utilitiesClass
 				if a.checked:need_data=True
 			if need_data:			
 				vals=item.handle.getRaw()
+				#print (vals)
 				if not vals:continue
 				for X in range(len(item.curves)):
 					item.ydata[X][self.updatepos] = vals[X]
@@ -232,7 +309,6 @@ class AppWindow(QtGui.QMainWindow, wirelessTemplate.Ui_MainWindow,utilitiesClass
 				self.fps = self.fps * (1-s) + (1.0/dt) * s
 			self.plot.setTitle('%0.2f fps' % (self.fps) )
 
-
 	def saveData(self):
 		self.pauseBox.setChecked(True)
 		curvelist = []
@@ -243,9 +319,11 @@ class AppWindow(QtGui.QMainWindow, wirelessTemplate.Ui_MainWindow,utilitiesClass
 			
 	def toggleListen(self,state):
 		if state:
+			self.widgetScroll.setEnabled(False)
 			self.I.NRF.start_token_manager()
 			self.refreshTimer.start()
 		else: 
+			self.widgetScroll.setEnabled(True)
 			self.I.NRF.stop_token_manager()
 			self.refreshTimer.stop()
 

@@ -20,6 +20,7 @@ import time
 
 params = {
 'image' : 'ipython.jpg',
+'persist':True,
 'name' :'IPython Console'
 }
 

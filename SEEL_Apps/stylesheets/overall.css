@@ -112,6 +112,7 @@ background: white;
 padding: 0px;
 text-align: center;
 }
+
 QProgressBar::chunk:horizontal {
 background: qlineargradient(x1: 0, y1: 0.5, x2: 1, y2: 0.5, stop: 0 #467, stop:1 white);
 margin-right: 2px; /* space */
@@ -154,7 +155,8 @@ background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
 stop: 0 rgb(97, 146, 121), stop: 0.3 rgb(65, 89, 111) );
 }
 QFrame.ControlWidget QLabel{color: white;}
-QFrame.ControlWidget QCheckBox{ border: none;color: white;}
+QFrame.ControlWidget QCheckBox{ border: none;color: rgb(200,200,255);} 
+QFrame.ControlWidget QCheckBox:checked{color:black; background-color: green;} 
 
 
 QFrame.ControlWidgetInner{

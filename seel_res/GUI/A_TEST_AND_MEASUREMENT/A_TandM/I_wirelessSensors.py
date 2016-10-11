@@ -23,6 +23,7 @@ from PyQt4 import QtCore, QtGui
 params = {
 'image' : 'ico_sensor_w.png',
 'name':'Wireless Sensor\nQuickView',
+'persist':True,
 'hint':'''
 	Display values returned by sensors connected to the I2C input.</br>
 	Supported sensors include MPU6050(3-axis Accel/gyro), TSL2561(luminosity),<br>
