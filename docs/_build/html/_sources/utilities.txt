@@ -1,0 +1,25 @@
+GUI development : Make your own interactive Qt based graphical apps
+=====================================================================
+
+Code Example for a data logger
+------------------------------
+
+A code example on how to inherit the utilitiesClass, and develop a simple data logger
+
+.. figure:: images/example-logger.png
+	:align: center
+	:alt: data logger example
+	:figclass: align-center
+
+.. literalinclude:: /code-examples/logger.py
+   :language: python
+   :emphasize-lines: 49-56
+   :linenos:
+
+
+Helper Methods : Utilities
+--------------------------
+
+.. automodule:: SEEL_Apps.utilitiesClass
+	:members:
+

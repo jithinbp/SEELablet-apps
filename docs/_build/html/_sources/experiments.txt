@@ -1,0 +1,186 @@
+============================================================
+Applications for Science and Engineering experiments
+============================================================
+
+
+Test and Measurement tools
+==========================
+
+Test and Measurement Utilities
+------------------------------
+* `4-Channel Oscilloscope with Analytics <_static/A_scope.html>`_
+* `Logic analyzer <_static/B_Logic_Analyzer.html>`_
+* `Data Logger <_static/C_stream.html>`_
+* `Acquire and view data from I2C sensors <_static/I_staticsensors.html>`_
+* `Acquire and plot data from I2C sensors <_static/F_sensors.html>`_
+* `Acquire and view data from I2C sensors connected to wireless nodes <_static/I_wirelessSensors.html>`_
+* `Acquire and plot data from I2C sensors connected to wireless nodes <_static/H_wireless_sensors.html>`_
+* `Design experiments <_static/Z_designer.html>`_
+* `iPython Console <_static/ipy.html>`_
+
+
+Electronics Experiments
+=======================
+
+Transistors : FETs and BJTs
+---------------------------
+
+* `Full Wave Rectifier <_static/M_FullWave.html>`_
+* `NFET Output Characteristics <_static/D_NFET.html>`_
+* `NFET Drain-Source Characteristics <_static/D_NFET_GS_ID.html>`_
+* `BJT common base Characteristics <_static/D_transistorCB.html>`_
+* `BJT Common Emitter Characteristics <_static/D_transistorCE.html>`_
+* `BJT input Characteristics <_static/D_transistorCE_input.html>`_
+* `BJT transfer Characteristics <_static/D_transistorCE_transfer.html>`_
+* `BJT amplifier <_static/L_TransistorAmplifier.html>`_
+
+Diodes : Schottky, 4148, LEDs
+------------------------------
+
+* `IV Characteristics of a PN junction <_static/D_diodeIV.html>`_
+* `IV Characteristics of a zener diode <_static/D_ZenerIV.html>`_
+* `Clamping circuit using a diode <_static/L_DiodeClamping.html>`_
+* `Clipping circuit using a diode <_static/L_DiodeClipping.html>`_
+* `Halfwave rectifier using a diode <_static/L_halfWave.html>`_
+* `Fullwave rectifier using two diodes <_static/M_FullWave.html>`_
+* `BJT Common Emitter Characteristics <_static/D_transistorCE.html>`_
+* `BJT input Characteristics <_static/D_transistorCE_input.html>`_
+* `BJT transfer Characteristics <_static/D_transistorCE_transfer.html>`_
+* `BJT amplifier <_static/L_TransistorAmplifier.html>`_
+
+Operational Amplifiers
+------------------------------
+
+* `Inverting Amplifier using an opamp <_static/L_Inverting.html>`_
+* `Non - Inverting Amplifier using an opamp <_static/L_NonInverting.html>`_
+* `Linear ramp generator from a step signal <_static/L_LinearRampGen.html>`_
+* `AC and DC Summing Junction <_static/L_Summing.html>`_
+* `Precision halfware rectifier <_static/L_Precision_Rectifier.html>`_
+
+Oscillators
+-----------
+
+* `555 timer : Astable Mode <_static/J_Astable.html>`_
+* `Colpitts oscillator <_static/L_Colpitts.html>`_
+* `Phase Shift oscillator <_static/L_PhaseShift.html>`_
+* `Wein Bridge oscillator <_static/L_WIEN_BRIDGE.html>`_
+* `Monostable mode oscillator <_static/M_Monostable.html>`_
+
+Communication
+--------------
+
+* `Amplitude modulation using AD633 <_static/Z_ampmod.html>`_
+
+
+
+Physics
+=======
+
+* `Measure speed of sound <_static/B_SpeedOfSound.html>`_
+* `Measure time period of a pendulum using the logic analyzer <_static/J_rodpend.html>`_
+* `Randomply sample waveforms and plot histograms <_static/M_RANDOM_SAMPLING.html>`_
+* `Measure speed of sound <_static/J_rodpend.html>`_
+* `Plot the oscillations of a pendulum <_static/N_pendulum.html>`_
+* `Measure the frequency response of a piezo buzzer <_static/PiezoFrequencyResponse.html>`_
+* `Study the oscillations of a pendulum using a intertial sensing unit <_static/Y_sensorpendulum.html>`_
+
+Elementary experiments for schools
+==================================
+
+Voltages
+---------
+
+* `Difference between AC and DC <_static/A_AC_AND_DC.html>`_
+* `Make a Lemon cell <_static/B_LEMON_CELL.html>`_
+* `Simple electromagnetic induction with a coil and magnet <_static/F_EM_INDUCTION.html>`_
+* `AC generator with a coil and magnet <_static/C_AC_GENERATOR.html>`_
+
+Capacitors
+----------
+
+* `Measure electrical capacitance <_static/I_CAPACITANCE.html>`_
+* `Study the discharge curve of a capacitor <_static/L_CAPACITOR_DISCHARGE.html>`_
+
+Resistors
+---------
+
+* `Resistors in Series and Parallel <_static/D_RESISTANCE.html>`_
+* `Ohm's Law <_static/E_OhmsLaw.html>`_
+* `Measure the resistance of the human body <_static/E_RESISTANCE_BODY.html>`_
+* `Measure the AC and DC resistance of water <_static/F_WATER_RESISTANCE.html>`_
+* `Study a light dependent resistor <_static/K_LDR.html>`_
+
+Sound Waves
+------------
+
+* `Study sound waves <_static/G_SOUND_BASICS.html>`_
+* `Study the waveforms from a piezo buzzer <_static/HA_SOUND_BUZZER.html>`_
+* `Study the beat phenomenon <_static/H_SOUND_BEATS.html>`_
+* `Measure distance using sound pulses <_static/Z_DISTANCE.html>`_
+
+Diodes
+------------
+
+* `Study a diode : One way path for electrons <_static/J_DIODE.html>`_
+
+Electronics
+=============
+
+Filters
+-------
+
+* `Bode Plots : Frequency and phase response <_static/K_bodePlots.html>`_
+* `Voltage controlled low pass filter <_static/Z_VC_LowPass.html>`_
+
+Passive Circuits : Capacitors, Inductors, and Resistors
+------------------------
+
+* `RLC transient response <_static/E_transientRLC.html>`_
+* `Capacitive Reactance <_static/O_XC.html>`_
+* `Inductive Reactance <_static/O_XL.html>`_
+* `Capacitive Phase shift <_static/P_CapacitivePhaseShift.html>`_
+* `Inductive Phase Shift <_static/P_InductivePhaseShift.html>`_
+* `RLC steady state response <_static/Q_LCRSteady.html>`_
+* `RC Integrals and Derivatives <_static/Q_RC_integ_deriv.html>`_
+
+
+Add-on Boards
+=============
+
+Utilities
+----------
+* `Control Up to 4 servo motors via SQR1-4 <_static/G_servo_motors.html>`_
+* `Control a stepper motor via SQR1-4 <_static/J_stepper.html>`_
+* `Acquire data from a TCD1304 Linear camera with 3648 pixels <_static/Z_LinearCCD.html>`_
+* `Publish data to thingspeak. Remote Access via PubNub <_static/virtual.html>`_
+* `Flowchart <_static/Z_hackyourown.html>`_
+
+Testing and Calibration
+------------------------
+* `Test <_static/testing.html>`_
+* `Test the features <_static/B_testing.html>`_
+* `Calibrate the device using a 24-bit ADC connected to the expansion slot <_static/calibrator.html>`_
+* `Load calibration data <_static/calibration_loader.html>`_
+
+
+
+Plugins
+-------
+
+* `Monitor 2.5pm dust concentration using a DSM501 sensor <_static/DUST_SENSOR.html>`_
+* `Access a 128*64 SSD1306 OLED display <_static/D_OLED.html>`_
+* `Fade random hues on wireless RGB lights <_static/Wireless_RGB_test.html>`_
+* `Read/Write Smart Cards using MFR522 <_static/Z_NFC.html>`_
+* `Set color of up to 3 daisy chained RGB LEDs(WS2812B) connected to SQR1 <_static/Z_RGB_LEDs.html>`_
+
+
+
+
+
+
+
+
+
+
+
+

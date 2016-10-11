@@ -1,0 +1,1083 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>GUI development : Make your own interactive Qt based graphical apps &mdash; SEELablet Applications 1.0.5 documentation</title>
+    
+    <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '1.0.5',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="file:///usr/share/javascript/mathjax/MathJax.js"></script>
+    <link rel="top" title="SEELablet Applications 1.0.5 documentation" href="index.html" />
+    <link rel="prev" title="Applications for Science and Engineering experiments" href="experiments.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="experiments.html" title="Applications for Science and Engineering experiments"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">SEELablet Applications 1.0.5 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="gui-development-make-your-own-interactive-qt-based-graphical-apps">
+<h1>GUI development : Make your own interactive Qt based graphical apps<a class="headerlink" href="#gui-development-make-your-own-interactive-qt-based-graphical-apps" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="code-example-for-a-data-logger">
+<h2>Code Example for a data logger<a class="headerlink" href="#code-example-for-a-data-logger" title="Permalink to this headline">¶</a></h2>
+<p>A code example on how to inherit the utilitiesClass, and develop a simple data logger</p>
+<div class="align-center figure">
+<img alt="data logger example" src="_images/example-logger.png" />
+</div>
+<div class="highlight-python"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70</pre></div></td><td class="code"><div class="highlight"><pre><span class="c">#!/usr/bin/python</span>
+
+<span class="kn">from</span> <span class="nn">SEEL</span> <span class="kn">import</span> <span class="n">interface</span>
+<span class="kn">from</span> <span class="nn">SEEL_Apps.utilitiesClass</span> <span class="kn">import</span> <span class="n">utilitiesClass</span>  <span class="c">#import the utilities</span>
+
+<span class="c">#import a preconstructed template file stored in SEEL_Apps/templates</span>
+<span class="c">#It contains a vertical layout called plot_area ,  horizontal layouts called bottomLayout, widgetsLayout, controlsLayout</span>
+<span class="kn">from</span> <span class="nn">SEEL_Apps.templates</span> <span class="kn">import</span> <span class="n">ui_template_graph_nofft</span> <span class="k">as</span> <span class="n">template_graph_nofft</span> 
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">PyQt4</span> <span class="kn">import</span> <span class="n">QtGui</span><span class="p">,</span><span class="n">QtCore</span>
+<span class="kn">import</span> <span class="nn">sys</span><span class="o">,</span><span class="nn">time</span>
+
+<span class="c">#This class handles everything, but skip to the end to see how it is initialized.</span>
+<span class="c">#It inherits the helper class called utilitiesClass . This crudely means , that the methods of utilitiesClass, can now be assumed to be members of this class</span>
+
+<span class="k">class</span> <span class="nc">AppWindow</span><span class="p">(</span><span class="n">QtGui</span><span class="o">.</span><span class="n">QMainWindow</span><span class="p">,</span> <span class="n">template_graph_nofft</span><span class="o">.</span><span class="n">Ui_MainWindow</span><span class="p">,</span><span class="n">utilitiesClass</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">AppWindow</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">parent</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">setupUi</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">I</span> <span class="o">=</span> <span class="n">interface</span><span class="o">.</span><span class="n">connect</span><span class="p">()</span>
+        <span class="c">#set the window title</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">setWindowTitle</span><span class="p">(</span><span class="s">&#39;My First App&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">plot</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">add2DPlot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">plot_area</span><span class="p">,</span><span class="n">enableMenu</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>       <span class="c">#Create a plot inside the plot_area. disable the right click menu</span>
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">setLabel</span><span class="p">(</span><span class="s">&#39;left&#39;</span><span class="p">,</span><span class="s">&#39;Voltage&#39;</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="s">&#39;V&#39;</span><span class="p">)</span>                 <span class="c">#Set the Y-Axis Label , and units</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">setLabel</span><span class="p">(</span><span class="s">&#39;bottom&#39;</span><span class="p">,</span><span class="s">&#39;Time&#39;</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="s">&#39;S&#39;</span><span class="p">)</span>                  <span class="c">#Set the X-Axis</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">I</span><span class="o">.</span><span class="n">select_range</span><span class="p">(</span><span class="s">&#39;CH1&#39;</span><span class="p">,</span><span class="mi">8</span><span class="p">)</span>                                    <span class="c">#Set the gain of CH1 to +/-8V       </span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">setYRange</span><span class="p">(</span><span class="o">-</span><span class="mi">8</span><span class="p">,</span><span class="mi">8</span><span class="p">)</span>                                       <span class="c">#Set the default Y range shown to the user  </span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">setLimits</span><span class="p">(</span><span class="n">yMax</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span><span class="n">yMin</span><span class="o">=-</span><span class="mi">8</span><span class="p">)</span>                             <span class="c">#Prevent the user from zooming/panning out of this specified region</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">samples</span> <span class="o">=</span> <span class="mi">2000</span>                                             <span class="c">#Total samples in the buffer</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">legend</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">addLegend</span><span class="p">(</span><span class="n">offset</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mi">10</span><span class="p">,</span><span class="mi">30</span><span class="p">))</span> 
+        <span class="bp">self</span><span class="o">.</span><span class="n">curve1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">addCurve</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">plot</span><span class="p">,</span><span class="s">&#39;INPUT (CH1)&#39;</span><span class="p">)</span>            <span class="c">#Create a curve . It is automatically added to the legend created in the previous line</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">X</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mi">10</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">samples</span><span class="p">);</span><span class="bp">self</span><span class="o">.</span><span class="n">Y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">samples</span><span class="p">)</span> <span class="c">#Create the X-Axis . 2000 points from -10 to 0 .</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">WidgetLayout</span><span class="o">.</span><span class="n">setAlignment</span><span class="p">(</span><span class="n">QtCore</span><span class="o">.</span><span class="n">Qt</span><span class="o">.</span><span class="n">AlignLeft</span><span class="p">)</span>             <span class="c">#Change the alignment of the WidgetLayout</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">addPauseButton</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">bottomLayout</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">pause</span><span class="p">)</span>               <span class="c">#Add a QCheckBox to the bottomLayout</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">paused</span><span class="o">=</span><span class="bp">False</span><span class="p">;</span><span class="bp">self</span><span class="o">.</span><span class="n">running</span><span class="o">=</span><span class="bp">True</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">timer</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">newTimer</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">timer</span><span class="o">.</span><span class="n">timeout</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">run_np</span><span class="p">)</span>                         <span class="c">#Connect the run_np function to a timer</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">num</span><span class="o">=</span><span class="mi">0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ST</span><span class="o">=</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">timer</span><span class="o">.</span><span class="n">start</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>                                             <span class="c">#set the timer to fire every 3mS</span>
+
+    <span class="k">def</span> <span class="nf">pause</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">v</span><span class="p">):</span>                                                  <span class="c">#The pause button was bound to this function. Whenever the user clicks on it, this function is executed with the button state as the argument           </span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">paused</span> <span class="o">=</span> <span class="n">v</span>
+
+<span class="hll">    <span class="k">def</span> <span class="nf">run_np</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>                                                   <span class="c">#The function that does pretty much the main job</span>
+</span><span class="hll">        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">paused</span> <span class="ow">or</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">running</span><span class="p">:</span> <span class="k">return</span>                      <span class="c">#If the pause button is checked, do nothing and return... wait to be executed again by the timer            </span>
+</span><span class="hll">        <span class="bp">self</span><span class="o">.</span><span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">roll</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">X</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>                                     <span class="c">#rotate X-Axis array to the left. X[n] -&gt; X[n-1],  X[0] becomes X[last]</span>
+</span><span class="hll">        <span class="bp">self</span><span class="o">.</span><span class="n">Y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">roll</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Y</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+</span><span class="hll">        <span class="bp">self</span><span class="o">.</span><span class="n">X</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">=</span><span class="p">(</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span><span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">ST</span><span class="p">)</span>                                <span class="c">#store the timestamp in the last element of XAXIS</span>
+</span><span class="hll">        <span class="bp">self</span><span class="o">.</span><span class="n">Y</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">I</span><span class="o">.</span><span class="n">get_average_voltage</span><span class="p">(</span><span class="s">&#39;CH1&#39;</span><span class="p">)</span>                    <span class="c">#store the voltage value in the last element</span>
+</span><span class="hll">        <span class="bp">self</span><span class="o">.</span><span class="n">curve1</span><span class="o">.</span><span class="n">setData</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">X</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">Y</span><span class="p">)</span>
+</span><span class="hll">        <span class="bp">self</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">enableAutoRange</span><span class="p">(</span><span class="n">axis</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">plotItem</span><span class="o">.</span><span class="n">vb</span><span class="o">.</span><span class="n">XAxis</span><span class="p">)</span>
+</span>
+    <span class="k">def</span> <span class="nf">saveData</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>                                                 <span class="c">#The saveData button was part of the GUI template we&#39;re using. It expects to see this function          </span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">saveDataWindow</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">curve1</span><span class="p">],</span><span class="bp">self</span><span class="o">.</span><span class="n">plot</span><span class="p">)</span>                    <span class="c">#This launches a spreadsheet containing the values of curve1. It also lets you take a picture of the graph</span>
+        
+    <span class="k">def</span> <span class="nf">closeEvent</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>                                        <span class="c">#perform a clean exit by stopping the timer first</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">running</span><span class="o">=</span><span class="bp">False</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">timer</span><span class="o">.</span><span class="n">stop</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">finished</span><span class="o">=</span><span class="bp">True</span>
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">app</span> <span class="o">=</span> <span class="n">QtGui</span><span class="o">.</span><span class="n">QApplication</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">)</span>                                  <span class="c">#Create a Qt Event Handler</span>
+    <span class="n">myapp</span> <span class="o">=</span> <span class="n">AppWindow</span><span class="p">()</span>                                                <span class="c">#Launch the app     </span>
+    <span class="n">myapp</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+    <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="n">app</span><span class="o">.</span><span class="n">exec_</span><span class="p">())</span>                                               <span class="c">#Exit once the app has finished executing</span>
+</pre></div>
+</td></tr></table></div>
+</div>
+<div class="section" id="module-SEEL_Apps.utilitiesClass">
+<span id="helper-methods-utilities"></span><h2>Helper Methods : Utilities<a class="headerlink" href="#module-SEEL_Apps.utilitiesClass" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="SEEL_Apps.utilitiesClass.utilitiesClass">
+<em class="property">class </em><tt class="descclassname">SEEL_Apps.utilitiesClass.</tt><tt class="descname">utilitiesClass</tt><a class="reference internal" href="_modules/SEEL_Apps/utilitiesClass.html#utilitiesClass"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SEEL_Apps.utilitiesClass.utilitiesClass" title="Permalink to this definition">¶</a></dt>
+<dd><p>This class contains methods that simplify setting up and running
+an experiment.</p>
+<p>feature list :</p>
+<ul class="simple">
+<li>2D Plots<ul>
+<li>Embed a PyQtgraph PlotWidget into a specified Qt Layout</li>
+<li>Add curves into a supplied PlotWidget, and maintain a list.</li>
+<li>Add crosshairs</li>
+</ul>
+</li>
+</ul>
+<dl class="class">
+<dt id="SEEL_Apps.utilitiesClass.utilitiesClass.buttonIcon">
+<em class="property">class </em><tt class="descname">buttonIcon</tt><big>(</big><em>**args</em><big>)</big><a class="reference internal" href="_modules/SEEL_Apps/utilitiesClass.html#utilitiesClass.buttonIcon"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SEEL_Apps.utilitiesClass.utilitiesClass.buttonIcon" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a widget with a button, and an associated function that is called when the button is clicked.
+The return value of the function is shown in a label on the same widget</p>
+<div class="align-center figure align-left">
+<img alt="_images/buttonIcon.png" src="_images/buttonIcon.png" />
+</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="13%" />
+<col width="87%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head"><strong>Arguments</strong></th>
+<th class="head">&nbsp;</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><a href="#id1"><span class="problematic" id="id2">*</span></a>*kwargs</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-odd"><td>TITLE</td>
+<td>Text shown on the top section of the widget</td>
+</tr>
+<tr class="row-even"><td>FUNC</td>
+<td>function to be run when the button is clicked</td>
+</tr>
+<tr class="row-odd"><td>UNITS</td>
+<td>SI units used when the user clicks the button, and the results are displayed in the label</td>
+</tr>
+<tr class="row-even"><td>TOOLTIP</td>
+<td>text to be displayed when the mouse hovers over the widget</td>
+</tr>
+</tbody>
+</table>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">the widget . You may add this to any layout</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="SEEL_Apps.utilitiesClass.utilitiesClass.dialAndDoubleSpinIcon">
+<em class="property">class </em><tt class="descclassname">utilitiesClass.</tt><tt class="descname">dialAndDoubleSpinIcon</tt><big>(</big><em>**args</em><big>)</big><a class="reference internal" href="_modules/SEEL_Apps/utilitiesClass.html#utilitiesClass.dialAndDoubleSpinIcon"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SEEL_Apps.utilitiesClass.utilitiesClass.dialAndDoubleSpinIcon" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a widget with a knob, and an associated function that is called when the knob is turned by the user.
+It also contains a number entry field connected to the knob if the user wishes to manually enter a value</p>
+<div class="align-center figure align-left">
+<img alt="_images/dialAndDoubleSpinIcon.png" src="_images/dialAndDoubleSpinIcon.png" />
+</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="14%" />
+<col width="86%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head"><strong>Arguments</strong></th>
+<th class="head">&nbsp;</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><a href="#id3"><span class="problematic" id="id4">*</span></a>*kwargs</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-odd"><td>TITLE</td>
+<td>Text shown on the top section of the widget</td>
+</tr>
+<tr class="row-even"><td>FUNC</td>
+<td>function to be run when the knob is turned</td>
+</tr>
+<tr class="row-odd"><td>UNITS</td>
+<td>SI units of the entry field</td>
+</tr>
+<tr class="row-even"><td>TOOLTIP</td>
+<td>text to be displayed when the mouse hovers over the widget</td>
+</tr>
+<tr class="row-odd"><td>LINK</td>
+<td>Another function to which the return value of FUNC is passed when an event occurs</td>
+</tr>
+<tr class="row-even"><td>MIN</td>
+<td>minimum limit for the knob</td>
+</tr>
+<tr class="row-odd"><td>MAX</td>
+<td>maximum limit for the knob</td>
+</tr>
+</tbody>
+</table>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">the widget . You may add this to any layout</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="SEEL_Apps.utilitiesClass.utilitiesClass.dialIcon">
+<em class="property">class </em><tt class="descclassname">utilitiesClass.</tt><tt class="descname">dialIcon</tt><big>(</big><em>**args</em><big>)</big><a class="reference internal" href="_modules/SEEL_Apps/utilitiesClass.html#utilitiesClass.dialIcon"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SEEL_Apps.utilitiesClass.utilitiesClass.dialIcon" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a widget with a knob, and an associated function that is called when the knob is turned by the user</p>
+<div class="align-center figure align-left">
+<img alt="_images/dialIcon.png" src="_images/dialIcon.png" />
+</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="14%" />
+<col width="86%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head"><strong>Arguments</strong></th>
+<th class="head">&nbsp;</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><a href="#id5"><span class="problematic" id="id6">*</span></a>*kwargs</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-odd"><td>TITLE</td>
+<td>Text shown on the top section of the widget</td>
+</tr>
+<tr class="row-even"><td>FUNC</td>
+<td>function to be run when the knob is turned</td>
+</tr>
+<tr class="row-odd"><td>UNITS</td>
+<td>SI units of the entry field</td>
+</tr>
+<tr class="row-even"><td>TOOLTIP</td>
+<td>text to be displayed when the mouse hovers over the widget</td>
+</tr>
+<tr class="row-odd"><td>LINK</td>
+<td>Another function to which the return value of FUNC is passed when an event occurs</td>
+</tr>
+<tr class="row-even"><td>MIN</td>
+<td>minimum limit for the knob</td>
+</tr>
+<tr class="row-odd"><td>MAX</td>
+<td>maximum limit for the knob</td>
+</tr>
+</tbody>
+</table>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">the spin widget . You may add this to any layout</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="SEEL_Apps.utilitiesClass.utilitiesClass.doubleSpinIcon">
+<em class="property">class </em><tt class="descclassname">utilitiesClass.</tt><tt class="descname">doubleSpinIcon</tt><big>(</big><em>**args</em><big>)</big><a class="reference internal" href="_modules/SEEL_Apps/utilitiesClass.html#utilitiesClass.doubleSpinIcon"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SEEL_Apps.utilitiesClass.utilitiesClass.doubleSpinIcon" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a widget with a number entry field with decimal support, and an associated function that is called when the value of the field changes</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="14%" />
+<col width="86%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head"><strong>Arguments</strong></th>
+<th class="head">&nbsp;</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><a href="#id7"><span class="problematic" id="id8">*</span></a>*kwargs</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-odd"><td>TITLE</td>
+<td>Text shown on the top section of the widget</td>
+</tr>
+<tr class="row-even"><td>FUNC</td>
+<td>function to be run when the value of the widget changes</td>
+</tr>
+<tr class="row-odd"><td>UNITS</td>
+<td>SI units of the entry field</td>
+</tr>
+<tr class="row-even"><td>TOOLTIP</td>
+<td>text to be displayed when the mouse hovers over the widget</td>
+</tr>
+<tr class="row-odd"><td>LINK</td>
+<td>Another function to which the return value of FUNC is passed when an event occurs</td>
+</tr>
+<tr class="row-even"><td>MIN</td>
+<td>minimum limit for the number entry</td>
+</tr>
+<tr class="row-odd"><td>MAX</td>
+<td>maximum limit for the number entry</td>
+</tr>
+</tbody>
+</table>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">the double spin widget . You may add this to any layout</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="SEEL_Apps.utilitiesClass.utilitiesClass.dualButtonIcon">
+<em class="property">class </em><tt class="descclassname">utilitiesClass.</tt><tt class="descname">dualButtonIcon</tt><big>(</big><em>**args</em><big>)</big><a class="reference internal" href="_modules/SEEL_Apps/utilitiesClass.html#utilitiesClass.dualButtonIcon"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SEEL_Apps.utilitiesClass.utilitiesClass.dualButtonIcon" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a widget with two buttons, and associated functions that are called when the buttons are clicked.
+The return values of the functions are not shown</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="13%" />
+<col width="87%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head"><strong>Arguments</strong></th>
+<th class="head">&nbsp;</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><a href="#id9"><span class="problematic" id="id10">*</span></a>*kwargs</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-odd"><td>TITLE</td>
+<td>Text shown on the top section of the widget</td>
+</tr>
+<tr class="row-even"><td>A</td>
+<td>Text shown on button A</td>
+</tr>
+<tr class="row-odd"><td>B</td>
+<td>Text shown on button B</td>
+</tr>
+<tr class="row-even"><td>FUNCA</td>
+<td>function to be run when the first button is clicked</td>
+</tr>
+<tr class="row-odd"><td>FUNCB</td>
+<td>function to be run when the second button is clicked</td>
+</tr>
+<tr class="row-even"><td>UNITS</td>
+<td>SI units used when the user clicks the button, and the results are displayed in the label</td>
+</tr>
+<tr class="row-odd"><td>TOOLTIP</td>
+<td>text to be displayed when the mouse hovers over the widget</td>
+</tr>
+</tbody>
+</table>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">the widget . You may add this to any layout</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="SEEL_Apps.utilitiesClass.utilitiesClass.spinIcon">
+<em class="property">class </em><tt class="descclassname">utilitiesClass.</tt><tt class="descname">spinIcon</tt><big>(</big><em>**args</em><big>)</big><a class="reference internal" href="_modules/SEEL_Apps/utilitiesClass.html#utilitiesClass.spinIcon"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SEEL_Apps.utilitiesClass.utilitiesClass.spinIcon" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a widget with a number entry field, and an associated function that is called when the value of the field changes</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="14%" />
+<col width="86%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head"><strong>Arguments</strong></th>
+<th class="head">&nbsp;</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><a href="#id11"><span class="problematic" id="id12">*</span></a>*kwargs</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-odd"><td>TITLE</td>
+<td>Text shown on the top section of the widget</td>
+</tr>
+<tr class="row-even"><td>FUNC</td>
+<td>function to be run when the value of the widget changes</td>
+</tr>
+<tr class="row-odd"><td>UNITS</td>
+<td>SI units of the entry field</td>
+</tr>
+<tr class="row-even"><td>TOOLTIP</td>
+<td>text to be displayed when the mouse hovers over the widget</td>
+</tr>
+<tr class="row-odd"><td>LINK</td>
+<td>Another function to which the return value of FUNC is passed when an event occurs</td>
+</tr>
+<tr class="row-even"><td>MIN</td>
+<td>minimum limit for the number entry</td>
+</tr>
+<tr class="row-odd"><td>MAX</td>
+<td>maximum limit for the number entry</td>
+</tr>
+</tbody>
+</table>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">the spin widget . You may add this to any layout</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="SEEL_Apps.utilitiesClass.utilitiesClass.wideButtonIcon">
+<em class="property">class </em><tt class="descclassname">utilitiesClass.</tt><tt class="descname">wideButtonIcon</tt><big>(</big><em>**args</em><big>)</big><a class="reference internal" href="_modules/SEEL_Apps/utilitiesClass.html#utilitiesClass.wideButtonIcon"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SEEL_Apps.utilitiesClass.utilitiesClass.wideButtonIcon" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a widget with a wide button, and an associated function that is called when the button is clicked.
+The return value of the function is shown in a giant label on the same widget</p>
+<div class="align-center figure align-left">
+<img alt="_images/wideButtonIcon.png" src="_images/wideButtonIcon.png" />
+</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="13%" />
+<col width="87%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head"><strong>Arguments</strong></th>
+<th class="head">&nbsp;</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><a href="#id13"><span class="problematic" id="id14">*</span></a>*kwargs</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-odd"><td>TITLE</td>
+<td>Text shown on the top section of the widget</td>
+</tr>
+<tr class="row-even"><td>FUNC</td>
+<td>function to be run when the button is clicked</td>
+</tr>
+<tr class="row-odd"><td>UNITS</td>
+<td>SI units used when the user clicks the button, and the results are displayed in the label</td>
+</tr>
+<tr class="row-even"><td>TOOLTIP</td>
+<td>text to be displayed when the mouse hovers over the widget</td>
+</tr>
+</tbody>
+</table>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">the widget . You may add this to any layout</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="SEEL_Apps.utilitiesClass.utilitiesClass.add2DPlot">
+<tt class="descclassname">utilitiesClass.</tt><tt class="descname">add2DPlot</tt><big>(</big><em>plot_area</em>, <em>**args</em><big>)</big><a class="reference internal" href="_modules/SEEL_Apps/utilitiesClass.html#utilitiesClass.add2DPlot"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SEEL_Apps.utilitiesClass.utilitiesClass.add2DPlot" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add a 2D plot to a specified Qt Layout</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="14%" />
+<col width="86%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head"><strong>Arguments</strong></th>
+<th class="head">&nbsp;</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>plot_area</td>
+<td>QtGui.&lt;some layout&gt; to add a 2D plot to</td>
+</tr>
+</tbody>
+</table>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">pyqtgraph.PlotWidget</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="SEEL_Apps.utilitiesClass.utilitiesClass.add3DPlot">
+<tt class="descclassname">utilitiesClass.</tt><tt class="descname">add3DPlot</tt><big>(</big><em>plot_area</em><big>)</big><a class="reference internal" href="_modules/SEEL_Apps/utilitiesClass.html#utilitiesClass.add3DPlot"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SEEL_Apps.utilitiesClass.utilitiesClass.add3DPlot" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add a 3D plot to a specified Qt Layout</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="14%" />
+<col width="86%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head"><strong>Arguments</strong></th>
+<th class="head">&nbsp;</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>plot_area</td>
+<td>QtGui.&lt;some layout&gt; to add a 3D plot to</td>
+</tr>
+</tbody>
+</table>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">pyqtgraph.gl.GLViewWidget</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="SEEL_Apps.utilitiesClass.utilitiesClass.addAxis">
+<tt class="descclassname">utilitiesClass.</tt><tt class="descname">addAxis</tt><big>(</big><em>plot</em>, <em>**args</em><big>)</big><a class="reference internal" href="_modules/SEEL_Apps/utilitiesClass.html#utilitiesClass.addAxis"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SEEL_Apps.utilitiesClass.utilitiesClass.addAxis" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add an axis on the right side</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="14%" />
+<col width="86%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head"><strong>Arguments</strong></th>
+<th class="head">&nbsp;</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>plot</td>
+<td>pyqtgraph.PlotWidget</td>
+</tr>
+<tr class="row-odd"><td><a href="#id15"><span class="problematic" id="id16">*</span></a>args</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-even"><td><ol class="first last arabic simple">
+<li>label</li>
+</ol>
+</td>
+<td>Label of the new axis</td>
+</tr>
+</tbody>
+</table>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">pg.ViewBox</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="SEEL_Apps.utilitiesClass.utilitiesClass.addCurve">
+<tt class="descclassname">utilitiesClass.</tt><tt class="descname">addCurve</tt><big>(</big><em>plot</em>, <em>name=''</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="_modules/SEEL_Apps/utilitiesClass.html#utilitiesClass.addCurve"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SEEL_Apps.utilitiesClass.utilitiesClass.addCurve" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add a new curve to a 2D plot</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="14%" />
+<col width="86%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head"><strong>Arguments</strong></th>
+<th class="head">&nbsp;</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>plot</td>
+<td>QPlotWidget created using <a class="reference internal" href="#SEEL_Apps.utilitiesClass.utilitiesClass.add2DPlot" title="SEEL_Apps.utilitiesClass.utilitiesClass.add2DPlot"><tt class="xref py py-func docutils literal"><span class="pre">add2DPlot()</span></tt></a></td>
+</tr>
+<tr class="row-odd"><td>name</td>
+<td>something to call this trace. Shown in the legend too</td>
+</tr>
+</tbody>
+</table>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">pyqtgraph.PlotDataItem</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="SEEL_Apps.utilitiesClass.utilitiesClass.applySIPrefix">
+<tt class="descclassname">utilitiesClass.</tt><tt class="descname">applySIPrefix</tt><big>(</big><em>value</em>, <em>unit=''</em>, <em>precision=2</em><big>)</big><a class="reference internal" href="_modules/SEEL_Apps/utilitiesClass.html#utilitiesClass.applySIPrefix"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SEEL_Apps.utilitiesClass.utilitiesClass.applySIPrefix" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert a given value into scientific notation</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="14%" />
+<col width="86%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head"><strong>Arguments</strong></th>
+<th class="head">&nbsp;</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>value</td>
+<td>The number to convert into a human readable form</td>
+</tr>
+<tr class="row-odd"><td>unit</td>
+<td>SI units to suffix. Leave blank if not needed</td>
+</tr>
+<tr class="row-even"><td>precision</td>
+<td>Decimal precision digits</td>
+</tr>
+</tbody>
+</table>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">applySIPrefix</span><span class="p">(</span><span class="mi">1010</span><span class="p">,</span><span class="s">&#39;Hz&#39;</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="mf">1.01</span><span class="n">kHz</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="SEEL_Apps.utilitiesClass.utilitiesClass.delayedTask">
+<tt class="descclassname">utilitiesClass.</tt><tt class="descname">delayedTask</tt><big>(</big><em>interval</em>, <em>func</em>, <em>*args</em><big>)</big><a class="reference internal" href="_modules/SEEL_Apps/utilitiesClass.html#utilitiesClass.delayedTask"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SEEL_Apps.utilitiesClass.utilitiesClass.delayedTask" title="Permalink to this definition">¶</a></dt>
+<dd><p>Execute a function after &#8216;interval&#8217; milliseconds</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="14%" />
+<col width="86%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head"><strong>Arguments</strong></th>
+<th class="head">&nbsp;</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>interval</td>
+<td>Time delay before execution</td>
+</tr>
+<tr class="row-odd"><td>func</td>
+<td>function to be run</td>
+</tr>
+<tr class="row-even"><td><a href="#id17"><span class="problematic" id="id18">*</span></a>args</td>
+<td>arguments for that function. in order.</td>
+</tr>
+</tbody>
+</table>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">the timer .</td>
+</tr>
+</tbody>
+</table>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">tmr</span> <span class="o">=</span> <span class="n">delayedTask</span><span class="p">(</span><span class="mi">5000</span><span class="p">,</span><span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">,</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span>  <span class="c">#calculate sin(pi/2) after 5 seconds                    </span>
+<span class="c">#equivalent to :</span>
+<span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+<span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="SEEL_Apps.utilitiesClass.utilitiesClass.displayCrossHairData">
+<tt class="descclassname">utilitiesClass.</tt><tt class="descname">displayCrossHairData</tt><big>(</big><em>plot</em>, <em>fmode</em>, <em>ns</em>, <em>tg</em>, <em>axes</em>, <em>cols</em><big>)</big><a class="reference internal" href="_modules/SEEL_Apps/utilitiesClass.html#utilitiesClass.displayCrossHairData"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SEEL_Apps.utilitiesClass.utilitiesClass.displayCrossHairData" title="Permalink to this definition">¶</a></dt>
+<dd><div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">beta function to extract specific coordinate data from curves , and show them as the plot title</p>
+</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="14%" />
+<col width="86%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head"><strong>Arguments</strong></th>
+<th class="head">&nbsp;</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>plot</td>
+<td>The plot to activate this feature on</td>
+</tr>
+<tr class="row-odd"><td>fmode</td>
+<td>Set to True if fourier transform mode is active</td>
+</tr>
+<tr class="row-even"><td>ns</td>
+<td>Number of samples</td>
+</tr>
+<tr class="row-odd"><td>tg</td>
+<td>time gap</td>
+</tr>
+<tr class="row-even"><td>axes</td>
+<td>axes</td>
+</tr>
+<tr class="row-odd"><td>cols</td>
+<td>list of trace colours</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="SEEL_Apps.utilitiesClass.utilitiesClass.displayDialog">
+<tt class="descclassname">utilitiesClass.</tt><tt class="descname">displayDialog</tt><big>(</big><em>txt=''</em><big>)</big><a class="reference internal" href="_modules/SEEL_Apps/utilitiesClass.html#utilitiesClass.displayDialog"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SEEL_Apps.utilitiesClass.utilitiesClass.displayDialog" title="Permalink to this definition">¶</a></dt>
+<dd><p>Show a pop up dialog with a message</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="SEEL_Apps.utilitiesClass.utilitiesClass.enableCrossHairs">
+<tt class="descclassname">utilitiesClass.</tt><tt class="descname">enableCrossHairs</tt><big>(</big><em>plot</em>, <em>curves=[]</em><big>)</big><a class="reference internal" href="_modules/SEEL_Apps/utilitiesClass.html#utilitiesClass.enableCrossHairs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SEEL_Apps.utilitiesClass.utilitiesClass.enableCrossHairs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Enables crosshairs on the specified plot</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="14%" />
+<col width="86%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head"><strong>Arguments</strong></th>
+<th class="head">&nbsp;</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>plot</td>
+<td>The plot to activate this feature on</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="SEEL_Apps.utilitiesClass.utilitiesClass.enableShortcuts">
+<tt class="descclassname">utilitiesClass.</tt><tt class="descname">enableShortcuts</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/SEEL_Apps/utilitiesClass.html#utilitiesClass.enableShortcuts"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SEEL_Apps.utilitiesClass.utilitiesClass.enableShortcuts" title="Permalink to this definition">¶</a></dt>
+<dd><p>Enable the following shortcuts :</p>
+<ul class="simple">
+<li>CTRL-S : Opens the saveData window for saving trace data . It will load the coordinate data from all curves created using <a class="reference internal" href="#SEEL_Apps.utilitiesClass.utilitiesClass.addCurve" title="SEEL_Apps.utilitiesClass.utilitiesClass.addCurve"><tt class="xref py py-func docutils literal"><span class="pre">addCurve()</span></tt></a></li>
+</ul>
+</dd></dl>
+
+<dl class="method">
+<dt id="SEEL_Apps.utilitiesClass.utilitiesClass.fetchColumns">
+<tt class="descclassname">utilitiesClass.</tt><tt class="descname">fetchColumns</tt><big>(</big><em>qtablewidget</em>, <em>*args</em><big>)</big><a class="reference internal" href="_modules/SEEL_Apps/utilitiesClass.html#utilitiesClass.fetchColumns"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SEEL_Apps.utilitiesClass.utilitiesClass.fetchColumns" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fetch columns from a QTableWidget</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="14%" />
+<col width="86%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head"><strong>Arguments</strong></th>
+<th class="head">&nbsp;</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>qtablewidget</td>
+<td>Widget in question</td>
+</tr>
+<tr class="row-odd"><td><a href="#id19"><span class="problematic" id="id20">*</span></a>args</td>
+<td>columns numbers</td>
+</tr>
+</tbody>
+</table>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">2D array of requested elements [[col1R0,col1,R1,col1,R3...col1Rn],[col2R0,col2,R1,col2,R3...col2Rn], ...]</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="SEEL_Apps.utilitiesClass.utilitiesClass.killAllTimers">
+<tt class="descclassname">utilitiesClass.</tt><tt class="descname">killAllTimers</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/SEEL_Apps/utilitiesClass.html#utilitiesClass.killAllTimers"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SEEL_Apps.utilitiesClass.utilitiesClass.killAllTimers" title="Permalink to this definition">¶</a></dt>
+<dd><p>Stop all timers created using either <a class="reference internal" href="#SEEL_Apps.utilitiesClass.utilitiesClass.delayedTask" title="SEEL_Apps.utilitiesClass.utilitiesClass.delayedTask"><tt class="xref py py-func docutils literal"><span class="pre">delayedTask()</span></tt></a> or <a class="reference internal" href="#SEEL_Apps.utilitiesClass.utilitiesClass.loopTask" title="SEEL_Apps.utilitiesClass.utilitiesClass.loopTask"><tt class="xref py py-func docutils literal"><span class="pre">loopTask()</span></tt></a></p>
+</dd></dl>
+
+<dl class="method">
+<dt id="SEEL_Apps.utilitiesClass.utilitiesClass.loopTask">
+<tt class="descclassname">utilitiesClass.</tt><tt class="descname">loopTask</tt><big>(</big><em>interval</em>, <em>func</em>, <em>*args</em><big>)</big><a class="reference internal" href="_modules/SEEL_Apps/utilitiesClass.html#utilitiesClass.loopTask"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SEEL_Apps.utilitiesClass.utilitiesClass.loopTask" title="Permalink to this definition">¶</a></dt>
+<dd><p>Execute a function every &#8216;interval&#8217; milliseconds</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="14%" />
+<col width="86%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head"><strong>Arguments</strong></th>
+<th class="head">&nbsp;</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>interval</td>
+<td>Time delay between consecutive executions</td>
+</tr>
+<tr class="row-odd"><td>func</td>
+<td>function to be run</td>
+</tr>
+<tr class="row-even"><td><a href="#id21"><span class="problematic" id="id22">*</span></a>args</td>
+<td>arguments for that function. in order.</td>
+</tr>
+</tbody>
+</table>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">the timer . You should store this if you will need to stop this event loop at some point</td>
+</tr>
+</tbody>
+</table>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">tmr</span> <span class="o">=</span> <span class="n">loopTask</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span><span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">,</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span>  <span class="c">#calculate sin(pi/2) every 100mS = 0.1 seconds                      </span>
+<span class="c">#equivalent to :</span>
+<span class="k">while</span> <span class="bp">True</span><span class="p">:</span>
+        <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span>
+        <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">0.1</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="SEEL_Apps.utilitiesClass.utilitiesClass.newTimer">
+<tt class="descclassname">utilitiesClass.</tt><tt class="descname">newTimer</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/SEEL_Apps/utilitiesClass.html#utilitiesClass.newTimer"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SEEL_Apps.utilitiesClass.utilitiesClass.newTimer" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a QtCore.QTimer object and return it.
+A reference is also stored in order to keep track of it</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="SEEL_Apps.utilitiesClass.utilitiesClass.random_color">
+<tt class="descclassname">utilitiesClass.</tt><tt class="descname">random_color</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/SEEL_Apps/utilitiesClass.html#utilitiesClass.random_color"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SEEL_Apps.utilitiesClass.utilitiesClass.random_color" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generate a random colour</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">QtGui.QColor object</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="SEEL_Apps.utilitiesClass.utilitiesClass.removeCurve">
+<tt class="descclassname">utilitiesClass.</tt><tt class="descname">removeCurve</tt><big>(</big><em>plot</em>, <em>curve</em><big>)</big><a class="reference internal" href="_modules/SEEL_Apps/utilitiesClass.html#utilitiesClass.removeCurve"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SEEL_Apps.utilitiesClass.utilitiesClass.removeCurve" title="Permalink to this definition">¶</a></dt>
+<dd><p>Remove a curve from a plot</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="14%" />
+<col width="86%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head"><strong>Arguments</strong></th>
+<th class="head">&nbsp;</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>plot</td>
+<td>pyqtgraph.PlotWidget created using <a class="reference internal" href="#SEEL_Apps.utilitiesClass.utilitiesClass.add2DPlot" title="SEEL_Apps.utilitiesClass.utilitiesClass.add2DPlot"><tt class="xref py py-func docutils literal"><span class="pre">add2DPlot()</span></tt></a></td>
+</tr>
+<tr class="row-odd"><td>name</td>
+<td>pyqtgraph.PlotDataItem created for the specified plot using <a class="reference internal" href="#SEEL_Apps.utilitiesClass.utilitiesClass.addCurve" title="SEEL_Apps.utilitiesClass.utilitiesClass.addCurve"><tt class="xref py py-func docutils literal"><span class="pre">addCurve()</span></tt></a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="SEEL_Apps.utilitiesClass.utilitiesClass.rightClickToZoomOut">
+<tt class="descclassname">utilitiesClass.</tt><tt class="descname">rightClickToZoomOut</tt><big>(</big><em>plot</em><big>)</big><a class="reference internal" href="_modules/SEEL_Apps/utilitiesClass.html#utilitiesClass.rightClickToZoomOut"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SEEL_Apps.utilitiesClass.utilitiesClass.rightClickToZoomOut" title="Permalink to this definition">¶</a></dt>
+<dd><p>Enables zooming out when the user presses the right mouse button on the plot</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="14%" />
+<col width="86%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head"><strong>Arguments</strong></th>
+<th class="head">&nbsp;</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>plot</td>
+<td>The plot to activate this feature on</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="SEEL_Apps.utilitiesClass.utilitiesClass.setColorSchemeBlack">
+<tt class="descclassname">utilitiesClass.</tt><tt class="descname">setColorSchemeBlack</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/SEEL_Apps/utilitiesClass.html#utilitiesClass.setColorSchemeBlack"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SEEL_Apps.utilitiesClass.utilitiesClass.setColorSchemeBlack" title="Permalink to this definition">¶</a></dt>
+<dd><p>Changes plot background to black. Also changes plot colours</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="SEEL_Apps.utilitiesClass.utilitiesClass.setColorSchemeWhite">
+<tt class="descclassname">utilitiesClass.</tt><tt class="descname">setColorSchemeWhite</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/SEEL_Apps/utilitiesClass.html#utilitiesClass.setColorSchemeWhite"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SEEL_Apps.utilitiesClass.utilitiesClass.setColorSchemeWhite" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the plot background to white . This will also automatically change trace colours.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">GUI development : Make your own interactive Qt based graphical apps</a><ul>
+<li><a class="reference internal" href="#code-example-for-a-data-logger">Code Example for a data logger</a></li>
+<li><a class="reference internal" href="#module-SEEL_Apps.utilitiesClass">Helper Methods : Utilities</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="experiments.html"
+                        title="previous chapter">Applications for Science and Engineering experiments</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/utilities.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="experiments.html" title="Applications for Science and Engineering experiments"
+             >previous</a> |</li>
+        <li><a href="index.html">SEELablet Applications 1.0.5 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2016, Jithin BP.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
+    </div>
+  </body>
+</html>
