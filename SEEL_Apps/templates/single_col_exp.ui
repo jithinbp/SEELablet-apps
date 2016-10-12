@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>433</width>
+    <width>479</width>
     <height>627</height>
    </rect>
   </property>
@@ -187,7 +187,7 @@
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>400</width>
+                <width>446</width>
                 <height>415</height>
                </rect>
               </property>
@@ -346,7 +346,9 @@ p, li { white-space: pre-wrap; }
         <string> Controls  </string>
        </attribute>
        <attribute name="toolTip">
-        <string>Various knobs for setting the outputs such as power supplies and waveform generators. Also contains meters for voltage, frequency, and capacitance</string>
+        <string>Various knobs for setting the outputs such as
+ power supplies and waveform generators.
+ Also contains meters for voltage, frequency, and capacitance</string>
        </attribute>
        <layout class="QVBoxLayout" name="verticalLayout_3">
         <property name="spacing">
@@ -389,7 +391,7 @@ p, li { white-space: pre-wrap; }
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>402</width>
+             <width>448</width>
              <height>572</height>
             </rect>
            </property>
@@ -525,7 +527,7 @@ p, li { white-space: pre-wrap; }
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>396</width>
+             <width>442</width>
              <height>594</height>
             </rect>
            </property>
@@ -551,7 +553,7 @@ p, li { white-space: pre-wrap; }
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>433</width>
+     <width>479</width>
      <height>25</height>
     </rect>
    </property>
@@ -636,6 +638,17 @@ p, li { white-space: pre-wrap; }
    </property>
   </action>
  </widget>
+ <tabstops>
+  <tabstop>tabWidget</tabstop>
+  <tabstop>ExperimentScrollArea</tabstop>
+  <tabstop>subSections</tabstop>
+  <tabstop>hintText</tabstop>
+  <tabstop>scrollArea_5</tabstop>
+  <tabstop>pushButton</tabstop>
+  <tabstop>pushButton_2</tabstop>
+  <tabstop>deviceCombo</tabstop>
+  <tabstop>scrollArea</tabstop>
+ </tabstops>
  <resources/>
  <connections>
   <connection>
@@ -661,8 +674,8 @@ p, li { white-space: pre-wrap; }
    <slot>selectDevice()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>123</x>
-     <y>664</y>
+     <x>115</x>
+     <y>624</y>
     </hint>
     <hint type="destinationlabel">
      <x>294</x>
@@ -741,8 +754,8 @@ p, li { white-space: pre-wrap; }
    <slot>returnToApps()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>128</x>
-     <y>358</y>
+     <x>157</x>
+     <y>338</y>
     </hint>
     <hint type="destinationlabel">
      <x>455</x>
