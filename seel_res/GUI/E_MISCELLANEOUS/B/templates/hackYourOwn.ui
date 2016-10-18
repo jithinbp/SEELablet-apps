@@ -49,12 +49,26 @@
         <number>0</number>
        </property>
        <item>
-        <widget class="QPushButton" name="pushButton">
+        <widget class="QCheckBox" name="checkBox">
          <property name="toolTip">
           <string>run the code</string>
          </property>
          <property name="text">
-          <string>Run</string>
+          <string>Curved Interconnects</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="label">
+         <property name="font">
+          <font>
+           <pointsize>10</pointsize>
+           <weight>75</weight>
+           <bold>true</bold>
+          </font>
+         </property>
+         <property name="text">
+          <string>ADD NODES TO FLOWCHART</string>
          </property>
         </widget>
        </item>
@@ -89,7 +103,7 @@
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>532</width>
+         <width>519</width>
          <height>473</height>
         </rect>
        </property>
@@ -109,8 +123,7 @@
         <item row="0" column="0">
          <widget class="QFrame" name="frame_5">
           <property name="toolTip">
-           <string>Widgets specific to detected sensors will be displayed
-here after you click the button below</string>
+           <string/>
           </property>
           <property name="frameShape">
            <enum>QFrame::StyledPanel</enum>
@@ -157,23 +170,23 @@ here after you click the button below</string>
  <resources/>
  <connections>
   <connection>
-   <sender>pushButton</sender>
-   <signal>clicked()</signal>
+   <sender>checkBox</sender>
+   <signal>toggled(bool)</signal>
    <receiver>MainWindow</receiver>
-   <slot>run()</slot>
+   <slot>setInterconnects(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>462</x>
-     <y>462</y>
+     <x>89</x>
+     <y>10</y>
     </hint>
     <hint type="destinationlabel">
-     <x>467</x>
-     <y>490</y>
+     <x>-16</x>
+     <y>34</y>
     </hint>
    </hints>
   </connection>
  </connections>
  <slots>
-  <slot>run()</slot>
+  <slot>setInterconnects(bool)</slot>
  </slots>
 </ui>

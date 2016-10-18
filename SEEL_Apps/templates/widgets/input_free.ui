@@ -1,0 +1,260 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Form</class>
+ <widget class="QWidget" name="Form">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>104</width>
+    <height>105</height>
+   </rect>
+  </property>
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>100</width>
+    <height>105</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>104</width>
+    <height>105</height>
+   </size>
+  </property>
+  <property name="font">
+   <font>
+    <pointsize>10</pointsize>
+    <weight>75</weight>
+    <bold>true</bold>
+   </font>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true"/>
+  </property>
+  <widget class="QToolButton" name="setup_btn">
+   <property name="geometry">
+    <rect>
+     <x>2</x>
+     <y>76</y>
+     <width>36</width>
+     <height>25</height>
+    </rect>
+   </property>
+   <property name="minimumSize">
+    <size>
+     <width>0</width>
+     <height>0</height>
+    </size>
+   </property>
+   <property name="text">
+    <string>Setup</string>
+   </property>
+   <property name="icon">
+    <iconset theme="emblem-system">
+     <normaloff/>
+    </iconset>
+   </property>
+   <property name="iconSize">
+    <size>
+     <width>20</width>
+     <height>20</height>
+    </size>
+   </property>
+   <property name="popupMode">
+    <enum>QToolButton::InstantPopup</enum>
+   </property>
+   <property name="toolButtonStyle">
+    <enum>Qt::ToolButtonIconOnly</enum>
+   </property>
+   <property name="autoRaise">
+    <bool>false</bool>
+   </property>
+   <property name="arrowType">
+    <enum>Qt::NoArrow</enum>
+   </property>
+  </widget>
+  <widget class="QToolButton" name="check_btn">
+   <property name="geometry">
+    <rect>
+     <x>2</x>
+     <y>48</y>
+     <width>70</width>
+     <height>25</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>check</string>
+   </property>
+   <property name="icon">
+    <iconset theme="view-refresh">
+     <normaloff/>
+    </iconset>
+   </property>
+   <property name="popupMode">
+    <enum>QToolButton::InstantPopup</enum>
+   </property>
+   <property name="toolButtonStyle">
+    <enum>Qt::ToolButtonTextBesideIcon</enum>
+   </property>
+  </widget>
+  <widget class="QToolButton" name="pause_btn">
+   <property name="geometry">
+    <rect>
+     <x>26</x>
+     <y>21</y>
+     <width>22</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>PAUSE</string>
+   </property>
+   <property name="icon">
+    <iconset theme="media-playback-pause">
+     <normaloff/>
+    </iconset>
+   </property>
+  </widget>
+  <widget class="QToolButton" name="play_btn">
+   <property name="geometry">
+    <rect>
+     <x>2</x>
+     <y>21</y>
+     <width>22</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>RUN</string>
+   </property>
+   <property name="icon">
+    <iconset theme="media-playback-start">
+     <normaloff/>
+    </iconset>
+   </property>
+  </widget>
+  <widget class="QToolButton" name="stop_btn">
+   <property name="geometry">
+    <rect>
+     <x>50</x>
+     <y>21</y>
+     <width>22</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>PAUSE</string>
+   </property>
+   <property name="icon">
+    <iconset theme="media-playback-stop">
+     <normaloff/>
+    </iconset>
+   </property>
+  </widget>
+  <widget class="QLabel" name="value">
+   <property name="geometry">
+    <rect>
+     <x>40</x>
+     <y>80</y>
+     <width>61</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>8</pointsize>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: white;</string>
+   </property>
+   <property name="text">
+    <string notr="true"/>
+   </property>
+  </widget>
+ </widget>
+ <resources/>
+ <connections>
+  <connection>
+   <sender>play_btn</sender>
+   <signal>clicked()</signal>
+   <receiver>Form</receiver>
+   <slot>startLoop()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>13</x>
+     <y>23</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>0</x>
+     <y>40</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pause_btn</sender>
+   <signal>clicked()</signal>
+   <receiver>Form</receiver>
+   <slot>pauseLoop()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>44</x>
+     <y>35</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>41</x>
+     <y>0</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>stop_btn</sender>
+   <signal>clicked()</signal>
+   <receiver>Form</receiver>
+   <slot>stopLoop()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>63</x>
+     <y>25</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>55</x>
+     <y>0</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>check_btn</sender>
+   <signal>clicked()</signal>
+   <receiver>Form</receiver>
+   <slot>checkLoop()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>52</x>
+     <y>72</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>36</x>
+     <y>104</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+ <slots>
+  <slot>startLoop()</slot>
+  <slot>singleLoop()</slot>
+  <slot>pauseLoop()</slot>
+  <slot>stopLoop()</slot>
+  <slot>checkLoop()</slot>
+ </slots>
+</ui>
