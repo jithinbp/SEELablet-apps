@@ -429,8 +429,8 @@ class utilitiesClass():
 		
 		:return: pyqtgraph.PlotDataItem
 		"""
-		if(len(name)):curve = pg.PlotDataItem(name=name)
-		else:curve = pg.PlotCurveItem(**kwargs)
+		#if(len(name)):curve = pg.PlotDataItem(name=name)
+		curve = pg.PlotCurveItem(name = name,**kwargs)
 		plot.addItem(curve)
 		if self.properties['colorScheme']=='white':
 			curve.setPen(kwargs.get('pen',{'color':self.white_trace_colors[len(self.plots2D[plot])],'width':1}))
@@ -463,6 +463,22 @@ class utilitiesClass():
 
 	def rebuildLegend(self,plot):
 		return plot.addLegend(offset=(-10,30))
+
+	def renameLegendItem(self, legend,oldName,newName):
+		"""
+		Renames one item from the legend. 
+
+		==============  ========================================================
+		**Arguments:**
+		legend          legendItem
+		name			name of the entry
+		==============  ========================================================
+		"""
+		for sample, label in legend.items:
+			if label.text == oldName:  # hit
+				label.setText(newName)
+				legend.updateSize()                 # redraw box
+				return
 
 
 	def fetchColumns(self,qtablewidget,*args):

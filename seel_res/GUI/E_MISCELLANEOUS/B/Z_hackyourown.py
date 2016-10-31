@@ -44,6 +44,7 @@ from SEEL_Apps.templates.widgets.ui_text_free import Ui_Form as text_free
 from SEEL_Apps.templates.widgets.ui_button_free import Ui_Form as button_free
 from SEEL_Apps.templates.widgets.ui_input_free import Ui_Form as input_free
 from SEEL_Apps.templates.widgets.ui_sweep_free import Ui_Form as ui_sweep
+from SEEL_Apps.templates.widgets.ui_generic_free import Ui_Form as generic_free
 
 class utils:
 	def __init__(self):
@@ -165,6 +166,8 @@ class inputIcon(QtGui.QFrame,input_free,utils):
 		super(inputIcon, self).__init__()
 		self.setupUi(self)
 		self.func = args.get('func',None)
+		self.nameFunc = args.get('nameFunc',None)
+		self.nameFunc('STOPPED')
 		self.data = True
 		self.dataset = []
 		self.position = 0
@@ -183,8 +186,9 @@ class inputIcon(QtGui.QFrame,input_free,utils):
 		def __init__(self,**kwargs):
 			super(inputIcon.sweepHandler, self).__init__()
 			self.setupUi(self)
-			self.continuousFrame.setVisible(False)
-			self.loopType = 0
+			self.comboBox.setCurrentIndex(1)
+			self.sweepFrame.setVisible(False)
+			self.loopType = 1
 
 		def setType(self,val):
 			self.continuousFrame.setVisible(True if val == 1 else False)
@@ -209,6 +213,7 @@ class inputIcon(QtGui.QFrame,input_free,utils):
 			self.func(In = self.params.valueBox.value())
 
 	def startLoop(self):
+		self.nameFunc('PLAYING')
 		if not self.params.loopType: #sweep
 			self.dataset = np.linspace(self.params.startBox.value(),self.params.stopBox.value(),self.params.numBox.value())
 			self.position = 0
@@ -217,18 +222,28 @@ class inputIcon(QtGui.QFrame,input_free,utils):
 			self.timer.start(self.params.intervalBox.value())
 			
 	def pauseLoop(self):
+		self.nameFunc('PAUSED')
 		self.timer.stop()
 	def stopLoop(self):
+		self.nameFunc('STOPPED')
 		self.timer.stop()
 	def setupLoop(self):
 		pass
 
+class genericIcon(QtGui.QFrame,generic_free,utils):
+	def __init__(self,*args,**kwargs):
+		super(genericIcon, self).__init__()
+		self.setupUi(self)
+		self.widgets = []
+		self.count = 0
+		for a in args:			
+			self.widgets.append(a)
+			self.widgetLayout.addWidget(a)
 
-
-def addWidget(parent,widgetType,**kwargs):
+def addWidget(parent,widgetType,*args,**kwargs):
 	proxy = QtGui.QGraphicsProxyWidget(parent)
-	widgets = {'dial':dialIcon,'label':labelIcon,'combo':comboIcon,'text':textIcon,'plotText':plotTextIcon,'button':buttonIcon,'input':inputIcon}
-	wd = widgets.get(widgetType,None)(**kwargs)	
+	widgets = {'dial':dialIcon,'label':labelIcon,'combo':comboIcon,'text':textIcon,'plotText':plotTextIcon,'button':buttonIcon,'input':inputIcon,'generic':genericIcon}
+	wd = widgets.get(widgetType,None)(*args,**kwargs)	
 	wd.setStyleSheet('''
 	#Form{
     border: 2px solid rgba(255, 255, 255, 90);
@@ -271,18 +286,14 @@ class AppWindow(QtGui.QMainWindow, hackYourOwn.Ui_MainWindow,utilitiesClass):
 		#self.WidgetLayout.addWidget(self.w.chartWidget.selInfo)
 
 		###############MODIFY INPUT NODE#############################
-		self.inp = addWidget(self.fc.inputNode.graphicsItem(),'input',func = self.fc.setInput)
-
+		self.inp = addWidget(self.fc.inputNode.graphicsItem(),'input',func = self.fc.setInput, nameFunc = self.fc.inputNode.graphicsItem().nameItem.setPlainText )
 
 		############### CREATE USER LIBRARY #############################
 		self.library = fclib.LIBRARY.copy() # start with the default node set		
 		#add our custom nodes to the library
 		self.library.addNodeType(self.PlotViewNode, [('Display',)])
 
-		self.CaptureNode1.I = self.I
-		self.CaptureNode2.I = self.I
-		self.DACNode.I = self.I 
-		self.VoltNode.I = self.I 
+		for a in [self.CaptureNode1,self.CaptureNode2,self.DACNode,self.VoltNode,self.GainNode]: a.I = self.I
 
 		self.library.addNodeType(self.ArrayNode, [('Data',)])
 
@@ -293,6 +304,9 @@ class AppWindow(QtGui.QMainWindow, hackYourOwn.Ui_MainWindow,utilitiesClass):
 		self.library.addNodeType(self.DACNode, [('Outputs',)])
 		self.library.addNodeType(self.MyEvalNode, [('Outputs',)])
 		
+		self.library.addNodeType(self.GainNode, [('Configure',)])
+		self.library.addNodeType(self.ConstantNode, [('Configure',)])
+
 		self.fc.setLibrary(self.library)
 		
 		#############    LIBRARY HAS BEEN POPULATED. NOW BUILD THE MENU     ###############
@@ -307,10 +321,9 @@ class AppWindow(QtGui.QMainWindow, hackYourOwn.Ui_MainWindow,utilitiesClass):
 
 		#############   NEXT UP : add ui elements    ###############
 
-		self.plot1 = self.add2DPlot(self.ExperimentLayout)
-		self.plot1.addLegend()
-		self.curve1 = self.addCurve(self.plot1,'C1')
-		self.curve2 = self.addCurve(self.plot1,'C2')
+		self.plot = self.add2DPlot(self.ExperimentLayout)
+		self.plot.addLegend()
+		self.PlotViewNode.plot = self.plot
 
 		## Now we will programmatically add nodes to define the function of the flowchart.
 		## Normally, the user will do this manually or by loading a pre-generated
@@ -319,15 +332,12 @@ class AppWindow(QtGui.QMainWindow, hackYourOwn.Ui_MainWindow,utilitiesClass):
 		self.cap = self.fc.createNode('Capture1', pos=(0, 0))
 
 		self.v1Node = self.fc.createNode('2D Curve', pos=(200, -70))
-		self.v1Node.setView(self.curve1)
-
 		self.v2Node = self.fc.createNode('2D Curve', pos=(200, 70))
-		self.v2Node.setView(self.curve2)
 
 
 		self.fc.connectTerminals(self.fc['In'], self.cap['In'])
-		self.fc.connectTerminals(self.cap['time'], self.v1Node['x'])
-		self.fc.connectTerminals(self.cap['voltage'], self.v1Node['y'])
+		self.fc.connectTerminals(self.cap['time'], self.v1Node['X'])
+		self.fc.connectTerminals(self.cap['voltage'], self.v1Node['Y'])
 		self.setStyleSheet("");
 		
 	def setInterconnects(self,val):
@@ -337,7 +347,6 @@ class AppWindow(QtGui.QMainWindow, hackYourOwn.Ui_MainWindow,utilitiesClass):
 			for x in a[1]._graphicsItem.getViewBox().allChildren():
 				if isinstance(x,pg.flowchart.TerminalGraphicsItem):
 					for y in x.term.connections().items():y[1].setStyle(shape=shape)
-		
 
 	def runOnce(self):
 		self.fc.setInput(In=True)
@@ -383,27 +392,34 @@ class AppWindow(QtGui.QMainWindow, hackYourOwn.Ui_MainWindow,utilitiesClass):
 	#######################--------Display Function calls start here------------####################
 	################################################################################################
 
-	class PlotViewNode(Node):
+	class PlotViewNode(Node,utilitiesClass):
 		"""Node that displays plot data in an Plotwidget"""
 		nodeName = '2D Curve'
-		
 		def __init__(self, name):
 			self.view = None
-			Node.__init__(self, name, terminals=OrderedDict([('x',dict(io='in')),('y', dict(io='in'))]))
-			self.txt = addWidget(self.graphicsItem(),'plotText')
-			
-		def setView(self, view):  ## setView must be called by the program
-			self.view = view
-			self.txt.curve = view
-			
-		def process(self, x,y, display=True):
-			if display and self.view is not None:
-				if x!=None and y!=None:
-					if len(x)==len(y):
-						self.txt.setText('length=%d\nx: %s\ny: [%s]...'%(len(x),str(x[:20])," ".join(format(a, ".1f") for a in y[:20]) ))
-						self.view.setData(x,y)
-						return
-				self.view.setData([])
+			Node.__init__(self, name, terminals=OrderedDict([  ('X',dict(io='in')),('Y', dict(io='in')),('dY', dict(io='in',optional=True))  ]))
+			self.txt = addWidget(self.graphicsItem(),'plotText')			
+			self.curveName = self._name
+			self.curve = self.addCurve(self.plot,self.curveName) #self.plot is set by the parent prior to initialization
+			self.txt.curve = self.curve
+			self.sigRenamed.connect(self.renamed)
+
+		def renamed(self, node, oldName):
+			print ('renamed from ', oldName,' to ',self._name )
+			self.renameLegendItem(self.plot.plotItem.legend,oldName,self._name)
+
+		def process(self, X,Y,dY):
+			if X is not None and Y is not None:
+				if len(X)==len(Y):
+					self.txt.setText('length=%d\nx: %s\ny: [%s]...'%(len(X),str(X[:20])," ".join(format(a, ".1f") for a in Y[:20]) ))
+					try:
+						if dY is not None and self.plot is not None:
+							self.plot.setYRange(dY[0],dY[1])
+					except Exception as e:
+						print (e)
+					self.curve.setData(X,Y)
+					return
+			self.curve.setData([])
 
 	################################################################################################
 	#######################--------Container Function calls start here------------##################
@@ -437,14 +453,14 @@ class AppWindow(QtGui.QMainWindow, hackYourOwn.Ui_MainWindow,utilitiesClass):
 		]
 
 		def __init__(self, name):
-			terminals = OrderedDict([('In',dict(io='in')),('time', dict(io='out')) ,('voltage',dict(io='out'))])
+			terminals = OrderedDict([('In',dict(io='in')),('time', dict(io='out')) ,('voltage',dict(io='out')) ,('dV',dict(io='out')) ])
 			CtrlNode.__init__(self, name, terminals=terminals)
 			self.comboBox = addWidget(self.graphicsItem(),'combo',items = self.I.allAnalogChannels)
 
 		def process(self, In, display=False):
 			try:
-				x,y = self.I.capture1(self.comboBox.currentText(),self.ctrls['samples'].value(),self.ctrls['timegap'].value())
-				return {'time': x,'voltage':y}
+				x,y = self.I.capture1(self.comboBox.currentText(),int(self.ctrls['samples'].value()),int(self.ctrls['timegap'].value()))
+				return {'time': x,'voltage':y,'dV':self.I.achans[0].get_Y_range()}
 			except Exception as e:
 				print (e)
 			return {'time': None,'voltage':None}
@@ -459,11 +475,12 @@ class AppWindow(QtGui.QMainWindow, hackYourOwn.Ui_MainWindow,utilitiesClass):
 		def __init__(self, name):
 			terminals = OrderedDict([('In',dict(io='in')),('time', dict(io='out')) ,('V_CH1',dict(io='out')) ,('V_CH2',dict(io='out'))])
 			CtrlNode.__init__(self, name, terminals=terminals)
+			self.comboBox = addWidget(self.graphicsItem(),'combo',items = self.I.allAnalogChannels)
 
 			
 		def process(self, In, display=False):
 			try:
-				x,y1,y2 = self.I.capture2(self.ctrls['samples'].value(),self.ctrls['timegap'].value())
+				x,y1,y2 = self.I.capture2(self.ctrls['samples'].value(),self.ctrls['timegap'].value(), self.comboBox.currentText())
 				return {'time': x,'V_CH1':y1,'V_CH2':y2}
 			except Exception as e:
 				print (e)
@@ -488,11 +505,38 @@ class AppWindow(QtGui.QMainWindow, hackYourOwn.Ui_MainWindow,utilitiesClass):
 					print (e)
 			return {'V_out':None}
 
+	################################################################################################
+	#######################-----------Options and settings start here------------###################
+	################################################################################################
+
+	class GainNode(CtrlNode,utilitiesClass):
+		nodeName = 'AnalogGain'
+
+		def __init__(self, name):
+			terminals = {}
+			CtrlNode.__init__(self, name, terminals=terminals)
+			self.graphicsItem().nameItem.setPlainText('')
+			self.wg = self.gainIcon(FUNC = self.I.set_gain)
+			self.comboBox = addWidget(self.graphicsItem(),'generic',self.wg)
+			
+		def process(self, display=False):
+			pass#return {'Y_CH1':self.I.achans['CH1'].get_Y_range(),'Y_CH2':self.I.achans['CH2'].get_Y_range()}
+
+	class ConstantNode(CtrlNode):
+		nodeName = 'Constant'
+
+		def __init__(self, name):
+			terminals = {'value': {'io': 'out',  'multiable': True}}
+			CtrlNode.__init__(self, name, terminals=terminals)
+			
+		def process(self, display=False):
+			return {'value':[-4,4]}
+
+
 
 	################################################################################################
 	#######################----------Output Function calls start here------------###################
 	################################################################################################
-
 
 	class DACNode(CtrlNode):
 		nodeName = 'PVx'
@@ -512,8 +556,6 @@ class AppWindow(QtGui.QMainWindow, hackYourOwn.Ui_MainWindow,utilitiesClass):
 				except Exception as e:
 					print (e)
 			return {'V_out':None}
-
-
 
 	class MyEvalNode(Node):
 		"""Return the output of a string evaluated/executed by the python interpreter.
