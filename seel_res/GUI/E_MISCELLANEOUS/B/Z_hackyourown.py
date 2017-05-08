@@ -42,6 +42,7 @@ from SEEL_Apps.templates.widgets.ui_label_free import Ui_Form as label_free
 from SEEL_Apps.templates.widgets.ui_combo_free import Ui_Form as combo_free
 from SEEL_Apps.templates.widgets.ui_text_free import Ui_Form as text_free
 from SEEL_Apps.templates.widgets.ui_button_free import Ui_Form as button_free
+from SEEL_Apps.templates.widgets.ui_array_free import Ui_Form as array_free
 from SEEL_Apps.templates.widgets.ui_input_free import Ui_Form as input_free
 from SEEL_Apps.templates.widgets.ui_sweep_free import Ui_Form as ui_sweep
 from SEEL_Apps.templates.widgets.ui_generic_free import Ui_Form as generic_free
@@ -161,6 +162,16 @@ class buttonIcon(QtGui.QFrame,button_free,utils):
 	def run(self,txt):
 		self.func()
 
+class arrayIcon(QtGui.QFrame,array_free,utils):
+	def __init__(self,**args):
+		super(arrayIcon, self).__init__()
+		self.setupUi(self)
+		self.pushButton.setText(args.get('text','clear'))
+		self.func = args.get('func',None)
+
+	def clear(self):
+		self.func()
+
 class inputIcon(QtGui.QFrame,input_free,utils):
 	def __init__(self,**args):
 		super(inputIcon, self).__init__()
@@ -195,12 +206,9 @@ class inputIcon(QtGui.QFrame,input_free,utils):
 			self.sweepFrame.setVisible(True if val == 0 else False)
 			self.loopType = val #0 if sweep . 1 if continuous
 
-
-
 	def checkLoop(self):
 		self.func(In=self.params.valueBox.value())
 		self.value.setText('%.1e'%(self.params.valueBox.value()))
-
 	def singleLoop(self):
 		if not self.params.loopType: #sweep
 			if self.position >= self.dataset.size:
@@ -211,7 +219,6 @@ class inputIcon(QtGui.QFrame,input_free,utils):
 			self.position+=1
 		else:                        #continuous			
 			self.func(In = self.params.valueBox.value())
-
 	def startLoop(self):
 		self.nameFunc('PLAYING')
 		if not self.params.loopType: #sweep
@@ -219,8 +226,7 @@ class inputIcon(QtGui.QFrame,input_free,utils):
 			self.position = 0
 			self.timer.start(10)
 		else:
-			self.timer.start(self.params.intervalBox.value())
-			
+			self.timer.start(self.params.intervalBox.value())			
 	def pauseLoop(self):
 		self.nameFunc('PAUSED')
 		self.timer.stop()
@@ -242,7 +248,7 @@ class genericIcon(QtGui.QFrame,generic_free,utils):
 
 def addWidget(parent,widgetType,*args,**kwargs):
 	proxy = QtGui.QGraphicsProxyWidget(parent)
-	widgets = {'dial':dialIcon,'label':labelIcon,'combo':comboIcon,'text':textIcon,'plotText':plotTextIcon,'button':buttonIcon,'input':inputIcon,'generic':genericIcon}
+	widgets = {'dial':dialIcon,'label':labelIcon,'combo':comboIcon,'text':textIcon,'plotText':plotTextIcon,'button':buttonIcon,'input':inputIcon,'generic':genericIcon,'array':arrayIcon}
 	wd = widgets.get(widgetType,None)(*args,**kwargs)	
 	wd.setStyleSheet('''
 	#Form{
@@ -296,6 +302,7 @@ class AppWindow(QtGui.QMainWindow, hackYourOwn.Ui_MainWindow,utilitiesClass):
 		for a in [self.CaptureNode1,self.CaptureNode2,self.DACNode,self.VoltNode,self.GainNode]: a.I = self.I
 
 		self.library.addNodeType(self.ArrayNode, [('Data',)])
+		self.library.addNodeType(self.ArrayNode2D, [('Data',)])
 
 		self.library.addNodeType(self.CaptureNode1, [('Acquire',)])
 		self.library.addNodeType(self.CaptureNode2, [('Acquire',)])
@@ -421,25 +428,58 @@ class AppWindow(QtGui.QMainWindow, hackYourOwn.Ui_MainWindow,utilitiesClass):
 					return
 			self.curve.setData([])
 
+
 	################################################################################################
 	#######################--------Container Function calls start here------------##################
 	################################################################################################
 
 	class ArrayNode(CtrlNode):
-		nodeName = '1DArray'
+		nodeName = '1 Column Array'
 		uiTemplate = [
 		]
 		def __init__(self, name):
 			self.A = []
-			terminals = {'dataIn': dict(io='in'),'ArrayOut': dict(io='out')	}                              
+			terminals = {'In': dict(io='in'),'ArrayOut': dict(io='out')	}                              
 			CtrlNode.__init__(self, name, terminals=terminals)
-			
-		def process(self, dataIn, display=False):
+			self.container = addWidget(self.graphicsItem(),'array',func = self.clear)
+
+		def clear(self):
+			self.A = []
+			self.container.label.setText('Empty')
+
+		def process(self, In, display=False):
 			try:
-				self.A.append(float(dataIn))
+				self.A.append(float(In))
+				self.container.label.setText('size:%d'%len(self.A))
 			except Exception as e:
 				print (e)
 			return {'ArrayOut': np.array(self.A)}
+
+
+	class ArrayNode2D(CtrlNode):
+		nodeName = '2 Column Array'
+		uiTemplate = [
+		]
+		def __init__(self, name):
+			self.A = []
+			self.B = []
+			terminals = {'In1': dict(io='in'),'In2': dict(io='in'),'ArrayOut1': dict(io='out'),'ArrayOut2': dict(io='out')	}                              
+			CtrlNode.__init__(self, name, terminals=terminals)
+			self.container = addWidget(self.graphicsItem(),'array',func = self.clear)
+
+		def clear(self):
+			self.A = [];self.B=[]
+			self.container.label.setText('Empty')
+
+		def process(self, In1, In2, display=False):
+			try:
+				self.A.append(float(In1))
+				self.B.append(float(In2))
+				self.container.label.setText('size:%d'%len(self.A))
+			except Exception as e:
+				print (e)
+			return {'ArrayOut1': np.array(self.A),'ArrayOut2': np.array(self.B)}
+
 
 	################################################################################################
 	#######################--------Input Function calls start here------------######################
@@ -532,8 +572,6 @@ class AppWindow(QtGui.QMainWindow, hackYourOwn.Ui_MainWindow,utilitiesClass):
 		def process(self, display=False):
 			return {'value':[-4,4]}
 
-
-
 	################################################################################################
 	#######################----------Output Function calls start here------------###################
 	################################################################################################
@@ -547,11 +585,13 @@ class AppWindow(QtGui.QMainWindow, hackYourOwn.Ui_MainWindow,utilitiesClass):
 		def __init__(self, name):
 			terminals = {'V_in': dict(io='in'),'V_out': dict(io='out') }                              
 			CtrlNode.__init__(self, name, terminals=terminals)
+			self.label = addWidget(self.graphicsItem(),'label',units = 'V')
 
 		def process(self, V_in, display=False):
 			if V_in:
 				try:
 					val = self.I.DAC.setVoltage(self.ctrls['channel'].currentText(),V_in)
+					self.label.setValue(val)
 					return {'V_out':val}
 				except Exception as e:
 					print (e)

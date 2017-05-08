@@ -30,7 +30,13 @@ class AppWindow(QtGui.QMainWindow, arbitStream.Ui_MainWindow,utilitiesClass):
 	def __init__(self, parent=None,**kwargs):
 		super(AppWindow, self).__init__(parent)
 		self.setupUi(self)
-		self.I=kwargs.get('I',None)		
+		self.I=kwargs.get('I',None)
+
+		self.I.SPI.set_parameters(1,1,0,1)
+		self.I.SPI.start('CS1')
+		self.I.SPI.send16(0x4105)
+		self.I.SPI.stop('CS1')
+		
 		self.funcs = {k: getattr(self.I, k) for k in dir(self.I)}
 		self.setWindowTitle(self.I.H.version_string+' : '+params.get('name','').replace('\n',' ') )
 		from SEEL.analyticsClass import analyticsClass
@@ -84,6 +90,7 @@ class AppWindow(QtGui.QMainWindow, arbitStream.Ui_MainWindow,utilitiesClass):
 		self.Y = np.roll(self.Y,-1)
 		self.X[-1]=(time.time()-self.ST)
 		val=np.average([eval(self.streamfunc,globals(),self.funcs) for a in range(self.averagingSamples)])
+		#val = self.I.get_average_voltage('AN8')
 		self.Y[-1]=val
 		self.num+=1
 		if (self.X[-1]-self.LUT)>.2: #1 sec graph refresh

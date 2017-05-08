@@ -430,7 +430,11 @@ class utilitiesClass():
 		:return: pyqtgraph.PlotDataItem
 		"""
 		#if(len(name)):curve = pg.PlotDataItem(name=name)
-		curve = pg.PlotCurveItem(name = name,**kwargs)
+		#curve = pg.PlotCurveItem(name = name,**kwargs)
+		
+		if(len(name)):curve = pg.PlotDataItem(name = name,**kwargs)
+		else:curve = pg.PlotDataItem(**kwargs)
+		
 		plot.addItem(curve)
 		if self.properties['colorScheme']=='white':
 			curve.setPen(kwargs.get('pen',{'color':self.white_trace_colors[len(self.plots2D[plot])],'width':1}))

@@ -29,7 +29,7 @@ trial = 0
 start_time = time.time()
 fps = None
 dacval=0
-from SEEL.commands_proto import *
+
 
 params = {
 'image' : 'scope.png',
@@ -62,7 +62,8 @@ class AppWindow(QtGui.QMainWindow, analogScope.Ui_MainWindow,utilitiesClass):
 
 		self.fps=0
 		self.MAX_SAMPLES=2000
-		self.max_samples_per_channel=[0,self.MAX_SAMPLES/4,self.MAX_SAMPLES/4,self.MAX_SAMPLES/4,self.MAX_SAMPLES/4]
+		self.max_samples_per_channel=[0,self.MAX_SAMPLES,self.MAX_SAMPLES/2,self.MAX_SAMPLES/4,self.MAX_SAMPLES/4]
+
 		self.liss_win=None
 		self.liss_ready=False
 		self.liss_animate_arrow1=None
@@ -188,6 +189,7 @@ class AppWindow(QtGui.QMainWindow, analogScope.Ui_MainWindow,utilitiesClass):
 			#self.curve4.setFftMode(True)
 			self.plot.setLabel('bottom', 'Frequency', units='Hz')
 			self.MAX_SAMPLES=10000
+
 		else:
 			self.fourierMode=False
 			for a in [self.curve1,self.curve2,self.curve3,self.curve4]:#,self.curveFR]+self.curveF:
@@ -195,7 +197,7 @@ class AppWindow(QtGui.QMainWindow, analogScope.Ui_MainWindow,utilitiesClass):
 			self.MAX_SAMPLES=2000
 			self.plot.setLabel('bottom', 'Time', units='S')
 
-		self.max_samples_per_channel=[0,self.MAX_SAMPLES/4,self.MAX_SAMPLES/4,self.MAX_SAMPLES/4,self.MAX_SAMPLES/4]
+		self.max_samples_per_channel=[0,self.MAX_SAMPLES,self.MAX_SAMPLES/2,self.MAX_SAMPLES/4,self.MAX_SAMPLES/4]
 		self.autoSetSamples()
 		self.autoRange()
 				
@@ -341,12 +343,14 @@ class AppWindow(QtGui.QMainWindow, analogScope.Ui_MainWindow,utilitiesClass):
 			
 			#print (self.mousePoint.x(),1.e6/self.timebase/2,index,max(self.curve1.getData()[0]),min(self.curve1.getData()[0]),len(self.curve1.getData()[0]))
 			if index > 0 and index < maxIndex:
-				if self.fourierMode : coords="%.1f FPS, <span style='color: white'>%s</span>: "%(self.fps,applySIPrefix(self.curve1.getData()[0][index],'Hz'))
+				if self.fourierMode : coords="%.1f FPS, <span style='color: white'>%s</span>: "%(self.fps,self.applySIPrefix(self.curve1.getData()[0][index],'Hz'))
 				else : coords="%.1f FPS, <span style='color: white'>%0.1f uS</span>: "%(self.fps,self.I.achans[0].xaxis[index])
-				for a in range(4):
+				a=0
+				for curve in [self.curve1,self.curve2,self.curve3,self.curve4]:
 					if self.channel_states[a]:
 						c=self.trace_colors[a]
-						coords+="<span style='color: rgb%s'>%0.3fV</span>," %(c, self.I.achans[a].yaxis[index])
+						coords+="<span style='color: rgb%s'>%0.3fV</span>," %(c, curve.getData()[1][index])
+					a+=1
 				#self.coord_label.setText(coords)
 				self.plot.plotItem.titleLabel.setText(coords)
 			else:
@@ -487,7 +491,7 @@ class AppWindow(QtGui.QMainWindow, analogScope.Ui_MainWindow,utilitiesClass):
 			self.timebase=1.75
 		'''
 		self.autoSetSamples()
-		self.samples = int(self.samples*samplescaling[g])
+		if not self.fourierMode:self.samples = int(self.samples*samplescaling[g])
 		self.autoRange()
 		self.showgrid()
 
@@ -561,17 +565,28 @@ class AppWindow(QtGui.QMainWindow, analogScope.Ui_MainWindow,utilitiesClass):
 			self.plot2.setYRange(min(R2),max(R2))
 			if not self.fourierMode:
 				xlen = (self.timebase*self.samples*1e-6)
+				self.plot.setLimits(yMax=max(R),yMin=min(R),xMin=0,xMax=xlen)
+				self.plot2.setLimits(yMax=max(R2),yMin=min(R2))		
 			else:
 				xlen = 1.e6/self.timebase/2
-				self.plot.autoRange();self.plot2.autoRange()
-				print (xlen)
+				ymax=0.
+				if self.curve1.yData is not None:
+					_,Y = self.curve1.getData()
+					ymax = max(Y)*1.2
+				if self.curve2.yData is not None:
+					_,Y = self.curve2.getData()
+					ymax = max(ymax,max(Y)*1.2)
 
-			self.plot.setLimits(yMax=max(R),yMin=min(R),xMin=0,xMax=xlen)
-			self.plot2.setLimits(yMax=max(R2),yMin=min(R2))		
+				self.plot.setLimits(yMax=ymax,yMin=0,xMin=0,xMax = xlen)
+				self.plot.setYRange(0,ymax)
+				if self.curve2.yData is not None:
+					self.plot2.setLimits(yMax=ymax,yMin=0)		
+					self.plot2.setYRange(0,ymax)
+
 			if self.fourierMode:
-				self.time_label.setText(applySIPrefix(xlen, unit='Hz',precision=2 ))
+				self.time_label.setText(self.applySIPrefix(xlen, unit='Hz',precision=2 ))
 			else:
-				self.time_label.setText(applySIPrefix(xlen, unit='S',precision=2 ))
+				self.time_label.setText(self.applySIPrefix(xlen, unit='S',precision=2 ))
 			self.plot.setXRange(0,xlen)
 
 	def enableXY(self,state):
@@ -629,7 +644,7 @@ class AppWindow(QtGui.QMainWindow, analogScope.Ui_MainWindow,utilitiesClass):
 
 		
 if __name__ == "__main__":
-	from SEEL import interface
+	from SEELv2 import interface
 	app = QtGui.QApplication(sys.argv)
 	myapp = AppWindow(I=interface.connect())
 	myapp.show()

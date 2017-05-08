@@ -26,6 +26,7 @@ except AttributeError:
     def _fromUtf8(s):
         return s
 
+from SEEL import interface
 from SEEL_Apps.stylesheets import styles
 from SEEL_Apps.utilitiesClass import utilitiesClass
 from SEEL_Apps.templates import ui_single_col_exp as single_col_exp
@@ -50,7 +51,6 @@ class MyMainWindow(QtGui.QMainWindow, single_col_exp.Ui_MainWindow,utilitiesClas
 		self.setStyleSheet(self.styleText)
 		self.updateSplash(10,'Fetching libraries...')
 
-		from SEEL import interface
 		self.row=0;	self.col=0;	self.colLimit=3
 
 		self.updateSplash(10,'Connecting to Device...')
@@ -372,7 +372,7 @@ class MyMainWindow(QtGui.QMainWindow, single_col_exp.Ui_MainWindow,utilitiesClas
 		if menuChanged:
 			if self.I.connected:
 				if self.I.H.portname not in self.menu_entries:
-						print (self.menu_entries, self.I.H.portname)
+						#print (self.menu_entries, self.I.H.portname)
 						self.styleText = pkg_resources.resource_string('SEEL_Apps', "stylesheets/overall_disconnected.css").decode("utf-8")
 						self.setStyleSheet(self.styleText)
 						self.setWindowTitle('Error : Device Disconnected')
